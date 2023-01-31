@@ -6,6 +6,7 @@
 
 Integrantes del grupo:
 - David González Fernández (uo276818@uniovi.es)
+- Miguel Suárez Artime (uo271497@uniovi.es)
 
 <p float="left">
 <img src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
