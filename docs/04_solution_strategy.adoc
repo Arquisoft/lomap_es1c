@@ -22,3 +22,10 @@ Motivate what you have decided and why you decided that way,
 based upon your problem statement, the quality goals and key constraints.
 Refer to details in the following sections.
 ****
+
+== Technological Decisions
+
+For the development of the application we have decided to use the following technologies:
+* *SOLID:* Solid is perfect for the development of this application, since it allows users to maintain their privacy by storing information in their personal pods.
+* *React.js:* We chose react for its simplicity, ease of learning, and reliability (as it is a widely used library in the industry, it is highly error-tested).
+* *Node.js:* Node allows you to manage multiple connections at the same time, thanks to the fact that it is an asynchronous runtime environment. Besides, it allows a very fast execution of JavaScript.
