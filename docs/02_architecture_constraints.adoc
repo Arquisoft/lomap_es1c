@@ -22,7 +22,7 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 [options="header",cols="1,2"]
 |===
 |Constraint|Motivation
-| _SOLID_ | Used to store the personalized maps and the information that the users share in personal pods that the user provides. Also to decentralize the personal data of the users.
+| _SOLID_ | Used to store the personalized maps and information in personal pods that the user provides. Also to decentralize the personal data of the users.
 | _Map Genericity_ | The implementation of the maps must be generic, the main implementation is for an specific place but you can used the application where you want.
 | _Version Control_ | We will use a public repository in Github with different branches. The master branch is where the final application will be. In the develop branch we will have an usable application but not a finish version. All the other branches are use to individual work.
 |===
