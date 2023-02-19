@@ -30,5 +30,5 @@ List of risks and/or technical debts, probably including suggested measures to m
 [options="header",cols="1,2"]
 |===
 |Technical debts|Brief description
-| _Falta de experiencia_ | None of the team members have any experience in the use of technologies such as: React, Node, Solid... , which means that we have to make an initial effort to learn these technologies.
+| _Lack of experience_ | None of the team members have any experience in the use of technologies such as: React, Node, Solid... , which means that we have to make an initial effort to learn these technologies.
 |===
