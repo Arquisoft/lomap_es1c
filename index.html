@@ -449,7 +449,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_stakeholders">1.3. Stakeholders</a></li>
 </ul>
 </li>
-<li><a href="#section-architecture-constraints">2. Architecture Constraints</a></li>
+<li><a href="#section-architecture-constraints">2. Architecture Constraints</a>
+<ul class="sectlevel2">
+<li><a href="#_technical_constraints">2.1. Technical Constraints</a></li>
+<li><a href="#_organizational_constraints">2.2. Organizational Constraints</a></li>
+<li><a href="#_conventions">2.3. Conventions</a></li>
+</ul>
+</li>
 <li><a href="#section-system-scope-and-context">3. System Scope and Context</a>
 <ul class="sectlevel2">
 <li><a href="#_business_context">3.1. Business Context</a></li>
@@ -536,6 +542,10 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <div class="sect1">
 <h2 id="section-introduction-and-goals">1. Introduction and Goals</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>This is the documentation of LoMap, an application requested from the Council of Brussels to the software development company HappySw.
+With this application citizens will be able to have custom maps with businesses and places of their city.</p>
+</div>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -581,6 +591,31 @@ If requirements documents exist this overview should refer to these documents.</
 </div>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Users can add locations in different categories.</p>
+</li>
+<li>
+<p>Users will be able to show the locations in a map window.</p>
+</li>
+<li>
+<p>Users can add review scores, comments, pictures, etc. about the added places.</p>
+</li>
+<li>
+<p>Users will be able to manage which of their information is accessible and to whom.</p>
+</li>
+<li>
+<p>Users information about a place will be stored in that user&#8217;s pod.</p>
+</li>
+<li>
+<p>Users will be able to see their friends places and information about those places.</p>
+</li>
+<li>
+<p>Users will be able to filter their maps by category, friends, etc.</p>
+</li>
+</ul>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_quality_goals">1.2. Quality Goals</h3>
@@ -601,6 +636,36 @@ If you as an architect do not know how the quality of your work will be judged �
 </div>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Quality Goal</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interoperability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This application has to be able to use data stored from other maps applications.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Each user has to be able to decide which information he wants to share.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Descentralization</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">As much information as possible should be stored in user&#8217;s pods.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Application must be usable by any user, wheter that is a technical or non technical user.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_stakeholders">1.3. Stakeholders</h3>
@@ -656,14 +721,29 @@ These stakeholders determine the extent and the level of detail of your work and
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Role-1&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-1&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Expectation-1&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interested Companies</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Inrupt, Empathy&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See how well the students perform around the SOLID principles for their contest</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Role-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Expectation-2&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Citizens&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Be able to use an easy to understand and fast aplication where they can have custom maps</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Employer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Council of Brussels&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Meet the needs of citizens, whatever those are</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HappySw Owner/Professors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Jose Emilio Labra&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Have his development team create a good application that can guarantee him good reputation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HappySw Developers/Students</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Miguel Suárez, Damián Fernández, Rubén Caño, David González&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Desarrollar la aplicacióin según la arquitectura diseñada</p></td>
 </tr>
 </tbody>
 </table>
@@ -694,9 +774,8 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 </div>
 </div>
 </div>
-<div class="paragraph">
-<p>==Technical Constraints</p>
-</div>
+<div class="sect2">
+<h3 id="_technical_constraints">2.1. Technical Constraints</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -711,15 +790,74 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>SOLID</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Buenas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to store the personalized maps and information in personal pods that the user provides. Also to decentralize the personal data of the users.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Role-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-2&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Map Genericity</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The implementation of the maps must be generic, the main implementation is for an specific place but you can used the application where you want.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Version Control</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We will use a public repository in Github with different branches. The master branch is where the final application will be. In the develop branch we will have an usable application but not a finish version. All the other branches are use to individual work.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_organizational_constraints">2.2. Organizational Constraints</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Constraint</th>
+<th class="tableblock halign-left valign-top">Motivation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Time</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We have some deadlines that we have to stick to. The final project must be complete before the end of April.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Size of the team</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team is made out of four people, we all have other projects and assignments so some times it could be difficult to meet or have a lot of time for the project.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Experience</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None of us has any experience in any of the technology we are going to use.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_conventions">2.3. Conventions</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Constraint</th>
+<th class="tableblock halign-left valign-top">Motivation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Language</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The language of the entire documentation will be in english.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Documentation</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The documentation is going to follow the Arc32 structure.</p></td>
 </tr>
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -733,11 +871,13 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 (neighboring systems and users, i.e. the context of your system). It thereby specifies the external interfaces.</p>
 </div>
 <div class="paragraph">
-<p>If necessary, differentiate the business context (domain specific inputs and outputs) from the technical context (channels, protocols, hardware).</p>
+<p>If necessary, differentiate the business context (domain specific inputs and outputs) from the technical context
+(channels, protocols, hardware).</p>
 </div>
 <div class="paragraph">
 <div class="title">Motivation</div>
-<p>The domain interfaces and technical interfaces to communication partners are among your system&#8217;s most critical aspects. Make sure that you completely understand them.</p>
+<p>The domain interfaces and technical interfaces to communication partners are among your system&#8217;s most critical aspects.
+Make sure that you completely understand them.</p>
 </div>
 <div class="paragraph">
 <div class="title">Form</div>
@@ -774,16 +914,48 @@ Optionally you can add domain specific formats or communication protocols.</p>
 </div>
 <div class="paragraph">
 <p>Alternatively (or additionally) you can use a table.
-The title of the table is the name of your system, the three columns contain the name of the communication partner, the inputs, and the outputs.</p>
+The title of the table is the name of your system, the three columns contain the name of the communication partner, the inputs, and the outputs.
+<strong>&lt;Diagram or Table&gt;</strong>
+<strong>&lt;optionally: Explanation of external domain interfaces&gt;</strong></p>
 </div>
 </div>
 </div>
-<div class="paragraph">
-<p><strong>&lt;Diagram or Table&gt;</strong></p>
-</div>
-<div class="paragraph">
-<p><strong>&lt;optionally: Explanation of external domain interfaces&gt;</strong></p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Inputs</th>
+<th class="tableblock halign-left valign-top">Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The information displayed by the webapp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Actions to customize their map, modify content and engage with friends</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pod provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requests to retrieve information contained in a specific pod</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The requested data</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Query requests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The result of said requests</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Map API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Request to obtain a map view in a certain location</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The necessary to properly show the map</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_technical_context">3.2. Technical Context</h3>
@@ -791,28 +963,52 @@ The title of the table is the name of your system, the three columns contain the
 <div class="content">
 <div class="paragraph">
 <div class="title">Contents</div>
-<p>Technical interfaces (channels and transmission media) linking your system to its environment. In addition a mapping of domain specific input/output to the channels, i.e. an explanation with I/O uses which channel.</p>
+<p>Technical interfaces (channels and transmission media) linking your system to its environment.
+In addition a mapping of domain specific input/output to the channels, i.e. an explanation with I/O uses which channel.</p>
 </div>
 <div class="paragraph">
 <div class="title">Motivation</div>
-<p>Many stakeholders make architectural decision based on the technical interfaces between the system and its context. Especially infrastructure or hardware designers decide these technical interfaces.</p>
+<p>Many stakeholders make architectural decision based on the technical interfaces between the system and its context.
+Especially infrastructure or hardware designers decide these technical interfaces.</p>
 </div>
 <div class="paragraph">
 <div class="title">Form</div>
 <p>E.g. UML deployment diagram describing channels to neighboring systems,
 together with a mapping table showing the relationships between channels and input/output.</p>
 </div>
-</div>
-</div>
 <div class="paragraph">
-<p><strong>&lt;Diagram or Table&gt;</strong></p>
+<p><strong>&lt;Diagram or Table&gt;</strong>
+<strong>&lt;optionally: Explanation of technical interfaces&gt;</strong>
+<strong>&lt;Mapping Input/Output to Channels&gt;</strong></p>
 </div>
-<div class="paragraph">
-<p><strong>&lt;optionally: Explanation of technical interfaces&gt;</strong></p>
 </div>
-<div class="paragraph">
-<p><strong>&lt;Mapping Input/Output to Channels&gt;</strong></p>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Interface</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">React</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library to build the front-end user interface</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NodeJS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Environment to support the backend system</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Docker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allows for deployment of the system</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
