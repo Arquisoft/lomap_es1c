@@ -1,6 +1,9 @@
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
+This is the documentation of LoMap, an application requested from the Council of Brussels to the software development company HappySw.
+With this application citizens will be able to have custom maps with businesses and places of their city.
+
 [role="arc42help"]
 ****
 Describes the relevant requirements and the driving forces that software architects and development team must consider. These include
@@ -29,16 +32,13 @@ If requirements documents exist this overview should refer to these documents.
 
 Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
 ****
-- Users can add locations in different categories like: shops, bars, restaurants, sights, monuments, etc.
+- Users can add locations in different categories.
 - Users will be able to show the locations in a map window.
 - Users can add review scores, comments, pictures, etc. about the added places.
-- It will be possible to manage from the application the information that is accessible with other users, like their friends or groups of friends.
-- The information about a place stored by each user should not be centralized and should be stored in each user’s pod.
-- If it is considered necessary, the system could store other information in a centralized way for performance reasons trying to respect the privacy of the users as much as possible.
-- The system will allow users to see places and information about those places taken from their friends.
-- The system will allow users to see the map with filters like by category, friends, etc.
-
-
+- Users will be able to manage which of their information is accessible and to whom.
+- Users information about a place will be stored in that user's pod.
+- Users will be able to see their friends places and information about those places.
+- Users will be able to filter their maps by category, friends, etc.
 
 === Quality Goals
 
@@ -54,18 +54,14 @@ If you as an architect do not know how the quality of your work will be judged �
 .Form
 A table with quality goals and concrete scenarios, ordered by priorities
 ****
-- Aesthetics and usability by non technical people.
-- Security and respect for user's privacy.
-- Responsiveness of the application.
-- Interoperability between the data stored by the different applications.
-- Originality of the solution.
-- Tests code coverage and quality of test strategy.
-
-- Continuous integration (CI) and continuous delivery (CD) strategy.
-- Quality of technical documentation taking into account architecture decision records.
-- Code quality analyzed both manually and automatically.
-- Project management aspects like proper use of issues, meeting notes, code reviews, architecture decision records, etc.
-    
+[options="header",cols="2"]
+|===
+|Quality Goal|Description
+| Interoperability | This application has to be able to use data stored from other maps applications.
+| Privacy | Each user has to be able to decide which information he wants to share.
+| Descentralization | As much information as possible should be stored in user's pods.
+| Usability | Application must be usable by any user, wheter that is a technical or non technical user.
+|===
 
 === Stakeholders
 
@@ -92,9 +88,9 @@ Table with role names, person names, and their expectations with respect to the 
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
-| _<Citizens >_ | _<?>_ | _<Be able to use an aplication where they can have custom maps about places and businesses>_
-| _<Council of Brussels>_ | _<?>_ | _<Meet the needs of citizens, whatever those are>_
-| _<HappySw Owner>_ | _<?>_ | _<Create a good application which could result in more jobs>_
-| _<HappySw Arquitect>_ | _<?>_ | _<?>_
-| _<HappySw Developers>_ | _<Miguel Suárez, Damián Fernández, Rubén Caño, David González>_ | _<Desarrollar la aplicacióin según la arquitectura diseñada>_
+| Interested Companies | _<Inrupt, Empathy>_ | See how well the students perform around the SOLID principles for their contest
+| Users | _<Citizens>_ | Be able to use an easy to understand and fast aplication where they can have custom maps
+| Employer | _<Council of Brussels>_ | Meet the needs of citizens, whatever those are
+| HappySw Owner/Professors | _<Jose Emilio Labra>_ | Have his development team create a good application that can guarantee him good reputation
+| HappySw Developers/Students | _<Miguel Suárez, Damián Fernández, Rubén Caño, David González>_ | Desarrollar la aplicacióin según la arquitectura diseñada
 |===
