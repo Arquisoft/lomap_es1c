@@ -15,3 +15,20 @@ This should be your motto for systematic detection and evaluation of risks and t
 .Form
 List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
 ****
+== Risks
+
+[options="header",cols="1,2"]
+|===
+|Risk|Brief description
+| _Big Proyect_ | Being a large project compared to the projects we have done so far, communication and collaboration will be very important to have a good result in its development.
+|===
+
+
+== Technical debts
+
+
+[options="header",cols="1,2"]
+|===
+|Technical debts|Brief description
+| _Lack of experience_ | None of the team members have any experience in the use of technologies such as: React, Node, Solid... , which means that we have to make an initial effort to learn these technologies.
+|===

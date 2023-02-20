@@ -26,6 +26,7 @@ Potentially more columns in case you need translations.
 [options="header"]
 |===
 | Term         | Definition
-| <Term-1>     | <definition-1>
-| <Term-2>     | <definition-2>
+| Solid        | Solid is a project that aims to radically change the way Web applications work today, resulting in true data ownership as well as improved privacy.
+| React.js     | React is an open source Javascript library designed to create user interfaces to make it easy to develop single page applications.
+| Node.js	| Node.js is an open source, cross-platform runtime environment for the server layer based on the JavaScript programming language, asynchronous.
 |===
