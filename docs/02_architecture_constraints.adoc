@@ -17,7 +17,7 @@ If needed you can subdivide them into
 technical constraints, organizational and political constraints and
 conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
 ****
-== Technical Constraints
+=== Technical Constraints
 
 [options="header",cols="1,2"]
 |===
@@ -27,7 +27,7 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 | _Version Control_ | We will use a public repository in Github with different branches. The master branch is where the final application will be. In the develop branch we will have an usable application but not a finish version. All the other branches are use to individual work.
 |===
 
-== Organizational Constraints
+=== Organizational Constraints
 
 [options="header",cols="1,2"]
 |===
@@ -37,7 +37,7 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 | _Experience_ | None of us has any experience in any of the technology we are going to use.
 |===
 
-== Conventions
+=== Conventions
 
 [options="header",cols="1,2"]
 |===
