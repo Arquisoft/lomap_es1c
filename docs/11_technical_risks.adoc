@@ -15,7 +15,7 @@ This should be your motto for systematic detection and evaluation of risks and t
 .Form
 List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
 ****
-== Risks
+=== Risks
 
 [options="header",cols="1,2"]
 |===
@@ -24,7 +24,7 @@ List of risks and/or technical debts, probably including suggested measures to m
 |===
 
 
-== Technical debts
+=== Technical debts
 
 
 [options="header",cols="1,2"]
