@@ -1,3 +1,4 @@
+// Imports
 import './style.css';
 import {Map, View, Feature} from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -8,6 +9,7 @@ import {Vector as SourceVector} from 'ol/source';
 import {Point} from 'ol/geom';
 import {Icon, Style} from 'ol/style.js';
 
+// Las coordenadas falsas a añadir
 const coordinates_info = [
   [[4.350, 50.841667], true, 1],
   [[4.351, 50.843667], true, 2],
@@ -18,12 +20,14 @@ const coordinates_info = [
   [[4.356, 50.844667], true, 4],
 ];
 
+// Función que crea el objeto marcador
 function getIconFeature(coordinate) {
   return new Feature({
     geometry: new Point(fromLonLat(coordinate))
   })
 }
 
+// Función que devuelve el estilo a aplicar a un marcador
 function getIconStyle(isMine, category) {
   const colores = ['#FF2D00', '#5DFF00', '#003EFF', '#FFFB00', '#FF00FB'];
   return new Style({
@@ -31,13 +35,12 @@ function getIconStyle(isMine, category) {
       color: colores[category],
       anchor: [0.5, 1],
       // crossOrigin: 'anonymous',
-      src: ruta_imagenes + (isMine ? "redondo.svg" : "normal.svg"),
+      src: "my_assets/" + (isMine ? "redondo.svg" : "normal.svg"),
     })
   })
 }
 
-const ruta_imagenes = "my_assets/";
-
+// Crear el mapa
 const map = new Map({
   target: 'map',
   layers: [
@@ -46,11 +49,12 @@ const map = new Map({
     })
   ],
   view: new View({
-    center: fromLonLat([4.3525, 50.846667]),
-    zoom: 15
+    center: fromLonLat([4.3525, 50.846667]),  // Posición inicial (ya es Bruselas)
+    zoom: 15                                  // Zoom inicial
   })
 });
 
+// Añadir los marcadores al mapa
 for (const coordinate of coordinates_info) {
   const locationFeature = getIconFeature(coordinate[0]);
   locationFeature.setStyle(
