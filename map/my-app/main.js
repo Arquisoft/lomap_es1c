@@ -29,7 +29,8 @@ function getIconStyle(isMine, category) {
   return new Style({
     image: new Icon({
       color: colores[category],
-      crossOrigin: 'anonymous',
+      anchor: [0.5, 1],
+      // crossOrigin: 'anonymous',
       src: ruta_imagenes + (isMine ? "redondo.svg" : "normal.svg"),
     })
   })
