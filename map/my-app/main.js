@@ -1,3 +1,5 @@
+// Opción 1: OpenLayers
+
 // Imports
 import './style.css';
 import {Map, View, Feature} from 'ol';
@@ -73,7 +75,7 @@ map.on(
   'click',
   function (evt) {
     const coordinate = evt.coordinate;
-    const coordinate_str = toLonLat(coordinate);
-    console.log(coordinate_str);
+    const coordinate_arr = toLonLat(coordinate);
+    console.log(coordinate_arr[0] + " , " + coordinate_arr[1]);
   }
 )
