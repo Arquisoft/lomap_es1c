@@ -8,6 +8,12 @@
   position: none;
   overflow: visible;
 }
+.botonAñadir{
+  position: absolute;
+  top: 52rem;
+  right: 1rem;
+  z-index: 10;
+}
 
 .App-logo {
   height: 40vmin;

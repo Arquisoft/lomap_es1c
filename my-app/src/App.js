@@ -1,5 +1,6 @@
 import React from "react";
 import './App.css';
+import * as button from './AddButton';
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import Geolocation from '@react-native-community/geolocation';
 
@@ -23,32 +24,30 @@ function Map() {
   );
 
   const [markers, setMarkers] = React.useState([]);
-  const [selected, setSelected] = React.useState(null);
 
-  const onMapClick = React.useCallback((e) => {
-    setMarkers((current) => [
-      ...current,
-      {
-        lat: e.latLng.lat(),
-        lng: e.latLng.lng(),
-        time: new Date(),
-      },
-    ]);
-  }, []);
+    const onMapClick = React.useCallback((e) => {
+      setMarkers((current) => [current,
+        {
+          lat: e.latLng.lat(),
+          lng: e.latLng.lng(),
+        },
+      ]);
+      button.setLatitudeB(e.latLng.lat());
+      button.setLongitudeB(e.latLng.lng());
+    }, []);
 
   const center = ({ lat: Number(latitude), lng: Number(longitude) });
 
   return (
-    <GoogleMap zoom={13} center={center} mapContainerClassName="map-conteiner" onClick={e => onMapClick(e)}>
+    <div>
+      <button.default />
+      <GoogleMap zoom={13} center={center} mapContainerClassName="map-conteiner" onClick={e => onMapClick(e)}>
       {markers.map((marker) => (
-          <Marker
-            key={`${marker.lat}-${marker.lng}`}
-            position={{ lat: marker.lat, lng: marker.lng }}
-            onClick={() => {
-              setSelected(marker);
-            }}
-          />
+        <Marker
+          key={`${marker.lat}-${marker.lng}`}
+          position={{ lat: Number(marker.lat), lng: Number(marker.lng) }} />
         ))}
-    </GoogleMap>
+      </GoogleMap>
+    </div>
   );
 }
