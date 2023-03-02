@@ -34,6 +34,7 @@ function Map() {
       ]);
       button.setLatitudeB(e.latLng.lat());
       button.setLongitudeB(e.latLng.lng());
+      button.changeFalseDisabled();
     }, []);
 
   const center = ({ lat: Number(latitude), lng: Number(longitude) });
