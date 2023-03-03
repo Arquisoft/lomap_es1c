@@ -15,3 +15,8 @@
   right: -111rem;
   z-index: 10;
 }
+
+textarea{
+  resize: none;
+  height: 100px;
+}
