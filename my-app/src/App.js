@@ -6,6 +6,8 @@ import Button from '@mui/material/Button';
 import addPlace from './Places/Places'
 import PlaceConst from "./Places/Place";
 import Modal from 'react-modal';
+import Sidebar from './Sidebar';
+import './Sidebar.css';
 
 export default function Home() {
   const { isLoaded } = useLoadScript({
@@ -15,6 +17,7 @@ export default function Home() {
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <div>
+      <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} />
       <Map style={{position:"none"}}/>
     </div>
   );
