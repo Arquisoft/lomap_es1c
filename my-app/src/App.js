@@ -13,16 +13,27 @@ export default function Home() {
   });
 
   if (!isLoaded) return <div>Loading...</div>;
-  return <Map style={{position:"none"}}/>;
+  return (
+    <div>
+      <Map style={{position:"none"}}/>
+    </div>
+  );
 }
 
-Modal.setAppElement(document.getElementsByClassName('map-conteiner')[0]);
+var Located = true;
+
+
 
 function Map() {
+
+  Modal.setAppElement(document.getElementsByClassName('map-conteiner')[0]);
+
   //Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
   Geolocation.getCurrentPosition((position) =>{
-    setLatitude(position.coords.latitude);
-    setLongitude(position.coords.longitude)
+    if(Located){
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude)
+    }
   }
   );
 
@@ -47,8 +58,12 @@ function Map() {
       },
     ]);
     placedMarker();
+    setLatitude(Number(e.latLng.lat()));
+    setLongitude(Number(e.latLng.lng()));
     setLatitudeMark(Number(e.latLng.lat()));
     setLongitudeMark(Number(e.latLng.lng()));
+    Located = false;
+    
   }, []);
 
   //Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la unicación del usuario.
@@ -59,10 +74,9 @@ function Map() {
 
   //Muestra un popup modal que nos permite añadir el punto del mapa.
   const añdirPunto = () => {
-    setDisabledB(true);
-    setMarkers([]);
+    
     setIsOpen(true);
-    addPlace(PlaceConst(latitudeMark,longitudeMakr))
+    
   }
 
   //Cambia el estado disabled del boton a false 
@@ -97,9 +111,25 @@ function Map() {
     },
   };
 
+  function addPlaceModal(event){
+    setDisabledB(true);
+    setMarkers([]);
+    console.log(nombre);
+    addPlace(PlaceConst(latitudeMark,longitudeMakr))
+    setIsOpen(false);
+  }
+
   function closeModal() {
     setIsOpen(false);
   }
+
+  const [color, setColor] = React.useState(null);
+
+  const [nombre, setNombre] = React.useState('');
+
+  function handleEmailChange (e) {
+    setNombre(e.target.value);
+ }
 
   //Nos devuelve el mapa con todos los componentes asociados.
   return (
@@ -114,21 +144,15 @@ function Map() {
       >
         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Añade el Punto a el Mapa</h2>
         <form ref={(_form) => (form = _form)}>
-          <label for="nombre">Nombre:  
-          <input id="nombre "type="text" name="name"/>
+          <label htmlFor="nombre">Nombre:  
+          <input type="text" name="nombre" placeholder="Nombre" value={nombre} onChange={handleEmailChange} />
           </label>
-          <label for="color">Color del Marcador:  
-          {/* <select id="color" name="color">
-            <option value="red" selected>Rojo</option>
-            <option value="green">Verde</option>
-            <option value="blue">Azul</option>
-            <option value="yellow">Amarillo</option>
-          </select> */}
-          <input type="color" id="colorpicker" value="#0000ff"></input>
+          <label htmlFor="color">Color del Marcador:  
+          <input type="color" id="color" value={color} onChange={e => setColor(e.target.value)} ></input>
           </label>
-          <label for="categoria">Categoria del Marcador:  
+          <label htmlFor="categoria">Categoria del Marcador:  
           <select id="categoria" name="categoria">
-            <option value="vivienda" selected>Vivienda</option>
+            <option defaultValue="vivienda">Vivienda</option>
             <option value="restaurante">Restaurante</option>
             <option value="bar">Bar</option>
             <option value="yellow">Gimnasio</option>
@@ -139,11 +163,11 @@ function Map() {
             <option value="yellow">Otros</option>
           </select>
           </label>
-          <label for="comentarios">Comentario: 
+          <label htmlFor="comentarios">Comentario: 
           </label>
           <textarea id="comentarios" name="comentarios"/>
         </form>
-        <button onClick={closeModal}>Añadir</button>
+        <button onClick={addPlaceModal}>Añadir</button>
         <button onClick={closeModal}>Cancelar</button>
       </Modal>
       <GoogleMap zoom={13} center={center} mapContainerClassName="map-conteiner" onClick={e => onMapClick(e)}>
