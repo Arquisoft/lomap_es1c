@@ -2,7 +2,13 @@ import React, { useEffect } from 'react';
 import { slide as Menu } from 'react-burger-menu';
 
 export default props => {
-    return (
+    useEffect(() => {
+        // Show the "Inicio" tab and add the "active" class to the "Inicio" button
+        showTab(null, 'Inicio');
+        document.getElementById('defaultOpenButton').classList.add('active');
+    }, []);
+
+  return (
     <Menu>
         {/* añadir los botones de las tabs */}
       <div>
@@ -65,6 +71,9 @@ function showTab(evt, tabName) {
   
     // Show the current tab, and add an "active" class to the button that opened the tab
     var tab = document.getElementById(tabName);
-    tab.style.display = "block";
-    evt.currentTarget.className += " active";
+    if (tab) {
+      tab.style.display = "block";
+    }
+    if (evt)
+        evt.currentTarget.className += " active";
   };
