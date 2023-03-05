@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { slide as Menu } from 'react-burger-menu';
-import InicioContent from './Sidebar/InicioContent.js';
+import InicioTabContent from './Sidebar/InicioTabContent.js';
+import AmigosTabContent from './Sidebar/AmigosTabContent.js';
+import RutasTabContent from './Sidebar/RutasTabContent.js';
+import DescubrirTabContent from './Sidebar/DescubrirTabContent.js';
 
 export default props => {
     useEffect(() => {
@@ -19,32 +22,11 @@ export default props => {
       <button className="tablinks" onClick={(e) => showTab(e, 'Descubir')}>Descubrir</button>
       </div>
 
-
     {/* Añadir el contenido de las tabs */}
-      <InicioContent />
-
-      <div id="Amigos" className="tabcontent">
-      <h1>El contenido de amigos</h1>
-      <p>El contenido de amigos</p>
-      <p>El contenido de amigos</p>
-      <p>El contenido de amigos</p>
-      </div>
-
-      <div id="Rutas" className="tabcontent">
-      <h1>El contenido de rutas</h1>
-        <ol>
-        <li>Ruta 1</li>
-        <li>Ruta 2</li>
-        <li>Ruta 3</li>
-        </ol>
-      </div>
-
-      <div id="Descubir" className="tabcontent">
-      <h1>El contenido de descubrir</h1>
-      <p>El contenido de descubrir</p>
-      <p>El contenido de descubrir</p>
-      <p>El contenido de descubrir</p>
-      </div>
+      <InicioTabContent />
+      <AmigosTabContent />
+      <RutasTabContent />
+      <DescubrirTabContent />
     </Menu>
   );
 };
