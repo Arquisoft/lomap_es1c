@@ -2,11 +2,11 @@ import React from "react"
 
 function TabButtons(props) {
     return (
-        <div>
-            <button className="tablinks" id="defaultOpenButton" onClick={(e) => showTab(e, 'Inicio')}>Inicio</button>
-            <button className="tablinks" onClick={(e) => showTab(e, 'Amigos')}>Amigos</button>
-            <button className="tablinks" onClick={(e) => showTab(e, 'Rutas')}>Rutas</button>
-            <button className="tablinks" onClick={(e) => showTab(e, 'Descubir')}>Descubrir</button>
+        <div className="tablinks">
+            <button className="tablink" id="defaultOpenButton" onClick={(e) => showTab(e, 'Inicio')}>Inicio</button>
+            <button className="tablink" onClick={(e) => showTab(e, 'Amigos')}>Amigos</button>
+            <button className="tablink" onClick={(e) => showTab(e, 'Rutas')}>Rutas</button>
+            <button className="tablink" onClick={(e) => showTab(e, 'Descubir')}>Descubrir</button>
         </div>
     )
 }
@@ -22,7 +22,7 @@ function showTab(evt, tabName) {
     }
   
     // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
+    tablinks = document.getElementsByClassName("tablink");
     for (i = 0; i < tablinks.length; i++) {
         if (tablinks[i]) {
             tablinks[i].className = tablinks[i].className.replace(" active", "");
