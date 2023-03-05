@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { slide as Menu } from 'react-burger-menu';
+import InicioContent from './Sidebar/InicioContent.js';
 
 export default props => {
     useEffect(() => {
@@ -20,10 +21,7 @@ export default props => {
 
 
     {/* Añadir el contenido de las tabs */}
-      <div id="Inicio" className="tabcontent">
-      <h1>El contenido de inicio</h1>
-      <p>El contenido de inicio</p>
-      </div>
+      <InicioContent />
 
       <div id="Amigos" className="tabcontent">
       <h1>El contenido de amigos</h1>
