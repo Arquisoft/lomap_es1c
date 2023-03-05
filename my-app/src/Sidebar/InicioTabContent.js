@@ -9,7 +9,8 @@ const lugares = [
         coor: (10, 10),
         puntuacion: 4.9,
         comentarios: [],
-        fotos: []
+        fotos: [],
+        categoria: "Monumento"
     },
     {
         id:2,
@@ -17,7 +18,8 @@ const lugares = [
         coor: (10, 10),
         puntuacion: 4.9,
         comentarios: ["Un sitio bien chulo"],
-        fotos: []
+        fotos: [],
+        categoria: "Monumento"
     },
     { 
         id: 3,
@@ -25,7 +27,8 @@ const lugares = [
         coor: (150, 10),
         puntuacion: 3.0,
         comentarios: ["Solo un parque", "¿Qué más puedes pedir?"],
-        fotos: []
+        fotos: [],
+        categoria: "Parque"
     }
   ]
 

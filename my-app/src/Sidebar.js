@@ -4,6 +4,7 @@ import InicioTabContent from './Sidebar/InicioTabContent.js';
 import AmigosTabContent from './Sidebar/AmigosTabContent.js';
 import RutasTabContent from './Sidebar/RutasTabContent.js';
 import DescubrirTabContent from './Sidebar/DescubrirTabContent.js';
+import {TabButtons, showTab} from './Sidebar/TabButtons.js';
 
 export default props => {
     useEffect(() => {
@@ -15,12 +16,8 @@ export default props => {
   return (
     <Menu>
         {/* añadir los botones de las tabs */}
-      <div>
-      <button className="tablinks" id="defaultOpenButton" onClick={(e) => showTab(e, 'Inicio')}>Inicio</button>
-      <button className="tablinks" onClick={(e) => showTab(e, 'Amigos')}>Amigos</button>
-      <button className="tablinks" onClick={(e) => showTab(e, 'Rutas')}>Rutas</button>
-      <button className="tablinks" onClick={(e) => showTab(e, 'Descubir')}>Descubrir</button>
-      </div>
+        <TabButtons />
+      
 
     {/* Añadir el contenido de las tabs */}
       <InicioTabContent />
@@ -31,29 +28,3 @@ export default props => {
   );
 };
 
-function showTab(evt, tabName) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
-  
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-  
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        if (tablinks[i]) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-    }
-  
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    var tab = document.getElementById(tabName);
-    if (tab) {
-      tab.style.display = "block";
-    }
-    if (evt)
-        evt.currentTarget.className += " active";
-  };
