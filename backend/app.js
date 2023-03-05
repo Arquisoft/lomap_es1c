@@ -1,11 +1,9 @@
-//Utilizamos express para guardar la sesion, donde almacenamos el webID.
 const express = require('express');
 const session = require('express-session');
-
-//const solid = require('./Solid');
-//const authRoutes = require('./routes/AuthRoutes');
-const locationRoutes = require('./routes/LocationRoutes');
-//const reviewRoutes = require('./routes/ReviewRoutes');
+const solid= require('./solid/Solid.js');
+//const authRoutes = require('./routes/AuthRoutes.js');
+const locationRoutes = require('./routes/LocationRoutes.js');
+//const reviewsRoutes = require('./routes/ReviewRoutes.js');
 
 const app = express();
 
@@ -17,11 +15,11 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-// Routes
 
+// Routes
 //app.use('/auth', authRoutes);
 app.use('/locations', locationRoutes);
-//app.use('/reviews', reviewRoutes);
+//app.use('/reviews', reviewsRoutes);
 
 // Error handler middleware
 app.use((err, req, res, next) => {
@@ -32,5 +30,5 @@ app.use((err, req, res, next) => {
 // Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`RestApi server started on port ${PORT}`);
+  console.log(`Server started on port ${PORT}`);
 });
