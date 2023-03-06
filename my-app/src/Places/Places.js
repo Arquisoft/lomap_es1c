@@ -8,4 +8,8 @@ export function addPlace(place){
         });
 }
 
+export function getPlaces(){
+    return places;
+}
+
 export default addPlace;

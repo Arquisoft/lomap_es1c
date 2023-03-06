@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { slide as Menu } from 'react-burger-menu';
 
-export default props => {
+function Props(){
     useEffect(() => {
         // Show the "Inicio" tab and add the "active" class to the "Inicio" button
         showTab(null, 'Inicio');
@@ -50,6 +50,8 @@ export default props => {
     </Menu>
   );
 };
+
+export default Props;
 
 function showTab(evt, tabName) {
     // Declare all variables
