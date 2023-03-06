@@ -3,11 +3,13 @@ import RutaCard from "./RutaCard"
 
 // TODO: eliminar datos hard-codeados
 const rutas = [
-    {id: 1,
+    {
+        id: 1,
         titulo: "Ruta 1"
     },
-    {id: 2,
-    titulo: "Otra ruta distinta"
+    {
+        id: 2,
+        titulo: "Otra ruta distinta"
     },
 ]
 
