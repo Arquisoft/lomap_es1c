@@ -1,15 +1,10 @@
-var name;
-var lat;
-var lng;
-var colorMarker;
-var category;
-var photos;
-var comments;
-
-function PlaceConst(latP, lngP){
+function PlaceConst(latP, lngP,nameP,colorP,valoracionP){
     var Place={
         lat : latP,
-        lng : lngP
+        lng : lngP,
+        name : nameP,
+        color : colorP,
+        valoracion : valoracionP
     }
 
     return Place;

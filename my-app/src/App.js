@@ -1,12 +1,11 @@
 import React from "react";
 import './App.css';
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, Marker, MarkerF } from "@react-google-maps/api";
 import Geolocation from '@react-native-community/geolocation';
 import Button from '@mui/material/Button';
-import addPlace from './Places/Places'
+import {addPlace,getPlaces} from './Places/Places';
 import PlaceConst from "./Places/Place";
 import Modal from 'react-modal';
-import Sidebar from './Sidebar';
 import './Sidebar.css';
 
 export default function Home() {
@@ -14,22 +13,29 @@ export default function Home() {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
 
+
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <div>
-      <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} />
       <Map style={{position:"none"}}/>
     </div>
   );
 }
 
-Modal.setAppElement(document.getElementsByClassName('map-conteiner')[0]);
+var Located = true;
+
+
 
 function Map() {
+
+  Modal.setAppElement(document.getElementsByClassName('map-conteiner')[0]);
+
   //Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
   Geolocation.getCurrentPosition((position) =>{
-    setLatitude(position.coords.latitude);
-    setLongitude(position.coords.longitude)
+    if(Located){
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude)
+    }
   }
   );
 
@@ -45,6 +51,8 @@ function Map() {
   /*Logica de cuando clickas en el mapa, se guardan las cordenadas en el marcador para mostrarlo en el mapa,
    *pon a enabled el boton para añadir el punto y guarda las coordenadas para luego guardar el marcador. 
   */
+   
+
   const onMapClick = React.useCallback((e) => {
     setMarkers((current) => [current,
       {
@@ -54,8 +62,12 @@ function Map() {
       },
     ]);
     placedMarker();
+    setLatitude(Number(e.latLng.lat()));
+    setLongitude(Number(e.latLng.lng()));
     setLatitudeMark(Number(e.latLng.lat()));
     setLongitudeMark(Number(e.latLng.lng()));
+    Located = false;
+    
   }, []);
 
   //Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la unicación del usuario.
@@ -66,10 +78,9 @@ function Map() {
 
   //Muestra un popup modal que nos permite añadir el punto del mapa.
   const añdirPunto = () => {
-    setDisabledB(true);
-    setMarkers([]);
+    
     setIsOpen(true);
-    addPlace(PlaceConst(latitudeMark,longitudeMakr))
+    
   }
 
   //Cambia el estado disabled del boton a false 
@@ -104,8 +115,56 @@ function Map() {
     },
   };
 
+  function addPlaceModal(event){
+    setDisabledB(true);
+    setMarkers([]);
+    if(nombre.trim().length <= 0){
+      alert("El nombre no puede estar vacio");
+    }else if(Number(valoracion) < 0 || Number(valoracion) > 5){
+      alert("La puntuación tiene que ser mayor de 0 y menor de 5");
+    }else{
+      addPlace(PlaceConst(latitudeMark,longitudeMakr,nombre,color,valoracion));
+      setNombre('');
+      setColor("#ffffff");
+      setValoracion('');
+      setIsOpen(false);
+      chargeMarckers();
+    }
+  }
+
   function closeModal() {
+    setNombre('');
+    setColor("#ffffff");
+    setValoracion('');
     setIsOpen(false);
+  }
+
+  const [color, setColor] = React.useState("#ffffff");
+  const [nombre, setNombre] = React.useState('');
+  const [valoracion, setValoracion] = React.useState('');
+
+  function handleNameChange (e) {
+    setNombre(e.target.value);
+  }
+
+  function handleValChange (e) {
+    setValoracion(e.target.value);
+  }
+
+  const [places,setPlaces] = React.useState([]);
+
+  function chargeMarckers(){
+    var chargePlaces = [];
+    chargePlaces = getPlaces();
+    for (let i = 0; i < chargePlaces.length; i++) {
+      setPlaces((current) => [...current,
+        {
+          lat: chargePlaces[i].lat,
+          lng: chargePlaces[i].lng,
+          color: chargePlaces[i].color,
+        },
+      ]);
+    }
   }
 
   //Nos devuelve el mapa con todos los componentes asociados.
@@ -121,21 +180,18 @@ function Map() {
       >
         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Añade el Punto a el Mapa</h2>
         <form ref={(_form) => (form = _form)}>
-          <label for="nombre">Nombre:  
-          <input id="nombre "type="text" name="name"/>
+          <label htmlFor="nombre">Nombre:  
+          <input type="text" name="nombre" placeholder="Nombre" value={nombre} onChange={handleNameChange} />
           </label>
-          <label for="color">Color del Marcador:  
-          {/* <select id="color" name="color">
-            <option value="red" selected>Rojo</option>
-            <option value="green">Verde</option>
-            <option value="blue">Azul</option>
-            <option value="yellow">Amarillo</option>
-          </select> */}
-          <input type="color" id="colorpicker" value="#0000ff"></input>
+          <label htmlFor="color">Color del Marcador:  
+          <input type="color" id="color" value={color} onChange={e => setColor(e.target.value)} ></input>
           </label>
-          <label for="categoria">Categoria del Marcador:  
+          <label htmlFor="puntuacion">Puntuación:  
+          <input type="number" min='0' max='5' step='0.1' name="puntuacion" placeholder="Valoraciónd de 0.0-5.0" value={valoracion} onChange={handleValChange} />
+          </label>
+          <label htmlFor="categoria">Categoria del Marcador:  
           <select id="categoria" name="categoria">
-            <option value="vivienda" selected>Vivienda</option>
+            <option defaultValue="vivienda">Vivienda</option>
             <option value="restaurante">Restaurante</option>
             <option value="bar">Bar</option>
             <option value="yellow">Gimnasio</option>
@@ -146,11 +202,11 @@ function Map() {
             <option value="yellow">Otros</option>
           </select>
           </label>
-          <label for="comentarios">Comentario: 
+          <label htmlFor="comentarios">Comentario: 
           </label>
           <textarea id="comentarios" name="comentarios"/>
         </form>
-        <button onClick={closeModal}>Añadir</button>
+        <button onClick={addPlaceModal}>Añadir</button>
         <button onClick={closeModal}>Cancelar</button>
       </Modal>
       <GoogleMap zoom={13} center={center} mapContainerClassName="map-conteiner" onClick={e => onMapClick(e)}>
@@ -159,6 +215,13 @@ function Map() {
           key={`${marker.lat}-${marker.lng}`}
           position={{ lat: Number(marker.lat), lng: Number(marker.lng) }} />
         ))}
+      {places.map((marker) => (
+        <MarkerF
+          key={`${marker.lat}-${marker.lng}`}
+          position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
+          options = {{background:marker.color}}
+        />
+      ))}
       </GoogleMap>
     </div>
   );

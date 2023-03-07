@@ -10,7 +10,6 @@ export default function (props) {
   function setNuevoContenidoAMostrar(nuevoContenido) {
     setContenidoAMostrar(nuevoContenido)
   }
-
   return (
     <Menu>
       {/* Los botones de las tabs */}
@@ -23,4 +22,3 @@ export default function (props) {
     </Menu>
   );
 }
-
