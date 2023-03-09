@@ -60,6 +60,7 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
 
     //Una vez se le da a el boton de añadir se añade un marcador a la lista y los recarga para que estos se vean en el mapa
     //La lista se vacia primero para que no de error de dos puntos con el mismo id, quizas no es la mejor manera.
+    // TODO: ahora mismo no tenemos una single source of truth
     function chargeMarckers(){
         var chargePlaces = [];
         chargePlaces = getPlaces();
@@ -67,9 +68,10 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
         for (let i = 0; i < chargePlaces.length; i++) {
           setPlaces((current) => [...current,
             {
-              lat: chargePlaces[i].lat,
-              lng: chargePlaces[i].lng,
-              name: chargePlaces[i].nombre,
+              ...chargePlaces[i]
+              // lat: chargePlaces[i].lat,
+              // lng: chargePlaces[i].lng,
+              // name: chargePlaces[i].nombre,
             },
           ]);
         }
