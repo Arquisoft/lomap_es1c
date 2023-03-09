@@ -5,6 +5,8 @@ import PlaceConst from "../Places/Place";
 
 
 export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers,setStateButton,setPlaces}){
+  const categoriasStr = ["Vivienda", "Restaurante", "Bar", "Gimnasio", "Supermercado", "Parque", "Zona Recreativa", "Otros"]
+
   Modal.setAppElement(document.getElementsByClassName('map-conteiner')[0]);
     //Constantes para abrir y cerrar el modal.
     const modalIsOpen = isOpen;
@@ -96,8 +98,8 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
         }
     }
       
-    return(
-      <Modal
+  return(
+    <Modal
       isOpen={modalIsOpen}
       onAfterOpen={afterOpenModal}
       onRequestClose={closeModal}
@@ -117,15 +119,8 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
         </label>
         <label htmlFor="categoria">Categoria del Marcador:  
         <select id="categoria" name="categoria">
-          <option defaultValue="vivienda">Vivienda</option>
-          <option value="restaurante">Restaurante</option>
-          <option value="bar">Bar</option>
-          <option value="yellow">Gimnasio</option>
-          <option value="yellow">Supermercado</option>
-          <option value="yellow">Gimnasio</option>
-          <option value="yellow">Parque</option>
-          <option value="yellow">Zona Recreativa</option>
-          <option value="yellow">Otros</option>
+          <option defaultValue="empty"></option>
+          {categoriasStr.map( categoria => <option value={categoria.toLowerCase()}>{categoria}</option>)}
         </select>
         </label>
         <label htmlFor="comentarios">Comentario: 
