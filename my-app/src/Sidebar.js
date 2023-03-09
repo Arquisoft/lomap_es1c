@@ -5,8 +5,7 @@ import InicioTabContent from './Sidebar/InicioTabContent.js';
 import TabButtons from './Sidebar/TabButtons.js';
 
 export default function (props) {
-  const contenidoInicio = <InicioTabContent />
-  const [contenidoAMostrar, setContenidoAMostrar] = React.useState(contenidoInicio)
+  const [contenidoAMostrar, setContenidoAMostrar] = React.useState(null)
 
   function setNuevoContenidoAMostrar(nuevoContenido) {
     setContenidoAMostrar(nuevoContenido)
