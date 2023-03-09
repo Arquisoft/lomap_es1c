@@ -30,14 +30,30 @@ export default function App() {
 
   return (
     <div>
-      <Sidebar />
+      <Sidebar
+        userPlaces = {places}
+      />
 
-      <CreateModal isOpen={modalIsOpen} latMark={latitude}
-      lngMark={longitude} setIsOpen={setIsOpen} setMarkers={setMarkers} setStateButton={setDisabledB}
-      setPlaces={setPlaces} />
+      <CreateModal
+        isOpen={modalIsOpen}
+        latMark={latitude}
+        lngMark={longitude}
+        setIsOpen={setIsOpen}
+        setMarkers={setMarkers}
+        setStateButton={setDisabledB}
+        setPlaces={setPlaces}
+      />
 
-      <CreateMap open={openModal} setLatitude={setLatitude} setLongitude={setLongitude} markers={markers} 
-      setMarkers={setMarkers} buttonState={disabledB} setStateButton={setDisabledB} places={places}/>
+      <CreateMap
+        open={openModal}
+        setLatitude={setLatitude}
+        setLongitude={setLongitude}
+        markers={markers} 
+        setMarkers={setMarkers}
+        buttonState={disabledB}
+        setStateButton={setDisabledB}
+        places={places}
+      />
     </div>
   );
 }

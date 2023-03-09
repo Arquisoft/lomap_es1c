@@ -5,7 +5,9 @@ import RutasTabContent from './RutasTabContent.js';
 import DescubrirTabContent from './DescubrirTabContent.js';
 
 export default function TabButtons(props) {
-    const inicioTabContent = <InicioTabContent />
+    const inicioTabContent = <InicioTabContent
+        userPlaces = {props.userPlaces}
+    />
     const amigosTabContent = <AmigosTabContent />
     const rutasTabContent = <RutasTabContent />
     const descubrirTabContent = <DescubrirTabContent />

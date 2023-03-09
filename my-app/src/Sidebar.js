@@ -15,6 +15,7 @@ export default function (props) {
       {/* Los botones de las tabs */}
       <TabButtons
         onClickFunction = {setNuevoContenidoAMostrar}
+        userPlaces = {props.userPlaces}
       />
 
       {/* El contenido que se muestra */}
