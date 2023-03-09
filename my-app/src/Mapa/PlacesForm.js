@@ -82,13 +82,13 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
     //Comprueba que todos los campos esten correctos, añade el punto a la lista de puntos,restea los valores por defecto del formulario
     //Y recarga los puntos del mapa para que se vean los nuevos.
     function addPlaceModal(){
-        setStateButton(true);
         setMarkers([]);
         if(nombre.trim().length <= 0){
             alert("El nombre no puede estar vacio");
         }else if(Number(valoracion) < 0 || Number(valoracion) > 5){
             alert("La puntuación tiene que ser mayor de 0 y menor de 5");
         }else{
+            setStateButton(true);
             addPlace(PlaceConst(latitudeMark,longitudeMark,nombre,color,valoracion));
             setNombre('');
             setColor("#ffffff");
@@ -115,7 +115,7 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
         <input type="color" id="color" value={color} onChange={e => setColor(e.target.value)} ></input>
         </label>
         <label htmlFor="puntuacion">Puntuación:  
-        <input type="number" min='0' max='5' step='0.1' name="puntuacion" placeholder="Valoraciónd de 0.0-5.0" value={valoracion} onChange={handleValChange} />
+        <input type="number" min='0' max='5' step='0.1' name="puntuacion" placeholder="Valoración de 0.0-5.0" value={valoracion} onChange={handleValChange} />
         </label>
         <label htmlFor="categoria">Categoria del Marcador:  
         <select id="categoria" name="categoria">
