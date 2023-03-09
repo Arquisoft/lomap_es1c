@@ -1,5 +1,5 @@
 import React from "react"
-import LugarCard from "./LugarCard"
+import PlaceCard from "./PlaceCard"
 
 // TODO: eliminar datos hard-codeados
 const lugares = [
@@ -35,7 +35,7 @@ const lugares = [
 export default function InicioTabContent(props) {
     const cards = lugares.map(
         lugar =>
-        <LugarCard
+        <PlaceCard
             key={lugar.id}
             {...lugar}
         />
