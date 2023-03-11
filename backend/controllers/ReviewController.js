@@ -27,3 +27,6 @@ const Review = require('../models/Review');
       res.status(500).json({ message: 'Error adding review' });
     }
   }
+  module.exports={
+    getAllReviews,addReview
+  };

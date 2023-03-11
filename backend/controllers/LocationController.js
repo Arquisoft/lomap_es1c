@@ -112,3 +112,6 @@ const locations=[location1,location2,location3,location4,location5];
   }
 
 
+  module.exports={
+    createLocation,getAllLocations,getLocation,deleteLocation,updateLocation,addReview,addPhoto
+  };

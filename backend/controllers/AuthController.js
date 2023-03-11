@@ -29,7 +29,7 @@ async function login(req, res, next) {
     // After login, the Solid Identity Provider will send the user back to the following
     // URL, with the data necessary to complete the authentication process
     // appended as query parameters:
-    redirectUrl: `http://localhost:${port}/redirect-from-solid-idp`,
+    redirectUrl: `http://localhost:${app.port}/redirect-from-solid-idp`,
     // Set to the user's Solid Identity Provider; e.g., "https://login.inrupt.com"
     oidcIssuer: 'https://login.inrupt.com',
     // Pick an application name that will be shown when asked
@@ -49,10 +49,11 @@ async function redirectFromSolidIdp(req, res, next){
    // 4. With your session back from storage, you are now able to 
    //    complete the login process using the data appended to it as query
    //    parameters in req.url by the Solid Identity Provider:
-   await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
+   await session.handleIncomingRedirect(`http://localhost:${app.port}${req.url}`);
  
    // 5. `session` now contains an authenticated Session instance.
    if (session.info.isLoggedIn) {
+
      return res.send(`<p>Logged in with the WebID ${session.info.webId}.</p>`)
    }
  
@@ -95,3 +96,6 @@ async function index(req, res, next) {
 
 
 
+module.exports={
+  login,logout,fetch,redirectFromSolidIdp,index
+};

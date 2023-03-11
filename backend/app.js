@@ -23,8 +23,8 @@ app.use("/review", userSessionRouter);
 
 //CONTROLLERS
 const locationController = require('./controllers/locationController');
-const authController = require("./controllers/authController")
-const reviewController = require("./controllers/reviewController")
+const authController = require('./controllers/authController');
+const reviewController = require("./controllers/reviewController.js");
 
 // Middlewares
 
@@ -50,9 +50,6 @@ require("./routes/reviewRoutes.js")(app,reviewController);
 
 
 
-
-app.use('/', indexRouter);
-
 // Error handler middleware
 app.use((err, req, res, next) => {
   console.error(err);
@@ -61,6 +58,7 @@ app.use((err, req, res, next) => {
 
 // Start the server
 const PORT = process.env.PORT || 8080;
+app.set("port",PORT);
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
