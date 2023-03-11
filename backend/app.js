@@ -1,14 +1,41 @@
 const express = require('express');
 const session = require('express-session');
-const solid= require('./solid/Solid.js');
-//const authRoutes = require('./routes/AuthRoutes.js');
-const locationRoutes = require('./routes/LocationRoutes.js');
-//const reviewsRoutes = require('./routes/ReviewRoutes.js');
 
-const app = express();
+//Inicializa app
+let app = express();
 
+let expressSession = require('express-session');
+app.use(expressSession({
+    secret: 'abcdefg',
+    resave: true,
+    saveUninitialized: true
+}));
+
+let bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+
+//RUTAS
+const userSessionRouter = require('./routes/userSessionRouter');
+app.use("/location", userSessionRouter);
+app.use("/review", userSessionRouter);
+
+
+//CONTROLLERS
+const locationController = require('./controllers/locationController');
+const authController = require("./controllers/authController")
+const reviewController = require("./controllers/reviewController")
 
 // Middlewares
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "POST, GET, DELETE, UPDATE, PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
+  // Debemos especificar todas las headers que se aceptan. Content-Type , token
+  next();
+});
 app.use(express.json());
 app.use(session({
   secret: 'secret-key',
@@ -16,10 +43,15 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// Routes
-//app.use('/auth', authRoutes);
-app.use('/locations', locationRoutes);
-//app.use('/reviews', reviewsRoutes);
+//ROUTES
+let indexRouter = require('./routes/index')(app,authController);
+require("./routes/locationRoutes.js")(app,locationController);
+require("./routes/reviewRoutes.js")(app,reviewController);
+
+
+
+
+app.use('/', indexRouter);
 
 // Error handler middleware
 app.use((err, req, res, next) => {

@@ -1,18 +1,11 @@
-const express = require('express');
-const router = express.Router();
+module.exports = function (app, locationController) {
+    app.post('/location', locationController.createLocation);
+    app.get('/location', locationController.getAllLocations);
 
-const { LocationController } = require('../controllers/LocationController');
+    app.get('/location/:id', locationController.getLocation);
+    app.put('/location/:id', locationController.updateLocation);
+    app.delete('/:id', locationController.deleteLocation);
 
-router.post('/', LocationController.createLocation);
-router.get('/', LocationController.getAllLocations);
-
-
-router.get('/:id', LocationController.getLocation);
-router.put('/:id', LocationController.updateLocation);
-router.delete('/:id', LocationController.deleteLocation);
-
-
-router.post('/:id/reviews', LocationController.addReview);
-router.post('/:id/photos', LocationController.addPhoto);
-
-module.exports = router;
+    app.post('/location/:id/reviews', locationController.addReview);
+    app.post('/location/:id/photos', locationController.addPhoto);
+}

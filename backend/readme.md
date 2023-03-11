@@ -7,7 +7,6 @@
 
 - Inicialmente el usuario se logea y tras guardar en el objeto sesion su webid como idenficador para el resto de esta procedemos a obtener sus **locations**, ya que será lo primero que se cargué al acceder al mapa.
 
-- Al ser estas locations solamente modificables por el usuario, se podrían en un array en memoria para tener más fácil acceso a estas. (Cuidado con la desincronización).
 
 - Casos de uso más básicos.
     - Añadimos una nueva localización.
@@ -15,8 +14,9 @@
     - Borramos una localización existente.
     - Buscamos de nuevo todas las localizaciones.
 
+Estos casos serían fáciles de resolver:
 
-- Los casos que tengan que ver con los amigos
+FrontEnd -> RestApi -> Backend -> Solid -> PodBrowser -> Solid -> Parse -> Backend -> Serialize -> RestApi -> FrontEnd
 
 
 ### 
