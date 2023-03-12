@@ -1,6 +1,6 @@
 import './App.css';
 import './Sidebar.css';
-import Props from "./Sidebar";
+import Sidebar from "./Sidebar";
 import CreateMap from './Mapa/Map';
 import React from "react";
 import CreateModal from './Mapa/PlacesForm';
@@ -30,14 +30,30 @@ export default function App() {
 
   return (
     <div>
-      <Props />
+      <Sidebar
+        userPlaces = {places}
+      />
 
-      <CreateModal isOpen={modalIsOpen} latMark={latitude}
-      lngMark={longitude} setIsOpen={setIsOpen} setMarkers={setMarkers} setStateButton={setDisabledB}
-      setPlaces={setPlaces} />
+      <CreateModal
+        isOpen={modalIsOpen}
+        latMark={latitude}
+        lngMark={longitude}
+        setIsOpen={setIsOpen}
+        setMarkers={setMarkers}
+        setStateButton={setDisabledB}
+        setPlaces={setPlaces}
+      />
 
-      <CreateMap open={openModal} setLatitude={setLatitude} setLongitude={setLongitude} markers={markers} 
-      setMarkers={setMarkers} buttonState={disabledB} setStateButton={setDisabledB} places={places}/>
+      <CreateMap
+        open={openModal}
+        setLatitude={setLatitude}
+        setLongitude={setLongitude}
+        markers={markers} 
+        setMarkers={setMarkers}
+        buttonState={disabledB}
+        setStateButton={setDisabledB}
+        places={places}
+      />
     </div>
   );
 }

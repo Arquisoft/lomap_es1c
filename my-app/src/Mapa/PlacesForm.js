@@ -5,6 +5,8 @@ import PlaceConst from "../Places/Place";
 
 
 export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers,setStateButton,setPlaces}){
+  const categoriasStr = ["Vivienda", "Restaurante", "Bar", "Gimnasio", "Supermercado", "Parque", "Zona Recreativa", "Otros"]
+
   Modal.setAppElement(document.getElementsByClassName('map-conteiner')[0]);
     //Constantes para abrir y cerrar el modal.
     const modalIsOpen = isOpen;
@@ -60,6 +62,7 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
 
     //Una vez se le da a el boton de añadir se añade un marcador a la lista y los recarga para que estos se vean en el mapa
     //La lista se vacia primero para que no de error de dos puntos con el mismo id, quizas no es la mejor manera.
+    // TODO: ahora mismo no tenemos una single source of truth
     function chargeMarckers(){
         var chargePlaces = [];
         chargePlaces = getPlaces();
@@ -67,9 +70,10 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
         for (let i = 0; i < chargePlaces.length; i++) {
           setPlaces((current) => [...current,
             {
-              lat: chargePlaces[i].lat,
-              lng: chargePlaces[i].lng,
-              name: chargePlaces[i].nombre,
+              ...chargePlaces[i]
+              // lat: chargePlaces[i].lat,
+              // lng: chargePlaces[i].lng,
+              // name: chargePlaces[i].nombre,
             },
           ]);
         }
@@ -78,13 +82,13 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
     //Comprueba que todos los campos esten correctos, añade el punto a la lista de puntos,restea los valores por defecto del formulario
     //Y recarga los puntos del mapa para que se vean los nuevos.
     function addPlaceModal(){
-        setStateButton(true);
         setMarkers([]);
         if(nombre.trim().length <= 0){
             alert("El nombre no puede estar vacio");
         }else if(Number(valoracion) < 0 || Number(valoracion) > 5){
             alert("La puntuación tiene que ser mayor de 0 y menor de 5");
         }else{
+            setStateButton(true);
             addPlace(PlaceConst(latitudeMark,longitudeMark,nombre,color,valoracion));
             setNombre('');
             setColor("#ffffff");
@@ -94,8 +98,8 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
         }
     }
       
-    return(
-      <Modal
+  return(
+    <Modal
       isOpen={modalIsOpen}
       onAfterOpen={afterOpenModal}
       onRequestClose={closeModal}
@@ -111,19 +115,12 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
         <input type="color" id="color" value={color} onChange={e => setColor(e.target.value)} ></input>
         </label>
         <label htmlFor="puntuacion">Puntuación:  
-        <input type="number" min='0' max='5' step='0.1' name="puntuacion" placeholder="Valoraciónd de 0.0-5.0" value={valoracion} onChange={handleValChange} />
+        <input type="number" min='0' max='5' step='0.1' name="puntuacion" placeholder="Valoración de 0.0-5.0" value={valoracion} onChange={handleValChange} />
         </label>
         <label htmlFor="categoria">Categoria del Marcador:  
         <select id="categoria" name="categoria">
-          <option defaultValue="vivienda">Vivienda</option>
-          <option value="restaurante">Restaurante</option>
-          <option value="bar">Bar</option>
-          <option value="yellow">Gimnasio</option>
-          <option value="yellow">Supermercado</option>
-          <option value="yellow">Gimnasio</option>
-          <option value="yellow">Parque</option>
-          <option value="yellow">Zona Recreativa</option>
-          <option value="yellow">Otros</option>
+          <option defaultValue="empty"></option>
+          {categoriasStr.map( categoria => <option value={categoria.toLowerCase()}>{categoria}</option>)}
         </select>
         </label>
         <label htmlFor="comentarios">Comentario: 
