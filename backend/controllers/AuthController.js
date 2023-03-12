@@ -2,7 +2,7 @@ const cookieSession = require('cookie-session');
 const { getSessionFromStorage, getSessionIdFromStorageAll, Session } = require('@inrupt/solid-client-authn-node');
 
 
-
+const port=8080;
 // The following snippet ensures that the server identifies each user's session
 // with a cookie using an express-specific mechanism
 const sessionMiddleware = cookieSession({
@@ -29,7 +29,7 @@ async function login(req, res, next) {
     // After login, the Solid Identity Provider will send the user back to the following
     // URL, with the data necessary to complete the authentication process
     // appended as query parameters:
-    redirectUrl: `http://localhost:${app.port}/redirect-from-solid-idp`,
+    redirectUrl: 'http://localhost:'+port+'/redirect-from-solid-idp',
     // Set to the user's Solid Identity Provider; e.g., "https://login.inrupt.com"
     oidcIssuer: 'https://login.inrupt.com',
     // Pick an application name that will be shown when asked
@@ -49,14 +49,13 @@ async function redirectFromSolidIdp(req, res, next){
    // 4. With your session back from storage, you are now able to 
    //    complete the login process using the data appended to it as query
    //    parameters in req.url by the Solid Identity Provider:
-   await session.handleIncomingRedirect(`http://localhost:${app.port}${req.url}`);
+   await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
  
    // 5. `session` now contains an authenticated Session instance.
    if (session.info.isLoggedIn) {
-
-     return res.send(`<p>Logged in with the WebID ${session.info.webId}.</p>`)
+      req.session.user=session.info.webId;
+      return res.send(`<p>Logged in with the WebID ${session.info.webId}.</p>`)
    }
- 
  }
 
  // 6. Once you are logged in, you can retrieve the session from storage, 
@@ -78,6 +77,7 @@ async function fetch(req, res, next){
 async function logout(req, res, next){
   const session = await getSessionFromStorage(req.session.sessionId);
   session.logout();
+  req.session.user=null;
   res.send(`<p>Logged out.</p>`);
 }
 
