@@ -6,6 +6,7 @@ import PlaceConst from "../Places/Place";
 
 export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers,setStateButton,setPlaces}){
   const categoriasStr = ["Vivienda", "Restaurante", "Bar", "Gimnasio", "Supermercado", "Parque", "Zona Recreativa", "Otros"]
+  const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"]
 
   Modal.setAppElement(document.getElementsByClassName('map-conteiner')[0]);
     //Constantes para abrir y cerrar el modal.
@@ -22,7 +23,7 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
         subtitle.style.textAlign  = "center";
         subtitle.style.marginTop  = 0;
         form.style.display = "grid";
-        form.style.gridTemplateColumns = "auto";
+        form.style.gridTemplateColumns = "30% 60%";
         form.style.marginBottom = "10px";
     }
 
@@ -40,7 +41,6 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
     };
 
     //Constantes para los campos del form, probisional hasta rest api probablemente 
-    const [color, setColor] = React.useState("#ffffff");
     const [nombre, setNombre] = React.useState('');
     const [valoracion, setValoracion] = React.useState('');
   
@@ -55,7 +55,6 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
     //Cierra el modal y pone todos los valores de los campos a su valor por defecto.
     function closeModal() {
         setNombre('');
-        setColor("#ffffff");
         setValoracion('');
         setIsOpen(false);
     }
@@ -89,9 +88,8 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
             alert("La puntuación tiene que ser mayor de 0 y menor de 5");
         }else{
             setStateButton(true);
-            addPlace(PlaceConst(latitudeMark,longitudeMark,nombre,color,valoracion));
+            addPlace(PlaceConst(latitudeMark,longitudeMark,nombre,valoracion));
             setNombre('');
-            setColor("#ffffff");
             setValoracion('');
             setIsOpen(false);
             chargeMarckers();
@@ -109,26 +107,31 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
       <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Añade el Punto a el Mapa</h2>
       <form ref={(_form) => (form = _form)}>
         <label htmlFor="nombre">Nombre:  
+        </label>
         <input type="text" name="nombre" placeholder="Nombre" value={nombre} onChange={handleNameChange} />
-        </label>
-        <label htmlFor="color">Color del Marcador:  
-        <input type="color" id="color" value={color} onChange={e => setColor(e.target.value)} ></input>
-        </label>
         <label htmlFor="puntuacion">Puntuación:  
-        <input type="number" min='0' max='5' step='0.1' name="puntuacion" placeholder="Valoración de 0.0-5.0" value={valoracion} onChange={handleValChange} />
         </label>
-        <label htmlFor="categoria">Categoria del Marcador:  
+        <input type="number" min='0' max='5' step='0.1' name="puntuacion" placeholder="Valoración de 0.0-5.0" value={valoracion} onChange={handleValChange} />
+        <label htmlFor="categoria">Categoria:  
+        </label>
         <select id="categoria" name="categoria">
           <option defaultValue="empty"></option>
           {categoriasStr.map( categoria => <option value={categoria.toLowerCase()}>{categoria}</option>)}
         </select>
+        <label htmlFor="nivelPrivacidad">Privacidad:  
         </label>
+        <select id="nivelPrivacidad" name="nivelPrivacidad">
+          <option defaultValue="empty"></option>
+          {nivelesPrivacidad.map( nivel => <option value={nivel.toLowerCase()}>{nivel}</option>)}
+        </select>
         <label htmlFor="comentarios">Comentario: 
         </label>
         <textarea id="comentarios" name="comentarios"/>
       </form>
-      <button onClick={addPlaceModal}>Añadir</button>
-      <button onClick={closeModal}>Cancelar</button>
+      <div className="submitFormLugares">
+          <button className="btn" onClick={addPlaceModal}>Añadir</button>
+          <button className="btnCancel" onClick={closeModal}>Cancelar</button>
+      </div>
     </Modal>
   )
 }

@@ -1,9 +1,8 @@
-function PlaceConst(latP, lngP,nameP,colorP,valoracionP){
+function PlaceConst(latP, lngP,nameP,valoracionP){
     var Place={
         lat : latP,
         lng : lngP,
         name : nameP,
-        color : colorP,
         valoracion : valoracionP
     }
 
