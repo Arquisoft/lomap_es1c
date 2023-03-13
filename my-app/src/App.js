@@ -4,8 +4,11 @@ import Sidebar from "./Sidebar";
 import CreateMap from './Mapa/Map';
 import React, { useState, useEffect } from 'react';
 import CreateModal from './Mapa/PlacesForm';
-
 import axios from 'axios';
+import addPlace from './Places/Places';
+
+var a = [];
+
 export default function App() {
 
   const [data, setData] = useState('');
@@ -22,8 +25,14 @@ export default function App() {
       });
       
   }, []);
-  
-  console.log(data);
+
+  useEffect(() => {
+    for (let i = 0; i < data.length; i++) {
+      addPlace(a[i] = {
+        lat: data[i].latitude,
+        lng: data[i].longitude
+      })}
+  });
 
   //Estados de la aplicacion
   //Latitud y longitud del marcador actual que tu pongas en el mapa.
@@ -37,7 +46,7 @@ export default function App() {
     const [disabledB,setDisabledB] = React.useState(true);
 
     //Todos los lugares de la aplicacion
-    const [places,setPlaces] = React.useState([]);
+    const [places,setPlaces] = React.useState(a);
 
     //Constantes del Modal
     const [modalIsOpen, setIsOpen] = React.useState(false);
