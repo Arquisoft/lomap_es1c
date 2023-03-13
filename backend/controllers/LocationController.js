@@ -2,8 +2,9 @@
 const Location = require('../models/Location');
 
 const { Review } = require('../models/Review');
+const { post } = require('../routes/userSessionRouter');
 //Utilizamos nuestra clase solid para parsear.
-const solid = require('../solid/Solid.js');
+//const solid = require('../solid/Solid.js');
 
 //localizaciones hardcodeadas
 
@@ -40,7 +41,7 @@ const locations=[location1,location2,location3,location4,location5];
  async function createLocation(req, res) {
     const { name, address, latitude, longitude, category } = req.body;
     try {
-      const location = new Location(url, name, address, latitude, longitude, category);
+      const location = new Location(name, address, latitude, longitude, category);
       await Solid.saveLocation(location);
       res.status(201).json(location);
     } catch (err) {
@@ -110,7 +111,6 @@ const locations=[location1,location2,location3,location4,location5];
       res.status(400).json({ error: err.message });
     }
   }
-
 
   module.exports={
     createLocation,getAllLocations,getLocation,deleteLocation,updateLocation,addReview,addPhoto

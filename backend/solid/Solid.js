@@ -157,7 +157,6 @@ async function isStructCreated(Session){
       );
 }
 
-
 async function getAllLocations(Session){
   const webID = Session.info.webId;
   //Obtencion de url del pod
@@ -172,7 +171,6 @@ async function getAllLocations(Session){
       modelsUbi[i] = await getLocationById(Session, urlSplit[urlSplit.length-1]);
   }
   return modelsUbi;
-
 }
 
 
@@ -374,8 +372,8 @@ try {
 
 
 
-
-
-
+    module.exports={
+     readUbicacion
+    };
 
 
