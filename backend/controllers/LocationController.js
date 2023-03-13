@@ -3,7 +3,7 @@ const Location = require('../models/Location');
 
 const { Review } = require('../models/Review');
 //Utilizamos nuestra clase solid para parsear.
-const solid = require('../solid/Solid.js');
+//const solid = require('../solid/Solid.js');
 
 //localizaciones hardcodeadas
 

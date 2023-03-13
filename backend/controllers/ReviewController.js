@@ -1,5 +1,5 @@
 //Utilizamos nuestra clase solid para parsear.
-const solid = require('../solid/Solid.js');
+//const solid = require('../solid/Solid.js');
 
 const Review = require('../models/Review');
 

@@ -2,10 +2,19 @@ import './App.css';
 import './Sidebar.css';
 import Sidebar from "./Sidebar";
 import CreateMap from './Mapa/Map';
-import React from "react";
+import React, { useEffect } from "react";
 import CreateModal from './Mapa/PlacesForm';
 
 export default function App() {
+
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:8080/location`)
+  //   .then((response) => response.json())
+  //   .then((actualData) => console.log(actualData))
+  //   }
+  // )
+  
   //Estados de la aplicacion
   //Latitud y longitud del marcador actual que tu pongas en el mapa.
     const [latitude, setLatitude] = React.useState('');

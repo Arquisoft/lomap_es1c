@@ -40,9 +40,12 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
         },
     };
 
-    //Constantes para los campos del form, probisional hasta rest api probablemente 
+    //Constantes para los campos del form
     const [nombre, setNombre] = React.useState('');
     const [valoracion, setValoracion] = React.useState('');
+    const [categoria, setCategoria] = React.useState('Sin categoria');
+    const [privacidad, setPrivacidad] = React.useState('Publico');
+    const [comentario, setComentario] = React.useState('');
   
     function handleNameChange (e) {
       setNombre(e.target.value);
@@ -50,6 +53,18 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
   
     function handleValChange (e) {
       setValoracion(e.target.value);
+    }
+
+    function handleCategoryChange (e) {
+      setPrivacidad(e.target.value);
+    }
+
+    function handlePrivacyChange (e) {
+      setCategoria(e.target.value);
+    }
+
+    function handleCommentChange (e) {
+      setComentario(e.target.value);
     }
 
     //Cierra el modal y pone todos los valores de los campos a su valor por defecto.
@@ -88,7 +103,7 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
             alert("La puntuación tiene que ser mayor de 0 y menor de 5");
         }else{
             setStateButton(true);
-            addPlace(PlaceConst(latitudeMark,longitudeMark,nombre,valoracion));
+            addPlace(PlaceConst(latitudeMark,longitudeMark,nombre,valoracion,categoria,privacidad,comentario));
             setNombre('');
             setValoracion('');
             setIsOpen(false);
@@ -114,19 +129,19 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
         <input type="number" min='0' max='5' step='0.1' name="puntuacion" placeholder="Valoración de 0.0-5.0" value={valoracion} onChange={handleValChange} />
         <label htmlFor="categoria">Categoria:  
         </label>
-        <select id="categoria" name="categoria">
+        <select id="categoria" name="categoria" onChange={handleCategoryChange}>
           <option defaultValue="empty"></option>
           {categoriasStr.map( categoria => <option value={categoria.toLowerCase()}>{categoria}</option>)}
         </select>
         <label htmlFor="nivelPrivacidad">Privacidad:  
         </label>
-        <select id="nivelPrivacidad" name="nivelPrivacidad">
+        <select id="nivelPrivacidad" name="nivelPrivacidad" onChange={handlePrivacyChange}>
           <option defaultValue="empty"></option>
           {nivelesPrivacidad.map( nivel => <option value={nivel.toLowerCase()}>{nivel}</option>)}
         </select>
         <label htmlFor="comentarios">Comentario: 
         </label>
-        <textarea id="comentarios" name="comentarios"/>
+        <textarea id="comentarios" name="comentarios" onChange={handleCommentChange} />
       </form>
       <div className="submitFormLugares">
           <button className="btn" onClick={addPlaceModal}>Añadir</button>
