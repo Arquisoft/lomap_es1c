@@ -1,26 +1,14 @@
 const express = require('express');
-const session = require('express-session');
-
+const cookieSession = require("cookie-session");
 const cors = require('cors');
 
 //Inicializa app
-let app = express();
-
-let expressSession = require('express-session');
-app.use(expressSession({
-    secret: 'abcdefg',
-    resave: true,
-    saveUninitialized: true
-}));
-
-let bodyParser = require('body-parser');
-
-app.use(bodyParser.json());
+const app = express();
 
 app.use(cors({
   origin: 'http://localhost:3000'
 }));
-/*
+
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Credentials", "true");
@@ -29,17 +17,23 @@ app.use(function (req, res, next) {
   // Debemos especificar todas las headers que se aceptan. Content-Type , token
   next();
 });
-*/
 
-//RUTAS
-const userSessionRouter = require('./routes/userSessionRouter');
-app.use("/location", userSessionRouter);
-app.use("/review", userSessionRouter);
+app.use(
+  cookieSession({
+    name: "session",
+    // These keys are required by cookie-session to sign the cookies.
+    keys: [
+      "Required, but value not relevant for this demo - key1",
+      "Required, but value not relevant for this demo - key2",
+    ],
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  })
+);
 
 
 //CONTROLLERS
+const authController = require('./controllers/AuthController');
 const locationController = require('./controllers/locationController');
-const authController = require('./controllers/authController');
 const reviewController = require("./controllers/reviewController.js");
 
 // Middlewares
@@ -53,18 +47,17 @@ app.use(function (req, res, next) {
   next();
 });
 app.use(express.json());
-app.use(session({
-  secret: 'secret-key',
-  resave: false,
-  saveUninitialized: false
-}));
+
+const userSessionRouter=require("./routes/userSessionRouter");
+//RUTAS
+app.use("/", userSessionRouter);
+app.use("/location", userSessionRouter);
+app.use("/review", userSessionRouter);
 
 //ROUTES
-let indexRouter = require('./routes/index')(app,authController);
+require("./routes/AuthRoutes.js")(app,authController);
 require("./routes/locationRoutes.js")(app,locationController);
 require("./routes/reviewRoutes.js")(app,reviewController);
-
-
 
 // Error handler middleware
 app.use((err, req, res, next) => {
@@ -73,8 +66,9 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 8080;
-app.set("port",PORT);
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+app.set('port', process.env.PORT || 8080);
+app.listen(app.get('port'), () => {
+  console.log(`Server started on port ${app.get('port')}`);
 });
+
+module.exports = app;
