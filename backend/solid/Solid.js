@@ -369,11 +369,3 @@ try {
   */
 
 
-
-
-
-    module.exports={
-     readUbicacion
-    };
-
-
