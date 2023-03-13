@@ -13,6 +13,7 @@ const sessionMiddleware = cookieSession({
 });
 
 async function login(req, res, next) {
+
   // 1. Create a new Session
   const session = new Session();
   req.session.sessionId = session.info.sessionId;
@@ -37,6 +38,7 @@ async function login(req, res, next) {
     clientName: 'LoMap',
     handleRedirect: redirectToSolidIdentityProvider,
   });
+  
 }
 
 async function redirectFromSolidIdp(req, res, next){

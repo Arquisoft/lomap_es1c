@@ -1,6 +1,8 @@
 const express = require('express');
 const session = require('express-session');
 
+const cors = require('cors');
+
 //Inicializa app
 let app = express();
 
@@ -15,7 +17,10 @@ let bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
-
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
+/*
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Credentials", "true");
@@ -24,7 +29,7 @@ app.use(function (req, res, next) {
   // Debemos especificar todas las headers que se aceptan. Content-Type , token
   next();
 });
-
+*/
 
 //RUTAS
 const userSessionRouter = require('./routes/userSessionRouter');
