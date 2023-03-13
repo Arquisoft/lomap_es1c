@@ -230,6 +230,8 @@ async function isStructCreated(Session){
 }
 
 
+
+
 async function readUbicaciones(Session){
       const webID = Session.info.webId;
       //Obtencion de url del pod
@@ -419,8 +421,8 @@ try {
 
 
 
-
-
-
+    module.exports={
+     readUbicacion
+    };
 
 
