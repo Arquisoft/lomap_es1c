@@ -1,4 +1,4 @@
-import {
+const {
     addUrl,
     addStringNoLocale,
     createSolidDataset,
@@ -18,13 +18,10 @@ import {
     getContainedResourceUrlAll,
     deleteSolidDataset,
     getDecimal
-    } from "@inrupt/solid-client";
+    } = require ('@inrupt/solid-client');
   
-    import { Session } from "@inrupt/solid-client-authn-browser";
-  import { solid } from "@inrupt/solid-client/dist/constants";
-    import { VCARD } from "@inrupt/vocab-common-rdf";
-    import prueba from "./Soolid.js";
-    import { SCHEMA_INRUPT, RDF, AS } from "@inrupt/vocab-common-rdf";
+
+    const { SCHEMA_INRUPT, RDF, AS } = require('@inrupt/vocab-common-rdf');
 
 
   async function createStruct(Session){
