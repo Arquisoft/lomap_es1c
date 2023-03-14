@@ -1,0 +1,138 @@
+.App {
+  text-align: center;
+  
+}
+.map-conteiner{
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  overflow: visible;
+  top: 0;
+}
+.botonAñadir{
+  position: relative;
+  top: 51rem;
+  right: -111rem;
+  z-index: 10;
+}
+
+textarea{
+  resize: none;
+  height: 100px;
+}
+
+/* .submitFormLugares{
+  display: grid;
+  grid-template-columns: 100% 100%;
+} */
+/* 
+.btn {
+  --color: #32e641;
+  --color2: rgb(10, 25, 30);
+  padding: 0.8em 1.75em;
+  background-color: transparent;
+  border-radius: 6px;
+  border: .3px solid var(--color);
+  transition: .5s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+  font-weight: 300;
+  font-size: 12px;
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  color: var(--color);
+ }
+ 
+ .btn::after, .btn::before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: skew(90deg) translate(-50%, -50%);
+  position: absolute;
+  inset: 50%;
+  left: 25%;
+  z-index: -1;
+  transition: .5s ease-out;
+  background-color: var(--color);
+ }
+ 
+ .btn::before {
+  top: -50%;
+  left: -25%;
+  transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
+ }
+ 
+ .btn:hover::before {
+  transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
+ }
+ 
+ .btn:hover::after {
+  transform: skew(45deg) translate(-50%, -50%);
+ }
+ 
+ .btn:hover {
+  color: var(--color2);
+ }
+ 
+ .btn:active {
+  filter: brightness(.7);
+  transform: scale(.98);
+ }
+
+ .btnCancel {
+  --color: #eb1111;
+  --color2: rgb(10, 25, 30);
+  padding: 0.8em 1.75em;
+  background-color: transparent;
+  border-radius: 6px;
+  border: .3px solid var(--color);
+  transition: .5s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+  font-weight: 300;
+  font-size: 12px;
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  color: var(--color);
+ }
+ 
+ .btnCancel::after, .btnCancel::before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: skew(90deg) translate(-50%, -50%);
+  position: absolute;
+  inset: 50%;
+  left: 25%;
+  z-index: -1;
+  transition: .5s ease-out;
+  background-color: var(--color);
+ }
+ 
+ .btnCancel::before {
+  top: -50%;
+  left: -25%;
+  transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
+ }
+ 
+ .btnCancel:hover::before {
+  transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
+ }
+ 
+ .btnCancel:hover::after {
+  transform: skew(45deg) translate(-50%, -50%);
+ }
+ 
+ .btnCancel:hover {
+  color: var(--color2);
+ }
+ 
+ .btnCancel:active {
+  filter: brightness(.7);
+  transform: scale(.98);
+ }
+  */

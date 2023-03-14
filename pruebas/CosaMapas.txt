@@ -1,0 +1,3 @@
+https://mapstyle.withgoogle.com/
+Fotos slider: https://reactjsguru.com/how-to-make-image-slider-in-react/ o https://turbofuture.com/computers/React-Image-Sliders
+Tabs: https://mui.com/material-ui/react-tabs/
