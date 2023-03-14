@@ -7,6 +7,7 @@ import {addPlace,getPlaces} from './Places/Places';
 import PlaceConst from "./Places/Place";
 import Modal from 'react-modal';
 import './Sidebar.css';
+import Sidebar from "./Sidebar"
 
 export default function Home() {
   const { isLoaded } = useLoadScript({
@@ -17,6 +18,7 @@ export default function Home() {
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <div>
+      <Sidebar />
       <Map style={{position:"none"}}/>
     </div>
   );
@@ -194,7 +196,6 @@ function Map() {
             <option defaultValue="vivienda">Vivienda</option>
             <option value="restaurante">Restaurante</option>
             <option value="bar">Bar</option>
-            <option value="yellow">Gimnasio</option>
             <option value="yellow">Supermercado</option>
             <option value="yellow">Gimnasio</option>
             <option value="yellow">Parque</option>
