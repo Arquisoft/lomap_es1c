@@ -9,3 +9,5 @@ module.exports = function (app, locationController) {
     app.post('/location/:id/reviews', locationController.addReview);
     app.post('/location/:id/photos', locationController.addPhoto);
 }
+
+

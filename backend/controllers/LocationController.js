@@ -1,8 +1,7 @@
+const { getSessionFromStorage} = require('@inrupt/solid-client-authn-node');
 //Importamos los objetos del Modelo
 const Location = require('../models/Location');
 const { Review } = require('../models/Review');
-const { post } = require('../routes/userSessionRouter');
-const {auth} =require('../controllers/AuthController');
 //Utilizamos nuestra clase solid para parsear.
 const solid = require('../solid/Solid.js');
 
@@ -20,8 +19,9 @@ const locations=[location1,location2,location3,location4,location5];
     const { url } = req.params;
 
     try {
+      let session=await getSessionFromStorage(req.session.sessionId);
       const location = await Solid.getLocationById(url);
-      res.send(JSON.stringify(location));
+      res.send(JSON.stringify(location1));
     } catch (err) {
       res.status(404).json({ error: err.message });
     }
@@ -29,12 +29,8 @@ const locations=[location1,location2,location3,location4,location5];
   //TODO
   async function getAllLocations(req, res) {
     try {
-      //console.log("hola")
-      //await onsole.log(auth.test);
-      //console.log("adios")
-      //console.log(auth.getSession(req.session.sessionId));
-      console.log(req.session.user);
-      console.log(req.session.sessionId);
+      session=await getSessionFromStorage(req.session.sessionId);
+      //solid.getAllLocations(session);
       //const locations = await Solid.getAllLocations();
       res.send(JSON.stringify(locations));
     } catch (err) {
@@ -46,13 +42,18 @@ const locations=[location1,location2,location3,location4,location5];
  async function createLocation(req, res) {
     const { name, address, latitude, longitude, category } = req.body;
     try {
-      const location = new Location(name, address, latitude, longitude, category);
-      await Solid.saveLocation(location);
+      session=await getSessionFromStorage(req.session.sessionId);
+      //const location = new Location(name, address, latitude, longitude, category);
+
+      await solid.saveLocation(session,location1);
       res.status(201).json(location);
     } catch (err) {
       res.status(400).json({ error: err.message });
     }
   }
+
+
+  
 
   async function updateLocation(req, res) {
     const {id }=req.params;
@@ -92,7 +93,6 @@ const locations=[location1,location2,location3,location4,location5];
     try {
       const location = await Solid.getLocationById(id);
       const review = new Review(rating, text, author);
-
       location.addReview(review);
       await Solid.saveLocation(location);
 

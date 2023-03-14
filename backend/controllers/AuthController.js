@@ -1,20 +1,20 @@
 
 const { getSessionFromStorage, getSessionIdFromStorageAll, Session } = require('@inrupt/solid-client-authn-node');
+const solid = require('../solid/Solid.js');
 const port=8080;
 
 // The following snippet ensures that the server identifies each user's session
 // with a cookie using an express-specific mechanism
-let session;
 
 
 async function createSession() {
   session = new Session();
 }
+
 async function login(req, res, next) {
-  // 1. Create a new Session
-  if (!session) {
-    await createSession(); // create session if it doesn't exist
-  }
+  const session=new Session()
+ 
+  
   req.session.sessionId = session.info.sessionId;
   const redirectToSolidIdentityProvider = (url) => {
     // Since we use Express in this example, we can call `res.redirect` to send the user to the
@@ -45,7 +45,8 @@ async function redirectFromSolidIdp(req, res, next){
    //    it means that the login has been initiated and can be completed. In
    //    particular, initiating the login stores the session in storage, 
    //    which means it can be retrieved as follows.
-   session = await getSessionFromStorage(req.session.sessionId);
+   const session = await getSessionFromStorage(req.session.sessionId);
+   
    // 4. With your session back from storage, you are now able to 
    //    complete the login process using the data appended to it as query
    //    parameters in req.url by the Solid Identity Provider:
@@ -53,6 +54,9 @@ async function redirectFromSolidIdp(req, res, next){
  
    // 5. `session` now contains an authenticated Session instance.
    if (session.info.isLoggedIn) {
+      if(!solid.isStructCreated(session)){
+        solid.createStruct(session);
+      }
       req.session.user=session.info.webId;
       req.session.sessionId=req.session.sessionId;
       return res.send(`<p>Logged in with the WebID ${session.info.webId}.</p>`)
@@ -67,7 +71,7 @@ async function fetch(req, res, next){
       "<p>Please pass the (encoded) URL of the Resource you want to fetch using `?resource=&lt;resource URL&gt;`.</p>"
     );
   }
-  session = await getSessionFromStorage(req.session.sessionId);
+  const session = await getSessionFromStorage(req.session.sessionId);
   console.log(await (await session.fetch(req.query["resource"])).text());
   res.send("<p>Performed authenticated fetch.</p>");
 }
@@ -76,7 +80,7 @@ async function fetch(req, res, next){
 // 7. To log out a session, just retrieve the session from storage, and 
 //    call the .logout method.
 async function logout(req, res, next){
-  session = await getSessionFromStorage(req.session.sessionId);
+  const session = await getSessionFromStorage(req.session.sessionId);
   session.logout();
   req.session.user=null;
   res.send(`<p>Logged out.</p>`);
@@ -92,10 +96,7 @@ async function index(req, res, next) {
 function test(){
   console.log("hola");
 }
-async function getSession(sessionId){
-  session=await getSessionFromStorage(sessionId);
-  return session;
-}
+
 
 
 module.exports={
@@ -103,7 +104,6 @@ module.exports={
   logout,
   fetch,
   redirectFromSolidIdp,
-  index,
-  getSession,
-  test
+  index
+
 };

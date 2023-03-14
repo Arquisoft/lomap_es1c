@@ -55,6 +55,7 @@ app.use("/location", userSessionRouter);
 app.use("/review", userSessionRouter);
 
 //ROUTES
+
 require("./routes/AuthRoutes.js")(app,authController);
 require("./routes/locationRoutes.js")(app,locationController);
 require("./routes/reviewRoutes.js")(app,reviewController);
