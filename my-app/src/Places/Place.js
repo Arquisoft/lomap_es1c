@@ -1,5 +1,6 @@
-function PlaceConst(latP, lngP,nameP,valoracionP,categoriaP,privacidadP,comentarioP){
+function PlaceConst(idP,latP, lngP,nameP,valoracionP,categoriaP,privacidadP,comentarioP){
     var Place={
+        id : idP,
         lat : latP,
         lng : lngP,
         name : nameP,

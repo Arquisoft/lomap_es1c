@@ -28,12 +28,15 @@ export default function App() {
 
   useEffect(() => {
       for (let i = 0; i < data.length; i++) {
-        addPlace(a[i] = {
-          lat: data[i].latitude,
-          lng: data[i].longitude,
-          name : data[i].name,
-          categoria: data[i].category
-        })}
+        if(!places.some(value => value.id===data[i].id)){
+          addPlace(a[i] = {
+            id: data[i].id,
+            lat: data[i].latitude,
+            lng: data[i].longitude,
+            name : data[i].name,
+            categoria: data[i].category
+          })}
+      }
 
   });
 
@@ -69,6 +72,7 @@ export default function App() {
         isOpen={modalIsOpen}
         latMark={latitude}
         lngMark={longitude}
+        places={places}
         setIsOpen={setIsOpen}
         setMarkers={setMarkers}
         setStateButton={setDisabledB}

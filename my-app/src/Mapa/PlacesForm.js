@@ -2,9 +2,11 @@ import Modal from 'react-modal';
 import React from "react";
 import {addPlace,getPlaces} from '../Places/Places';
 import PlaceConst from "../Places/Place";
+import { v4 as uuidv4 } from 'uuid';
+import { TextField } from '@mui/material';
 
 
-export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers,setStateButton,setPlaces}){
+export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers,setStateButton,setPlaces,places}){
   const categoriasStr = ["Vivienda", "Restaurante", "Bar", "Gimnasio", "Supermercado", "Parque", "Zona Recreativa", "Otros"]
   const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"]
 
@@ -90,9 +92,6 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
           setPlaces((current) => [...current,
             {
               ...chargePlaces[i]
-              // lat: chargePlaces[i].lat,
-              // lng: chargePlaces[i].lng,
-              // name: chargePlaces[i].nombre,
             },
           ]);
         }
@@ -108,7 +107,8 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
             alert("La puntuación tiene que ser mayor de 0 y menor de 5");
         }else{
             setStateButton(true);
-            addPlace(PlaceConst(latitudeMark,longitudeMark,nombre,valoracion,categoria,privacidad,comentario));
+            var id = uuidv4();
+            addPlace(PlaceConst(id,latitudeMark,longitudeMark,nombre,valoracion,categoria,privacidad,comentario));
             setNombre('');
             setValoracion('');
             setIsOpen(false);
@@ -128,7 +128,7 @@ export default function CreateModal({isOpen,latMark,lngMark,setIsOpen,setMarkers
       <form ref={(_form) => (form = _form)}>
         <label htmlFor="nombre">Nombre:  
         </label>
-        <input type="text" name="nombre" placeholder="Nombre" value={nombre} onChange={handleNameChange} />
+        <TextField id="filled-basic" label="Nombre" variant="outlined" type="text" name="nombre" value={nombre} onChange={handleNameChange} color="success"/>
         <label htmlFor="puntuacion">Puntuación:  
         </label>
         <input type="number" min='0' max='5' step='0.1' name="puntuacion" placeholder="Valoración de 0.0-5.0" value={valoracion} onChange={handleValChange} />
