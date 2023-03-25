@@ -7,9 +7,8 @@ export function addPlace(place){
     
     places.forEach(elemento => 
         {
-            //console.log(elemento);
+            console.log(elemento);
         });
-        console.log(places.length);
 }
 
 export function getPlaces(){

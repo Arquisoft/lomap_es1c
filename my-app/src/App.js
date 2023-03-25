@@ -12,9 +12,7 @@ var a = [];
 export default function App() {
 
   const [data, setData] = useState('');
-
-
-  //TODO borrar
+  
   useEffect(() => {
     axios.get('http://localhost:8080/location')
       .then(response => {
@@ -57,6 +55,9 @@ export default function App() {
     //Constantes del Modal
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
+    //Se puede clickar en el mapa
+    const [canCick, setCanCick] = React.useState(false);
+
     function openModal(boolean){
       setIsOpen(boolean)
     }
@@ -77,6 +78,7 @@ export default function App() {
         setMarkers={setMarkers}
         setStateButton={setDisabledB}
         setPlaces={setPlaces}
+        setCanCick={setCanCick}
       />
 
       <CreateMap
@@ -88,6 +90,8 @@ export default function App() {
         buttonState={disabledB}
         setStateButton={setDisabledB}
         places={places}
+        canCick={canCick}
+        setCanCick={setCanCick}
       />
     </div>
   );
