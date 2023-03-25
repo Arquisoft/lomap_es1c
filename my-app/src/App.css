@@ -26,16 +26,12 @@ textarea{
   margin-left: 45%;
 }
 
-#dark .map {
-  
-}
-
 #light button {
-  background-color: white;
-  color: black;
+  background-color: #ebecf0;
+  color: #3f3f3f;
 }
 
 #dark button  {
-  background-color: black;
-  color: white;
+  background-color: #3f3f3f;
+  color: #ebecf0;
 }
