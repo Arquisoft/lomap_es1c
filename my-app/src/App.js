@@ -47,13 +47,14 @@ export default function App() {
       setIsOpen(boolean)
     }
 
-    const themeContext = useContext(ThemeContext);
+    const {currentTheme, setCurrentTheme} = useContext(ThemeContext);
     function toggleTheme() {
-      themeContext.setCurrentTheme((current) => (current===Themes.LIGHT ? Themes.DARK : Themes.LIGHT));
+      setCurrentTheme((current) => (current===Themes.LIGHT ? Themes.DARK : Themes.LIGHT));
     }
 
+
   return (
-    <div>
+    <div id={currentTheme}>
       <Sidebar
         userPlaces = {places}
       />
