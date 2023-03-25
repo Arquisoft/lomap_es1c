@@ -1,6 +1,6 @@
 import './App.css';
-import './Sidebar.css';
-import Sidebar from "./Sidebar";
+import './Sidebar/Sidebar.css';
+import Sidebar from "./Sidebar/Sidebar.js";
 import CreateMap from './Mapa/Map';
 import React, { useState, useEffect, useContext } from 'react';
 import CreateModal from './Mapa/PlacesForm';
