@@ -1,5 +1,6 @@
-import React from "react"
+import React, {useContext} from "react"
 import PlaceCard from "./PlaceCard"
+import { ThemeContext } from "../contexts/ThemeContext"
 
 export default function InicioTabContent(props) {
     const [cards, setCards] = React.useState(props.userPlaces.map(
@@ -24,9 +25,12 @@ export default function InicioTabContent(props) {
         )
     }
 
+    const {currentTheme} = useContext(ThemeContext)
+
     return (
         <div id="Inicio" className="tabcontent">
             <h1>Tus lugares</h1>
+            <h1>{currentTheme}</h1>
             <input
                 type="text"
                 placeholder="Buscar"

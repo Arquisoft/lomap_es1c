@@ -136,3 +136,8 @@ textarea{
   transform: scale(.98);
  }
   */
+
+.toggleThemeButton {
+  position: absolute;
+  margin-left: 45%;
+}

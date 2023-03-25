@@ -82,20 +82,33 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
   //Nos devuelve el mapa con todos los componentes asociados.
   return (
     <div>
-      <Button variant='contained' className='botonAñadir' disabled={disabledB} onClick={openModalContext}>Añadir Punto</Button>
-      <GoogleMap zoom={13} center={center} mapContainerClassName="map-conteiner" onClick={e => onMapClick(e)}>
-      {markers.map((marker) => (
-        <Marker
-          key={`${marker.lat}-${marker.lng}`}
-          position={{ lat: Number(marker.lat), lng: Number(marker.lng) }} />
+      <Button
+        variant='contained'
+        className='botonAñadir'
+        disabled={disabledB}
+        onClick={openModalContext}
+      >
+        Añadir Punto
+      </Button>
+      
+      <GoogleMap
+        zoom={13}
+        center={center}
+        mapContainerClassName="map-conteiner"
+        onClick={e => onMapClick(e)}
+      >
+        {markers.map((marker) => (
+          <Marker
+            key={`${marker.lat}-${marker.lng}`}
+            position={{ lat: Number(marker.lat), lng: Number(marker.lng) }} />
         ))}
-      {places.map((marker) => (
-        <MarkerF
-          key={`${marker.lat}-${marker.lng}`}
-          position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
-          options = {{background:marker.color}}
-        />
-      ))}
+        {places.map((marker) => (
+          <MarkerF
+            key={`${marker.lat}-${marker.lng}`}
+            position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
+            options = {{background:marker.color}}
+          />
+        ))}
       </GoogleMap>
     </div>
   );
