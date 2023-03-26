@@ -6,7 +6,6 @@ class Route {
     
       this.id = id ? id : this.generateRandomId();
       this.name = name;
-
       this.locations = locations;
     }
     addLocation(location) {
@@ -17,6 +16,10 @@ class Route {
         let index=locations.indexOf(location);
         this.locations.splice(index,1);
     }
+    updateName(name){
+        this.name=name;
+    }
+
     
   }
-  module.exports = Route;
+  module.exports = Route;   
