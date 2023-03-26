@@ -16,4 +16,6 @@ describe(InicioTabContent, () => {
         const searchBar = getByPlaceholderText ("Buscar");
         expect(searchBar.textContent).toEqual("");
     })
+
+    // TODO: add more complext tests
 })
