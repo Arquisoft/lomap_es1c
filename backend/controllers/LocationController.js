@@ -13,11 +13,12 @@ const location3 = new Location(null, 'Playa de San Lorenzo', 'Paseo de las Palme
 const location4 = new Location('4', 'Parque del Retiro', 'Plaza de la Independencia, s/n, 28001 Madrid', 40.4152419510136, -3.686089362482189, 'Parque', [{ rating: 4, comment: 'Muy bonito' }, { rating: 3, comment: 'Un poco masificado' }], ['https://www.example.com/photo5.jpg', 'https://www.example.com/photo6.jpg', 'https://www.example.com/photo7.jpg']);
 const location5 = new Location(null, 'Puerto Viejo de Algorta', 'Puerto Viejo, 48990 Getxo, Bizkaia', 43.35296326065165, -3.013914901236413, 'Puerto', [{ rating: 5, comment: 'Precioso' }], ['https://www.example.com/photo8.jpg', 'https://www.example.com/photo9.jpg']);
 
+const categories=["Restaurante","Punto de Interes","Tienda","Edificio público","Ocio"];
 const locations=[location1,location2,location3,location4,location5];
 
+  //TODO
   async function getLocation(req, res) {
     const { url } = req.params;
-
     try {
       let session=await getSessionFromStorage(req.session.sessionId);
       const location = await Solid.getLocationById(url);
@@ -74,10 +75,9 @@ const locations=[location1,location2,location3,location4,location5];
       res.status(404).json({ error: err.message });
     }
   }
-
- async function deleteLocation(req, res) {
+  
+  async function deleteLocation(req, res) {
     const { id } = req.params;
-
     try {
       await Solid.deleteLocationById(id);
       res.sendStatus(204);
@@ -117,6 +117,14 @@ const locations=[location1,location2,location3,location4,location5];
     }
   }
 
+  async function getCategories(req,res){
+    try{
+      res.status(200).json(JSON.stringify(categories));
+    }catch (err){
+      res.status(400).json("Ha habido un problema devolviendo las categorias");
+    }
+  }
+
   module.exports={
-    createLocation,getAllLocations,getLocation,deleteLocation,updateLocation,addReview,addPhoto
+    createLocation,getAllLocations,getLocation,deleteLocation,updateLocation,addReview,addPhoto,getCategories
   };
