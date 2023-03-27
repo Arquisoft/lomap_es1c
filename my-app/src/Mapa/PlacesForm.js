@@ -3,7 +3,8 @@ import React from "react";
 import addPlace, { getPlaces } from '../Places/Places';
 import PlaceConst from '../Places/Place';
 import { v4 as uuidv4 } from 'uuid';
-import { MenuItem, Rating, Select, TextField } from '@mui/material';
+import { Button, MenuItem, Rating, Select, TextField } from '@mui/material';
+import "./muiComps.css"
 
 
 export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMarkers, setStateButton, setPlaces, setCanCick }) {
@@ -48,7 +49,7 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
   const [valoracion, setValoracion] = React.useState(0);
   const [categoria, setCategoria] = React.useState('Sin categoria');
   const [privacidad, setPrivacidad] = React.useState('Publico');
-  //const [fotos, setFotos] = React.useState('');
+  // const [fotos, setFotos] = React.useState('');
   const [comentario, setComentario] = React.useState('');
 
   function handleNameChange(e) {
@@ -145,18 +146,18 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
       <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Añade el Punto a el Mapa</h2>
       <form ref={(_form) => (form = _form)}>
 
-        <TextField sx={{ input: { color: 'white' }, label: { color: 'white' }, fieldset: { borderColor: 'white' }, }}
-          id="filled-basic" label="Nombre" variant="outlined" type="text" name="nombre" value={nombre} onChange={handleNameChange} color="success" />
+        <TextField id="filled-basic" className='nombre' label="Nombre" variant="outlined" 
+        type="text" name="nombre" value={nombre} onChange={handleNameChange}/>
 
         <label htmlFor="puntuacion">Puntuación:
         </label>
-        <Rating sx={{ svg: { color: 'yellow' } ,label: {fontSize: "35px"}}}
-          defaultValue={2.5} precision={0.5} name="simple-controlled" value={Number(valoracion)} onChange={handleValChange} />
+        <Rating 
+          defaultValue={2.5} className="rating" precision={0.5} name="simple-controlled" value={Number(valoracion)} onChange={handleValChange} />
 
         <label htmlFor="categoria">Categoria:
         </label>
-        <Select sx={{ div: { color: 'white' }, label: { color: 'white' }, fieldset: { borderColor: 'white' }, svg: { color: 'white' } }}
-          id="categoria" defaultValue="" name="categoria" onChange={handleCategoryChange}>
+        <Select 
+          id="categoria" className="categoria" defaultValue="" name="categoria" onChange={handleCategoryChange}>
           <MenuItem defaultValue="empty"></MenuItem>
           {categoriasStr.map(categoria => <MenuItem value={categoria.toLowerCase()}>{categoria}</MenuItem>)}
         </Select>
@@ -164,8 +165,8 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
         <label htmlFor="nivelPrivacidad">Privacidad:
         </label>
 
-        <Select sx={{ div: { color: 'white' }, label: { color: 'white' }, fieldset: { borderColor: 'white' }, svg: { color: 'white' } }}
-          id="nivelPrivacidad" defaultValue="" name="nivelPrivacidad" onChange={handlePrivacyChange}>
+        <Select 
+          id="nivelPrivacidad" className='privacidad' defaultValue="" name="nivelPrivacidad" onChange={handlePrivacyChange}>
           <MenuItem defaultValue=""></MenuItem>
           {nivelesPrivacidad.map(nivel => <MenuItem value={nivel.toLowerCase()}>{nivel}</MenuItem>)}
         </Select>
@@ -176,11 +177,12 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
 
         <label htmlFor="comentarios">Comentario:
         </label>
-        <textarea id="comentarios" name="comentarios" onChange={handleCommentChange} />
+        <TextField id="comentarios" placeholder='Puede añadir un comentario' name="comentarios"
+           onChange={handleCommentChange} className="comentario" multiline rows={8}/>
       </form>
       <div className="submitFormLugares">
-        <button className="btn" onClick={addPlaceModal}>Añadir</button>
-        <button className="btnCancel" onClick={closeModal}>Cancelar</button>
+        <Button className="btn" onClick={addPlaceModal}>Añadir</Button>
+        <Button className="btnCancel" onClick={closeModal}>Cancelar</Button>
       </div>
     </Modal>
   )

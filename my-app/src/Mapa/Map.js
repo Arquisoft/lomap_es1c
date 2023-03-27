@@ -113,7 +113,7 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
         <MarkerF
           key={`${marker.lat}-${marker.lng}`}
           position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
-          options = {{background:marker.color}}
+          // options={{icon: {url:(require("./marker.svg")),scaledSize: {width: 36, height: 36},strokeColor:"#34495e"}}}
         />
       ))}
       </GoogleMap>
