@@ -1,6 +1,22 @@
 # Diseño de la restAPI y de el backend.
 
 
+
+## Modelos
+
+
+Location{
+    
+}
+## Métodos de los controladores
+### Locations
+    - getLocations
+    - getLocationById
+    - saveLocation
+    - deleteLocation
+    - updateLocation
+
+
 ## WorkFlow
 
 ### Pasos iniciales

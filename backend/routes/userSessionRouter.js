@@ -4,6 +4,9 @@ const userSessionRouter = express.Router();
 userSessionRouter.use(async function (req, res, next) {
 
     //req.session.user TODO
+
+    //req.session=getsessionfromstorage...
+    
     if(true) { // dejamos correr la petición
         next();
     } else {

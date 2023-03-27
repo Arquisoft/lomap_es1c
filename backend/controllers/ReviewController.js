@@ -3,7 +3,6 @@
 
 const Review = require('../models/Review');
 
-
   async function getAllReviews(req, res) {
     try {
       const reviews = await solid.parseReviews(req.session.webId);
