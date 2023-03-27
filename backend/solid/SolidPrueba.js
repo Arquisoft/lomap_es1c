@@ -31,25 +31,30 @@ async function saveLocation(location){
     locations.push(location);
 }
 async function deleteLocationById(id){
-    let index=locations.indexOf(getLocationById(id));
+    let index=getIndexOfLocation(id);
     locations.splice(index,1);
+
 }
-async function getAllLocations(){
+async function getAllLocations(){s
     return locations;
+}
+function getIndexOfLocation(id){
+    for (const key in locations) {
+        if(locations[key].id===id){
+            return key;
+        }
+    }
 }
 
 async function getLocationById(id){
     for (const key in locations) {
-
         if(locations[key].id===id){
-            console.log(location)
             return locations[key]
         }
     }
 }
 
 async function getCategories(){
-    console.log("solid")
     return categories;
 }
 

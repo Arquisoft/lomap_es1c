@@ -9,8 +9,12 @@ const solid = require('../solid/SolidPrueba.js');
  
       let session=await getSessionFromStorage(req.session.sessionId);
       const location1 = await solid.getLocationById(id);
+      if(location1!=null){
+        res.send(JSON.stringify(location1));
+      }else{
+        res.send("No se encontraron localizaciones con esa id");
+      }
       
-      res.send(JSON.stringify(location1));
     } catch (err) {
       res.status(404).json({ error: err.message });
     }
@@ -115,7 +119,7 @@ const solid = require('../solid/SolidPrueba.js');
   }
 
   async function getCategories(req,res){
-    console.log("controller")
+
     try{
       let categories=await solid.getCategories();
       res.send(JSON.stringify(categories));
