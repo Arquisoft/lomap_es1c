@@ -34,10 +34,10 @@ app.use(
 //CONTROLLERS
 const authController = require('./controllers/AuthController');
 const locationController = require('./controllers/locationController');
-const reviewController = require("./controllers/reviewController.js");
+const friendController = require("./controllers/FriendController")
+const routeController =require ('./controllers/RouteController');
 
 // Middlewares
-
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Credentials", "true");
@@ -49,16 +49,20 @@ app.use(function (req, res, next) {
 app.use(express.json());
 
 const userSessionRouter=require("./routes/userSessionRouter");
-//RUTAS
-app.use("/", userSessionRouter);
+//Router
+
 app.use("/location", userSessionRouter);
 app.use("/review", userSessionRouter);
+app.use("/friend",userSessionRouter);
+app.use("/route",userSessionRouter);
 
 //ROUTES
 
 require("./routes/AuthRoutes.js")(app,authController);
 require("./routes/locationRoutes.js")(app,locationController);
-require("./routes/reviewRoutes.js")(app,reviewController);
+require("./routes/FriendRoutes.js")(app,friendController);
+require("./routes/RouteRoutes.js")(app,routeController);
+
 
 // Error handler middleware
 app.use((err, req, res, next) => {
