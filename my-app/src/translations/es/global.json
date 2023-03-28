@@ -1,0 +1,10 @@
+{
+    "sidebar": {
+        "tab-buttons": {
+            "start": "Inicio",
+            "friends": "Amigos",
+            "routes": "Rutas",
+            "discover": "Descubrir"
+        }
+    }
+}
