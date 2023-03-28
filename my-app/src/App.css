@@ -26,6 +26,11 @@ textarea{
   margin-left: 45%;
 }
 
+.toggleLanguageButton {
+  position: absolute;
+  margin-left: 55%;
+}
+
 #light button {
   background-color: #ebecf0;
   color: #3f3f3f;

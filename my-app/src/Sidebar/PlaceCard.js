@@ -1,8 +1,6 @@
 import React from "react";
 
 export default function LugarCard(props) {
-    console.log(props)
-    
     return (
         <div className="card">
             <div className="card--line1">

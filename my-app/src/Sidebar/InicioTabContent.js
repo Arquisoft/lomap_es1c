@@ -1,8 +1,10 @@
-import React, {useContext} from "react"
+import React from "react"
 import PlaceCard from "./PlaceCard"
-import { ThemeContext } from "../contexts/ThemeContext"
+import { useTranslation } from "react-i18next";
 
 export default function InicioTabContent(props) {
+    const [t, i18n] = useTranslation("global")
+
     const [cards, setCards] = React.useState(props.userPlaces.map(
         place =>
         <PlaceCard
@@ -25,13 +27,11 @@ export default function InicioTabContent(props) {
         )
     }
 
-    const {currentTheme} = useContext(ThemeContext)
-
     return (
         <div id="Inicio" className="tabcontent">
-            <h1>Tus lugares</h1>
+            <h1>{t("sidebar.tabs.start-content.title")}</h1>
             <input
-                type="text"
+                type="search"
                 placeholder="Buscar"
                 onChange={textToSearchChange}
             ></input>
