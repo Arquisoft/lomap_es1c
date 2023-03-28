@@ -14,7 +14,7 @@ export default function App() {
 
   //TODO borrar
   useEffect(() => {
-    axios.get('http://localhost:8080/location')
+    axios.get('http://localhost:8080/location/')
       .then(response => {
         setData(response.data);
       })

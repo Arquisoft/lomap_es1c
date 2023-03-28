@@ -1,21 +1,20 @@
-const cookieSession = require('cookie-session');
+
 const { getSessionFromStorage, getSessionIdFromStorageAll, Session } = require('@inrupt/solid-client-authn-node');
-
-
+const solid = require('../solid/Solid.js');
 const port=8080;
+
 // The following snippet ensures that the server identifies each user's session
 // with a cookie using an express-specific mechanism
-const sessionMiddleware = cookieSession({
-  name: 'session',
-  // These keys are required by cookie-session to sign the cookies.
-  keys: ['Required, but value not relevant for this demo - key1', 'Required, but value not relevant for this demo - key2'],
-  maxAge: 24 * 60 * 60 * 1000, // 24 hours
-});
+
+
+async function createSession() {
+  session = new Session();
+}
 
 async function login(req, res, next) {
-
-  // 1. Create a new Session
-  const session = new Session();
+  const session=new Session()
+ 
+  
   req.session.sessionId = session.info.sessionId;
   const redirectToSolidIdentityProvider = (url) => {
     // Since we use Express in this example, we can call `res.redirect` to send the user to the
@@ -47,7 +46,7 @@ async function redirectFromSolidIdp(req, res, next){
    //    particular, initiating the login stores the session in storage, 
    //    which means it can be retrieved as follows.
    const session = await getSessionFromStorage(req.session.sessionId);
- 
+   
    // 4. With your session back from storage, you are now able to 
    //    complete the login process using the data appended to it as query
    //    parameters in req.url by the Solid Identity Provider:
@@ -55,7 +54,11 @@ async function redirectFromSolidIdp(req, res, next){
  
    // 5. `session` now contains an authenticated Session instance.
    if (session.info.isLoggedIn) {
+      if(!solid.isStructCreated(session)){
+        solid.createStruct(session);
+      }
       req.session.user=session.info.webId;
+      req.session.sessionId=req.session.sessionId;
       return res.send(`<p>Logged in with the WebID ${session.info.webId}.</p>`)
    }
  }
@@ -86,18 +89,21 @@ async function logout(req, res, next){
 // 8. On the server side, you can also list all registered sessions using the
 //    getSessionIdFromStorageAll function.
 async function index(req, res, next) {
-  const sessionIds = await getSessionIdFromStorageAll();
-  for(const sessionId in sessionIds) {
-    // Do something with the session ID...
-  }
   res.send(
-    `<p>There are currently [${sessionIds.length}] visitors.</p>`
+    `<p>Esta es la respuesta default de la restAPI</p>`
   );
 };
-
+function test(){
+  console.log("hola");
+}
 
 
 
 module.exports={
-  login,logout,fetch,redirectFromSolidIdp,index
+  login,
+  logout,
+  fetch,
+  redirectFromSolidIdp,
+  index
+
 };
