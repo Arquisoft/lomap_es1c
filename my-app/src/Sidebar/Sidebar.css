@@ -7,14 +7,27 @@
   top: 36px;
 }
 
+#light .bm-burger-button {
+  background-color: transparent;
+}
+#dark .bm-burger-button {
+  background-color: transparent;
+}
+
 /* Color/shape of burger icon bars */
-.bm-burger-bars {
-  background: white;
+#light .bm-burger-bars {
+  background: #3f3f3f;
+}
+#dark .bm-burger-bars {
+  background: #ebecf0;
 }
 
 /* Color/shape of burger icon bars on hover*/
-.bm-burger-bars-hover {
-  background: black;
+#light .bm-burger-bars-hover {
+  background: #3f3f3f;
+}
+#dark .bm-burger-bars-hover {
+  background: #ebecf0;
 }
 
 /* Position and sizing of clickable cross button */
@@ -24,8 +37,11 @@
 }
 
 /* Color/shape of close button cross */
-.bm-cross {
-  background: #bdc3c7;
+#light .bm-cross {
+  background: #3f3f3f;
+}
+#dark .bm-cross {
+  background: #ebecf0;
 }
 
 /*
@@ -38,34 +54,24 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 /* General sidebar styles */
-.bm-menu {
-  background: #373a47;
-  padding: 0 0 0;
-  font-size: 1.15em;
+#light .bm-menu {
+  background: #ebecf0;
 }
-
-/* Morph shape necessary with bubble or elastic */
-.bm-morph-shape {
-  fill: #373a47;
+#dark .bm-menu {
+  background: #3f3f3f;
 }
 
 /* Wrapper for item list */
-.bm-item-list {
-  color: #b8b7ad;
+#light .bm-item-list {
+  color: #3f3f3f;
+  padding: 0.8em;
+}
+#dark .bm-item-list {
+  color: #ebecf0;
   padding: 0.8em;
 }
 
-/* Individual item */
-.bm-item {
-  display: inline-block;
-}
-
-/* Styling of overlay */
-.bm-overlay {
-  background: rgba(0, 0, 0, 0.3);
-}
-
-/* TODO mover a otro CSS */
+/* Elementos tipo tarjeta */
 .card--line1 {
   display: flex;
   align-items: center;
@@ -83,4 +89,5 @@ Note: Beware of modifying this element as it can break the animations - you shou
   cursor: pointer;
   padding-top: 10px;
   padding-bottom: 10px;
+  border: none;
 }
