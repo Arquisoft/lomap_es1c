@@ -1,5 +1,5 @@
 class Location {
-    constructor(id =null,name, address, latitude, longitude,category = null,  reviews = [], photos = []) {
+    constructor(id =null,name, address, latitude, longitude,category = null,  rating, photos=[],comments=[]) {
 
       if (!name || name.trim().length === 0) {
         throw new Error('Location name cannot be null or empty');
@@ -17,18 +17,34 @@ class Location {
       this.latitude = latitude;
       this.longitude = longitude;
       this.category = category;
-      this.reviews = reviews;
+      this.rating = rating;
       this.photos = photos;
+      this.comments=comments;
+
     }
   
-    addReview(review) {
-      this.reviews.push(review);
+    setRating(rating) {
+      if(isNaN(rating)){
+        throw new Error('Rating is not valid');
+      }
+      this.rating=rating;
     }
   
     addPhoto(photoUrl) {
+      if(photoUrl==null){
+        throw new Error('PhotoUrl is null');
+      }
       this.photos.push(photoUrl);
     }
-  
+
+    addComment(comment){
+      if(comment==null){
+        throw new Error('Comment is null');
+      }
+      this.comments.push(comment);
+    }
+    
+    /*
     getRating() {
       if (this.reviews.length === 0) {
         return 0.0;
@@ -36,6 +52,7 @@ class Location {
       const sum = this.reviews.reduce((total, review) => total + review.rating, 0);
       return sum / this.reviews.length;
     }
+    */
 
     generateRandomId() {
       const randomIdentifier = Math.random().toString(36).substring(2, 8);

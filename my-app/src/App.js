@@ -1,10 +1,12 @@
 import './App.css';
-import './Sidebar.css';
-import Sidebar from "./Sidebar";
+import './Sidebar/Sidebar.css';
+import Sidebar from "./Sidebar/Sidebar.js";
 import CreateMap from './Mapa/Map';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import CreateModal from './Mapa/PlacesForm';
+import { Themes, ThemeContext, ThemeContextProvider } from './contexts/ThemeContext';
 import axios from 'axios';
+import ToggleThemeButton from './buttons/ToggleThemeButton.js';
 import addPlace from './Places/Places';
 
 var a = [];
@@ -14,7 +16,7 @@ export default function App() {
   const [data, setData] = useState('');
   
   useEffect(() => {
-    axios.get('http://localhost:8080/location')
+    axios.get('http://localhost:8080/location/')
       .then(response => {
         setData(response.data);
       })
@@ -62,9 +64,14 @@ export default function App() {
       setIsOpen(boolean)
     }
 
+    const {currentTheme, setCurrentTheme} = useContext(ThemeContext);
+    function toggleTheme() {
+      setCurrentTheme((current) => (current===Themes.LIGHT ? Themes.DARK : Themes.LIGHT));
+    }
+
 
   return (
-    <div>
+    <div id={currentTheme}>
       <Sidebar
         userPlaces = {places}
       />
@@ -93,6 +100,11 @@ export default function App() {
         canCick={canCick}
         setCanCick={setCanCick}
       />
+
+      <ToggleThemeButton
+        toggleTheme={toggleTheme}
+      />
+      
     </div>
   );
 }

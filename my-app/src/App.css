@@ -9,3 +9,29 @@
   overflow: visible;
   top: 0;
 }
+.botonAñadir{
+  position: relative;
+  top: 51rem;
+  right: -111rem;
+  z-index: 10;
+}
+
+textarea{
+  resize: none;
+  height: 100px;
+}
+
+.toggleThemeButton {
+  position: absolute;
+  margin-left: 45%;
+}
+
+#light button {
+  background-color: #ebecf0;
+  color: #3f3f3f;
+}
+
+#dark button  {
+  background-color: #3f3f3f;
+  color: #ebecf0;
+}

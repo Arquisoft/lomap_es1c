@@ -1,5 +1,6 @@
-import React from "react"
+import React, {useContext} from "react"
 import PlaceCard from "./PlaceCard"
+import { ThemeContext } from "../contexts/ThemeContext"
 
 export default function InicioTabContent(props) {
     const [cards, setCards] = React.useState(
@@ -24,6 +25,8 @@ export default function InicioTabContent(props) {
             )
         )
     }
+
+    const {currentTheme} = useContext(ThemeContext)
 
     return (
         <div id="Inicio" className="tabcontent">

@@ -86,6 +86,7 @@ async function isStructCreated(Session){
    * @param {*} ubicacion : model de la ubicacion
    */
   async function saveLocation(Session, ubicacion){
+
         const webID = Session.info.webId;
         //Obtencion de url del pod
         let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
@@ -113,6 +114,7 @@ async function isStructCreated(Session){
         );
 
 
+      
       for(let i=0;i<ubicacion.reviews.length;i++){
           addReview(Session, ubicacion.reviews[i], myBaseUrl + "LoMap/" + "ubicaciones/"+ ubicacion.id);
       }

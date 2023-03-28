@@ -4,12 +4,14 @@ import './index.css';
 import App from './App';
 import Login from './login';
 import reportWebVitals from './reportWebVitals';
-
+import { Themes, ThemeContext, ThemeContextProvider } from './contexts/ThemeContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeContextProvider
+      children={<App />}
+    />
     {/* <Login /> */}
   </React.StrictMode>
 );
