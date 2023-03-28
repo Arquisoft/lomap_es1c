@@ -5,6 +5,11 @@
             "friends": "Friends",
             "routes": "Routes",
             "discover": "Discover"
+        },
+        "tabs": {
+            "start-content": {
+                "title": "Your locations"
+            }
         }
     }
 }

@@ -7,9 +7,13 @@ import CreateModal from './Mapa/PlacesForm';
 import { Themes, ThemeContext, ThemeContextProvider } from './contexts/ThemeContext';
 import axios from 'axios';
 import ToggleThemeButton from './buttons/ToggleThemeButton.js';
+import { useTranslation } from "react-i18next";
+import ToggleLanguageButton from './buttons/ToggleLanguageButton';
+
 export default function App() {
 
   const [data, setData] = useState('');
+  const [t, i18n] = useTranslation("global")
 
 
   //TODO borrar
@@ -51,6 +55,9 @@ export default function App() {
     function toggleTheme() {
       setCurrentTheme((current) => (current===Themes.LIGHT ? Themes.DARK : Themes.LIGHT));
     }
+    function toggleLanguage() {
+      i18n.changeLanguage(i18n.language === "es" ? "en" : "es");
+    }
 
 
   return (
@@ -82,6 +89,10 @@ export default function App() {
 
       <ToggleThemeButton
         toggleTheme={toggleTheme}
+      />
+
+      <ToggleLanguageButton
+        toggleFunction={toggleLanguage}
       />
       
     </div>

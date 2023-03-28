@@ -1,7 +1,10 @@
 import React from "react"
 import PlaceCard from "./PlaceCard"
+import { useTranslation } from "react-i18next";
 
 export default function InicioTabContent(props) {
+    const [t, i18n] = useTranslation("global")
+
     const [cards, setCards] = React.useState(props.userPlaces.map(
         place =>
         <PlaceCard
@@ -26,7 +29,7 @@ export default function InicioTabContent(props) {
 
     return (
         <div id="Inicio" className="tabcontent">
-            <h1>Tus lugares</h1>
+            <h1>{t("sidebar.tabs.start-content.title")}</h1>
             <input
                 type="search"
                 placeholder="Buscar"
