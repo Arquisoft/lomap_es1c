@@ -5,9 +5,6 @@ on: [push, pull_request]
 jobs:
   unit-test-webapp:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: my-app     # Directorio
     steps:
     - uses: actions/checkout@v3
       with:
@@ -15,8 +12,8 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
-    - run: npm ci                     # Clean and install
-    - run: npm test --coverage --watchAll
+    - run: npm --prefix my-app ci                     # Clean and install
+    - run: npm --prefix my-app test --coverage --watchAll
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
       env:
