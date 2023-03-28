@@ -4,12 +4,8 @@ import { Themes, ThemeContext } from '../contexts/ThemeContext';
 import Geolocation from '@react-native-community/geolocation';
 import { Alert, AlertTitle, Snackbar } from "@mui/material";
 import OpenIconSpeedDial from "./bottonMarkers";
-import Button from '@mui/material/Button';
 import { useContext } from "react";
-import { useState } from "react";
 import { useEffect } from "react";
-//import {addPlace,getPlaces} from '../Places/Places';
-//import PlaceConst from "../Places/Place";
 
 const darkMapStyle = [
   { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
@@ -141,8 +137,8 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
       setLatitude(Number(e.latLng.lat()));
       setLongitude(Number(e.latLng.lng()));
       Located = false;
-      setLatitudeMark(Number(latitude));
-      setLongitudeMark(Number(longitude));
+      setLatitudeMark(Number(e.latLng.lat()));
+      setLongitudeMark(Number(e.latLng.lng()));
       openModal(true);
     }
   };

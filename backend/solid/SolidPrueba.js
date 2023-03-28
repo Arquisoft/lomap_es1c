@@ -28,14 +28,16 @@ const categories=["Restaurante","Punto de Interes","Tienda","Edificio público",
 //Locations
 
 async function saveLocation(location){
+    console.log(location)
     locations.push(location);
+    console.log(locations)
 }
 async function deleteLocationById(id){
     let index=getIndexOfLocation(id);
     locations.splice(index,1);
 
 }
-async function getAllLocations(){s
+async function getAllLocations(){
     return locations;
 }
 function getIndexOfLocation(id){

@@ -16,7 +16,7 @@ export default function App() {
   const [data, setData] = useState('');
   
   useEffect(() => {
-    axios.get('http://localhost:8080/location/')
+    axios.get('http://localhost:8080/location')
       .then(response => {
         setData(response.data);
       })

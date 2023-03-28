@@ -5,6 +5,7 @@ import PlaceConst from '../Places/Place';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, MenuItem, Rating, Select, TextField } from '@mui/material';
 import "./muiComps.css"
+import axios from 'axios';
 
 
 export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMarkers, setStateButton, setPlaces, setCanCick }) {
@@ -85,12 +86,22 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
     setCanCick(false);
   }
 
+  const [data, setData] = React.useState('');
+
   //Una vez se le da a el boton de añadir se añade un marcador a la lista y los recarga para que estos se vean en el mapa
   //La lista se vacia primero para que no de error de dos puntos con el mismo id, quizas no es la mejor manera.
   // TODO: ahora mismo no tenemos una single source of truth
   function chargeMarckers() {
     var chargePlaces = [];
-    chargePlaces = getPlaces();
+    
+    axios.get('http://localhost:8080/location')
+      .then(response => {
+        setData(response.data);
+      })
+
+    console.log(data);
+    chargePlaces = data;
+    console.log(chargePlaces);
     setPlaces([]);
     for (let i = 0; i < chargePlaces.length; i++) {
       setPlaces((current) => [...current,
@@ -112,8 +123,9 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
     } else {
       setStateButton(true);
       var id = uuidv4();
-      addPlace(PlaceConst(id, latitudeMark, longitudeMark, nombre, valoracion, categoria, privacidad, comentario));
-      //addPlaceApi(id, latitudeMark, longitudeMark, nombre, valoracion, categoria, privacidad, comentario);
+      console.log(latitudeMark)
+      //addPlace(PlaceConst(id, latitudeMark, longitudeMark, nombre, valoracion, categoria, privacidad, comentario));
+      addPlaceApi(nombre, latitudeMark, longitudeMark, categoria);
       setNombre('');
       setValoracion('');
       setIsOpen(false);
@@ -122,18 +134,16 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
     }
   }
 
-  // function addPlaceApi(idP, latitudeMarkP, longitudeMarkP, nombreP, valoracionP, categoriaP, privacidadP, comentarioP){
-  //   axios.post('http://localhost:8080/location', {
-  //     id: idP,
-  //     lat: latitudeMarkP,
-  //     lng: longitudeMarkP,
-  //     nombre: nombreP,
-  //     valoracion: valoracionP,
-  //     categoria: categoriaP,
-  //     privacidad: privacidadP,
-  //     comentarioP: comentarioP
-  //   });
-  // }
+  function addPlaceApi(nombreP,latitudeMarkP, longitudeMarkP, categoriaP){
+    console.log(latitudeMarkP)
+    axios.post('http://localhost:8080/location', {
+      name: nombreP,
+      address:"Oviedo",
+      latitude: latitudeMarkP,
+      longitude: longitudeMarkP,
+      category: categoriaP
+    });
+  }
 
   return (
     <Modal

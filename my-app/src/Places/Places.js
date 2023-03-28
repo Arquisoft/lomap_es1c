@@ -7,7 +7,7 @@ export function addPlace(place){
     
     places.forEach(elemento => 
         {
-            console.log(elemento);
+            //console.log(elemento);
         });
 }
 
