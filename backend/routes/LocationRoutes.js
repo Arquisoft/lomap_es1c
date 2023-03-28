@@ -13,7 +13,7 @@ module.exports = function (app, locationController) {
     app.post('/location/:id/rating',locationController.setRating);
     app.post('/location', locationController.createLocation);
     app.post('/location/:id/comment', locationController.addComment);
-    app.post('/location/:id/photos', locationController.addPhoto);
+    app.post('/location/:id/photo', locationController.addPhoto);
 
     
 }

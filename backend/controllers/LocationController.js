@@ -14,7 +14,6 @@ const solid = require('../solid/SolidPrueba.js');
       }else{
         res.send("No se encontraron localizaciones con esa id");
       }
-      
     } catch (err) {
       res.status(404).json({ error: err.message });
     }
@@ -105,11 +104,12 @@ const solid = require('../solid/SolidPrueba.js');
   }
   async function addComment(req, res) {
     const { id } = req.params;
-    const { photoUrl } = req.body;
+    const { comment } = req.body;
 
     try {
+      console.log(comment);
       const location = await solid.getLocationById(id);
-      location.addComment(photoUrl);
+      location.addComment(comment);
       await solid.saveLocation(location);
 
       res.status(201).json({ message: 'Comment added successfully' });

@@ -9,11 +9,11 @@ const friends = [
     new Friend("David",'https://example.com/david')
 ];
 
-const location1 = new Location('1', 'Parque San Francisco', 'El Palomar', 43.361444061368786, -5.850460182754155, 'Parque',  4, ['Lugar muy bonito'] , ['https://www.example.com/photo1.jpg']);
-const location2 = new Location('2', 'Catedral de León', 'Plaza Regla, s/n, 24003 León', 42.599022562675496, -5.56743789804147, 'Monumento', 5, ['Espectacular', 'Muy bonita'] , ['https://www.example.com/photo2.jpg', 'https://www.example.com/photo3.jpg']);
-const location3 = new Location(null, 'Playa de San Lorenzo', 'Paseo de las Palmeras, s/n, 33203 Gijón, Asturias', 43.543158258415634, -5.669035703728212, 'Playa', null, [] , ['https://www.example.com/photo4.jpg']);
-const location4 = new Location('4', 'Parque del Retiro', 'Plaza de la Independencia, s/n, 28001 Madrid', 40.4152419510136, -3.686089362482189, 'Parque',4,['Muy bonito', 'Un poco masificado'] , ['https://www.example.com/photo5.jpg', 'https://www.example.com/photo6.jpg', 'https://www.example.com/photo7.jpg']);
-const location5 = new Location(null, 'Puerto Viejo de Algorta', 'Puerto Viejo, 48990 Getxo, Bizkaia', 43.35296326065165, -3.013914901236413, 'Puerto', 5, ['Precioso'] , ['https://www.example.com/photo8.jpg', 'https://www.example.com/photo9.jpg']);
+const location1 = new Location('1', 'Parque San Francisco', 'El Palomar', 43.361444061368786, -5.850460182754155, 'Parque',  4,   ['https://www.example.com/photo1.jpg'],['Lugar muy bonito']);
+const location2 = new Location('2', 'Catedral de León', 'Plaza Regla, s/n, 24003 León', 42.599022562675496, -5.56743789804147, 'Monumento', 5,  ['https://www.example.com/photo2.jpg', 'https://www.example.com/photo3.jpg'],['Espectacular', 'Muy bonita'] );
+const location3 = new Location(null, 'Playa de San Lorenzo', 'Paseo de las Palmeras, s/n, 33203 Gijón, Asturias', 43.543158258415634, -5.669035703728212, 'Playa', null , ['https://www.example.com/photo4.jpg'] ,[]);
+const location4 = new Location('4', 'Parque del Retiro', 'Plaza de la Independencia, s/n, 28001 Madrid', 40.4152419510136, -3.686089362482189, 'Parque',4 , ['https://www.example.com/photo5.jpg', 'https://www.example.com/photo6.jpg', 'https://www.example.com/photo7.jpg'],['Muy bonito', 'Un poco masificado']);
+const location5 = new Location(null, 'Puerto Viejo de Algorta', 'Puerto Viejo, 48990 Getxo, Bizkaia', 43.35296326065165, -3.013914901236413, 'Puerto', 5 , ['https://www.example.com/photo8.jpg', 'https://www.example.com/photo9.jpg'], ['Precioso']);
 
 const locations = [location1,location2,location3,location4,location5];
 
