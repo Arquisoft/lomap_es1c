@@ -1,14 +1,11 @@
 import Modal from 'react-modal';
 import React from "react";
-import addPlace, { getPlaces } from '../Places/Places';
-import PlaceConst from '../Places/Place';
-import { v4 as uuidv4 } from 'uuid';
 import { Button, MenuItem, Rating, Select, TextField } from '@mui/material';
 import "./muiComps.css"
 import axios from 'axios';
 
 
-export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMarkers, setStateButton, setPlaces, setCanCick }) {
+export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMarkers, setStateButton, setPlaces,placesP, setCanCick }) {
   const categoriasStr = ["Vivienda", "Restaurante", "Bar", "Gimnasio", "Supermercado", "Parque", "Zona Recreativa", "Otros"]
   const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"]
 
@@ -85,33 +82,7 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
     setMarkers([]);
     setCanCick(false);
   }
-
-  const [data, setData] = React.useState('');
-
-  //Una vez se le da a el boton de añadir se añade un marcador a la lista y los recarga para que estos se vean en el mapa
-  //La lista se vacia primero para que no de error de dos puntos con el mismo id, quizas no es la mejor manera.
-  // TODO: ahora mismo no tenemos una single source of truth
-  function chargeMarckers() {
-    var chargePlaces = [];
-    
-    axios.get('http://localhost:8080/location')
-      .then(response => {
-        setData(response.data);
-      })
-
-    console.log(data);
-    chargePlaces = data;
-    console.log(chargePlaces);
-    setPlaces([]);
-    for (let i = 0; i < chargePlaces.length; i++) {
-      setPlaces((current) => [...current,
-      {
-        ...chargePlaces[i]
-      },
-      ]);
-    }
-  }
-
+  
   //Comprueba que todos los campos esten correctos, añade el punto a la lista de puntos,restea los valores por defecto del formulario
   //Y recarga los puntos del mapa para que se vean los nuevos.
   function addPlaceModal() {
@@ -122,14 +93,10 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
       alert("La puntuación tiene que ser mayor de 0 y menor de 5");
     } else {
       setStateButton(true);
-      var id = uuidv4();
-      console.log(latitudeMark)
-      //addPlace(PlaceConst(id, latitudeMark, longitudeMark, nombre, valoracion, categoria, privacidad, comentario));
       addPlaceApi(nombre, latitudeMark, longitudeMark, categoria);
       setNombre('');
       setValoracion('');
       setIsOpen(false);
-      chargeMarckers();
       setCanCick(false);
     }
   }

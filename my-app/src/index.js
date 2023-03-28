@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import Login from './login';
+import login from './Login';
 import reportWebVitals from './reportWebVitals';
 import { Themes, ThemeContext, ThemeContextProvider } from './contexts/ThemeContext';
 

@@ -15,7 +15,18 @@ export default function App() {
 
   const [data, setData] = useState('');
   
-  useEffect(() => {
+  // useEffect(() => {
+  //   axios.get('http://localhost:8080/location')
+  //     .then(response => {
+  //       setData(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+      
+  // }, []);
+
+  function getData(){
     axios.get('http://localhost:8080/location')
       .then(response => {
         setData(response.data);
@@ -23,10 +34,10 @@ export default function App() {
       .catch(error => {
         console.log(error);
       });
-      
-  }, []);
+  }
 
   useEffect(() => {
+      getData();
       for (let i = 0; i < data.length; i++) {
         if(!places.some(value => value.id===data[i].id)){
           addPlace(a[i] = {
@@ -85,6 +96,7 @@ export default function App() {
         setMarkers={setMarkers}
         setStateButton={setDisabledB}
         setPlaces={setPlaces}
+        placesP={places}
         setCanCick={setCanCick}
       />
 

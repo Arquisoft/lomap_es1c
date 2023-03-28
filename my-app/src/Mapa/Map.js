@@ -134,8 +134,6 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
           
         },
       ]);
-      setLatitude(Number(e.latLng.lat()));
-      setLongitude(Number(e.latLng.lng()));
       Located = false;
       setLatitudeMark(Number(e.latLng.lat()));
       setLongitudeMark(Number(e.latLng.lng()));
@@ -185,6 +183,10 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
     setCurrentMapStyle(currentTheme === Themes.LIGHT ? lightMapStyle : darkMapStyle);
   }, [currentTheme]);
 
+  function details(id){
+    console.log(id);
+  }
+
   //Nos devuelve el mapa con todos los componentes asociados.
   return (
     <div>
@@ -203,9 +205,10 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
         ))}
         {places.map((marker) => (
           <MarkerF
-            key={`${marker.lat}-${marker.lng}`}
+            key={marker.id}
             position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
-            // options={{icon: {url:(require("./marker.svg")),scaledSize: {width: 36, height: 36},strokeColor:"#34495e"}}}
+            onClick={() => details(marker.name)}
+            //options={{icon: {url:(require("./marker.svg").default),scaledSize: {width: 36, height: 36},fillColor:"#34495e"}}}
           />
         ))}
       </GoogleMap>
