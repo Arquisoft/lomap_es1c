@@ -1,4 +1,5 @@
 import React from "react";
+import Rating from '@mui/material/Rating';
 
 export default function LugarCard(props) {
     return (
@@ -7,7 +8,7 @@ export default function LugarCard(props) {
                 <h3>{props.name}</h3>
                 {props.categoria  &&  <p>{props.categoria}</p>}
             </div>
-            {props.valoracion  &&  (<p>{props.valoracion}/5</p>)}
+            {props.valoracion ? <Rating value={props.valoracion} readOnly/> : <Rating value={props.valoracion} disabled/>}
             {props.fotos  &&  props.fotos.length>0  &&  <img src={props.fotos[0]}/>}
             <hr />
         </div>

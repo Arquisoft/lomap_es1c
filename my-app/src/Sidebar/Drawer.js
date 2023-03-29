@@ -30,7 +30,6 @@ export default function DrawerSidebar(props) {
             <Box
                 p={2}
                 width='250px'
-                textAlign='center'
             >
                 {/* Los botones de las tabs */}
                 <TabButtons
