@@ -1,14 +1,13 @@
 import './App.css';
 import './Sidebar/Sidebar.css';
-import Sidebar from "./Sidebar/Sidebar.js";
 import CreateMap from './Mapa/Map';
 import React, { useState, useEffect, useContext } from 'react';
 import CreateModal from './Mapa/PlacesForm';
-import { Themes, ThemeContext, ThemeContextProvider } from './contexts/ThemeContext';
+import { Themes, ThemeContext } from './contexts/ThemeContext';
 import axios from 'axios';
-import ToggleThemeButton from './buttons/ToggleThemeButton.js';
 import { useTranslation } from "react-i18next";
-import ToggleLanguageButton from './buttons/ToggleLanguageButton';
+import SettingsSpeedDial from './buttons/SettingsSpeedDial';
+import DrawerSidebar from './Sidebar/Drawer';
 
 import addPlace from './Places/Places';
 
@@ -79,10 +78,6 @@ export default function App() {
 
   return (
     <div id={currentTheme}>
-      <Sidebar
-        userPlaces = {places}
-      />
-
       <CreateModal
         isOpen={modalIsOpen}
         latMark={latitude}
@@ -107,14 +102,15 @@ export default function App() {
         setCanCick={setCanCick}
       />
 
-      <ToggleThemeButton
-        toggleTheme={toggleTheme}
+      <SettingsSpeedDial
+        changeLanguage = {toggleLanguage}
+        toggleTheme = {toggleTheme}
       />
 
-      <ToggleLanguageButton
-        toggleFunction={toggleLanguage}
+      <DrawerSidebar
+        userPlaces = {places}
       />
-      
+
     </div>
   );
 }

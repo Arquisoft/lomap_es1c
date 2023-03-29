@@ -11,9 +11,17 @@ import i18next from 'i18next';
 import global_es from "./translations/es/global.json";
 import global_en from "./translations/en/global.json";
 
+const availableLanguages = ["es", "en"]
+const preferredLanguage = navigator.language.toLowerCase().substring(0,2)
+const defaultAlternativeLanguage = "es"
+
+console.log("IDIOMA")
+console.log(preferredLanguage)
+console.log("IDIOMA")
+
 i18next.init({
   interpolation: {escapeValue: false},
-  lng: "en",
+  lng: (availableLanguages.includes(preferredLanguage) ? preferredLanguage : defaultAlternativeLanguage),
   resources: {
     es: {
       global: global_es

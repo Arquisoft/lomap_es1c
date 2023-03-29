@@ -197,12 +197,28 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
           Haga click en el mapa para añadir un punto
         </Alert>
       </Snackbar>
+
       <OpenIconSpeedDial canClick={setCanCick} openInfo={setOpenInfo}/>
-      <GoogleMap zoom={13} center={position} mapContainerClassName="map-conteiner" onClick={e => onMapClick(e)} onLoad={handleLoad} onDragEnd={handleCenter}>
-      {markers.map((marker) => (
-        <Marker
-          key={`${marker.lat}-${marker.lng}`}
-          position={{ lat: Number(marker.lat), lng: Number(marker.lng) }} />
+      
+      <GoogleMap
+        zoom={13}
+        center={position}
+        mapContainerClassName="map-conteiner"
+        onClick={e => onMapClick(e)}
+        onLoad={handleLoad}
+        onDragEnd={handleCenter}
+        options={{
+          styles: currentMapStyle,
+          fullscreenControl: false,   // Oculta el botón de pantalla completa
+          streetViewControl: false,   // Oculta el botón de street view
+          mapTypeControl: false       // Oculta el botón de mapa/satélite
+        }}
+      >
+        {markers.map((marker) => (
+          <Marker
+            key={`${marker.lat}-${marker.lng}`}
+            position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
+          />
         ))}
         {places.map((marker) => (
           <MarkerF
@@ -213,6 +229,7 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
           />
         ))}
       </GoogleMap>
+      
       <FilterButtons />
     </div>
   );

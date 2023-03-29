@@ -1,4 +1,8 @@
 {
+    "settings-speed-dial": {
+        "change-language-text": "Change language",
+        "toggle-theme-text": "Change theme"
+    },
     "sidebar": {
         "tab-buttons": {
             "start": "Start",
@@ -8,7 +12,14 @@
         },
         "tabs": {
             "start-content": {
-                "title": "Your locations"
+                "title": "Your locations",
+                "search-bar-placeholder": "Search"
+            },
+            "friend-content": {
+                "title": "Your friends"
+            },
+            "route-content": {
+                "title": "Your routes"
             }
         }
     }
