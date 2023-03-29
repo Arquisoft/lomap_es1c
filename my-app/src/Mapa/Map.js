@@ -189,7 +189,12 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
         center={center}
         mapContainerClassName="map-conteiner"
         onClick={e => onMapClick(e)}
-        options={{styles: currentMapStyle}}
+        options={{
+          styles: currentMapStyle,
+          fullscreenControl: false,   // Oculta el botón de pantalla completa
+          streetViewControl: false,   // Oculta el botón de street view
+          mapTypeControl: false       // Oculta el botón de mapa/satélite
+        }}
       >
         {markers.map((marker) => (
           <Marker
