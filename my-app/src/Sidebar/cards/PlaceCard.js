@@ -6,7 +6,7 @@ export default function LugarCard(props) {
         <div className="card">
             <hr />
             <div className="card--line1">
-                <h3>{props.name}</h3>
+                <h2>{props.name}</h2>
                 {props.categoria  &&  <p>{props.categoria}</p>}
             </div>
             {props.valoracion ? <Rating value={props.valoracion} readOnly/> : <Rating value={props.valoracion} disabled/>}

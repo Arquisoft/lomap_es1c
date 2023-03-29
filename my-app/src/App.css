@@ -48,10 +48,40 @@ textarea{
   color: #ebecf0;
 }
 
-#light h1, h2, h3, h4, h5, h6 {
+#light h1 {
   color: #3f3f3f;
 }
-#dark h1, h2, h3, h4, h5, h6 {
+#dark h1 {
+  color: #ebecf0;
+}
+#light h2 {
+  color: #3f3f3f;
+}
+#dark h2 {
+  color: #ebecf0;
+}
+#light h3 {
+  color: #3f3f3f;
+}
+#dark h3 {
+  color: #ebecf0;
+}
+#light h4 {
+  color: #3f3f3f;
+}
+#dark h4 {
+  color: #ebecf0;
+}
+#light h5 {
+  color: #3f3f3f;
+}
+#dark h5 {
+  color: #ebecf0;
+}
+#light h6 {
+  color: #3f3f3f;
+}
+#dark h6 {
   color: #ebecf0;
 }
 
