@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import login from './Login';
+import login from './login';
 import reportWebVitals from './reportWebVitals';
 import { ThemeContextProvider } from './contexts/ThemeContext';
 import { I18nextProvider } from "react-i18next";
