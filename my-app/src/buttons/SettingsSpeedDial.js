@@ -1,8 +1,6 @@
 import React from "react";
 import { SpeedDial, SpeedDialAction } from "@mui/material";
 import { useTranslation } from "react-i18next";
-
-import CopyIcon from '@mui/icons-material/FileCopyOutlined';
 import LanguageIcon from '@mui/icons-material/Language';
 import ShareIcon from '@mui/icons-material/Share';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -14,7 +12,7 @@ export default function SettingsSpeedDial(props) {
         <SpeedDial
             ariaLabel="Settings speed dial"
             sx = {{position: 'absolute', top: 16, right: 16}}
-            icon = {<SettingsIcon/>}
+            icon = {<SettingsIcon sx={{ m: 0 }}/>}
             direction = 'down'
         >
             <SpeedDialAction
