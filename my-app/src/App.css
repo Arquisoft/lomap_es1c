@@ -48,9 +48,15 @@ textarea{
   color: #ebecf0;
 }
 
-#light h1 {
+#light h1, h2, h3, h4, h5, h6 {
   color: #3f3f3f;
 }
-#dark h1 {
+#dark h1, h2, h3, h4, h5, h6 {
   color: #ebecf0;
+}
+
+#centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
