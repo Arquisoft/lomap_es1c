@@ -3,7 +3,7 @@ import './Sidebar/Sidebar.css';
 import CreateMap from './Mapa/Map';
 import React, { useState, useEffect, useContext } from 'react';
 import CreateModal from './Mapa/PlacesForm';
-import { Themes, ThemeContext, ThemeContextProvider } from './contexts/ThemeContext';
+import { Themes, ThemeContext } from './contexts/ThemeContext';
 import axios from 'axios';
 import { useTranslation } from "react-i18next";
 import SettingsSpeedDial from './buttons/SettingsSpeedDial';

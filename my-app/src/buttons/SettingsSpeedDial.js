@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { SpeedDial, SpeedDialAction } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import LanguageIcon from '@mui/icons-material/Language';
-import ShareIcon from '@mui/icons-material/Share';
 import SettingsIcon from '@mui/icons-material/Settings';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { Themes, ThemeContext } from '../contexts/ThemeContext';
 
 export default function SettingsSpeedDial(props) {
     const [t, i18n] = useTranslation("global")
+    const {currentTheme} = useContext(ThemeContext)
 
     return (
         <SpeedDial
@@ -21,7 +24,7 @@ export default function SettingsSpeedDial(props) {
                 onClick = {props.changeLanguage}
             />
             <SpeedDialAction
-                icon={<ShareIcon/>}
+                icon={currentTheme===Themes.LIGHT ? <LightModeIcon /> : <DarkModeIcon />}
                 tooltipTitle={t("settings-speed-dial.toggle-theme-text")}
                 onClick = {props.toggleTheme}
             />
