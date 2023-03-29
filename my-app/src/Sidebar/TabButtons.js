@@ -25,7 +25,6 @@ export default function TabButtons(props) {
             <button className="tablink" onClick={(e) => props.onClickFunction(inicioTabContent)}>{t("sidebar.tab-buttons.start")}</button>
             <button className="tablink" onClick={(e) => props.onClickFunction(amigosTabContent)}>{t("sidebar.tab-buttons.friends")}</button>
             <button className="tablink" onClick={(e) => props.onClickFunction(rutasTabContent)}>{t("sidebar.tab-buttons.routes")}</button>
-            <button className="tablink" onClick={(e) => props.onClickFunction(descubrirTabContent)}>{t("sidebar.tab-buttons.discover")}</button>
         </div>
     )
 }

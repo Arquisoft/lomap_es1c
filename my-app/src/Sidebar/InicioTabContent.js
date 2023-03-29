@@ -8,8 +8,7 @@ export default function InicioTabContent(props) {
 
     return (
         <div id="Inicio" className="tabcontent">
-            <p>{props.userPlaces.length}</p>
-            <h1>{t("sidebar.tabs.start-content.title")}</h1>
+            <h1 id="centered">{t("sidebar.tabs.start-content.title")}</h1>
             <input
                 type="search"
                 placeholder={t("sidebar.tabs.start-content.search-bar-placeholder")}

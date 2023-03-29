@@ -37,8 +37,8 @@ export default function AmigosTabContent(props) {
     )
 
     return (
-        <div id="Amigos" className="tabcontent">
-            <h1>{t("sidebar.tabs.friend-content.title")}</h1>
+        <div className="tabcontent">
+            <h1 id="centered">{t("sidebar.tabs.friend-content.title")}</h1>
             {cards}
         </div>
     )

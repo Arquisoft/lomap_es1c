@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Drawer, Box, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import TabButtons from './TabButtons.js';
+import { ThemeContext } from '../contexts/ThemeContext.js';
 
 export default function DrawerSidebar(props) {
+    const {currentTheme, setCurrentTheme} = useContext(ThemeContext);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [contenidoAMostrar, setContenidoAMostrar] = React.useState(null)
 
@@ -12,7 +14,7 @@ export default function DrawerSidebar(props) {
       }
 
     return (
-        <>
+        <div id={currentTheme}>
         <IconButton
             sx = {{position: 'absolute', top: 16, left: 16}}
             size="extra"
@@ -26,10 +28,13 @@ export default function DrawerSidebar(props) {
             anchor='left'
             open={isDrawerOpen}
             onClose={() => setIsDrawerOpen(false)}
+            id={currentTheme}
         >
             <Box
                 p={2}
                 width='250px'
+                height='100%'
+                className="drawer"
             >
                 {/* Los botones de las tabs */}
                 <TabButtons
@@ -41,6 +46,6 @@ export default function DrawerSidebar(props) {
                 {contenidoAMostrar}
             </Box>
         </Drawer>
-        </>
+        </div>
     )
 }

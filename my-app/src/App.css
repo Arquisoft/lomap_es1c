@@ -40,3 +40,17 @@ textarea{
   background-color: #3f3f3f;
   color: #ebecf0;
 }
+
+#light p {
+  color: #3f3f3f;
+}
+#dark p {
+  color: #ebecf0;
+}
+
+#light h1 {
+  color: #3f3f3f;
+}
+#dark h1 {
+  color: #ebecf0;
+}

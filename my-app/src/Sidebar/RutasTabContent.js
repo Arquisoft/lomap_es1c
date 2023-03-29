@@ -25,8 +25,8 @@ export default function RutasTabContent(props) {
         />
     )
     return (
-        <div id="Rutas" className="tabcontent">
-            <h1>{t("sidebar.tabs.route-content.title")}</h1>
+        <div className="tabcontent">
+            <h1 id="centered">{t("sidebar.tabs.route-content.title")}</h1>
             {cards}
         </div>
     )
