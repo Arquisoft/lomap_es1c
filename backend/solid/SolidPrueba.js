@@ -35,7 +35,7 @@ async function deleteLocationById(id){
     locations.splice(index,1);
 
 }
-async function getAllLocations(){s
+async function getAllLocations(){
     return locations;
 }
 function getIndexOfLocation(id){

@@ -35,7 +35,7 @@ const solid = require('../solid/SolidPrueba.js');
     try {
       session=await getSessionFromStorage(req.session.sessionId);
       const location = new Location(null,name, address, latitude, longitude, category);
-      await solid.saveLocation(session,location);
+      await solid.saveLocation(location);
       res.status(201).json(location);
     } catch (err) {
       res.status(400).json({ error: err.message });
