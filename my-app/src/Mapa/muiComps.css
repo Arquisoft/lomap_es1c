@@ -67,3 +67,13 @@
     border: 0.25em solid white;
     color: white;
 }
+
+.filtros{
+    position: absolute;
+    left: 7%;
+    top: 1%;
+}
+
+.filtros > button{
+    margin-left: 10px;
+}

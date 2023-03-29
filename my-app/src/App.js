@@ -14,17 +14,6 @@ var a = [];
 export default function App() {
 
   const [data, setData] = useState('');
-  
-  // useEffect(() => {
-  //   axios.get('http://localhost:8080/location')
-  //     .then(response => {
-  //       setData(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-      
-  // }, []);
 
   function getData(){
     axios.get('http://localhost:8080/location')
@@ -95,8 +84,6 @@ export default function App() {
         setIsOpen={setIsOpen}
         setMarkers={setMarkers}
         setStateButton={setDisabledB}
-        setPlaces={setPlaces}
-        placesP={places}
         setCanCick={setCanCick}
       />
 

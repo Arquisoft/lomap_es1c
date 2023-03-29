@@ -3,10 +3,27 @@ import React from "react";
 import { Button, MenuItem, Rating, Select, TextField } from '@mui/material';
 import "./muiComps.css"
 import axios from 'axios';
+import { useEffect } from 'react';
 
 
-export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMarkers, setStateButton, setPlaces,placesP, setCanCick }) {
-  const categoriasStr = ["Vivienda", "Restaurante", "Bar", "Gimnasio", "Supermercado", "Parque", "Zona Recreativa", "Otros"]
+export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMarkers, setStateButton, setCanCick }) {
+
+  const [categorias,setCategorias] = React.useState([]);
+
+  function getData(){
+    axios.get('http://localhost:8080/location/categories')
+      .then(response => {
+        setCategorias(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    getData();
+  });
+
   const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"]
 
   Modal.setAppElement(document.getElementsByClassName('map-conteiner')[0]);
@@ -89,7 +106,7 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
     setMarkers([]);
     if (nombre.trim().length <= 0) {
       alert("El nombre no puede estar vacio");
-    } else if (Number(valoracion) < 0 || Number(valoracion) > 5) {
+    } else if (valoracion.trim().length <= 0) {
       alert("La puntuación tiene que ser mayor de 0 y menor de 5");
     } else {
       setStateButton(true);
@@ -135,8 +152,7 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
         </label>
         <Select 
           id="categoria" className="categoria" defaultValue="" name="categoria" onChange={handleCategoryChange}>
-          <MenuItem defaultValue="empty"></MenuItem>
-          {categoriasStr.map(categoria => <MenuItem value={categoria.toLowerCase()}>{categoria}</MenuItem>)}
+          {categorias.map(categoria => <MenuItem value={categoria.toLowerCase()}>{categoria}</MenuItem>)}
         </Select>
 
         <label htmlFor="nivelPrivacidad">Privacidad:
@@ -144,7 +160,6 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
 
         <Select 
           id="nivelPrivacidad" className='privacidad' defaultValue="" name="nivelPrivacidad" onChange={handlePrivacyChange}>
-          <MenuItem defaultValue=""></MenuItem>
           {nivelesPrivacidad.map(nivel => <MenuItem value={nivel.toLowerCase()}>{nivel}</MenuItem>)}
         </Select>
 

@@ -4,6 +4,7 @@ import { Themes, ThemeContext } from '../contexts/ThemeContext';
 import Geolocation from '@react-native-community/geolocation';
 import { Alert, AlertTitle, Snackbar } from "@mui/material";
 import OpenIconSpeedDial from "./bottonMarkers";
+import FilterButtons from "./filterButtons";
 import { useContext } from "react";
 import { useEffect } from "react";
 
@@ -183,8 +184,8 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
     setCurrentMapStyle(currentTheme === Themes.LIGHT ? lightMapStyle : darkMapStyle);
   }, [currentTheme]);
 
-  function details(id){
-    console.log(id);
+  function details(marker){
+    console.log(marker);
   }
 
   //Nos devuelve el mapa con todos los componentes asociados.
@@ -207,11 +208,12 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
           <MarkerF
             key={marker.id}
             position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
-            onClick={() => details(marker.name)}
+            onClick={() => details(marker)}
             //options={{icon: {url:(require("./marker.svg").default),scaledSize: {width: 36, height: 36},fillColor:"#34495e"}}}
           />
         ))}
       </GoogleMap>
+      <FilterButtons />
     </div>
   );
 }
