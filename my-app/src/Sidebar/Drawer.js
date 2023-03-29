@@ -32,7 +32,7 @@ export default function DrawerSidebar(props) {
         >
             <Box
                 p={2}
-                width='250px'
+                width='300px'
                 height='100%'
                 className="drawer"
             >
