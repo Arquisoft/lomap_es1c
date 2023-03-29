@@ -1,4 +1,8 @@
 {
+    "settings-speed-dial": {
+        "change-language-text": "Cambiar idioma",
+        "toggle-theme-text": "Change theme"
+    },
     "sidebar": {
         "tab-buttons": {
             "start": "Inicio",

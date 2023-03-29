@@ -6,9 +6,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import CreateModal from './Mapa/PlacesForm';
 import { Themes, ThemeContext, ThemeContextProvider } from './contexts/ThemeContext';
 import axios from 'axios';
-import ToggleThemeButton from './buttons/ToggleThemeButton.js';
 import { useTranslation } from "react-i18next";
-import ToggleLanguageButton from './buttons/ToggleLanguageButton';
+import SettingsSpeedDial from './buttons/SettingsSpeedDial';
 
 export default function App() {
 
@@ -87,14 +86,11 @@ export default function App() {
         places={places}
       />
 
-      <ToggleThemeButton
-        toggleTheme={toggleTheme}
+      <SettingsSpeedDial
+        changeLanguage = {toggleLanguage}
+        toggleTheme = {toggleTheme}
       />
 
-      <ToggleLanguageButton
-        toggleFunction={toggleLanguage}
-      />
-      
     </div>
   );
 }
