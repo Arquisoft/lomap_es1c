@@ -1,5 +1,5 @@
-import React from "react"
-import PlaceCard from "./PlaceCard"
+import React from "react";
+import PlaceCard from "./cards/PlaceCard";
 import { useTranslation } from "react-i18next";
 
 export default function InicioTabContent(props) {
@@ -32,7 +32,7 @@ export default function InicioTabContent(props) {
             <h1>{t("sidebar.tabs.start-content.title")}</h1>
             <input
                 type="search"
-                placeholder="Buscar"
+                placeholder={t("sidebar.tabs.start-content.search-bar-placeholder")}
                 onChange={textToSearchChange}
             ></input>
             {cards}

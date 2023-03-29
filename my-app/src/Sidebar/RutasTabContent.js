@@ -1,5 +1,6 @@
-import React from "react"
-import RutaCard from "./RutaCard"
+import React from "react";
+import RutaCard from "./cards/RutaCard";
+import { useTranslation } from "react-i18next";
 
 // TODO: eliminar datos hard-codeados
 const rutas = [
@@ -14,6 +15,8 @@ const rutas = [
 ]
 
 export default function RutasTabContent(props) {
+    const [t, i18n] = useTranslation("global")
+    
     const cards = rutas.map(
         ruta =>
         <RutaCard
@@ -23,7 +26,7 @@ export default function RutasTabContent(props) {
     )
     return (
         <div id="Rutas" className="tabcontent">
-            <h1>El contenido de rutas</h1>
+            <h1>{t("sidebar.tabs.route-content.title")}</h1>
             {cards}
         </div>
     )

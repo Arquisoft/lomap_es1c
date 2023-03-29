@@ -8,7 +8,14 @@
         },
         "tabs": {
             "start-content": {
-                "title": "Your locations"
+                "title": "Your locations",
+                "search-bar-placeholder": "Search"
+            },
+            "friend-content": {
+                "title": "Your friends"
+            },
+            "route-content": {
+                "title": "Your routes"
             }
         }
     }

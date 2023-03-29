@@ -8,7 +8,14 @@
         },
         "tabs": {
             "start-content": {
-                "title": "Tus lugares"
+                "title": "Tus lugares",
+                "search-bar-placeholder": "Buscar"
+            },
+            "friend-content": {
+                "title": "Tus amigos"
+            },
+            "route-content": {
+                "title": "Tus rutas"
             }
         }
     }
