@@ -16,7 +16,10 @@ export function getBackgroundColor(isLightTheme) {
 }
 
 export function ThemeContextProvider({children}) {
-    const [currentTheme, setCurrentTheme] = useState(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? Themes.DARK : Themes.LIGHT);
+    const [currentTheme, setCurrentTheme] = useState(
+        window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ?     // if true, then dark is preferred
+        Themes.DARK : Themes.LIGHT
+    );
 
     const value = {
         currentTheme,
