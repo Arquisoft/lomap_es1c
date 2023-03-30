@@ -7,7 +7,6 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 export default function RutaCard(route) {
     const [t, i18n] = useTranslation("global")
 
-    console.log(route)
     return (
 
         <div className="card">

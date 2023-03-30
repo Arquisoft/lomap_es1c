@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { useEffect } from "react";
 import { darkMapStyle, lightMapStyle } from "./themes/MapThemes";
 
-export default function CreateMap({open,setLatitude,setLongitude,markers,setMarkers,places,canCick,setCanCick}) {
+export default function CreateMap({open,setLatitude,setLongitude,markers,setMarkers,places,canCick,setCanCick,displayLocationInfo}) {
     const { isLoaded } = useLoadScript({
       googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     });
@@ -19,7 +19,9 @@ export default function CreateMap({open,setLatitude,setLongitude,markers,setMark
       <div>
         <Map openModal={open} setLatitudeMark={setLatitude} setLongitudeMark={setLongitude} markersState={markers}
         setMarkers={setMarkers} canCick={canCick} setCanCick={setCanCick}
-        places={places} style={{position:"none"}}/>
+        places={places} style={{position:"none"}}
+        displayLocationInfo={displayLocationInfo}
+        />
       </div>
     );
   }
@@ -27,7 +29,7 @@ export default function CreateMap({open,setLatitude,setLongitude,markers,setMark
 
 var Located = true;
 
-function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers,places,canCick,setCanCick}) {
+function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers,places,canCick,setCanCick,displayLocationInfo}) {
 
   //Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
   
@@ -104,7 +106,7 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
   }, [currentTheme]);
 
   function details(marker){
-    console.log(marker);
+    displayLocationInfo();
   }
 
   //Nos devuelve el mapa con todos los componentes asociados.
