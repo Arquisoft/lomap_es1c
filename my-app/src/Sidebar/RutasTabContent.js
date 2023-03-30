@@ -12,7 +12,7 @@ export default function RutasTabContent(props) {
                 route => ({
                     id: route.id,
                     name: route.name,
-                    locations: [
+                    locations: 
                         route.locations.map(
                             location => ({
                                 id: location.id,
@@ -21,7 +21,6 @@ export default function RutasTabContent(props) {
                                 longitude: location.longitude
                             })
                         )
-                    ]
                 })
             )
         )
