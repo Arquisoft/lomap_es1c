@@ -76,19 +76,16 @@ export default function App({logOutFunction}) {
     }
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [drawerContent, setDrawerContent] = useState(null);
 
-  const defaultDrawerContent = <DrawerDefaultContent userPlaces={places}/>
-  const [drawerContent, setDrawerContent] = useState(defaultDrawerContent);
-  
   function restoreDefautlDrawerContent() {
-    setDrawerContent(defaultDrawerContent)
+    setDrawerContent(null)
   }
 
-  function changeDrawerContent(location=null) {
+  function changeDrawerContent(newContent=null) {
     setIsDrawerOpen(true)
-    // TODO: display the info
+    setDrawerContent(newContent)
   }
-
 
   return (
     <div id={currentTheme}>
@@ -114,7 +111,8 @@ export default function App({logOutFunction}) {
         places={places}
         canCick={canCick}
         setCanCick={setCanCick}
-        displayLocationInfo={changeDrawerContent}
+        changeDrawerContent={changeDrawerContent}
+        restoreDefautlDrawerContent={restoreDefautlDrawerContent}
       />
 
       <SettingsSpeedDial
@@ -129,6 +127,7 @@ export default function App({logOutFunction}) {
         setIsDrawerOpen = {setIsDrawerOpen}
         contentToDisplay = {drawerContent}
         restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
+        changeDrawerContent = {changeDrawerContent}
       />
 
     </div>

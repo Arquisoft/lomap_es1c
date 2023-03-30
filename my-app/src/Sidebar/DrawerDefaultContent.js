@@ -13,6 +13,8 @@ export default function DrawerDefaultContent(props) {
         <TabButtons
             onClickFunction = {setNuevoContenidoAMostrar}
             userPlaces = {props.userPlaces}
+            changeDrawerContent = {props.changeDrawerContent}
+            restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
         />
 
         {contenidoAMostrar}

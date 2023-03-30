@@ -9,17 +9,9 @@ export default function InicioTabContent(props) {
     const [t, i18n] = useTranslation("global")
     const [searchBarText, setSearchBarText] = useState("")
 
-    const [displayedContent, setDisplayedContent] = useState()
-    function showDefaultContent() {
-        setDisplayedContent(defaultContent)
-    }
-    function showSpecificContent(newContent) {
-        setDisplayedContent(newContent)
-    }
-    
-    const defaultContent = (
-        <>
-        <h1 id="centered">{t("sidebar.tabs.start-content.title")}</h1>
+    return (
+        <div className="tabcontent">
+            <h1 id="centered">{t("sidebar.tabs.start-content.title")}</h1>
         <div id="centered-content">
             <TextField
                 variant="outlined"
@@ -33,17 +25,10 @@ export default function InicioTabContent(props) {
             .map(place => <PlaceCard
                 key={place.id}
                 place = {place}
-                showDefaultContent={showDefaultContent}
-                showSpecificContent={showSpecificContent}/>)
+                changeDrawerContent={props.changeDrawerContent}
+                restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
+            />)
         }
-        </>
-    )
-    
-    useEffect(() => (showDefaultContent()), [])
-
-    return (
-        <div className="tabcontent">
-            {displayedContent}
         </div>
     )
 }

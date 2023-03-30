@@ -8,8 +8,9 @@ import FilterButtons from "./filterButtons";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { darkMapStyle, lightMapStyle } from "./themes/MapThemes";
+import FullInfoPlace from "../Sidebar/cards/FullInfoPlace";
 
-export default function CreateMap({open,setLatitude,setLongitude,markers,setMarkers,places,canCick,setCanCick,displayLocationInfo}) {
+export default function CreateMap({open,setLatitude,setLongitude,markers,setMarkers,places,canCick,setCanCick,changeDrawerContent,restoreDefautlDrawerContent}) {
     const { isLoaded } = useLoadScript({
       googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     });
@@ -20,7 +21,8 @@ export default function CreateMap({open,setLatitude,setLongitude,markers,setMark
         <Map openModal={open} setLatitudeMark={setLatitude} setLongitudeMark={setLongitude} markersState={markers}
         setMarkers={setMarkers} canCick={canCick} setCanCick={setCanCick}
         places={places} style={{position:"none"}}
-        displayLocationInfo={displayLocationInfo}
+        changeDrawerContent = {changeDrawerContent}
+        restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
         />
       </div>
     );
@@ -29,7 +31,7 @@ export default function CreateMap({open,setLatitude,setLongitude,markers,setMark
 
 var Located = true;
 
-function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers,places,canCick,setCanCick,displayLocationInfo}) {
+function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers,places,canCick,setCanCick,changeDrawerContent,restoreDefautlDrawerContent}) {
 
   //Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
   
@@ -106,7 +108,12 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
   }, [currentTheme]);
 
   function details(marker){
-    displayLocationInfo();
+    changeDrawerContent(
+      <FullInfoPlace
+        place={places.find(place => place.id == marker.id)}
+        returnFunction={restoreDefautlDrawerContent}
+      />
+    )
   }
 
   //Nos devuelve el mapa con todos los componentes asociados.

@@ -2,10 +2,19 @@ import React, { useContext, useState } from 'react';
 import { Drawer, Box, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ThemeContext } from '../contexts/ThemeContext.js';
+import DrawerDefaultContent from './DrawerDefaultContent';
 
 
 export default function DrawerSidebar(props) {
     const {currentTheme} = useContext(ThemeContext);
+
+    const defaultDrawerContent = (
+        <DrawerDefaultContent
+          userPlaces={props.userPlaces}
+          changeDrawerContent = {props.changeDrawerContent}
+          restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
+        />
+      )
 
     return (
         <div id={currentTheme}>
@@ -28,7 +37,8 @@ export default function DrawerSidebar(props) {
                 width='300px'
                 className="drawer"
             >
-                {props.contentToDisplay}
+                {props.contentToDisplay!=null  &&  props.contentToDisplay}
+                {props.contentToDisplay==null  &&  defaultDrawerContent}
             </Box>
         </Drawer>
         </div>

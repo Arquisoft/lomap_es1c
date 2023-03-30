@@ -9,6 +9,8 @@ export default function TabButtons(props) {
     const [t, i18n] = useTranslation("global")
     const inicioTabContent = <InicioTabContent
         userPlaces = {props.userPlaces}
+        changeDrawerContent = {props.changeDrawerContent}
+        restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
     />
     const amigosTabContent = <AmigosTabContent />
     const rutasTabContent = <RutasTabContent />

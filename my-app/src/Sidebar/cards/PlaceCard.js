@@ -8,7 +8,7 @@ export default function LugarCard(props) {
     const place = props.place
 
     function showFullInfo() {
-        props.showSpecificContent(<FullInfoPlace place={place} returnFunction={props.showDefaultContent}/>)
+        props.changeDrawerContent(<FullInfoPlace place={place} returnFunction={props.restoreDefautlDrawerContent}/>)
     }
 
     const maxTextLength = 20
