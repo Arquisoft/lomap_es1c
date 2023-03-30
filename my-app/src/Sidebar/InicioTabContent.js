@@ -26,7 +26,6 @@ export default function InicioTabContent(props) {
                 key={place.id}
                 place = {place}
                 changeDrawerContent={props.changeDrawerContent}
-                restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
             />)
         }
         </div>

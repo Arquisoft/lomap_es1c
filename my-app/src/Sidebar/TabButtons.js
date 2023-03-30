@@ -10,10 +10,11 @@ export default function TabButtons(props) {
     const inicioTabContent = <InicioTabContent
         userPlaces = {props.userPlaces}
         changeDrawerContent = {props.changeDrawerContent}
-        restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
     />
     const amigosTabContent = <AmigosTabContent />
-    const rutasTabContent = <RutasTabContent />
+    const rutasTabContent = <RutasTabContent
+        changeDrawerContent = {props.changeDrawerContent}
+    />
     const descubrirTabContent = <DescubrirTabContent />
 
     // By default we display InicioTabContent

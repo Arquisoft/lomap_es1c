@@ -44,7 +44,8 @@ export default function RutasTabContent(props) {
                 route =>
                 <RutaCard
                     key = {route.id}
-                    {...route}
+                    route = {route}
+                    changeDrawerContent = {props.changeDrawerContent}
                 />
             )}
         </div>
