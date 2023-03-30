@@ -43,7 +43,7 @@ function MyComponent() {
     {
       isLoggedIn ? (
         <I18nextProvider i18n={i18next}>
-          <ThemeContextProvider children={<App />} />
+          <ThemeContextProvider children={<App logOutFunction={logOut}/>} />
         </I18nextProvider>
       ) : (
         <Login

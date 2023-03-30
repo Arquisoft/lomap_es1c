@@ -13,7 +13,7 @@ import addPlace from './Places/Places';
 
 var a = [];
 
-export default function App() {
+export default function App({logOutFunction}) {
 
   const [data, setData] = useState('');
   const [t, i18n] = useTranslation("global")
@@ -109,6 +109,7 @@ export default function App() {
 
       <DrawerSidebar
         userPlaces = {places}
+        logOutFunction = {logOutFunction}
       />
 
     </div>

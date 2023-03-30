@@ -4,6 +4,7 @@
         "toggle-theme-text": "Change theme"
     },
     "sidebar": {
+        "log-out": "Log out",
         "tab-buttons": {
             "start": "Start",
             "friends": "Friends",

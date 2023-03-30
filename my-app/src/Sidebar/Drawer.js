@@ -1,13 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { Drawer, Box, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import Button from '@mui/material/Button';
 import TabButtons from './TabButtons.js';
 import { ThemeContext } from '../contexts/ThemeContext.js';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useTranslation } from "react-i18next";
 
 export default function DrawerSidebar(props) {
-    const {currentTheme, setCurrentTheme} = useContext(ThemeContext);
+    const {currentTheme} = useContext(ThemeContext);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [contenidoAMostrar, setContenidoAMostrar] = React.useState(null)
+    const [t, i18n] = useTranslation("global")
 
     function setNuevoContenidoAMostrar(nuevoContenido) {
         setContenidoAMostrar(nuevoContenido)
@@ -35,15 +39,22 @@ export default function DrawerSidebar(props) {
                 height='100%'
                 className="drawer"
             >
-                {/* Los botones de las tabs */}
                 <TabButtons
                     onClickFunction = {setNuevoContenidoAMostrar}
                     userPlaces = {props.userPlaces}
                 />
 
-                {/* El contenido que se muestra */}
                 {contenidoAMostrar}
             </Box>
+
+            <Button
+                variant="outlined"
+                startIcon={<LogoutIcon/>}
+                onClick = {props.logOutFunction}
+            >
+                {t("sidebar.log-out")}
+            </Button>
+
         </Drawer>
         </div>
     )

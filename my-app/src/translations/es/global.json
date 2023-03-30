@@ -4,6 +4,7 @@
         "toggle-theme-text": "Cambiar tema"
     },
     "sidebar": {
+        "log-out": "Cerrar sesión",
         "tab-buttons": {
             "start": "Inicio",
             "friends": "Amigos",
