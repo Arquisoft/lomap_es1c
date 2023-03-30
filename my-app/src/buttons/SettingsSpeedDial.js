@@ -6,6 +6,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { Themes, ThemeContext } from '../contexts/ThemeContext';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function SettingsSpeedDial(props) {
     const [t, i18n] = useTranslation("global")
@@ -27,6 +28,11 @@ export default function SettingsSpeedDial(props) {
                 icon={currentTheme===Themes.LIGHT ? <LightModeIcon /> : <DarkModeIcon />}
                 tooltipTitle={t("settings-speed-dial.toggle-theme-text")}
                 onClick = {props.toggleTheme}
+            />
+            <SpeedDialAction
+                icon={<LogoutIcon />}
+                tooltipTitle={t("sidebar.log-out")}
+                onClick = {props.logOutFunction}
             />
 
         </SpeedDial>

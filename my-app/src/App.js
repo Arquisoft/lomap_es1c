@@ -105,11 +105,11 @@ export default function App({logOutFunction}) {
       <SettingsSpeedDial
         changeLanguage = {toggleLanguage}
         toggleTheme = {toggleTheme}
+        logOutFunction = {logOutFunction}
       />
 
       <DrawerSidebar
         userPlaces = {places}
-        logOutFunction = {logOutFunction}
       />
 
     </div>

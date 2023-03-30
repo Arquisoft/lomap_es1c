@@ -36,7 +36,6 @@ export default function DrawerSidebar(props) {
             <Box
                 p={2}
                 width='300px'
-                height='100%'
                 className="drawer"
             >
                 <TabButtons
@@ -46,15 +45,6 @@ export default function DrawerSidebar(props) {
 
                 {contenidoAMostrar}
             </Box>
-
-            <Button
-                variant="outlined"
-                startIcon={<LogoutIcon/>}
-                onClick = {props.logOutFunction}
-            >
-                {t("sidebar.log-out")}
-            </Button>
-
         </Drawer>
         </div>
     )
