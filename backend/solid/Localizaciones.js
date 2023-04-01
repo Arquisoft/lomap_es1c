@@ -15,11 +15,9 @@ const {
 
     const { SCHEMA_INRUPT} = require('@inrupt/vocab-common-rdf');
 
-  /**
-   * @param {*} ubicacion : model de la ubicacion
-   */
-  async function addLocation(Session, ubicacion, myBaseUrl){
 
+  async function addLocation(Session, ubicacion, myBaseUrl){
+    /*
     //Creacion de ubicacion
     let ubicacionDataset = createSolidDataset();
       let myUbi = buildThing(createThing({name: "datos"}))
@@ -45,12 +43,13 @@ const {
   
   for(let i=0;i<ubicacion.reviews.length;i++){
         solid.addReview(Session, ubicacion.reviews[i], myBaseUrl + "LoMap/" + "ubicaciones/"+ ubicacion.id);
-  }
+  }*/
 }
 
 
 
 async function obtenerLocalizaciones(Session, myBaseUrl){
+  /*
     //Obtener url de todas las ubicaciones
     let ubicacionDataset = await getSolidDataset(myBaseUrl + "LoMap/ubicaciones/", { fetch: Session.fetch});
     let ubicaciones = getContainedResourceUrlAll(ubicacionDataset);
@@ -59,16 +58,13 @@ async function obtenerLocalizaciones(Session, myBaseUrl){
       let urlSplit = ubicaciones[i].split('/');
         modelsUbi[i] = await obtenerLocalizacion(Session, urlSplit[urlSplit.length-1], myBaseUrl);
     }
-    return modelsUbi;
+    return modelsUbi;*/
   }
   
   
   
-  /**
-  * @param {*} urlUbi : id no absoluta
-  * @returns 
-  */
-  async function obtenerLocalizacion(Session, urlUbi, myBaseUrl){
+  async function obtenerLocalizacion(Session, idUbi, myBaseUrl){
+    /*
     let ubicacionDataset = await getSolidDataset(myBaseUrl + "LoMap/ubicaciones/" + urlUbi, { fetch: Session.fetch});
     let ubiThing = getThing(ubicacionDataset, myBaseUrl + "LoMap/ubicaciones/" + urlUbi + "#datos");
     let name = getStringNoLocale(ubiThing, SCHEMA_INRUPT.name);
@@ -80,12 +76,13 @@ async function obtenerLocalizaciones(Session, myBaseUrl){
     let category = getStringNoLocale(ubiThing, "https://schema.org/category");
     if(category == "null"){category = null;}
     let loc = new Location(urlUbi, name, address, latitude, longitude, category, await solid.getAllReviews(Session, urlUbi), []);
-    return loc;
+    return loc;*/
   }
 
   async function deleteLocationById(Session, idLocation, myBaseUrl){
-
+    /*
     await deleteSolidDataset(myBaseUrl + "LoMap/ubicaciones/" + idLocation, { fetch: Session.fetch});
+    */
 }
 
 
