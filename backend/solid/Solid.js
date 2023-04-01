@@ -24,6 +24,7 @@ const {
     const localizaciones = require('./Localizaciones.js');
     const reviews = require('./Reviews.js');
     const fotos = require('./Fotos.js');
+    const routes = require('./Routes.js');
   
 
     const { SCHEMA_INRUPT, RDF, AS } = require('@inrupt/vocab-common-rdf');
@@ -204,115 +205,48 @@ async function deleteFotoById(Session, idFoto){
 }
 
 
+//ROUTES
+//ROUTES
+//ROUTES
+//ROUTES
+//ROUTES
+
+
+async function addRoute(Session, route){
+  const webID = Session.info.webId;
+  //Obtencion de url del pod
+  let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+  myBaseUrl = myBaseUrl[0];
+
+  await routes.addRoute(Session, route, myBaseUrl);
+}
+
+
+async function getAllRoutes(Session){
+  const webID = Session.info.webId;
+  //Obtencion de url del pod
+  let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+  myBaseUrl = myBaseUrl[0];
+  await routes.getAllRoutes(Session);
+
+}
+
+
+async function getRouteById(Session, idRoute){
+  await routes.getRouteById(Session, idRoute);
+}
+
+
+async function deleteRouteById(Session, idRoute){
+  const webID = Session.info.webId;
+  //Obtencion de url del pod
+  let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+  myBaseUrl = myBaseUrl[0];
+
+  await routes.deleteRouteById(Session, idRoute, myBaseUrl);
+}
+
+
 module.exports={
   createStruct, isStructCreated, saveLocation, addReview, getAllLocations, getLocationById, getAllReviews, getReviewById, deleteLocationById, deleteReviewById
 };
-
-
-
-
-  //Obtener url de un POD
-  /*
-    const mypods = await getPodUrlAll(webID, { fetch: fetch });
-  */
-
-
-  //Obtener un SolidDataset
-  /*
-    let myDataset = await getSolidDataset(urlSolidDataset, { fetch: session.fetch});
-  */
-
-    //Obtener todos los recursos de un solidDataset
-    /*
-      getContainedResourceUrlAll(solidDataset): UrlString[]
-    */
-
-  //Obtener un Thing
-  /*
-    let myThing = getThing(myDataset, urlThing);
-    .................................................................
-    let myThings = getThings(myDataset);    retorna Things[]
-  */
-
-  //Obtener atributo de un Thing
-  /* 
-    getBoolean(myThing, propertyName);
-    getBooleanAll(myThing, propertyName);
-    getDate(myThing, propertyName);
-    getDateAll(myThing, propertyName);
-    getDatetime(myThing, propertyName);
-    getDatetimeAll(myThing, propertyName);
-    getDecimal(myThing, propertyName);
-    getDecimalAll(myThing, propertyName);
-    getInteger(myThing, propertyName);
-    getIntegerAll(myThing, propertyName);
-    getStringByLocaleAll(myThing, propertyName);
-    getStringNoLocale(myThing, propertyName);
-    getStringNoLocaleAll(myThing, propertyName);
-    getStringWithLocale(myThing, propertyName);
-    getStringWithLocaleAll(myThing, propertyName);
-    getTime(myThing, propertyName);
-    getTimeAll(myThing, propertyName);
-    getUrl(myThing, propertyName);
-    getUrlAll(myThing, propertyName);
-  */
-
-
-
-
-  //Crear un SolidDataset
-  /*
-    let mySolidDataset = createSolidDataset();
-  */
-
-
-  //Crear un Thing
-  /*
-    const newBookThing1 = buildThing(createThing({ name: "book1" }))
-  .addUrl(RDF.type, "https://schema.org/Book")
-  .build(); 
-  */
-
-    //Modificar un Thing
-  /*
-    const newBookThing1 = buildThing(newBookThing1)
-  .addStringNoLocale(SCHEMA_INRUPT.name, "ABC123 of Example Literature")
-  .addInteger("https://schema.org/numberOfPages", 30)
-  .addUrl(RDF.type, "https://schema.org/Book")
-  .build(); 
-  */
-
-
-
-
-//Agregar Things a un SolidDataset
-  /*
-  //agrega dos Things
-   mySolidDataset = setThing(mySolidDataset, newBookThing1);
-   mySolidDataset = setThing(mySolidDataset, newBookThing2);
-  */
-
-
-//Actualizar solidDataset en el POD
-  /*
-const savedSolidDataset = await saveSolidDatasetAt(
-    "https://pod.example.com/universityZ/fall2021/courses/Writing101",
-    mySolidDataset,
-    { fetch: session.fetch }             // fetch from authenticated Session
-  );
-  */
-
-
-//Eliminar solidDataset en el POD
-  /*
-try {
-    await deleteSolidDataset(
-        "https://pod.example.com/universityZ/fall2021/courses/Writing101", 
-        { fetch: session.fetch }           // fetch function from authenticated session
-    );
-    } catch (error) {
-    //...
-    }
-  */
-
-
