@@ -242,7 +242,7 @@ async function getAllFriends(Session) {
   //Obtencion de url del pod
   let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
   myBaseUrl = myBaseUrl[0];
-  await friends.getAllFriends(Session);
+  await friends.getAllFriends(Session, myBaseUrl);
 
 }
 
