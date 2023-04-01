@@ -283,5 +283,6 @@ async function deleteFriendById(Session, idFriend){
 
 
 module.exports={
-  createStruct, isStructCreated, saveLocation, addReview, getAllLocations, getLocationById, getAllReviews, getReviewById, deleteLocationById, deleteReviewById
+  createStruct, isStructCreated, saveLocation, addReview, getAllLocations, getLocationById, getAllReviews, getReviewById, deleteLocationById, deleteReviewById,
+  addFoto, getAllFotos, getFotoById, deleteFotoById, addRoute, getAllRoutes, getRouteById, deleteRouteById, addFriend, getAllFriends, deleteFriendById
 };
