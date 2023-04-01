@@ -154,7 +154,7 @@ async function getAllFotos(Session, idUbicacion, friendWebID) {
   //Obtencion de url del pod
   let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
   myBaseUrl = myBaseUrl[0];
-  await fotos.getAllFotos(Session, idUbicacion);
+  await fotos.getAllFotos(Session, idUbicacion, myBaseUrl);
 
 }
 
