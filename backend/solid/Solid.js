@@ -23,10 +23,16 @@ const {
     const estructura = require('./Estructura.js');
     const localizaciones = require('./Localizaciones.js');
     const reviews = require('./Reviews.js');
+    const fotos = require('./Fotos.js');
   
 
     const { SCHEMA_INRUPT, RDF, AS } = require('@inrupt/vocab-common-rdf');
 
+//ESTRUCTURA
+//ESTRUCTURA
+//ESTRUCTURA
+//ESTRUCTURA
+//ESTRUCTURA
 
   async function createStruct(Session){
         const webID = Session.info.webId;
@@ -47,6 +53,14 @@ async function isStructCreated(Session){
 }
 
 
+
+//LOCALIZACIONES
+//LOCALIZACIONES
+//LOCALIZACIONES
+//LOCALIZACIONES
+//LOCALIZACIONES
+
+
   /**
    * @param {*} ubicacion : model de la ubicacion
    */
@@ -60,6 +74,49 @@ async function isStructCreated(Session){
         await localizaciones.addLocation(Session, ubicacion, myBaseUrl);
   }
 
+
+  async function getAllLocations(Session){
+    const webID = Session.info.webId;
+    //Obtencion de url del pod
+    let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+    myBaseUrl = myBaseUrl[0];
+  
+    await localizaciones.obtenerLocalizaciones(Session, myBaseUrl);
+  }
+
+
+/**
+* @param {*} urlUbi : id no absoluta
+* @returns 
+*/
+async function getLocationById(Session, urlUbi){
+  const webID = Session.info.webId;
+  //Obtencion de url del pod
+  let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+  myBaseUrl = myBaseUrl[0];
+  
+  await localizaciones.obtenerLocalizacion(Session, urlUbi, myBaseUrl);
+  
+  }
+
+
+  async function deleteLocationById(Session, idLocation){
+    const webID = Session.info.webId;
+    //Obtencion de url del pod
+    let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+    myBaseUrl = myBaseUrl[0];
+
+    await localizaciones.deleteLocationById(Session, idLocation, myBaseUrl);
+  }
+
+
+//REVIEWS
+//REVIEWS
+//REVIEWS
+//REVIEWS
+//REVIEWS
+
+
   /**
    * @param {*} review : model de la review
    * @param {*} idUbicacion : url absoluta de la ubicaion
@@ -71,41 +128,20 @@ async function isStructCreated(Session){
         myBaseUrl = myBaseUrl[0];
 
         await reviews.addReview(Session, review, idUbicacion, myBaseUrl);
-}
-
-async function getAllLocations(Session){
-  const webID = Session.info.webId;
-  //Obtencion de url del pod
-  let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
-  myBaseUrl = myBaseUrl[0];
-
-  await localizaciones.obtenerLocalizaciones(Session, myBaseUrl);
-}
+  }
 
 
 
-/**
-* @param {*} urlUbi : id no absoluta
-* @returns 
-*/
-async function getLocationById(Session, urlUbi){
-const webID = Session.info.webId;
-//Obtencion de url del pod
-let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
-myBaseUrl = myBaseUrl[0];
 
-await localizaciones.obtenerLocalizacion(Session, urlUbi, myBaseUrl);
 
-}
+  async function getAllReviews(Session, idUbicacion){
+        const webID = Session.info.webId;
+        //Obtencion de url del pod
+        let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+        myBaseUrl = myBaseUrl[0];
+        await reviews.getAllReviews(Session, idUbicacion);
 
-async function getAllReviews(Session, idUbicacion){
-const webID = Session.info.webId;
-//Obtencion de url del pod
-let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
-myBaseUrl = myBaseUrl[0];
-await reviews.getAllReviews(Session, idUbicacion);
-
-}
+  }
 
 /**
 * @param {*} urlReview : url absoluta de la review
@@ -116,14 +152,6 @@ async function getReviewById(Session, urlReview){
 }
 
 
-async function deleteLocationById(Session, idLocation){
-    const webID = Session.info.webId;
-    //Obtencion de url del pod
-    let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
-    myBaseUrl = myBaseUrl[0];
-
-    await localizaciones.deleteLocationById(Session, idLocation, myBaseUrl);
-  }
 
 async function deleteReviewById(Session, idReview){
     const webID = Session.info.webId;
@@ -133,6 +161,47 @@ async function deleteReviewById(Session, idReview){
 
     await reviews.deleteReviewById(Session, idReview, myBaseUrl);
   }
+
+
+//FOTOS
+//FOTOS
+//FOTOS
+//FOTOS
+//FOTOS
+
+async function addFoto(Session, foto, idUbicacion){
+  const webID = Session.info.webId;
+  //Obtencion de url del pod
+  let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+  myBaseUrl = myBaseUrl[0];
+
+  await fotos.addFoto(Session, foto, idUbicacion, myBaseUrl);
+}
+
+
+async function getAllFotos(Session, idUbicacion){
+  const webID = Session.info.webId;
+  //Obtencion de url del pod
+  let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+  myBaseUrl = myBaseUrl[0];
+  await fotos.getAllFotos(Session, idUbicacion);
+
+}
+
+
+async function getFotoById(Session, idFoto){
+  await fotos.getFotoById(Session, idFoto);
+}
+
+
+async function deleteFotoById(Session, idFoto){
+  const webID = Session.info.webId;
+  //Obtencion de url del pod
+  let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+  myBaseUrl = myBaseUrl[0];
+
+  await fotos.deleteFotoById(Session, idFoto, myBaseUrl);
+}
 
 
 module.exports={
