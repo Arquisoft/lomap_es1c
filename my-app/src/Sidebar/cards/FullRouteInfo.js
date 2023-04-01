@@ -10,7 +10,7 @@ export default function FullRouteInfo({route, returnFunction}) {
         <>
         <IconButton onClick={returnFunction}><ArrowBackIcon/></IconButton>
         <h1>{route.name}</h1>
-        {route.locations.map(location => (<p>{location.name}</p>))}
+        {route.locations.map(location => (<p key={location.id}>{location.name}</p>))}
         <IconButton><EditIcon/></IconButton>
         <IconButton><TravelExploreIcon/></IconButton>
         <IconButton><DeleteIcon/></IconButton>
