@@ -25,6 +25,7 @@ const {
     const reviews = require('./Reviews.js');
     const fotos = require('./Fotos.js');
     const routes = require('./Routes.js');
+    const friends = require('./Friends.js');
   
 
     const { SCHEMA_INRUPT, RDF, AS } = require('@inrupt/vocab-common-rdf');
@@ -60,7 +61,6 @@ async function isStructCreated(Session){
 //LOCALIZACIONES
 //LOCALIZACIONES
 //LOCALIZACIONES
-
 
   /**
    * @param {*} ubicacion : model de la ubicacion
@@ -116,7 +116,6 @@ async function getLocationById(Session, urlUbi){
 //REVIEWS
 //REVIEWS
 //REVIEWS
-
 
   /**
    * @param {*} review : model de la review
@@ -211,7 +210,6 @@ async function deleteFotoById(Session, idFoto){
 //ROUTES
 //ROUTES
 
-
 async function addRoute(Session, route){
   const webID = Session.info.webId;
   //Obtencion de url del pod
@@ -244,6 +242,43 @@ async function deleteRouteById(Session, idRoute){
   myBaseUrl = myBaseUrl[0];
 
   await routes.deleteRouteById(Session, idRoute, myBaseUrl);
+}
+
+
+//FRIENDS
+//FRIENDS
+//FRIENDS
+//FRIENDS
+//FRIENDS
+
+async function addFriend(Session, friend){
+  const webID = Session.info.webId;
+  //Obtencion de url del pod
+  let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+  myBaseUrl = myBaseUrl[0];
+
+  await friends.addFriend(Session, friend, myBaseUrl);
+}
+
+
+async function getAllFriends(Session){
+  const webID = Session.info.webId;
+  //Obtencion de url del pod
+  let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+  myBaseUrl = myBaseUrl[0];
+  await friends.getAllFriends(Session);
+
+}
+
+
+
+async function deleteFriendById(Session, idFriend){
+  const webID = Session.info.webId;
+  //Obtencion de url del pod
+  let myBaseUrl = await getPodUrlAll(webID, {fetch: Session.fetch});
+  myBaseUrl = myBaseUrl[0];
+
+  await friends.deleteFriendById(Session, idFriend, myBaseUrl);
 }
 
 
