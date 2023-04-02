@@ -1,45 +1,38 @@
 const {
     createSolidDataset,
     getSolidDataset,
-    saveSolidDatasetAt
+    saveSolidDatasetAt,
+    overwriteFile
     } = require ('@inrupt/solid-client');
 
 
 async function construirEstructura(Session, myBaseUrl){
-    //Creacion del dataset base
-    let baseLomap = createSolidDataset();
-    await saveSolidDatasetAt(
-      myBaseUrl +  "LoMap/",
-      baseLomap,
-      { fetch: Session.fetch }             // fetch from authenticated Session
-    );
+  try{
+        //Creacion del dataset base
+        let baseLomap = createSolidDataset();
+        await saveSolidDatasetAt(
+          myBaseUrl +  "LoMap/",
+          baseLomap,
+          { fetch: Session.fetch }             // fetch from authenticated Session
+        );
 
-    //Creacion de datasets
-    let amigos = createSolidDataset();
-    let ubicaciones = createSolidDataset();
-    let reviews = createSolidDataset();
-    let fotos = createSolidDataset();
-    await saveSolidDatasetAt(
-      myBaseUrl +  "LoMap/" + "amigos/",
-      amigos,
-      { fetch: Session.fetch }             // fetch from authenticated Session
-    );
-    await saveSolidDatasetAt(
-      myBaseUrl +  "LoMap/" + "ubicaciones/",
-      ubicaciones,
-      { fetch: Session.fetch }             // fetch from authenticated Session
-    );
-    await saveSolidDatasetAt(
-      myBaseUrl +  "LoMap/" + "reviews/",
-      reviews,
-      { fetch: Session.fetch }             // fetch from authenticated Session
-    );
-    await saveSolidDatasetAt(
-      myBaseUrl +  "LoMap/" + "fotos/",
-      fotos,
-      { fetch: Session.fetch }             // fetch from authenticated Session
-    );
 
+        let structJson = { "locations":[], "routes":[] };
+
+        let blob = new Blob([JSON.stringify(structJson)], {tupe: "application/json"});
+        let file = new File([blob], "locations.json", {type: blob.type});
+        
+        await overwriteFile(
+          myBaseUrl,
+          file,
+          { contentType: file.type, fetch: Session.fetch }
+        );
+
+
+    }
+    catch(error){
+        console.log(error);
+    }
 
 }
 
