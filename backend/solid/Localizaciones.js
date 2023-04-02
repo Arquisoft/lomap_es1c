@@ -7,7 +7,10 @@ const {
     getThing,
     buildThing,
     saveSolidDatasetAt,
-    getContainedResourceUrlAll
+    getContainedResourceUrlAll,
+    overwriteFile,
+    getFile,
+    deleteFile 
     } = require ('@inrupt/solid-client');
 
     const solid = require('./Solid.js');
@@ -48,27 +51,19 @@ async function obtenerLocalizaciones(Session, myBaseUrl){
   
   async function obtenerLocalizacion(Session, idUbi, myBaseUrl){
 
-    
+    let file = await getFile(
+      myBaseUrl + "LoMap/locations/" + idUbi,
+      { fetch: Session.fetch }
+    );
 
-    /*
-    let ubicacionDataset = await getSolidDataset(myBaseUrl + "LoMap/locations/" + urlUbi, { fetch: Session.fetch});
-    let ubiThing = getThing(ubicacionDataset, myBaseUrl + "LoMap/ubicaciones/" + urlUbi + "#datos");
-    let name = getStringNoLocale(ubiThing, SCHEMA_INRUPT.name);
-    let address = getStringNoLocale(ubiThing, "https://schema.org/address");
-    let latitude = getStringNoLocale(ubiThing,"https://schema.org/latitude");
-    latitude = parseFloat(latitude);
-    let longitude = getStringNoLocale(ubiThing,"https://schema.org/longitude");
-    longitude = parseFloat(longitude);
-    let category = getStringNoLocale(ubiThing, "https://schema.org/category");
-    if(category == "null"){category = null;}
-    let loc = new Location(urlUbi, name, address, latitude, longitude, category, await solid.getAllReviews(Session, urlUbi), []);
-    return loc;*/
+    return parser.parseLocation(file);
   }
 
   async function deleteLocationById(Session, idLocation, myBaseUrl){
-    /*
-    await deleteSolidDataset(myBaseUrl + "LoMap/ubicaciones/" + idLocation, { fetch: Session.fetch});
-    */
+    await deleteFile(
+      myBaseUrl + "LoMap/locations/" + idLocation,
+      { fetch: Session.fetch }
+    );
 }
 
 
