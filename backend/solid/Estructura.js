@@ -2,7 +2,6 @@ const {
     createSolidDataset,
     getSolidDataset,
     saveSolidDatasetAt,
-    overwriteFile
     } = require ('@inrupt/solid-client');
 
 
@@ -16,16 +15,19 @@ async function construirEstructura(Session, myBaseUrl){
           { fetch: Session.fetch }             // fetch from authenticated Session
         );
 
+        let locationsDataset = createSolidDataset();
+        await saveSolidDatasetAt(
+          myBaseUrl +  "LoMap/" + "locations",
+          locationsDataset,
+          { fetch: Session.fetch }             // fetch from authenticated Session
+        );
 
-        let structJson = { "locations":[], "routes":[] };
 
-        let blob = new Blob([JSON.stringify(structJson)], {tupe: "application/json"});
-        let file = new File([blob], "locations.json", {type: blob.type});
-        
-        await overwriteFile(
-          myBaseUrl,
-          file,
-          { contentType: file.type, fetch: Session.fetch }
+        let routesDataset = createSolidDataset();
+        await saveSolidDatasetAt(
+          myBaseUrl +  "LoMap/" + "routes",
+          routesDataset,
+          { fetch: Session.fetch }             // fetch from authenticated Session
         );
 
 
