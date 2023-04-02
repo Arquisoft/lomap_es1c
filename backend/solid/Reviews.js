@@ -1,6 +1,4 @@
-const {
-  deleteFile 
-} = require('@inrupt/solid-client');
+
 
 const locations = require('./Localizaciones.js');
 
