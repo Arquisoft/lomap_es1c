@@ -115,20 +115,12 @@ async function getAllReviews(Session, idUbicacion, friendWebID) {
 }
 
 
-async function getReviewById(Session, idReview, friendWebID) {
-  let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
-  myBaseUrl = myBaseUrl[0];
-  await reviews.getReviewById(Session, idReview, myBaseUrl);
-}
-
-
-
-async function deleteReviewById(Session, idReview, friendWebID) {
+async function deleteReviewById(Session, idReview, idLocation, friendWebID) {
   //Obtencion de url del pod
   let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
   myBaseUrl = myBaseUrl[0];
 
-  await reviews.deleteReviewById(Session, idReview, myBaseUrl);
+  await reviews.deleteReviewById(Session, idReview, idLocation, myBaseUrl);
 }
 
 
