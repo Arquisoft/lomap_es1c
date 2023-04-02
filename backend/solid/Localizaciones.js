@@ -1,12 +1,5 @@
 const {
-    createSolidDataset,
-    createThing,
     getSolidDataset,
-    getStringNoLocale,
-    setThing,
-    getThing,
-    buildThing,
-    saveSolidDatasetAt,
     getContainedResourceUrlAll,
     overwriteFile,
     getFile,
