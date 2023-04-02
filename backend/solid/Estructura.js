@@ -17,7 +17,7 @@ async function construirEstructura(Session, myBaseUrl){
 
         let locationsDataset = createSolidDataset();
         await saveSolidDatasetAt(
-          myBaseUrl +  "LoMap/" + "locations",
+          myBaseUrl +  "LoMap/" + "locations/",
           locationsDataset,
           { fetch: Session.fetch }             // fetch from authenticated Session
         );
@@ -25,7 +25,7 @@ async function construirEstructura(Session, myBaseUrl){
 
         let routesDataset = createSolidDataset();
         await saveSolidDatasetAt(
-          myBaseUrl +  "LoMap/" + "routes",
+          myBaseUrl +  "LoMap/" + "routes/",
           routesDataset,
           { fetch: Session.fetch }             // fetch from authenticated Session
         );

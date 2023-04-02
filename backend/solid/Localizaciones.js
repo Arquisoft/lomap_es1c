@@ -24,7 +24,7 @@ const {
     let file = serializer.serializeLocation(ubicacion);
 
     await overwriteFile(
-      myBaseUrl + "LoMap/" + "locations",
+      myBaseUrl + "LoMap/" + "locations/",
       file,
       { contentType: file.type, fetch: Session.fetch }
     );
@@ -33,23 +33,25 @@ const {
 
 
 async function obtenerLocalizaciones(Session, myBaseUrl){
-  /*
     //Obtener url de todas las ubicaciones
-    let ubicacionDataset = await getSolidDataset(myBaseUrl + "LoMap/ubicaciones/", { fetch: Session.fetch});
+    let ubicacionDataset = await getSolidDataset(myBaseUrl + "LoMap/locations/", { fetch: Session.fetch});
     let ubicaciones = getContainedResourceUrlAll(ubicacionDataset);
     let modelsUbi = new Array(ubicaciones.length);
     for(let i=0;i<ubicaciones.length;i++){
       let urlSplit = ubicaciones[i].split('/');
         modelsUbi[i] = await obtenerLocalizacion(Session, urlSplit[urlSplit.length-1], myBaseUrl);
     }
-    return modelsUbi;*/
+    return modelsUbi;
   }
   
   
   
   async function obtenerLocalizacion(Session, idUbi, myBaseUrl){
+
+    
+
     /*
-    let ubicacionDataset = await getSolidDataset(myBaseUrl + "LoMap/ubicaciones/" + urlUbi, { fetch: Session.fetch});
+    let ubicacionDataset = await getSolidDataset(myBaseUrl + "LoMap/locations/" + urlUbi, { fetch: Session.fetch});
     let ubiThing = getThing(ubicacionDataset, myBaseUrl + "LoMap/ubicaciones/" + urlUbi + "#datos");
     let name = getStringNoLocale(ubiThing, SCHEMA_INRUPT.name);
     let address = getStringNoLocale(ubiThing, "https://schema.org/address");
