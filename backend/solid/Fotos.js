@@ -1,16 +1,4 @@
-const {
-    createSolidDataset,
-    createThing,
-    getSolidDataset,
-    getStringNoLocale,
-    setThing,
-    getThing,
-    buildThing,
-    saveSolidDatasetAt,
-    getStringNoLocaleAll,
-    deleteSolidDataset,
-    getDecimal
-} = require('@inrupt/solid-client');
+
 
 const locations = require('./Localizaciones.js');
 
@@ -30,7 +18,7 @@ async function getAllFotos(Session, idUbicacion, myBaseUrl) {
 }
 
 
-async function deleteFotoById(Session, idFoto, myBaseUrl) {
+async function deleteFotoById(Session, idFoto, idUbicacion, myBaseUrl) {
     let ubicacion = await locations.obtenerLocalizacion(Session, idUbicacion, myBaseUrl);
     ubicacion.removePhoto(idFoto);
     await locations.addLocation(Session, ubicacion, myBaseUrl);

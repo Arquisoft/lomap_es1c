@@ -12,10 +12,17 @@ const {
     getDecimal
 } = require('@inrupt/solid-client');
 
-
+const parser = require('./Parser.js');
+const serializer = require('./Serializer.js');
 
 async function addRoute(Session, route, myBaseUrl) {
+    let file = serializer.serializeLocation(route);
 
+    await overwriteFile(
+      myBaseUrl + "LoMap/" + "routes/",
+      file,
+      { contentType: file.type, fetch: Session.fetch }
+    );
 }
 
 

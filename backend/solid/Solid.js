@@ -151,19 +151,12 @@ async function getAllFotos(Session, idUbicacion, friendWebID) {
 }
 
 
-async function getFotoById(Session, idFoto, friendWebID) {
-  let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
-  myBaseUrl = myBaseUrl[0];
-  await fotos.getFotoById(Session, idFoto, myBaseUrl);
-}
-
-
-async function deleteFotoById(Session, idFoto, friendWebID) {
+async function deleteFotoById(Session, idFoto, idUbicacion, friendWebID) {
   //Obtencion de url del pod
   let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
   myBaseUrl = myBaseUrl[0];
 
-  await fotos.deleteFotoById(Session, idFoto, myBaseUrl);
+  await fotos.deleteFotoById(Session, idFoto, idUbicacion, myBaseUrl);
 }
 
 
@@ -251,6 +244,6 @@ async function deleteFriendById(Session, idFriend) {
 
 
 module.exports = {
-  createStruct, isStructCreated, saveLocation, addReview, getAllLocations, getLocationById, getAllReviews, getReviewById, deleteLocationById, deleteReviewById,
-  addFoto, getAllFotos, getFotoById, deleteFotoById, addRoute, getAllRoutes, getRouteById, deleteRouteById, addFriend, getAllFriends, deleteFriendById
+  createStruct, isStructCreated, saveLocation, addReview, getAllLocations, getLocationById, getAllReviews, deleteLocationById, deleteReviewById,
+  addFoto, getAllFotos, deleteFotoById, addRoute, getAllRoutes, getRouteById, deleteRouteById, addFriend, getAllFriends, deleteFriendById
 };

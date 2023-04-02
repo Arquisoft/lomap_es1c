@@ -6,8 +6,6 @@ const {
     deleteFile 
     } = require ('@inrupt/solid-client');
 
-    const solid = require('./Solid.js');
-
     const parser = require('./Parser.js');
     const serializer = require('./Serializer.js');
   
