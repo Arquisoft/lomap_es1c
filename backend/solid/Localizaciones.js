@@ -11,39 +11,23 @@ const {
     } = require ('@inrupt/solid-client');
 
     const solid = require('./Solid.js');
+
+    const parser = require('./Parser.js');
+    const serializer = require('./Serializer.js');
   
 
     const { SCHEMA_INRUPT} = require('@inrupt/vocab-common-rdf');
 
 
   async function addLocation(Session, ubicacion, myBaseUrl){
-    /*
-    //Creacion de ubicacion
-    let ubicacionDataset = createSolidDataset();
-      let myUbi = buildThing(createThing({name: "datos"}))
-      .addStringNoLocale(SCHEMA_INRUPT.name, ubicacion.name)
-      .addStringNoLocale("https://schema.org/address", ubicacion.address)
-      .addStringNoLocale("https://schema.org/latitude", ubicacion.latitude.toString())
-      .addStringNoLocale("https://schema.org/longitude", ubicacion.longitude.toString())
-      .addStringNoLocale("https://schema.org/category", ubicacion.category)
-  .build(); 
-  let myUbiReviews = buildThing(createThing({name: "reviews"})).addInteger("https://schema.org/Integer", 0).build(); 
-  let myUbiFotos = buildThing(createThing({name: "fotos"})).addInteger("https://schema.org/Integer", 0).build(); 
-  
-    ubicacionDataset = setThing(ubicacionDataset, myUbi);
-    ubicacionDataset = setThing(ubicacionDataset, myUbiReviews);
-    ubicacionDataset = setThing(ubicacionDataset, myUbiFotos);
-    await saveSolidDatasetAt(
-      myBaseUrl + "LoMap/" + "ubicaciones/"+ ubicacion.id ,
-      ubicacionDataset,
-      { fetch: Session.fetch }             // fetch from authenticated Session
+
+    let file = serializer.serializeLocation(ubicacion);
+
+    await overwriteFile(
+      myBaseUrl + "LoMap/" + "locations",
+      file,
+      { contentType: file.type, fetch: Session.fetch }
     );
-
-
-  
-  for(let i=0;i<ubicacion.reviews.length;i++){
-        solid.addReview(Session, ubicacion.reviews[i], myBaseUrl + "LoMap/" + "ubicaciones/"+ ubicacion.id);
-  }*/
 }
 
 
