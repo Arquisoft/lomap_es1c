@@ -10,22 +10,24 @@ const Foto = require('../models/Foto');
 
 
 
-function serializeLocation(location){
-        /*let structJson = { "locations":[], "routes":[] };
+async function serializeLocation(location){
 
-  let blob = new Blob([JSON.stringify(structJson)], {tupe: "application/json"});
-  let file = new File([blob], "locations.json", {type: blob.type});
+  let ratings = location.rating.map(r => serializeRating(r));
+  let photos = location.photos.map(p => serializeFoto(p));
+  let coments = location.coments.map(c => serializeComent(c));
+
+  let locationJson = { "name":location.name, "address":location.address, "latitude":location.latitude, "longitude":location.longitude, "category":location.category,
+                        "ratings":ratings, "photos":photos, "coments":coments };
+
+  let blob = new Blob([JSON.stringify(locationJson)], {tupe: "application/json"});
+  let file = new File([blob], location.id + ".json", {type: blob.type});
   
-  await overwriteFile(
-    myBaseUrl,
-    file,
-    { contentType: file.type, fetch: Session.fetch }
-  );*/
+  return file;
 }
 
 
 function serializeRating(rating){
-
+  
 }
 
 
@@ -33,7 +35,7 @@ function serializeComent(coment){
 
 }
 
-function serializeFoto(foto){
+async function serializeFoto(foto){
 
 }
 

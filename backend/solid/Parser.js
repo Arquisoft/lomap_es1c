@@ -10,7 +10,7 @@ const Foto = require('../models/Fotos');
 
 
 
-function parseLocation(location){
+async function parseLocation(location){
 
 }
 
@@ -24,7 +24,7 @@ function parseComent(coment){
 
 }
 
-function parseFoto(foto){
+async function parseFoto(foto){
 
 }
 

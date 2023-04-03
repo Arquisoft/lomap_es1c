@@ -15,7 +15,7 @@ const {
 
   async function addLocation(Session, ubicacion, myBaseUrl){
 
-    let file = serializer.serializeLocation(ubicacion);
+    let file = await serializer.serializeLocation(ubicacion);
 
     await overwriteFile(
       myBaseUrl + "LoMap/" + "locations/",
@@ -47,7 +47,7 @@ async function obtenerLocalizaciones(Session, myBaseUrl){
       { fetch: Session.fetch }
     );
 
-    return parser.parseLocation(file);
+    return await parser.parseLocation(file);
   }
 
   async function deleteLocationById(Session, idLocation, myBaseUrl){
