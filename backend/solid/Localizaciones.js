@@ -15,7 +15,7 @@ const {
 
   async function addLocation(Session, ubicacion, myBaseUrl){
 
-    let file = await serializer.serializeLocation(ubicacion);
+    let file = await serializer.serializeLocation(Session, myBaseUrl, ubicacion);
 
     await overwriteFile(
       myBaseUrl + "LoMap/" + "locations/",

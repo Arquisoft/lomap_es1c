@@ -24,7 +24,7 @@ function parseComent(coment){
 
 }
 
-async function parseFoto(foto){
+async function parseFoto(idFoto){
 
 }
 
