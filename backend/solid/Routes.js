@@ -10,7 +10,7 @@ const parser = require('./Parser.js');
 const serializer = require('./Serializer.js');
 
 async function addRoute(Session, route, myBaseUrl) {
-    let file = serializer.serializeLocation(route);
+    let file = serializer.serializeRoute(route);
 
     await overwriteFile(
       myBaseUrl + "LoMap/" + "routes/",
@@ -42,7 +42,7 @@ async function getRouteById(Session, idRoute, myBaseUrl) {
         { fetch: Session.fetch }
       );
   
-      return parser.parseLocation(file);
+      return parser.parseRoute(file);
 }
 
 
