@@ -1,6 +1,6 @@
 const { getSessionFromStorage} = require('@inrupt/solid-client-authn-node');
 
-const Location = require('../models/Location');
+const Location = require('../models/locationModels/Location');
 const solid = require('../solid/SolidPrueba.js');
 
   async function getLocation(req, res) {
