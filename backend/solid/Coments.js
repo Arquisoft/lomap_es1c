@@ -3,34 +3,34 @@
 const locations = require('./Localizaciones.js');
 
 
-async function addReview(Session, review, idUbicacion, myBaseUrl) {
+async function addComent(Session, coment, idUbicacion, myBaseUrl) {
 
   let ubicacion = await locations.obtenerLocalizacion(Session, idUbicacion, myBaseUrl);
-  ubicacion.addReview(review);
+  ubicacion.addRating(coment);
   await locations.addLocation(Session, ubicacion, myBaseUrl);
 
 }
 
 
 
-async function getAllReviews(Session, idUbicacion, myBaseUrl) {
+async function getAllComents(Session, idUbicacion, myBaseUrl) {
 
   let ubicacion = await locations.obtenerLocalizacion(Session, idUbicacion, myBaseUrl);
-  return ubicacion.reviews;
+  return ubicacion.coments;
 
 
 }
 
 
 
-async function deleteReviewById(Session, idReview, idLocation, myBaseUrl) {
+async function deleteComentById(Session, idComent, idLocation, myBaseUrl) {
   let ubicacion = await locations.obtenerLocalizacion(Session, idLocation, myBaseUrl);
-  ubicacion.removeReview(idReview);
+  ubicacion.removeComent(idComent);
   await locations.addLocation(Session, ubicacion, myBaseUrl);
 }
 
 
  
 module.exports = {
-  addReview, getAllReviews, deleteReviewById
+    addComent, getAllComents, deleteComentById
 };
