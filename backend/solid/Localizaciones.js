@@ -47,7 +47,7 @@ async function obtenerLocalizaciones(Session, myBaseUrl){
       { fetch: Session.fetch }
     );
 
-    return await parser.parseLocation(file);
+    return await parser.parseLocation(Session, myBaseUrl, file);
   }
 
   async function deleteLocationById(Session, idLocation, myBaseUrl){

@@ -42,7 +42,7 @@ async function getRouteById(Session, idRoute, myBaseUrl) {
         { fetch: Session.fetch }
       );
   
-      return parser.parseRoute(file);
+      return await parser.parseRoute(Session, myBaseUrl, file);
 }
 
 
