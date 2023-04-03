@@ -6,14 +6,8 @@ const port=8080;
 // The following snippet ensures that the server identifies each user's session
 // with a cookie using an express-specific mechanism
 
-
-async function createSession() {
-  session = new Session();
-}
-
 async function login(req, res, next) {
-  const session=new Session()
- 
+  const session=new Session();
   
   req.session.sessionId = session.info.sessionId;
   const redirectToSolidIdentityProvider = (url) => {
@@ -57,8 +51,11 @@ async function redirectFromSolidIdp(req, res, next){
       if(!solid.isStructCreated(session)){
         solid.createStruct(session);
       }
-      req.session.user=session.info.webId;
-      req.session.sessionId=req.session.sessionId;
+      req.sessionUser=session.info.webId;
+      req.sessionId=req.session.sessionId;
+
+      console.log(req.sessionUser)
+      console.log(req.sessionId)
       return res.send(`<p>Logged in with the WebID ${session.info.webId}.</p>`)
    }
  }
@@ -93,11 +90,6 @@ async function index(req, res, next) {
     `<p>Esta es la respuesta default de la restAPI</p>`
   );
 };
-function test(){
-  console.log("hola");
-}
-
-
 
 module.exports={
   login,

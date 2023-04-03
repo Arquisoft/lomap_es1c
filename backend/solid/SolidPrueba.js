@@ -1,5 +1,5 @@
 const Route = require("../models/Route");
-const Location = require("../models/Location");
+const Location = require("../models/locationModels/Location");
 const Friend = require("../models/Friend");
 const friends = [
     new Friend(null,'https://example.com/alice'),
