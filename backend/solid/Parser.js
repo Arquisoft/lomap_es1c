@@ -1,8 +1,9 @@
 
 const Location = require('../models/Location');
-const Review = require('../models/Review');
-const Route = require('../models/Route');
-const Foto = require('../models/Foto');
+const Rating = require('../models/Ratings');
+const Coment = require('../models/Coments');
+const Route = require('../models/Routes');
+const Foto = require('../models/Fotos');
 
 
 
@@ -14,7 +15,12 @@ function parseLocation(location){
 }
 
 
-function parseReview(review){
+function parseRating(rating){
+
+}
+
+
+function parseComent(coment){
 
 }
 
@@ -28,5 +34,5 @@ function parseRoute(route){
 
 
 module.exports={
-    parseLocation, parseReview, parseFoto, parseRoute
+    parseLocation, parseFoto, parseRoute, parseRating, parseComent
   };
