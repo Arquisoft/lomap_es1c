@@ -30,6 +30,13 @@ async function construirEstructura(Session, myBaseUrl){
           { fetch: Session.fetch }             // fetch from authenticated Session
         );
 
+        let fotosDataset = createSolidDataset();
+        await saveSolidDatasetAt(
+          myBaseUrl +  "LoMap/" + "fotos/",
+          fotosDataset,
+          { fetch: Session.fetch }             // fetch from authenticated Session
+        );
+
 
     }
     catch(error){
