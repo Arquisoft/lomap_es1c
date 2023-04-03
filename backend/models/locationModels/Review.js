@@ -1,4 +1,4 @@
-//Not used
+
 class Review {
     constructor(id=null, rating, text, author) {
       if (typeof rating !== "number" || rating < 0 || rating > 5) {
