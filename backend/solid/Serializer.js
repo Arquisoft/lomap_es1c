@@ -1,14 +1,6 @@
 
-const Location = require('../models/Location');
-const Rating = require('../models/Ratings');
-const Coment = require('../models/Coments');
-const Route = require('../models/Route');
-const Foto = require('../models/Foto');
 
-
-const parser = require('./Parser');
-
-
+const overwriteFile= require ('@inrupt/solid-client');
 
 async function serializeLocation(Session, myBaseUrl, location){
 
@@ -48,8 +40,12 @@ async function serializeFoto(Session, myBaseUrl, foto){
   return {"author":foto.author, "date":foto.date, "id":foto.id };
 }
 
-async function serializeRoute(Session, myBaseUrl, route){
+function serializeRoute(route){
+  let routeJson = { "name":route.name, "locations":route.locations.map(l => l.id) };
 
+  let blob = new Blob([JSON.stringify(routeJson)], {type: "application/json"});
+  let file = new File([blob], route.id + ".json", {type: blob.type});
+  return file;
 }
 
 
