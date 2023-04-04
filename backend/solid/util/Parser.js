@@ -7,14 +7,8 @@ const fs = require("fs");
 
 const Localizaciones = require("../locations/Locations.js");
 
-async function parseLocation(Session, myBaseUrl, location) {
+async function parseLocation(location) {
 	let locationJson = await getJsonFromBlob(location);
-
-	let ratings = locationJson.reviewScores.map((r) => parseRating(r));
-	let photos = await locationJson.photos.map((p) =>
-		parseFoto(Session, myBaseUrl, p)
-	);
-	let coments = locationJson.coments.map((c) => parseComent(c));
 
 	return new Location(
 		locationJson.id,
@@ -24,28 +18,27 @@ async function parseLocation(Session, myBaseUrl, location) {
 		locationJson.latitude,
 		locationJson.longitude,
 		locationJson.category,
-		ratings,
-		coments,
-		photos
+		locationJson.date,
+		locationJson.comments,
+		locationJson.reviews, 
+		locationJson.photos
 	);
+
 }
 
-function parseRating(rating) {
-	return new Rating(rating.id, rating.author, rating.score, rating.date);
+async function parseRating(review) {
+	let reviewJson = await getJsonFromBlob(review);
+	return new Rating(reviewJson.id, reviewJson.author, reviewJson.score, reviewJson.date);
 }
 
-function parseComent(coment) {
-	return new Coment(coment.id, coment.author, coment.coment, coment.date);
+async function parseComent(coment) {
+	let comentJson = await getJsonFromBlob(coment);
+	return new Coment(comentJson.id, comentJson.author, comentJson.coment, comentJson.date);
 }
 
-async function parseFoto(Session, myBaseUrl, foto) {
-	let file = await getFile(myBaseUrl + "LoMap/fotos/" + foto.id, {
-		fetch: Session.fetch,
-	});
-
-	source = getJpegFromBlob(file);
-
-	return new Foto(foto.id, source, foto.author, foto.date);
+async function parseFoto(foto) {
+	let fotoJson = await getJsonFromBlob(coment);
+	return new Foto(fotoJson.author, fotoJson.name, fotoJson.url, fotoJson.date, fotoJson.id);
 }
 
 async function parseRoute(Session, myBaseUrl, route) {
