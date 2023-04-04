@@ -2,6 +2,7 @@ import React from "react";
 import AmigoCard from "./cards/AmigoCard";
 import { useTranslation } from "react-i18next";
 
+// TODO: eliminar datos hardcodeados
 const amigos = [
     {
         id: 1,

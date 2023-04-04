@@ -1,49 +1,44 @@
 import React, { useContext, useState } from 'react';
 import { Drawer, Box, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import TabButtons from './TabButtons.js';
 import { ThemeContext } from '../contexts/ThemeContext.js';
+import DrawerDefaultContent from './DrawerDefaultContent';
+
 
 export default function DrawerSidebar(props) {
-    const {currentTheme, setCurrentTheme} = useContext(ThemeContext);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [contenidoAMostrar, setContenidoAMostrar] = React.useState(null)
+    const {currentTheme} = useContext(ThemeContext);
 
-    function setNuevoContenidoAMostrar(nuevoContenido) {
-        setContenidoAMostrar(nuevoContenido)
-      }
+    const defaultDrawerContent = (
+        <DrawerDefaultContent
+          userPlaces={props.userPlaces}
+          changeDrawerContent = {props.changeDrawerContent}
+          restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
+        />
+      )
 
     return (
         <div id={currentTheme}>
         <IconButton
             sx = {{position: 'absolute', top: 16, left: 16}}
             size="extra"
+            onClick={() => props.setIsDrawerOpen(true)}
         >
-            <MenuIcon
-                onClick={() => setIsDrawerOpen(true)}
-            />
+            <MenuIcon />
         </IconButton>
 
         <Drawer
             anchor='left'
-            open={isDrawerOpen}
-            onClose={() => setIsDrawerOpen(false)}
+            open={props.isDrawerOpen}
+            onClose={() => props.setIsDrawerOpen(false)}
             id={currentTheme}
         >
             <Box
                 p={2}
                 width='300px'
-                height='100%'
                 className="drawer"
             >
-                {/* Los botones de las tabs */}
-                <TabButtons
-                    onClickFunction = {setNuevoContenidoAMostrar}
-                    userPlaces = {props.userPlaces}
-                />
-
-                {/* El contenido que se muestra */}
-                {contenidoAMostrar}
+                {props.contentToDisplay!=null  &&  props.contentToDisplay}
+                {props.contentToDisplay==null  &&  defaultDrawerContent}
             </Box>
         </Drawer>
         </div>

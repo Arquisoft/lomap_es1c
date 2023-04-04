@@ -7,90 +7,10 @@ import OpenIconSpeedDial from "./bottonMarkers";
 import FilterButtons from "./filterButtons";
 import { useContext } from "react";
 import { useEffect } from "react";
+import { darkMapStyle, lightMapStyle } from "./themes/MapThemes";
+import FullInfoPlace from "../Sidebar/cards/FullInfoPlace";
 
-const darkMapStyle = [
-  { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-  { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-  { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-  {
-    featureType: "administrative.locality",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#d59563" }],
-  },
-  {
-    featureType: "poi",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#d59563" }],
-  },
-  {
-    featureType: "poi.park",
-    elementType: "geometry",
-    stylers: [{ color: "#263c3f" }],
-  },
-  {
-    featureType: "poi.park",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#6b9a76" }],
-  },
-  {
-    featureType: "road",
-    elementType: "geometry",
-    stylers: [{ color: "#38414e" }],
-  },
-  {
-    featureType: "road",
-    elementType: "geometry.stroke",
-    stylers: [{ color: "#212a37" }],
-  },
-  {
-    featureType: "road",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#9ca5b3" }],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry",
-    stylers: [{ color: "#746855" }],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry.stroke",
-    stylers: [{ color: "#1f2835" }],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#f3d19c" }],
-  },
-  {
-    featureType: "transit",
-    elementType: "geometry",
-    stylers: [{ color: "#2f3948" }],
-  },
-  {
-    featureType: "transit.station",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#d59563" }],
-  },
-  {
-    featureType: "water",
-    elementType: "geometry",
-    stylers: [{ color: "#17263c" }],
-  },
-  {
-    featureType: "water",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#515c6d" }],
-  },
-  {
-    featureType: "water",
-    elementType: "labels.text.stroke",
-    stylers: [{ color: "#17263c" }],
-  },
-];
-
-const lightMapStyle = [];
-export default function CreateMap({open,setLatitude,setLongitude,markers,setMarkers,places,canCick,setCanCick}) {
+export default function CreateMap({open,setLatitude,setLongitude,markers,setMarkers,places,canCick,setCanCick,changeDrawerContent,restoreDefautlDrawerContent}) {
     const { isLoaded } = useLoadScript({
       googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     });
@@ -100,7 +20,10 @@ export default function CreateMap({open,setLatitude,setLongitude,markers,setMark
       <div>
         <Map openModal={open} setLatitudeMark={setLatitude} setLongitudeMark={setLongitude} markersState={markers}
         setMarkers={setMarkers} canCick={canCick} setCanCick={setCanCick}
-        places={places} style={{position:"none"}}/>
+        places={places} style={{position:"none"}}
+        changeDrawerContent = {changeDrawerContent}
+        restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
+        />
       </div>
     );
   }
@@ -108,7 +31,7 @@ export default function CreateMap({open,setLatitude,setLongitude,markers,setMark
 
 var Located = true;
 
-function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers,places,canCick,setCanCick}) {
+function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers,places,canCick,setCanCick,changeDrawerContent,restoreDefautlDrawerContent}) {
 
   //Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
   
@@ -192,7 +115,12 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
   }, [currentTheme]);
 
   function details(marker){
-    console.log(marker);
+    changeDrawerContent(
+      <FullInfoPlace
+        place={places.find(place => place.id == marker.id)}
+        returnFunction={restoreDefautlDrawerContent}
+      />
+    )
   }
 
   //Nos devuelve el mapa con todos los componentes asociados.

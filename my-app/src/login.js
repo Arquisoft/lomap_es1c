@@ -4,7 +4,7 @@ import React from 'react';
 import "./login.css";
 
 
-export default function Login(){
+export default function Login({logInFunction}){
   return (
     <div class="mainDiv">
       <div class="logoYParrafo">
@@ -13,7 +13,7 @@ export default function Login(){
       </div>
       <div class="formName">
         <Box className="caja" component="span">
-          <Button className="btnLogin">Iniciar Sesión</Button>
+          <Button className="btnLogin" onClick={logInFunction}>Iniciar Sesión</Button>
         </Box>
       </div>
     </div>
