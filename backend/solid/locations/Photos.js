@@ -1,8 +1,8 @@
 const locations = require("./Locations.js");
 
+const parser = require("../util/Parser.js");
 const serializer = require("../util/Serializer.js");
 
-// Añade una photo a la carpeta photo, no la añade a su location porque de eso ya se encarga addLocation
 async function addFoto(Session, foto) {
 	let myUrl = await getPodUrlAll(Session.info.webId, { fetch: Session.fetch });
 	myUrl = myUrl[0];
@@ -19,13 +19,19 @@ async function addFoto(Session, foto) {
 	);
 }
 
-async function getAllFotos(Session, idUbicacion, myBaseUrl) {
-	let ubicacion = await locations.obtenerLocalizacion(
-		Session,
-		idUbicacion,
-		myBaseUrl
-	);
-	return ubicacion.photos;
+async function getAllFotos(Session, jsonPhotos) {
+	return jsonPhotos.map(p => getFoto(Session, p));
+}
+
+async function getFoto(Session, jsonPhoto){
+	let myUrl = await getPodUrlAll(jsonPhoto.author, { fetch: Session.fetch });
+	myUrl = myUrl[0];
+
+	let file = await getFile(myBaseUrl + "LoMap/locations/photos/" + jsonPhoto.id + ".json", {
+		fetch: Session.fetch,
+	});
+
+	return await parser.parsePhoto(file);
 }
 
 async function deleteFotoById(Session, idFoto, idUbicacion, myBaseUrl) {
