@@ -1,33 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import RutaCard from "./cards/RutaCard";
 import { useTranslation } from "react-i18next";
-
-// TODO: eliminar datos hard-codeados
-const rutas = [
-    {
-        id: 1,
-        titulo: "Ruta 1"
-    },
-    {
-        id: 2,
-        titulo: "Otra ruta distinta"
-    },
-]
+import axios from 'axios';
 
 export default function RutasTabContent(props) {
+    const [routes, setRoutes] = useState([])
+
+    function updateRoutes(theRoutes) {
+        setRoutes(
+            theRoutes.map(
+                route => ({
+                    id: route.id,
+                    name: route.name,
+                    locations: 
+                        route.locations.map(
+                            location => ({
+                                id: location.id,
+                                name: location.name,
+                                latitude: location.latitude,
+                                longitude: location.longitude
+                            })
+                        )
+                })
+            )
+        )
+    }
+
+    useEffect(() => {getRoutes();}, [])
+
+    function getRoutes() {
+        axios
+            .get('http://localhost:8080/route')
+            .then(response => updateRoutes(response.data))
+            .catch(error => {console.log(error)});
+    }
+
     const [t, i18n] = useTranslation("global")
     
-    const cards = rutas.map(
-        ruta =>
-        <RutaCard
-            key = {ruta.id}
-            {...ruta}
-        />
-    )
     return (
         <div className="tabcontent">
             <h1 id="centered">{t("sidebar.tabs.route-content.title")}</h1>
-            {cards}
+            {routes.map(
+                route =>
+                <RutaCard
+                    key = {route.id}
+                    route = {route}
+                    changeDrawerContent = {props.changeDrawerContent}
+                />
+            )}
         </div>
     )
 }

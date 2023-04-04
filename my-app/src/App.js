@@ -8,12 +8,12 @@ import axios from 'axios';
 import { useTranslation } from "react-i18next";
 import SettingsSpeedDial from './buttons/SettingsSpeedDial';
 import DrawerSidebar from './Sidebar/Drawer';
-
+import DrawerDefaultContent from './Sidebar/DrawerDefaultContent.js';
 import addPlace from './Places/Places';
 
 var a = [];
 
-export default function App() {
+export default function App({logOutFunction}) {
 
   const [data, setData] = useState('');
   const [t, i18n] = useTranslation("global")
@@ -75,6 +75,17 @@ export default function App() {
       i18n.changeLanguage(i18n.language === "es" ? "en" : "es");
     }
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [drawerContent, setDrawerContent] = useState(null);
+
+  function restoreDefautlDrawerContent() {
+    setDrawerContent(null)
+  }
+
+  function changeDrawerContent(newContent=null) {
+    setIsDrawerOpen(true)
+    setDrawerContent(newContent)
+  }
 
   return (
     <div id={currentTheme}>
@@ -100,15 +111,23 @@ export default function App() {
         places={places}
         canCick={canCick}
         setCanCick={setCanCick}
+        changeDrawerContent={changeDrawerContent}
+        restoreDefautlDrawerContent={restoreDefautlDrawerContent}
       />
 
       <SettingsSpeedDial
         changeLanguage = {toggleLanguage}
         toggleTheme = {toggleTheme}
+        logOutFunction = {logOutFunction}
       />
 
       <DrawerSidebar
         userPlaces = {places}
+        isDrawerOpen = {isDrawerOpen}
+        setIsDrawerOpen = {setIsDrawerOpen}
+        contentToDisplay = {drawerContent}
+        restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
+        changeDrawerContent = {changeDrawerContent}
       />
 
     </div>
