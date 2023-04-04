@@ -93,10 +93,10 @@ async function addPhoto(req, res) {
 	res.status(201).json({ message: "Photo added successfully" });
 }
 
-async function removePhoto(req, res) {
+async function deletePhoto(req, res) {
 	const { id } = req.params;
 	const { idPhoto } = req.body;
-	await solid.removePhoto(id, idPhoto);
+	await solid.deletePhoto(id, idPhoto);
 	res.status(204).json({ message: "Photo removed successfully" });
 }
 
@@ -115,17 +115,17 @@ async function addReview(req, res) {
 	res.status(201).json({ message: "Photo added successfully" });
 }
 
-async function removeReview(req, res) {
+async function deleteReview(req, res) {
 	const { id } = req.params;
 	const { idReview } = req.body;
-	await solid.removeComment(id, idReview);
+	await solid.deleteComment(id, idReview);
 	res.status(204).json({ message: "Review removed successfully" });
 }
 
-async function removeComment(req, res) {
+async function deleteComment(req, res) {
 	const { id } = req.params;
 	const { idComment } = req.body;
-	await solid.removeComment(id, idComment);
+	await solid.deleteComment(id, idComment);
 	res.status(204).json({ message: "Comment removed successfully" });
 }
 
@@ -163,12 +163,12 @@ module.exports = {
 	getLocation,
 	deleteLocation,
 	updateLocation,
+	addReview,
 	addPhoto,
 	getCategories,
-	setRating,
 	addComment,
 	getLocationsByCategory,
-	removePhoto,
-	removeReview,
-	removeComment,
+	deletePhoto,
+	deleteReview,
+	deleteComment,
 };

@@ -1,13 +1,13 @@
 class Comment {
-	constructor(author, comment, timestamp = null, id = null) {
+	constructor(author, text, timestamp = null, id = null) {
 		if (!author || author.trim().length === 0) {
 			throw new Error("Comment author cannot be null or empty");
 		}
-		if (!comment || comment.trim().length === 0) {
+		if (!text || comment.trim().length === 0) {
 			throw new Error("Comment text cannot be null or empty");
 		}
 		this.author = author;
-		this.comment = comment;
+		this.text = text;
 		this.id = id ? id : this.generateRandomId();
 		this.timestamp = timestamp ? timestamp : this.generateTimestamp();
 	}
@@ -17,8 +17,8 @@ class Comment {
 		return `${currentDate}`;
 	}
 
-	updateComment(comment) {
-		this.comment = comment;
+	updateText(text) {
+		this.text = text;
 	}
 
 	generateRandomId() {

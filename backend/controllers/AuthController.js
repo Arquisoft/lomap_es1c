@@ -25,14 +25,18 @@ async function redirectFromSolidIdp(req, res, next) {
 	await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
 
 	if (session.info.isLoggedIn) {
-		if (!solid.isStructCreated(session)) {
-			solid.createStruct(session);
-		}
-		req.sessionUser = session.info.webId;
-		req.sessionId = req.session.sessionId;
-		console.log(req.sessionUser);
-		console.log(req.sessionId);
-		return res.send(`<p>Logged in with the WebID ${session.info.webId}.</p>`);
+		//if (!solid.isStructCreated(session)) {
+		//	solid.createStruct(session);
+		//}
+		req.session.user = session.info.webId;
+		req.session.sessionId = req.session.sessionId;
+		res.cookie("sessionId", req.session.sessionId, {
+			maxAge: 24 * 60 * 60 * 1000,
+		}); // Set cookie with name 'sessionId' and value of req.session.sessionId with a max age of 24 hours (in milliseconds)
+
+		return res.send(
+			`<p>User ${req.session.user} logged in with the session ${req.session.sessionid}.</p>`
+		);
 	}
 }
 

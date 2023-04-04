@@ -1,17 +1,12 @@
-const { getSessionFromStorage} = require('@inrupt/solid-client-authn-node');
-const express = require('express');
-const session=require("../controllers/AuthController");
+const { getSessionFromStorage } = require("@inrupt/solid-client-authn-node");
+const express = require("express");
 const userSessionRouter = express.Router();
 userSessionRouter.use(async function (req, res, next) {
-
-    //req.session.user TODO
-    console.log(req.sessionId)
-    console.log(req.sessionUser);
-    req.session=getSessionFromStorage(req.sessionId);
-    
-    if(true) { 
-        next();
-    } else {
-    }
+	session = await getSessionFromStorage(req.session.sessionId);
+	if (session != null && session.info.isLoggedIn) {
+		next();
+	} else {
+		res.status(401).json("No se ha iniciado sesion");
+	}
 });
 module.exports = userSessionRouter;

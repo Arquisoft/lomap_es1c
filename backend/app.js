@@ -50,7 +50,7 @@ app.use(express.json());
 
 //Controllers
 const authController = require("./controllers/AuthController");
-const locationController = require("./controllers/locationController");
+const locationController = require("./controllers/LocationController");
 const friendController = require("./controllers/FriendController");
 const routeController = require("./controllers/RouteController");
 
