@@ -15,6 +15,14 @@ async function construirEstructura(Session, myBaseUrl){
           { fetch: Session.fetch }             // fetch from authenticated Session
         );
 
+
+        let baseFriends = createSolidDataset();
+        await saveSolidDatasetAt(
+          myBaseUrl +  "friends/",
+          baseFriends,
+          { fetch: Session.fetch }             // fetch from authenticated Session
+        );
+
         let locationsDataset = createSolidDataset();
         await saveSolidDatasetAt(
           myBaseUrl +  "LoMap/" + "locations/",

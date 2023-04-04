@@ -9,14 +9,23 @@ const {
     saveSolidDatasetAt,
     getStringNoLocaleAll,
     deleteSolidDataset,
-    getDecimal
+    getDecimal,
+    overwriteFile
 } = require('@inrupt/solid-client');
 
 const parser = require('./Parser.js');
 const serializer = require('./Serializer.js');
 
-async function addFriend(Session, friend, myBaseUrl) {
+async function addFriend(Session, friend, myBaseUrl, friendBaseUrl) {
+    let file = await serializer.serializeFriend(friend);
 
+    await overwriteFile(
+        friendBaseUrl + "friends/",
+        file,
+        { contentType: file.type, fetch: Session.fetch }
+    );
+
+    darPermisos(Session, friend.id, myBaseUrl);
 }
 
 

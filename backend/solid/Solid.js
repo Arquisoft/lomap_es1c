@@ -255,7 +255,10 @@ async function addFriend(Session, friend) {
   let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
   myBaseUrl = myBaseUrl[0];
 
-  await friends.addFriend(Session, friend, myBaseUrl);
+  let friendBaseUrl = await getPodUrlAll(friend.id, { fetch: Session.fetch });
+  myBaseUrl = myBaseUrl[0];
+
+  await friends.addFriend(Session, friend, myBaseUrl, friendBaseUrl);
 }
 
 
