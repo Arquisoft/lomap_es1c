@@ -29,6 +29,7 @@ export default function FullInfoPlace({place, returnFunction}) {
         <p></p>
 
         <h3>Fotos:</h3>
+        {/* TODO: añadir listado con todas las fotos */}
         <p></p>
 
         <IconButton><EditIcon/></IconButton>

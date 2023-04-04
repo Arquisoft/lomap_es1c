@@ -5,7 +5,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullRouteInfo from "./FullRouteInfo";
 
 export default function RutaCard(props) {
-    const [t, i18n] = useTranslation("global")
+    // const [t, i18n] = useTranslation("global")
 
     function showFullRouteInfo() {
         props.changeDrawerContent(<FullRouteInfo key={props.route.id} route={props.route} returnFunction={() => props.changeDrawerContent(null)}/>)

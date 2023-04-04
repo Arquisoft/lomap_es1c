@@ -11,6 +11,7 @@ export default function LugarCard(props) {
         props.changeDrawerContent(<FullInfoPlace place={place} returnFunction={() => props.changeDrawerContent(null)}/>)
     }
 
+    console.log(place)
     const maxTextLength = 20
     return (
         <div className="card">
