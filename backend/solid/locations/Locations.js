@@ -57,10 +57,10 @@ async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
 		fetch: Session.fetch,
 	});
 
-	let location =  await parser.parseLocation(Session, myBaseUrl, file);
-	location.reviews = await Reviews.getAllReviews(Session, idUbi, myBaseUrl);
-	location.photos = await Photos.getAllFotos(Session, idUbi, myBaseUrl);
-	location.comments = await Comments.getAllComents(Session, idUbi, myBaseUrl);
+	let location =  await parser.parseLocation(file);
+	location.reviews = await Reviews.getAllReviews(Session, location.reviews, myBaseUrl);
+	location.photos = await Photos.getAllFotos(Session, location.photos, myBaseUrl);
+	location.comments = await Comments.getAllComents(Session, location.comments, myBaseUrl);
 	return location;
 }
 
