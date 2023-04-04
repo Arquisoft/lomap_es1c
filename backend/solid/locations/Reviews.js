@@ -21,13 +21,19 @@ async function addReview(Session, review) {
 	);
 }
 
-async function getAllReviews(Session, idUbicacion, myBaseUrl) {
-	let ubicacion = await locations.obtenerLocalizacion(
-		Session,
-		idUbicacion,
-		myBaseUrl
-	);
-	return ubicacion.ratings;
+async function getAllReviews(Session, jsonReviews) {
+	return jsonReviews.map(r => getReview(Session, r));
+}
+
+async function getReview(Session, jsonReview){
+	let myUrl = await getPodUrlAll(jsonReview.author, { fetch: Session.fetch });
+	myUrl = myUrl[0];
+
+	let file = await getFile(myBaseUrl + "LoMap/locations/reviews/" + jsonReview.id + ".json", {
+		fetch: Session.fetch,
+	});
+
+	return await parser.parseReview(file);
 }
 
 async function deleteRatingById(Session, idRating, idLocation, myBaseUrl) {
