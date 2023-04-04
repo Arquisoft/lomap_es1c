@@ -31,9 +31,10 @@ async function serializeLocation(Session, myBaseUrl, location) {
 	return buffer;
 }
 
+// Se utilizan para serializar la informacion que va en locations, no la que va en las carpetas reviews, comments y photos
 function serializeReview(review) {
 	let ratingJson = {
-		rating: review.rating,
+		//rating: review.rating,        esto va en la carpeta review del author
 		author: review.author,
 		id: review.id,
 	};
@@ -43,7 +44,7 @@ function serializeReview(review) {
 function serializeComment(comment) {
 	let comentJson = {
 		author: comment.author,
-		text: comment.text,
+		//text: comment.text,             esto va en la carpeta comment del author
 		timestamp: comment.timestamp,
 		id: comment.id,
 	};
@@ -52,13 +53,85 @@ function serializeComment(comment) {
 function serializePhoto(photo) {
 	let photoJson = {
 		author: photo.author,
-		name: photo.name,
-		url: photo.url,
-		timestamp: photo.timestamp,
+		/*name: photo.name,
+		url: photo.url,  
+		timestamp: photo.timestamp,       todo esto va en la carpeta photo del author*/
 		id: photo.id,
 	};
 	return photoJson;
 }
+
+async function serializeReviewComplet(review) { // Se utiliza para serializar la informacion de las reviews que va en la carpeta reviews
+	let ratingJson = {
+		rating: review.rating,
+		author: review.author,
+		id: review.id,
+	};
+
+
+	let blob = new Blob([JSON.stringify(ratingJson)], {
+	type: "application/json",
+	});
+
+	let buffer = Buffer.from(await blob.arrayBuffer());
+
+	return buffer;
+}
+
+async function serializeCommentComplet(comment) { // Se utiliza para serializar la informacion de los comments que va en la carpeta comments
+	let comentJson = {
+		author: comment.author,
+		text: comment.text,
+		timestamp: comment.timestamp,
+		id: comment.id,
+	};
+
+	let blob = new Blob([JSON.stringify(comentJson)], {
+		type: "application/json",
+	});
+
+	let buffer = Buffer.from(await blob.arrayBuffer());
+
+	return buffer;
+}
+async function serializePhotoComplet(photo) { // Se utiliza para serializar la informacion de las photos que va en la carpeta photos
+	let photoJson = {
+		author: photo.author,
+		name: photo.name,
+		url: photo.url,  
+		timestamp: photo.timestamp,
+		id: photo.id,
+	};
+
+	
+	let blob = new Blob([JSON.stringify(photoJson)], {
+		type: "application/json",
+	});
+
+	let buffer = Buffer.from(await blob.arrayBuffer());
+
+	return buffer;
+}
+
+
+async function serializeRoute(route) {
+	let routeJson = {
+		id: route.id,
+		name: route.name,
+		locations: route.locations.map((l) => l.id),
+		description: route.description,
+		author: route.author
+	};
+
+	let blob = new Blob([JSON.stringify(routeJson)], {
+		type: "application/json",
+	});
+	let buffer = Buffer.from(await blob.arrayBuffer());
+
+	return buffer;
+}
+
+function serializeFriend(friend) {}
 
 /*
 async function serializePhoto(Session, myBaseUrl, photo) {
@@ -72,21 +145,6 @@ async function serializePhoto(Session, myBaseUrl, photo) {
 }
 
 */
-function serializeRoute(route) {
-	let routeJson = {
-		id: route.id,
-		name: route.name,
-		locations: route.locations.map((l) => l.id),
-	};
-
-	let blob = new Blob([JSON.stringify(routeJson)], {
-		type: "application/json",
-	});
-	let file = new File([blob], route.id + ".json", { type: blob.type });
-	return file;
-}
-
-function serializeFriend(friend) {}
 
 module.exports = {
 	serializeLocation,
@@ -95,4 +153,7 @@ module.exports = {
 	serializeReview,
 	serializeComment,
 	serializeFriend,
+	serializeReviewComplet, 
+	serializeCommentComplet, 
+	serializePhotoComplet
 };

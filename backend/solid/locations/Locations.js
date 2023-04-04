@@ -9,6 +9,10 @@ const {
 const parser = require("../util/Parser.js");
 const serializer = require("../util/Serializer.js");
 
+const Comments = require("./Comments.js");
+const Reviews = require("./Reviews.js");
+const Photos = require("./Photos.js");
+
 const { SCHEMA_INRUPT } = require("@inrupt/vocab-common-rdf");
 
 async function addLocation(Session, ubicacion, myBaseUrl) {
@@ -22,11 +26,17 @@ async function addLocation(Session, ubicacion, myBaseUrl) {
 			fetch: Session.fetch,
 		}
 	);
+
+
+	//Añado a comentarios, reviews y fotos a sus respectivas carpetas
+	ubicacion.comments.forEach(c => Comments.addComent(Session, c));
+	ubicacion.reviews.forEach(r => Reviews.addReview(Session, r));
+	ubicacion.photos.forEach(p => Photos.addFoto(Session, p));
 }
 
 async function obtenerLocalizaciones(Session, myBaseUrl) {
 	//Obtener url de todas las ubicaciones
-	let ubicacionDataset = await getSolidDataset(myBaseUrl + "LoMap/locations/", {
+	let ubicacionDataset = await getSolidDataset(myBaseUrl + "LoMap/locations/locations/", {
 		fetch: Session.fetch,
 	});
 	let ubicaciones = getContainedResourceUrlAll(ubicacionDataset);
@@ -43,11 +53,15 @@ async function obtenerLocalizaciones(Session, myBaseUrl) {
 }
 
 async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
-	let file = await getFile(myBaseUrl + "LoMap/locations/" + idUbi, {
+	let file = await getFile(myBaseUrl + "LoMap/locations/locations/" + idUbi + ".json", {
 		fetch: Session.fetch,
 	});
 
-	return await parser.parseLocation(Session, myBaseUrl, file);
+	let location =  await parser.parseLocation(Session, myBaseUrl, file);
+	location.reviews = await Reviews.getAllReviews(Session, idUbi, myBaseUrl);
+	location.photos = await Photos.getAllFotos(Session, idUbi, myBaseUrl);
+	location.comments = await Comments.getAllComents(Session, idUbi, myBaseUrl);
+	return location;
 }
 
 async function deleteLocationById(Session, idLocation, myBaseUrl) {

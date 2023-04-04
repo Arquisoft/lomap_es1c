@@ -1,16 +1,27 @@
 const locations = require("./Locations.js");
 
-async function addRating(Session, rating, idUbicacion, myBaseUrl) {
-	let ubicacion = await locations.obtenerLocalizacion(
-		Session,
-		idUbicacion,
-		myBaseUrl
+const parser = require("../util/Parser.js");
+const serializer = require("../util/Serializer.js");
+
+
+// Añade una review a la carpeta review, no la añade a su location porque de eso ya se encarga addLocation
+async function addReview(Session, review) {
+	let myUrl = await getPodUrlAll(Session.info.webId, { fetch: Session.fetch });
+	myUrl = myUrl[0];
+
+	let file = serializer.serializeReviewComplet(review);
+
+	await overwriteFile(
+		myBaseUrl + "LoMap/locations/reviews/" + review.id + ".json",
+		file,
+		{
+			contentType: file.type,
+			fetch: Session.fetch,
+		}
 	);
-	ubicacion.addRating(rating);
-	await locations.addLocation(Session, ubicacion, myBaseUrl);
 }
 
-async function getAllRatings(Session, idUbicacion, myBaseUrl) {
+async function getAllReviews(Session, idUbicacion, myBaseUrl) {
 	let ubicacion = await locations.obtenerLocalizacion(
 		Session,
 		idUbicacion,
@@ -30,7 +41,7 @@ async function deleteRatingById(Session, idRating, idLocation, myBaseUrl) {
 }
 
 module.exports = {
-	addRating,
-	getAllRatings,
+	addReview,
+	getAllReviews,
 	deleteRatingById,
 };
