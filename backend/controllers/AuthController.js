@@ -25,9 +25,8 @@ async function redirectFromSolidIdp(req, res, next) {
 	await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
 
 	if (session.info.isLoggedIn) {
-		//if (!solid.isStructCreated(session)) {
-		//	solid.createStruct(session);
-		//}
+		solid.createStruct(session);
+
 		req.session.user = session.info.webId;
 		req.session.sessionId = req.session.sessionId;
 		res.cookie("sessionId", req.session.sessionId, {

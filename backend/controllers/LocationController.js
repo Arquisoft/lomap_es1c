@@ -4,7 +4,7 @@ const Location = require("../models/locationModels/Location");
 const Photo = require("../models/locationModels/Photo");
 const Review = require("../models/locationModels/Review");
 const Comment = require("../models/locationModels/Comment");
-const solid = require("../solid/SolidPrueba.js");
+const solid = require("../solid/Solid.js");
 
 //CRUD
 
@@ -21,7 +21,7 @@ async function getLocation(req, res) {
 
 async function getAllLocations(req, res) {
 	session = await getSessionFromStorage(req.session.sessionId);
-	const locations = await solid.getAllLocations(session);
+	const locations = await solid.getAllLocations(session, req.session.user);
 	res.send(JSON.stringify(locations));
 }
 
@@ -41,7 +41,7 @@ async function createLocation(req, res) {
 		req.session.user,
 		category
 	);
-	await solid.saveLocation(session, location);
+	await solid.saveLocation(session, location, req.session.user);
 	res.status(201).json(location);
 }
 
