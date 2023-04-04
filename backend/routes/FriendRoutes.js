@@ -8,7 +8,7 @@ module.exports = function (app, friendController) {
 	app.get("/friend/location", friendController.getAllLocationsFromFriends);
 	app.get("/friend/:id/location", friendController.getFriendLocations);
 	app.get(
-		"/friend/location/categorie/:name",
-		friendController.getAllLocationsByCategorie
+		"/friend/location/category/:name",
+		friendController.getAllLocationsByCategory
 	);
 };
