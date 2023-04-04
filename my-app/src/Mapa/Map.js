@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { GoogleMap, useLoadScript, Marker, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, Marker, MarkerF, DirectionsService } from "@react-google-maps/api";
 import { Themes, ThemeContext } from '../contexts/ThemeContext';
 import Geolocation from '@react-native-community/geolocation';
 import { Alert, AlertTitle, Snackbar } from "@mui/material";
@@ -116,7 +116,7 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
   //Constantes de las longitudes y latitudes de el marcador que se pone en el mapa ademas de otrs dos duplicados para el uso de guardar el punto.
   const [latitude, setLatitude] = React.useState('');
   const [longitude, setLongitude] = React.useState('');
-  
+  const [response, setResponse] = useState(null);
   const [openInfo, setOpenInfo] = React.useState(false);
 
   //Constante de el marcador, es donde se guarda el marcador actual para mostrarlo en el mapa.
@@ -147,6 +147,13 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
     lat: Number(latitude), 
     lng: Number(longitude)
   });
+
+  
+  const directionsCallback = (response) => {
+    if (response !== null && response.status === 'OK') {
+     setResponse(response);
+    }
+   };
 
   const mapRef = useRef(null);
 

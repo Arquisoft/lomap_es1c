@@ -16,6 +16,7 @@ var a = [];
 export default function App() {
 
   const [data, setData] = useState('');
+
   const [t, i18n] = useTranslation("global")
 
   function getData(){
@@ -42,6 +43,7 @@ export default function App() {
       }
 
   });
+
 
   //Estados de la aplicacion
   //Latitud y longitud del marcador actual que tu pongas en el mapa.

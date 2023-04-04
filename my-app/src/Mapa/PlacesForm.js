@@ -64,7 +64,7 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
   const [valoracion, setValoracion] = React.useState(0);
   const [categoria, setCategoria] = React.useState('Sin categoria');
   const [privacidad, setPrivacidad] = React.useState('Publico');
-  // const [fotos, setFotos] = React.useState('');
+  const [fotos, setFotos] = React.useState('');
   const [comentario, setComentario] = React.useState('');
 
   function handleNameChange(e) {
@@ -83,9 +83,9 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
     setPrivacidad(e.target.value);
   }
 
-  // function handleFotoChange (e) {
-  //   setFotos(e.target.value);
-  // }
+  function handleFotoChange (e) {
+    setFotos(e.target.value);
+  }
 
   function handleCommentChange(e) {
     setComentario(e.target.value);
@@ -111,6 +111,7 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
     } else {
       setStateButton(true);
       addPlaceApi(nombre, latitudeMark, longitudeMark, categoria);
+      console.log(fotos)
       setNombre('');
       setValoracion('');
       setIsOpen(false);
@@ -163,9 +164,9 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
           {nivelesPrivacidad.map(nivel => <MenuItem value={nivel.toLowerCase()}>{nivel}</MenuItem>)}
         </Select>
 
-        {/* <label htmlFor="fotos">Fotos:  
+        <label htmlFor="fotos">Fotos:  
         </label>
-        <input type="file" name="fotos" id="fotos" placeholder="Escoja las imagenes" onChange={handleFotoChange}/> */}
+        <input type="file" name="fotos" id="fotos" placeholder="Escoja las imagenes" onChange={handleFotoChange}/>
 
         <label htmlFor="comentarios">Comentario:
         </label>
