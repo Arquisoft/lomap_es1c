@@ -33,7 +33,7 @@ async function getComment(Session, jsonComment){
 		fetch: Session.fetch,
 	});
 
-	return parser.parseComent(file);
+	return await parser.parseComent(file);
 }
 
 async function deleteComentById(Session, idComent, idLocation, myBaseUrl) {
