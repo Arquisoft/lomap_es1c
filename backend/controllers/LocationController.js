@@ -19,7 +19,6 @@ const solid = require('../solid/SolidPrueba.js');
     }
   }
 
-
   async function getAllLocations(req, res) {
     try {
       session=await getSessionFromStorage(req.session.sessionId);
@@ -102,12 +101,26 @@ const solid = require('../solid/SolidPrueba.js');
       res.status(400).json({ error: err.message });
     }
   }
+
+  async function removeComment(req,res){
+    const { id } = req.params;
+    const { idComment } = req.body;
+
+    try {
+      const location=solid.getLocationById(id);
+      //Miro cual tiene la id que quiero borrar
+      await solid.removeComment(id,idComment);
+      res.status(201).json({ message: 'Comment removed successfully' });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  }
+
   async function addComment(req, res) {
     const { id } = req.params;
     const { comment } = req.body;
 
     try {
-
       const location = await solid.getLocationById(id);
       location.addComment(comment);
       await solid.saveLocation(location);
