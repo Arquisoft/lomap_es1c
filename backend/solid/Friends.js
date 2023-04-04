@@ -1,15 +1,5 @@
 const {
-    createSolidDataset,
-    createThing,
     getSolidDataset,
-    getStringNoLocale,
-    setThing,
-    getThing,
-    buildThing,
-    saveSolidDatasetAt,
-    getStringNoLocaleAll,
-    deleteSolidDataset,
-    getDecimal,
     overwriteFile
 } = require('@inrupt/solid-client');
 
@@ -25,7 +15,7 @@ async function addFriend(Session, friend, myBaseUrl, friendBaseUrl) {
         { contentType: file.type, fetch: Session.fetch }
     );
 
-    darPermisos(Session, friend.id, myBaseUrl);
+    darPermisos(Session, friend.id, myBaseUrl + "friends/");
 }
 
 
@@ -54,12 +44,21 @@ async function getFriendById(Session, idFriend, myBaseUrl){
   }
 
 
-async function deleteFriendById(Session, idFriend, myBaseUrl) {
+async function deleteFriendById(Session, idFriend, myBaseUrl, friendBaseUrl) {
+    await deleteFile(
+        friendBaseUrl + "friends/" + idFriend,
+        { fetch: Session.fetch }
+      );
 
+    quitarPermisos(Session, idFriend, myBaseUrl + "friends/");
 }
 
 
 async function darPermisos(Session, idFriend, url){
+
+}
+
+async function quitarPermisos(Session, idFriend, url){
 
 }
 

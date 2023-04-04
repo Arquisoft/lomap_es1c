@@ -279,7 +279,10 @@ async function deleteFriendById(Session, idFriend) {
   let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
   myBaseUrl = myBaseUrl[0];
 
-  await friends.deleteFriendById(Session, idFriend, myBaseUrl);
+  let friendBaseUrl = await getPodUrlAll(friend.id, { fetch: Session.fetch });
+  myBaseUrl = myBaseUrl[0];
+  
+  await friends.deleteFriendById(Session, idFriend, myBaseUrl, friendBaseUrl);
 }
 
 
