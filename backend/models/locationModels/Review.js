@@ -1,16 +1,16 @@
-
 class Review {
-    constructor(id=null, rating, text, author) {
-      if (typeof rating !== "number" || rating < 0 || rating > 5) {
-        throw new Error("Invalid rating value. Must be a number between 0 and 5");
-      }
-      if (!author) {
-        throw new Error("Review author must not be null");
-      }
-      this.id = id ? id : this.generateRandomId();
-      this.rating = rating;
-      this.text = text || null;
-      this.author = author;
-    }
-  }
-  module.exports = Review;
+	constructor(rating, author, id = null) {
+		if (!Number.isInteger(rating) || rating < 0 || rating > 10) {
+			throw new Error(
+				"Invalid rating value. Must be an integer between 0 and 10"
+			);
+		}
+		if (!author || author.trim().length === 0) {
+			throw new Error("Review author cannot be null or empty");
+		}
+		this.id = id ? id : this.generateRandomId();
+		this.rating = rating;
+		this.author = author;
+	}
+}
+module.exports = Review;

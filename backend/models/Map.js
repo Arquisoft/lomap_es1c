@@ -1,22 +1,23 @@
 class Map {
-    constructor(id, name, locations=[]) {
-        this.id = id;
-        this.name = name;
-        this.locations = locations;
-    }
+	constructor(name, id = null, locations = []) {
+		this.id = id ? id : this.generateRandomId();
+		this.name = name;
+		this.locations = locations || [];
+	}
 
-    addLocation(location) {
-        locations.push(location);
-    }
-    removeLocation(location){
-        let index=locations.indexOf(location);
-        this.locations.splice(index,1);
-    }
-    updateName(name){
-        this.name=name;
-    }
-  }
+	addLocation(location) {
+		locations.push(location);
+	}
 
+	updateName(name) {
+		this.name = name;
+	}
 
-  
+	generateRandomId() {
+		const randomIdentifier = Math.random().toString(36).substring(2, 8);
+		const currentDate = new Date().getTime();
+		return `${currentDate}_${randomIdentifier}`;
+	}
+}
+
 module.exports = Map;
