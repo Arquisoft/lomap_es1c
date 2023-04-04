@@ -8,7 +8,7 @@ async function serializeLocation(Session, myBaseUrl, location){
   let photos = location.photos.map(p => serializeFoto(Session, myBaseUrl, p));
   let coments = location.coments.map(c => serializeComent(c));
 
-  let locationJson = { "name":location.name, "address":location.address, "latitude":location.latitude, "longitude":location.longitude, "category":location.category,
+  let locationJson = { "id":id, "author":location.author, "name":location.name, "address":location.address, "latitude":location.latitude, "longitude":location.longitude, "category":location.category,
                         "reviewScores":ratings, "photos":photos, "coments":coments };
 
   let blob = new Blob([JSON.stringify(locationJson)], {type: "application/json"});
@@ -41,14 +41,18 @@ async function serializeFoto(Session, myBaseUrl, foto){
 }
 
 function serializeRoute(route){
-  let routeJson = { "name":route.name, "locations":route.locations.map(l => l.id) };
+  let routeJson = { "id":route.id, "name":route.name, "locations":route.locations.map(l => l.id) };
 
   let blob = new Blob([JSON.stringify(routeJson)], {type: "application/json"});
   let file = new File([blob], route.id + ".json", {type: blob.type});
   return file;
 }
 
+function serializeFriend(friend){
+
+}
+
 
 module.exports={
-    serializeLocation, serializeFoto, serializeRoute, serializeRating, serializeComent
+    serializeLocation, serializeFoto, serializeRoute, serializeRating, serializeComent, serializeFriend
   };

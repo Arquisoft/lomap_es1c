@@ -48,6 +48,11 @@ async function parseRoute(Session, myBaseUrl, route){
 }
 
 
+await function parseFriend(friend){
+
+}
+
+
 async function getJsonFromBlob(blob) {
   const fileReader = new FileReader(); // Objeto para leer el contenido del Blob
   return new Promise((resolve, reject) => {
@@ -80,6 +85,8 @@ function getJpegFromBlob(blob) {
 }
 
 
+
+
 module.exports={
-    parseLocation, parseFoto, parseRoute, parseRating, parseComent
+    parseLocation, parseFoto, parseRoute, parseRating, parseComent, parseFriend
   };
