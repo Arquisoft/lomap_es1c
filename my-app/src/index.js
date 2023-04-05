@@ -10,6 +10,7 @@ import i18next from 'i18next';
 
 import global_es from "./translations/es/global.json";
 import global_en from "./translations/en/global.json";
+import axios from 'axios';
 
 const availableLanguages = ["es", "en"]
 const preferredLanguage = navigator.language.toLowerCase().substring(0,2)
@@ -30,12 +31,19 @@ i18next.init({
 
 function MyComponent() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cookie, setCookie] = useState(false);
 
   function logOut() {
     setIsLoggedIn(false);
   }
   function logIn() {
-    setIsLoggedIn(true);
+    axios.get('http://localhost:8080/login')
+    .then(response => {
+      setIsLoggedIn(true);
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
   return (
