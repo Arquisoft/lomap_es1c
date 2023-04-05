@@ -1,109 +1,56 @@
-
-const { getSessionFromStorage, getSessionIdFromStorageAll, Session } = require('@inrupt/solid-client-authn-node');
-const solid = require('../solid/Solid.js');
-const port=8080;
-
-// The following snippet ensures that the server identifies each user's session
-// with a cookie using an express-specific mechanism
-
-
-async function createSession() {
-  session = new Session();
-}
+const {
+	getSessionFromStorage,
+	Session,
+} = require("@inrupt/solid-client-authn-node");
+const solid = require("../solid/Solid.js");
+const port = 8080;
 
 async function login(req, res, next) {
-  const session=new Session()
- 
-  
-  req.session.sessionId = session.info.sessionId;
-  const redirectToSolidIdentityProvider = (url) => {
-    // Since we use Express in this example, we can call `res.redirect` to send the user to the
-    // given URL, but the specific method of redirection depend on your app's particular setup.
-    // For example, if you are writing a command line app, this might simply display a prompt for
-    // the user to visit the given URL in their browser.
-    res.redirect(url);
-  };
-  // 2. Start the login process; redirect handler will handle sending the user to their
-  //    Solid Identity Provider.
-  await session.login({
-    // After login, the Solid Identity Provider will send the user back to the following
-    // URL, with the data necessary to complete the authentication process
-    // appended as query parameters:
-    redirectUrl: 'http://localhost:'+port+'/redirect-from-solid-idp',
-    // Set to the user's Solid Identity Provider; e.g., "https://login.inrupt.com"
-    oidcIssuer: 'https://login.inrupt.com',
-    // Pick an application name that will be shown when asked
-    // to approve the application's access to the requested data.
-    clientName: 'LoMap',
-    handleRedirect: redirectToSolidIdentityProvider,
-  });
-  
+	const session = new Session();
+	req.session.sessionId = session.info.sessionId;
+	const redirectToSolidIdentityProvider = (url) => {
+		res.redirect(url);
+	};
+	await session.login({
+		redirectUrl: "http://localhost:" + port + "/redirect-from-solid-idp",
+		oidcIssuer: "https://login.inrupt.com",
+		clientName: "LoMap",
+		handleRedirect: redirectToSolidIdentityProvider,
+	});
 }
 
-async function redirectFromSolidIdp(req, res, next){
-  // 3. If the user is sent back to the `redirectUrl` provided in step 2,
-   //    it means that the login has been initiated and can be completed. In
-   //    particular, initiating the login stores the session in storage, 
-   //    which means it can be retrieved as follows.
-   const session = await getSessionFromStorage(req.session.sessionId);
-   
-   // 4. With your session back from storage, you are now able to 
-   //    complete the login process using the data appended to it as query
-   //    parameters in req.url by the Solid Identity Provider:
-   await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
- 
-   // 5. `session` now contains an authenticated Session instance.
-   if (session.info.isLoggedIn) {
-      if(!solid.isStructCreated(session)){
-        solid.createStruct(session);
-      }
-      req.session.user=session.info.webId;
-      req.session.sessionId=req.session.sessionId;
-      return res.send(`<p>Logged in with the WebID ${session.info.webId}.</p>`)
-   }
- }
+async function redirectFromSolidIdp(req, res, next) {
+	const session = await getSessionFromStorage(req.session.sessionId);
 
- // 6. Once you are logged in, you can retrieve the session from storage, 
-//    and perform authenticated fetches.
-async function fetch(req, res, next){
-  if(typeof req.query["resource"] === "undefined") {
-    res.send(
-      "<p>Please pass the (encoded) URL of the Resource you want to fetch using `?resource=&lt;resource URL&gt;`.</p>"
-    );
-  }
-  const session = await getSessionFromStorage(req.session.sessionId);
-  console.log(await (await session.fetch(req.query["resource"])).text());
-  res.send("<p>Performed authenticated fetch.</p>");
+	await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
+
+	if (session.info.isLoggedIn) {
+		solid.createStruct(session);
+
+		req.session.user = session.info.webId;
+		req.session.sessionId = req.session.sessionId;
+		res.cookie("sessionId", req.session.sessionId, {
+			maxAge: 24 * 60 * 60 * 1000,
+		}); // Set cookie with name 'sessionId' and value of req.session.sessionId with a max age of 24 hours (in milliseconds)
+		//return res.send("xd,tas logeao chaval");
+		return res.redirect("http://localhost:3000");
+	}
 }
 
-
-// 7. To log out a session, just retrieve the session from storage, and 
-//    call the .logout method.
-async function logout(req, res, next){
-  const session = await getSessionFromStorage(req.session.sessionId);
-  session.logout();
-  req.session.user=null;
-  res.send(`<p>Logged out.</p>`);
+async function logout(req, res, next) {
+	const session = await getSessionFromStorage(req.session.sessionId);
+	session.logout();
+	req.session.user = null;
+	res.send(`<p>Logged out.</p>`);
 }
 
-// 8. On the server side, you can also list all registered sessions using the
-//    getSessionIdFromStorageAll function.
 async function index(req, res, next) {
-  res.send(
-    `<p>Esta es la respuesta default de la restAPI</p>`
-  );
-};
-function test(){
-  console.log("hola");
+	res.send(`<p>Esta es la respuesta default de la restAPI</p>`);
 }
 
-
-
-module.exports={
-  login,
-  logout,
-  fetch,
-  redirectFromSolidIdp,
-  index
-
+module.exports = {
+	login,
+	logout,
+	redirectFromSolidIdp,
+	index,
 };
