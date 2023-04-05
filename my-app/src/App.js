@@ -1,30 +1,47 @@
 import './App.css';
 import './Sidebar/Sidebar.css';
-import Sidebar from "./Sidebar/Sidebar.js";
 import CreateMap from './Mapa/Map';
 import React, { useState, useEffect, useContext } from 'react';
 import CreateModal from './Mapa/PlacesForm';
-import { Themes, ThemeContext, ThemeContextProvider } from './contexts/ThemeContext';
+import { Themes, ThemeContext } from './contexts/ThemeContext';
 import axios from 'axios';
-import ToggleThemeButton from './buttons/ToggleThemeButton.js';
-export default function App() {
+import { useTranslation } from "react-i18next";
+import SettingsSpeedDial from './buttons/SettingsSpeedDial';
+import DrawerSidebar from './Sidebar/Drawer';
+import DrawerDefaultContent from './Sidebar/DrawerDefaultContent.js';
+import addPlace from './Places/Places';
+
+var a = [];
+
+export default function App({logOutFunction}) {
 
   const [data, setData] = useState('');
+  const [t, i18n] = useTranslation("global")
 
-
-  //TODO borrar
-  useEffect(() => {
-    axios.get('http://localhost:8080/location/')
+  function getData(){
+    axios.get('http://localhost:8080/location')
       .then(response => {
         setData(response.data);
       })
       .catch(error => {
         console.log(error);
       });
-      
-  }, []);
-  
-  console.log(data);
+  }
+
+  useEffect(() => {
+      getData();
+      for (let i = 0; i < data.length; i++) {
+        if(!places.some(value => value.id===data[i].id)){
+          addPlace(a[i] = {
+            id: data[i].id,
+            lat: data[i].latitude,
+            lng: data[i].longitude,
+            name : data[i].name,
+            categoria: data[i].category
+          })}
+      }
+
+  });
 
   //Estados de la aplicacion
   //Latitud y longitud del marcador actual que tu pongas en el mapa.
@@ -38,10 +55,13 @@ export default function App() {
     const [disabledB,setDisabledB] = React.useState(true);
 
     //Todos los lugares de la aplicacion
-    const [places,setPlaces] = React.useState([]);
+    const [places,setPlaces] = React.useState(a);
 
     //Constantes del Modal
     const [modalIsOpen, setIsOpen] = React.useState(false);
+
+    //Se puede clickar en el mapa
+    const [canCick, setCanCick] = React.useState(false);
 
     function openModal(boolean){
       setIsOpen(boolean)
@@ -51,22 +71,33 @@ export default function App() {
     function toggleTheme() {
       setCurrentTheme((current) => (current===Themes.LIGHT ? Themes.DARK : Themes.LIGHT));
     }
+    function toggleLanguage() {
+      i18n.changeLanguage(i18n.language === "es" ? "en" : "es");
+    }
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [drawerContent, setDrawerContent] = useState(null);
+
+  function restoreDefautlDrawerContent() {
+    setDrawerContent(null)
+  }
+
+  function changeDrawerContent(newContent=null) {
+    setIsDrawerOpen(true)
+    setDrawerContent(newContent)
+  }
 
   return (
     <div id={currentTheme}>
-      <Sidebar
-        userPlaces = {places}
-      />
-
       <CreateModal
         isOpen={modalIsOpen}
         latMark={latitude}
         lngMark={longitude}
+        places={places}
         setIsOpen={setIsOpen}
         setMarkers={setMarkers}
         setStateButton={setDisabledB}
-        setPlaces={setPlaces}
+        setCanCick={setCanCick}
       />
 
       <CreateMap
@@ -78,12 +109,27 @@ export default function App() {
         buttonState={disabledB}
         setStateButton={setDisabledB}
         places={places}
+        canCick={canCick}
+        setCanCick={setCanCick}
+        changeDrawerContent={changeDrawerContent}
+        restoreDefautlDrawerContent={restoreDefautlDrawerContent}
       />
 
-      <ToggleThemeButton
-        toggleTheme={toggleTheme}
+      <SettingsSpeedDial
+        changeLanguage = {toggleLanguage}
+        toggleTheme = {toggleTheme}
+        logOutFunction = {logOutFunction}
       />
-      
+
+      <DrawerSidebar
+        userPlaces = {places}
+        isDrawerOpen = {isDrawerOpen}
+        setIsDrawerOpen = {setIsDrawerOpen}
+        contentToDisplay = {drawerContent}
+        restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
+        changeDrawerContent = {changeDrawerContent}
+      />
+
     </div>
   );
 }

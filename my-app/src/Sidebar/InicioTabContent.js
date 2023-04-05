@@ -1,41 +1,41 @@
-import React, {useContext} from "react"
-import PlaceCard from "./PlaceCard"
-import { ThemeContext } from "../contexts/ThemeContext"
+import React, { useContext, useState } from "react";
+import PlaceCard from "./cards/PlaceCard";
+import { useTranslation } from "react-i18next";
+import { TextField } from "@mui/material";
+import { getTextColor, ThemeContext } from "../contexts/ThemeContext";
 
 export default function InicioTabContent(props) {
-    const [cards, setCards] = React.useState(props.userPlaces.map(
-        place =>
-        <PlaceCard
-            key={place.id}
-            {...place}
-        />
-    ))
-    
-    function textToSearchChange(event) {
-        setCards(
-            props.userPlaces.filter(
-                place => place.name.toLowerCase().includes(event.target.value.toLowerCase())
-            ).map(
-                place =>
-                <PlaceCard
-                    key={place.id}
-                    {...place}
-                />
-            )
-        )
-    }
-
-    const {currentTheme} = useContext(ThemeContext)
+    const {currentTheme} = useContext(ThemeContext);
+    const [t, i18n] = useTranslation("global")
+    const [searchBarText, setSearchBarText] = useState("")
 
     return (
-        <div id="Inicio" className="tabcontent">
-            <h1>Tus lugares</h1>
-            <input
-                type="text"
-                placeholder="Buscar"
-                onChange={textToSearchChange}
-            ></input>
-            {cards}
+        <div className="tabcontent">
+            <h1 id="centered">{t("sidebar.tabs.start-content.title")}</h1>
+            <div id="centered-content">
+                <TextField
+                    variant="outlined"
+                    placeholder={t("sidebar.tabs.start-content.search-bar-placeholder")}
+                    onChange={(e) => (setSearchBarText(e.target.value.toLowerCase()))}
+                    InputProps={{
+                        style: {color: getTextColor(currentTheme)},
+                        "data-testid": "search-bar-1"
+                    }}
+                    inputProps={{
+                        "data-testid": "search-bar-2"
+                    }}
+                    data-testid= "search-bar-3"
+                />
+            </div>
+
+            {props.userPlaces
+                .filter(place => place.name.toLowerCase().includes(searchBarText))
+                .map(place => <PlaceCard
+                    key={place.id}
+                    place = {place}
+                    changeDrawerContent={props.changeDrawerContent}
+                />)
+            }
         </div>
     )
 }

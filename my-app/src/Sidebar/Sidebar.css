@@ -1,63 +1,8 @@
-/* Position and sizing of burger button */
-.bm-burger-button {
-  position: fixed;
-  width: 36px;
-  height: 30px;
-  left: 36px;
-  top: 36px;
-}
-
-#light .bm-burger-button {
-  background-color: transparent;
-}
-#dark .bm-burger-button {
-  background-color: transparent;
-}
-
-/* Color/shape of burger icon bars */
-#light .bm-burger-bars {
-  background: #3f3f3f;
-}
-#dark .bm-burger-bars {
-  background: #ebecf0;
-}
-
-/* Color/shape of burger icon bars on hover*/
-#light .bm-burger-bars-hover {
-  background: #3f3f3f;
-}
-#dark .bm-burger-bars-hover {
-  background: #ebecf0;
-}
-
-/* Position and sizing of clickable cross button */
-.bm-cross-button {
-  height: 24px;
-  width: 24px;
-}
-
-/* Color/shape of close button cross */
-#light .bm-cross {
-  background: #3f3f3f;
-}
-#dark .bm-cross {
-  background: #ebecf0;
-}
-
-/*
-Sidebar wrapper styles
-Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
-*/
-.bm-menu-wrap {
-  position: fixed;
-  height: 100%;
-}
-
 /* General sidebar styles */
-#light .bm-menu {
+#light .drawer {
   background: #ebecf0;
 }
-#dark .bm-menu {
+#dark .drawer {
   background: #3f3f3f;
 }
 
@@ -69,6 +14,10 @@ Note: Beware of modifying this element as it can break the animations - you shou
 #dark .bm-item-list {
   color: #ebecf0;
   padding: 0.8em;
+}
+
+#centered {
+  text-align: center;
 }
 
 /* Elementos tipo tarjeta */

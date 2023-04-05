@@ -1,0 +1,27 @@
+{
+    "settings-speed-dial": {
+        "change-language-text": "Change language",
+        "toggle-theme-text": "Change theme"
+    },
+    "sidebar": {
+        "log-out": "Log out",
+        "tab-buttons": {
+            "start": "Start",
+            "friends": "Friends",
+            "routes": "Routes",
+            "discover": "Discover"
+        },
+        "tabs": {
+            "start-content": {
+                "title": "Your locations",
+                "search-bar-placeholder": "Search"
+            },
+            "friend-content": {
+                "title": "Your friends"
+            },
+            "route-content": {
+                "title": "Your routes"
+            }
+        }
+    }
+}
