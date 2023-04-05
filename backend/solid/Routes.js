@@ -12,7 +12,7 @@ const serializer = require("./util/Serializer.js");
 async function addRoute(Session, route, myBaseUrl) {
 	let file = serializer.serializeRoute(route);
 
-	await overwriteFile(myBaseUrl + "LoMap/" + "routes/", file, {
+	await overwriteFile(myBaseUrl + "LoMap/" + "routes/" + route.id + ".json", file, {
 		contentType: file.type,
 		fetch: Session.fetch,
 	});
@@ -32,15 +32,20 @@ async function getAllRoutes(Session, myBaseUrl) {
 			myBaseUrl
 		);
 	}
-	return modelsRuta;
+	return modelsRuta.filter(r => r!=null);
 }
 
 async function getRouteById(Session, idRoute, myBaseUrl) {
-	let file = await getFile(myBaseUrl + "LoMap/routes/" + idRoute, {
-		fetch: Session.fetch,
-	});
-
-	return await parser.parseRoute(Session, myBaseUrl, file);
+	try{
+		let file = await getFile(myBaseUrl + "LoMap/routes/" + idRoute + ".json", {
+			fetch: Session.fetch,
+		});
+	
+		return await parser.parseRoute(Session, myBaseUrl, file);
+	}
+	catch(err){
+		return null;
+	}
 }
 
 async function deleteRouteById(Session, idRoute, myBaseUrl) {
