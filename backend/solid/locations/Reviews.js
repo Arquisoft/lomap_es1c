@@ -42,18 +42,17 @@ async function getReview(Session, jsonReview){
 	}
 }
 
-async function deleteRatingById(Session, idRating, idLocation, myBaseUrl) {
-	let ubicacion = await locations.obtenerLocalizacion(
-		Session,
-		idLocation,
-		myBaseUrl
-	);
-	ubicacion.removeRating(idRating);
-	await locations.addLocation(Session, ubicacion, myBaseUrl);
+async function deleteReviewById(Session, idRating) {
+	let myUrl = await getPodUrlAll(jsonComment.author, { fetch: Session.fetch });
+	myUrl = myUrl[0];
+
+	await deleteFile(myUrl + "LoMap/locations/photos" + idRating + ".json", {
+	fetch: Session.fetch,
+	});
 }
 
 module.exports = {
 	addReview,
 	getAllReviews,
-	deleteRatingById,
+	deleteReviewById,
 };

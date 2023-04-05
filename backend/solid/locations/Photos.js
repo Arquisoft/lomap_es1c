@@ -40,14 +40,13 @@ async function getFoto(Session, jsonPhoto){
 	}
 }
 
-async function deleteFotoById(Session, idFoto, idUbicacion, myBaseUrl) {
-	let ubicacion = await locations.obtenerLocalizacion(
-		Session,
-		idUbicacion,
-		myBaseUrl
-	);
-	ubicacion.removePhoto(idFoto);
-	await locations.addLocation(Session, ubicacion, myBaseUrl);
+async function deleteFotoById(Session, idFoto) {
+	let myUrl = await getPodUrlAll(jsonComment.author, { fetch: Session.fetch });
+	myUrl = myUrl[0];
+
+	await deleteFile(myUrl + "LoMap/locations/photos" + idFoto + ".json", {
+	fetch: Session.fetch,
+	});
 }
 
 module.exports = {
