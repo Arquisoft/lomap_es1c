@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditInfoPlace from './EditInfoPlace';
+import Rating from '@mui/material/Rating';
 
 export default function FullInfoPlace({place, returnFunction, changeDrawerContent}) {
     function allowEdit() {
@@ -29,6 +30,9 @@ export default function FullInfoPlace({place, returnFunction, changeDrawerConten
         <>
         <IconButton onClick={returnFunction}><ArrowBackIcon/></IconButton>
         <h1>{place.name}</h1>
+        
+        {place.valoracion ? <Rating value={place.valoracion} readOnly/> : <Rating value={place.valoracion} disabled/>}
+
         <h3>Categoria:</h3>
         <p>{place.categoria}</p>
 

@@ -6,24 +6,29 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import Select from "@mui/material/Select";
 import MenuItem from '@mui/material/MenuItem';
-
+import Rating from '@mui/material/Rating';
 
 export default function FullInfoPlace({place, returnFunction}) {
     const [categorias, setCategorias] = React.useState([]);
 
+    function updateCategories(nuevasCategorias) {
+        setCategorias(nuevasCategorias)
+
+        // TODO comprobar si de verdad hace falta
+        if (place.categoria != ""  &&  !categorias.includes(place.categoria)) {
+            setCategorias(current => [...current, place.categoria])
+        }
+    }
+
     function getCategories(){
         axios.get('http://localhost:8080/location/categories')
-        .then(response => {setCategorias(response.data);})
+        .then(response => {updateCategories(response.data);})
         .catch(error => {console.log(error);});
     }
 
     useEffect(() => {
         getCategories();
-        // TODO comprobar si de verdad hace falta
-        if (place.categoria != ""  &&  categorias.includes(place.categoria)) {
-            setCategorias(current => [...current, place.categoria])
-        }
-    });
+    }, []);
 
     function save() {
         console.log("Pendiente de implementar")
@@ -35,15 +40,16 @@ export default function FullInfoPlace({place, returnFunction}) {
         <>
         <IconButton onClick={returnFunction}><ArrowBackIcon/></IconButton>
         <br></br>
-        <TextField
-            defaultValue={place.name}
-        />
+        <TextField defaultValue={place.name}/>
+
+        <Rating value={place.valoracion}/>
+        
         <h3>Categoria:</h3>
         <Select
           defaultValue={place.categoria.toLowerCase()}
           name="categoria"
         >
-          {categorias.map(categoria => <MenuItem value={categoria.toLowerCase()}>{categoria}</MenuItem>)}
+          {categorias.map(categoria => <MenuItem key={categoria.toLowerCase()} value={categoria.toLowerCase()}>{categoria}</MenuItem>)}
         </Select>
 
         <h3>Comentario:</h3>
