@@ -32,10 +32,8 @@ async function redirectFromSolidIdp(req, res, next) {
 		res.cookie("sessionId", req.session.sessionId, {
 			maxAge: 24 * 60 * 60 * 1000,
 		}); // Set cookie with name 'sessionId' and value of req.session.sessionId with a max age of 24 hours (in milliseconds)
-
-		return res.send(
-			`<p>User ${req.session.user} logged in with the session ${req.session.sessionid}.</p>`
-		);
+		//return res.send("xd,tas logeao chaval");
+		return res.redirect("http://localhost:3000");
 	}
 }
 
