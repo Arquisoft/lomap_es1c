@@ -4,10 +4,11 @@ import { Button, MenuItem, Rating, Select, TextField } from '@mui/material';
 import "./muiComps.css"
 import axios from 'axios';
 import { useEffect } from 'react';
+import {useTranslation} from "react-i18next"
 
 
 export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMarkers, setStateButton, setCanCick }) {
-
+  const [t] = useTranslation("global");
   const [categorias,setCategorias] = React.useState([]);
 
   function getData(){
@@ -37,7 +38,7 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
 
   //Estilo de los componentes del modal una vez se abren
   function afterOpenModal() {
-    subtitle.style.color = '#8118F8';
+    subtitle.style.color = '#FFFFF';
     subtitle.style.textAlign = "center";
     subtitle.style.marginTop = 0;
     form.style.display = "grid";
@@ -138,25 +139,25 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
       style={customStyles}
       contentLabel="Add Point Modal"
     >
-      <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Añade el Punto a el Mapa</h2>
+      <h2 ref={(_subtitle) => (subtitle = _subtitle)}>{t("locations.form.title")}</h2>
       <form ref={(_form) => (form = _form)}>
 
-        <TextField id="filled-basic" className='nombre' label="Nombre" variant="outlined" 
+        <TextField id="filled-basic" className='nombre' label={t("locations.form.name")} variant="outlined" 
         type="text" name="nombre" value={nombre} onChange={handleNameChange}/>
 
-        <label htmlFor="puntuacion">Puntuación:
+        <label htmlFor="puntuacion">{t("locations.form.score")}
         </label>
         <Rating 
           defaultValue={2.5} className="rating" precision={0.5} name="simple-controlled" value={Number(valoracion)} onChange={handleValChange} />
 
-        <label htmlFor="categoria">Categoria:
+        <label htmlFor="categoria">{t("locations.form.category")}
         </label>
         <Select 
           id="categoria" className="categoria" defaultValue="" name="categoria" onChange={handleCategoryChange}>
           {categorias.map(categoria => <MenuItem value={categoria.toLowerCase()}>{categoria}</MenuItem>)}
         </Select>
 
-        <label htmlFor="nivelPrivacidad">Privacidad:
+        <label htmlFor="nivelPrivacidad">{t("locations.form.privacy")}
         </label>
 
         <Select 
@@ -164,18 +165,18 @@ export default function CreateModal({ isOpen, latMark, lngMark, setIsOpen, setMa
           {nivelesPrivacidad.map(nivel => <MenuItem value={nivel.toLowerCase()}>{nivel}</MenuItem>)}
         </Select>
 
-        <label htmlFor="fotos">Fotos:  
+        <label htmlFor="fotos">{t("locations.form.photos")} 
         </label>
         <input type="file" name="fotos" id="fotos" placeholder="Escoja las imagenes" onChange={handleFotoChange}/>
 
-        <label htmlFor="comentarios">Comentario:
+        <label htmlFor="comentarios">{t("locations.form.comment")}
         </label>
-        <TextField id="comentarios" placeholder='Puede añadir un comentario' name="comentarios"
+        <TextField id="comentarios" placeholder={t("locations.form.commentPlaceHolder")} name="comentarios"
            onChange={handleCommentChange} className="comentario" multiline rows={8}/>
       </form>
       <div className="submitFormLugares">
-        <Button className="btn" onClick={addPlaceModal}>Añadir</Button>
-        <Button className="btnCancel" onClick={closeModal}>Cancelar</Button>
+        <Button className="btn" onClick={addPlaceModal}>{t("locations.form.add")}</Button>
+        <Button className="btnCancel" onClick={closeModal}>{t("locations.form.cancel")}</Button>
       </div>
     </Modal>
   )

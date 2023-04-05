@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import TabButtons from './TabButtons.js';
 
 export default function DrawerDefaultContent(props) {
@@ -15,6 +15,7 @@ export default function DrawerDefaultContent(props) {
             userPlaces = {props.userPlaces}
             changeDrawerContent = {props.changeDrawerContent}
             restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
+            setPosition={props.setPosition}
         />
 
         {contenidoAMostrar}

@@ -6,7 +6,7 @@ import { getTextColor, ThemeContext } from "../contexts/ThemeContext";
 
 export default function InicioTabContent(props) {
     const {currentTheme} = useContext(ThemeContext);
-    const [t, i18n] = useTranslation("global")
+    const [t] = useTranslation("global")
     const [searchBarText, setSearchBarText] = useState("")
 
     return (
@@ -34,6 +34,7 @@ export default function InicioTabContent(props) {
                     key={place.id}
                     place = {place}
                     changeDrawerContent={props.changeDrawerContent}
+                    setPosition={props.setPosition}
                 />)
             }
         </div>

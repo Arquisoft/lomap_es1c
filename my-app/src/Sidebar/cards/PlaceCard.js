@@ -8,7 +8,7 @@ export default function LugarCard(props) {
     const place = props.place
 
     function showFullInfo() {
-        props.changeDrawerContent(<FullInfoPlace place={place} returnFunction={() => props.changeDrawerContent(null)}/>)
+        props.changeDrawerContent(<FullInfoPlace place={place} setPosition={props.setPosition} returnFunction={() => props.changeDrawerContent(null)}/>)
     }
 
     console.log(place)

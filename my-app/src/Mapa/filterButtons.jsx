@@ -1,13 +1,16 @@
-import { Button, Fab } from "@mui/material";
+import {  Fab } from "@mui/material";
+import {useTranslation} from "react-i18next"
 
 export default function FilterButtons() {
+    const [t, i18n] = useTranslation("global");
+
     return(
         <div className="filtros">
-            <Fab size="medium" variant="extended">Todos</Fab>
-            <Fab size="medium" variant="extended">Solo Mios</Fab>
-            <Fab size="medium" variant="extended">Solo Amigos</Fab>
-            <Fab size="medium" variant="extended">Elegir Amigos</Fab>
-            <Fab size="medium" variant="extended">Elegir Categoria</Fab>
+            <Fab size="medium" variant="extended">{t("filters.all")}</Fab>
+            <Fab size="medium" variant="extended">{t("filters.mine")}</Fab>
+            <Fab size="medium" variant="extended">{t("filters.friends")}</Fab>
+            <Fab size="medium" variant="extended">{t("filters.chooseFriends")}</Fab>
+            <Fab size="medium" variant="extended">{t("filters.chooseCategoty")}</Fab>
         </div>
     );
 }

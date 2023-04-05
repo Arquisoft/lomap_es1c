@@ -1,17 +1,22 @@
 import React from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {useTranslation} from "react-i18next"
 
-export default function FullInfoPlace({place, returnFunction}) {
+export default function FullInfoPlace({place, returnFunction,setPosition}) {
+    const [t] = useTranslation("global");
     function allowEdit() {
         // TODO: pendiente de implementar
     }
 
     function centerMapToPlace() {
-        // TODO: pendiente de implementar
+        setPosition({
+            lat: place.lat,
+            lng: place.lng
+        });
     }
 
     function deletePlace() {
@@ -32,9 +37,9 @@ export default function FullInfoPlace({place, returnFunction}) {
         {/* TODO: añadir listado con todas las fotos */}
         <p></p>
 
-        <IconButton><EditIcon/></IconButton>
-        <IconButton><TravelExploreIcon/></IconButton>
-        <IconButton><DeleteIcon/></IconButton>
+        <Tooltip title={t("sidebar.place.edit")} placement="bottom"><IconButton><EditIcon/></IconButton></Tooltip>
+        <Tooltip title={t("sidebar.place.locate")} placement="bottom"><IconButton onClick={centerMapToPlace}><TravelExploreIcon/></IconButton></Tooltip>
+        <Tooltip title={t("sidebar.place.delete")} placement="bottom"><IconButton><DeleteIcon/></IconButton></Tooltip>
         </>
     )
 }

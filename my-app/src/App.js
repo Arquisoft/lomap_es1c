@@ -8,7 +8,6 @@ import axios from 'axios';
 import { useTranslation } from "react-i18next";
 import SettingsSpeedDial from './buttons/SettingsSpeedDial';
 import DrawerSidebar from './Sidebar/Drawer';
-import DrawerDefaultContent from './Sidebar/DrawerDefaultContent.js';
 import addPlace from './Places/Places';
 
 var a = [];
@@ -17,7 +16,7 @@ export default function App({logOutFunction}) {
 
   const [data, setData] = useState('');
 
-  const [t, i18n] = useTranslation("global")
+  const  [i18n] = useTranslation("global")
 
   function getData(){
     axios.get('http://localhost:8080/location')
@@ -57,7 +56,7 @@ export default function App({logOutFunction}) {
     const [disabledB,setDisabledB] = React.useState(true);
 
     //Todos los lugares de la aplicacion
-    const [places,setPlaces] = React.useState(a);
+    const [places] = React.useState(a);
 
     //Constantes del Modal
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -68,6 +67,12 @@ export default function App({logOutFunction}) {
     function openModal(boolean){
       setIsOpen(boolean)
     }
+
+      //Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la unicación del usuario.
+    const [position, setPosition] = useState({
+      lat: 0, 
+      lng: 0
+    });
 
     const {currentTheme, setCurrentTheme} = useContext(ThemeContext);
     function toggleTheme() {
@@ -115,6 +120,8 @@ export default function App({logOutFunction}) {
         setCanCick={setCanCick}
         changeDrawerContent={changeDrawerContent}
         restoreDefautlDrawerContent={restoreDefautlDrawerContent}
+        position={position}
+        setPosition={setPosition}
       />
 
       <SettingsSpeedDial
@@ -130,6 +137,7 @@ export default function App({logOutFunction}) {
         contentToDisplay = {drawerContent}
         restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
         changeDrawerContent = {changeDrawerContent}
+        setPosition={setPosition}
       />
 
     </div>
