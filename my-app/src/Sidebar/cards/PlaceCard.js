@@ -16,7 +16,6 @@ export default function LugarCard(props) {
             />)
     }
 
-    console.log(place)
     const maxTextLength = 20
     return (
         <div className="card">

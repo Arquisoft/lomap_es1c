@@ -2,13 +2,20 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { IconButton } from '@mui/material';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullRouteInfo from "./FullRouteInfo";
+import FullRouteInfo from "./FullInfoRoute";
 
 export default function RutaCard(props) {
     // const [t, i18n] = useTranslation("global")
 
     function showFullRouteInfo() {
-        props.changeDrawerContent(<FullRouteInfo key={props.route.id} route={props.route} returnFunction={() => props.changeDrawerContent(null)}/>)
+        props.changeDrawerContent(
+            <FullRouteInfo
+                key={props.route.id}
+                route={props.route}
+                returnFunction={() => props.changeDrawerContent(null)}
+                changeDrawerContent={props.changeDrawerContent}
+            />
+        )
     }
 
     return (
