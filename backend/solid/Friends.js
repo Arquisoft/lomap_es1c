@@ -11,11 +11,15 @@ async function addFriend(Session, friend, myBaseUrl, friendBaseUrl) {
 		fetch: Session.fetch,
 	});
 
-	darPermisos(Session, friend.id, myBaseUrl + "LoMap/friends/");
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/locations", 0);
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/reviews", 1);
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/comments", 1);
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/photos", 1);
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/routes", 1);
 }
 
 async function getAllFriends(Session, myBaseUrl) {
-	let friendsDataset = await getSolidDataset(myBaseUrl + "friends/", {
+	let friendsDataset = await getSolidDataset(myBaseUrl + "LoMap/friends/", {
 		fetch: Session.fetch,
 	});
 	let friends = getContainedResourceUrlAll(friendsDataset);
@@ -32,7 +36,7 @@ async function getAllFriends(Session, myBaseUrl) {
 }
 
 async function getFriendById(Session, idFriend, myBaseUrl) {
-	let file = await getFile(myBaseUrl + "friends/" + idFriend, {
+	let file = await getFile(myBaseUrl + "LoMap/friends/" + idFriend + ".json", {
 		fetch: Session.fetch,
 	});
 
@@ -40,14 +44,20 @@ async function getFriendById(Session, idFriend, myBaseUrl) {
 }
 
 async function deleteFriendById(Session, idFriend, myBaseUrl, friendBaseUrl) {
-	await deleteFile(friendBaseUrl + "friends/" + idFriend, {
+	await deleteFile(friendBaseUrl + "LoMap/friends/" + idFriend + ".json", {
 		fetch: Session.fetch,
 	});
 
-	quitarPermisos(Session, idFriend, myBaseUrl + "friends/");
+	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/locations");
+	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/reviews");
+	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/comments");
+	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/photos");
+	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/routes");
 }
 
-async function darPermisos(Session, idFriend, url) {}
+//permisos: 0 permiso de escritura y lectura
+//			1 permiso de lectura
+async function darPermisos(Session, idFriend, url, permisos) {}
 
 async function quitarPermisos(Session, idFriend, url) {}
 

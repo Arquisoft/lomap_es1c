@@ -8,6 +8,7 @@ async function construirEstructura(Session, myBaseUrl) {
 				myBaseUrl + "LoMap/",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
+			hacerCarpetaPublica(Session, myBaseUrl + "LoMap");
 		}
 
 		try {
@@ -95,10 +96,16 @@ async function construirEstructura(Session, myBaseUrl) {
 				myBaseUrl + "LoMap/friends",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
+			hacerCarpetaPublica(Session, myBaseUrl + "LoMap/friends");
 		}
 	} catch (error) {
 		console.log(error);
 	}
+}
+
+
+async function hacerCarpetaPublica(Session, url) {
+
 }
 
 module.exports = {
