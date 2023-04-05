@@ -4,7 +4,7 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import RoomIcon from "@mui/icons-material/Room";
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import RouteIcon from '@mui/icons-material/Route';
-import CreateRouteContent from '../Sidebar/CreateRouteContent';
+import EditRouteInfo from '../Sidebar/cards/EditInfoRoute';
 
 export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerContent, restoreDefautlDrawerContent}) {
 
@@ -20,8 +20,9 @@ export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerConten
     console.log("--")
 
     changeDrawerContent(
-      <CreateRouteContent
+      <EditRouteInfo
         returnFunction = {restoreDefautlDrawerContent}
+        route = {null}
       />
     )
   }
