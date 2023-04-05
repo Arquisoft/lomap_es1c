@@ -22,18 +22,24 @@ async function addReview(Session, review) {
 }
 
 async function getAllReviews(Session, jsonReviews) {
-	return jsonReviews.map(r => getReview(Session, r));
+	let reviews = jsonReviews.map(r => getReview(Session, r));
+	return reviews.filter(r => r != null);
 }
 
 async function getReview(Session, jsonReview){
-	let myUrl = await getPodUrlAll(jsonReview.author, { fetch: Session.fetch });
-	myUrl = myUrl[0];
-
-	let file = await getFile(myBaseUrl + "LoMap/locations/reviews/" + jsonReview.id + ".json", {
-		fetch: Session.fetch,
-	});
-
-	return await parser.parseReview(file);
+	try{
+		let myUrl = await getPodUrlAll(jsonReview.author, { fetch: Session.fetch });
+		myUrl = myUrl[0];
+	
+		let file = await getFile(myBaseUrl + "LoMap/locations/reviews/" + jsonReview.id + ".json", {
+			fetch: Session.fetch,
+		});
+	
+		return await parser.parseReview(file);
+	}
+	catch(err){
+		return null;
+	}
 }
 
 async function deleteRatingById(Session, idRating, idLocation, myBaseUrl) {

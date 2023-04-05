@@ -21,19 +21,25 @@ async function addComent(Session, coment) {
 }
 
 async function getAllComents(Session, jsonComments) { //jsonComments es una lista de json { "author": //webId del autor", "idComment": //id }
-	return jsonComments.map(c => getComment(Session, c));
+	let comments = jsonComments.map(c => getComment(Session, c));
+	return comments.filter(c => c!=null);
 }
 
 
 async function getComment(Session, jsonComment){
-	let myUrl = await getPodUrlAll(jsonComment.author, { fetch: Session.fetch });
-	myUrl = myUrl[0];
-
-	let file = await getFile(myBaseUrl + "LoMap/locations/comments/" + jsonComment.id + ".json", {
-		fetch: Session.fetch,
-	});
-
-	return await parser.parseComent(file);
+	try{
+		let myUrl = await getPodUrlAll(jsonComment.author, { fetch: Session.fetch });
+		myUrl = myUrl[0];
+	
+		let file = await getFile(myBaseUrl + "LoMap/locations/comments/" + jsonComment.id + ".json", {
+			fetch: Session.fetch,
+		});
+	
+		return await parser.parseComent(file);
+	}
+	catch(err){
+		return null;
+	}
 }
 
 async function deleteComentById(Session, idComent, idLocation, myBaseUrl) {

@@ -20,18 +20,24 @@ async function addFoto(Session, foto) {
 }
 
 async function getAllFotos(Session, jsonPhotos) {
-	return jsonPhotos.map(p => getFoto(Session, p));
+	let fotos = jsonPhotos.map(p => getFoto(Session, p));
+	return fotos.filter(f => f != null);
 }
 
 async function getFoto(Session, jsonPhoto){
-	let myUrl = await getPodUrlAll(jsonPhoto.author, { fetch: Session.fetch });
-	myUrl = myUrl[0];
-
-	let file = await getFile(myBaseUrl + "LoMap/locations/photos/" + jsonPhoto.id + ".json", {
-		fetch: Session.fetch,
-	});
-
-	return await parser.parsePhoto(file);
+	try{
+		let myUrl = await getPodUrlAll(jsonPhoto.author, { fetch: Session.fetch });
+		myUrl = myUrl[0];
+	
+		let file = await getFile(myBaseUrl + "LoMap/locations/photos/" + jsonPhoto.id + ".json", {
+			fetch: Session.fetch,
+		});
+	
+		return await parser.parsePhoto(file);
+	}
+	catch(err){
+		return null;
+	}
 }
 
 async function deleteFotoById(Session, idFoto, idUbicacion, myBaseUrl) {
