@@ -6,13 +6,14 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditInfoRoute from './EditInfoRoute';
 
-export default function FullRouteInfo({route, returnFunction, changeDrawerContent}) {
+export default function FullRouteInfo({route, returnFunction, changeDrawerContent, userPlaces}) {
     function allowEdit() {
         changeDrawerContent(
             <EditInfoRoute
                 route = {route}
                 changeDrawerContent={changeDrawerContent}
                 returnFunction={() => changeDrawerContent(this)}
+                userPlaces = {userPlaces}
             />
         )
     }
