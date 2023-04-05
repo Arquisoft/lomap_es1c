@@ -126,7 +126,7 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
         </Alert>
       </Snackbar>
 
-      <OpenIconSpeedDial canClick={setCanCick} openInfo={setOpenInfo}/>
+      <OpenIconSpeedDial canClick={setCanCick} openInfo={setOpenInfo} changeDrawerContent={changeDrawerContent} restoreDefautlDrawerContent={restoreDefautlDrawerContent}/>
       
       <GoogleMap
         zoom={13}
