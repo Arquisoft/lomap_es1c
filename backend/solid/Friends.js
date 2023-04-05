@@ -1,4 +1,4 @@
-const { getSolidDataset, overwriteFile } = require("@inrupt/solid-client");
+const { getSolidDataset, overwriteFile, FOAF, VCARD, AccessControlList, ACL } = require("@inrupt/solid-client");
 
 const parser = require("./util/Parser.js");
 const serializer = require("./util/Serializer.js");
@@ -11,11 +11,11 @@ async function addFriend(Session, friend, myBaseUrl, friendBaseUrl) {
 		fetch: Session.fetch,
 	});
 
-	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/locations", 0);
-	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/reviews", 1);
-	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/comments", 1);
-	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/photos", 1);
-	darPermisos(Session, friend.id, myBaseUrl + "LoMap/routes", 1);
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/locations", [ACL.Read, ACL.Write]);
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/reviews", [ACL.Read]);
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/comments", [ACL.Read]);
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/photos", [ACL.Read]);
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/routes", [ACL.Read]);
 }
 
 async function getAllFriends(Session, myBaseUrl) {
@@ -57,12 +57,39 @@ async function deleteFriendById(Session, idFriend, myBaseUrl, friendBaseUrl) {
 
 //permisos: 0 permiso de escritura y lectura
 //			1 permiso de lectura
-async function darPermisos(Session, idFriend, url, permisos) {}
+async function darPermisos(Session, webId, carpetaUrl, permisos) {
+	const carpeta = await Session.fetch(carpetaUrl);
+  
+	// Obtiene la lista de control de acceso (ACL) de la carpeta
+	let acl = await AccessControlList.fetchFrom(carpeta);
+	if (!acl) {
+	  // Si la carpeta no tiene una ACL, crea una nueva a partir de la ACL por defecto
+	  acl = createAclFromFallback(carpeta);
+	}
+  
+	// Agrega el WebID y los permisos necesarios a la lista de control de acceso
+	acl.addRule(webId, FOAF.Agent, VCARD.Individual, permisos);
+	
+	// Actualiza la lista de control de acceso de la carpeta con los nuevos permisos
+	await Session.fetch(acl.saveTo(carpeta));
+}
 
-async function quitarPermisos(Session, idFriend, url) {}
+async function quitarPermisos(Session, webId, carpetaUrl) {
+	const carpeta = await Session.fetch(carpetaUrl);
+
+	// Obtiene la lista de control de acceso (ACL) de la carpeta
+	const acl = await AccessControlList.fetchFrom(carpeta);
+  
+	// Elimina el WebID de la lista de control de acceso
+	acl.removeRule(webId);
+  
+	// Actualiza la lista de control de acceso de la carpeta sin los permisos del WebID
+	await Session.fetch(acl.saveTo(carpeta));
+}
 
 module.exports = {
 	addFriend,
 	getAllFriends,
 	deleteFriendById,
+	darPermisos
 };

@@ -1,4 +1,7 @@
-const { getSolidDataset, createContainerAt } = require("@inrupt/solid-client");
+const { getSolidDataset, createContainerAt, ACL } = require("@inrupt/solid-client");
+
+const friends = require("./Friends.js");
+
 async function construirEstructura(Session, myBaseUrl) {
 	try {
 		try {
@@ -8,7 +11,7 @@ async function construirEstructura(Session, myBaseUrl) {
 				myBaseUrl + "LoMap/",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
-			hacerCarpetaPublica(Session, myBaseUrl + "LoMap");
+			friends.darPermisos(Session, 'https://www.w3.org/ns/auth/acl#Everyone', Session, myBaseUrl + "LoMap", [ACL.Read, ACL.Write, ACL.Control]);
 		}
 
 		try {
@@ -96,7 +99,7 @@ async function construirEstructura(Session, myBaseUrl) {
 				myBaseUrl + "LoMap/friends",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
-			hacerCarpetaPublica(Session, myBaseUrl + "LoMap/friends");
+			friends.darPermisos(Session, 'https://www.w3.org/ns/auth/acl#Everyone', myBaseUrl + "LoMap/friends", [ACL.Read, ACL.Write, ACL.Control]);
 		}
 	} catch (error) {
 		console.log(error);
