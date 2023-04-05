@@ -4,10 +4,17 @@ import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditInfoPlace from './EditInfoPlace';
 
-export default function FullInfoPlace({place, returnFunction}) {
+export default function FullInfoPlace({place, returnFunction, changeDrawerContent}) {
     function allowEdit() {
-        // TODO: pendiente de implementar
+        changeDrawerContent(
+            <EditInfoPlace
+                place = {place}
+                changeDrawerContent = {changeDrawerContent}
+                returnFunction = {() => changeDrawerContent(this)}
+            />
+        )
     }
 
     function centerMapToPlace() {
@@ -32,7 +39,7 @@ export default function FullInfoPlace({place, returnFunction}) {
         {/* TODO: añadir listado con todas las fotos */}
         <p></p>
 
-        <IconButton><EditIcon/></IconButton>
+        <IconButton onClick={allowEdit}><EditIcon/></IconButton>
         <IconButton><TravelExploreIcon/></IconButton>
         <IconButton><DeleteIcon/></IconButton>
         </>
