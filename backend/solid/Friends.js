@@ -6,12 +6,12 @@ const serializer = require("./util/Serializer.js");
 async function addFriend(Session, friend, myBaseUrl, friendBaseUrl) {
 	let file = await serializer.serializeFriend(friend);
 
-	await overwriteFile(friendBaseUrl + "friends/", file, {
+	await overwriteFile(friendBaseUrl +  "LoMap/friends/" + friend.webId + ".json", file, {
 		contentType: file.type,
 		fetch: Session.fetch,
 	});
 
-	darPermisos(Session, friend.id, myBaseUrl + "friends/");
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/friends/");
 }
 
 async function getAllFriends(Session, myBaseUrl) {
