@@ -49,7 +49,7 @@ async function getRouteById(Session, idRoute, myBaseUrl) {
 }
 
 async function deleteRouteById(Session, idRoute, myBaseUrl) {
-	await deleteFile(myBaseUrl + "LoMap/routes/" + idRoute, {
+	await deleteFile(myBaseUrl + "LoMap/routes/" + idRoute + ".json", {
 		fetch: Session.fetch,
 	});
 }

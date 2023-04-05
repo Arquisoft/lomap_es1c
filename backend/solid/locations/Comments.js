@@ -42,14 +42,13 @@ async function getComment(Session, jsonComment){
 	}
 }
 
-async function deleteComentById(Session, idComent, idLocation, myBaseUrl) {
-	let ubicacion = await locations.obtenerLocalizacion(
-		Session,
-		idLocation,
-		myBaseUrl
-	);
-	ubicacion.removeComent(idComent);
-	await locations.addLocation(Session, ubicacion, myBaseUrl);
+async function deleteComentById(Session, idComent) {
+	let myUrl = await getPodUrlAll(jsonComment.author, { fetch: Session.fetch });
+	myUrl = myUrl[0];
+
+	await deleteFile(myUrl + "LoMap/locations/comments" + idComent + ".json", {
+	fetch: Session.fetch,
+	});
 }
 
 module.exports = {
