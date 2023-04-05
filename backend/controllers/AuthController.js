@@ -26,7 +26,6 @@ async function redirectFromSolidIdp(req, res, next) {
 
 	if (session.info.isLoggedIn) {
 		solid.createStruct(session);
-
 		req.session.user = session.info.webId;
 		req.session.sessionId = req.session.sessionId;
 		res.cookie("sessionId", req.session.sessionId, {
@@ -47,10 +46,20 @@ async function logout(req, res, next) {
 async function index(req, res, next) {
 	res.send(`<p>Esta es la respuesta default de la restAPI</p>`);
 }
+async function loginFromWebapp(req, res, next) {
+	const { webId, sessionId } = req.body;
+	req.session.user = webId;
+	req.session.sessionId = sessionId;
+	res.status(204).json({ message: "Logged in" });
+	console.log("tas logeao chaval");
+	console.log(req.session.user);
+	console.log(req.session.sessionId);
+}
 
 module.exports = {
 	login,
 	logout,
 	redirectFromSolidIdp,
 	index,
+	loginFromWebapp,
 };

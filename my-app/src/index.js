@@ -1,73 +1,103 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import Login from './login';
-import reportWebVitals from './reportWebVitals';
-import { ThemeContextProvider } from './contexts/ThemeContext';
+import {
+	getDefaultSession,
+	handleIncomingRedirect,
+	login,
+} from "@inrupt/solid-client-authn-browser";
+import i18next from "i18next";
+import React, { useState } from "react";
+import ReactDOM from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
-import i18next from 'i18next';
+import App from "./App";
+import { ThemeContextProvider } from "./contexts/ThemeContext";
+import "./index.css";
+import Login from "./login";
+import reportWebVitals from "./reportWebVitals";
 
-import global_es from "./translations/es/global.json";
+import axios from "axios";
 import global_en from "./translations/en/global.json";
-import axios from 'axios';
+import global_es from "./translations/es/global.json";
 
-const availableLanguages = ["es", "en"]
-const preferredLanguage = navigator.language.toLowerCase().substring(0,2)
-const defaultAlternativeLanguage = "es"
+const availableLanguages = ["es", "en"];
+const preferredLanguage = navigator.language.toLowerCase().substring(0, 2);
+const defaultAlternativeLanguage = "es";
 
 i18next.init({
-  interpolation: {escapeValue: false},
-  lng: (availableLanguages.includes(preferredLanguage) ? preferredLanguage : defaultAlternativeLanguage),
-  resources: {
-    es: {
-      global: global_es
-    },
-    en: {
-      global: global_en
-    }
-  }
-})
+	interpolation: { escapeValue: false },
+	lng: availableLanguages.includes(preferredLanguage)
+		? preferredLanguage
+		: defaultAlternativeLanguage,
+	resources: {
+		es: {
+			global: global_es,
+		},
+		en: {
+			global: global_en,
+		},
+	},
+});
 
 function MyComponent() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [cookie, setCookie] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [cookie, setCookie] = useState(false);
 
-  function logOut() {
-    setIsLoggedIn(false);
-  }
-  function logIn() {
-    axios.get('http://localhost:8080/login')
-    .then(response => {
-      setIsLoggedIn(true);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  }
+	async function login() {
+		// 1. Call `handleIncomingRedirect()` to complete the authentication process.
+		//    If called after the user has logged in with the Solid Identity Provider,
+		//      the user's credentials are stored in-memory, and
+		//      the login process is complete.
+		//   Otherwise, no-op.
+		await handleIncomingRedirect();
 
-  return (
-    <>
-    {
-      isLoggedIn ? (
-        <I18nextProvider i18n={i18next}>
-          <ThemeContextProvider children={<App logOutFunction={logOut}/>} />
-        </I18nextProvider>
-      ) : (
-        <Login
-          logInFunction = {logIn}
-        />
-      )
-    }
-    </>
-  );
+		// 2. Start the Login Process if not already logged in.
+		if (!getDefaultSession().info.isLoggedIn) {
+			await login({
+				// Specify the URL of the user's Solid Identity Provider;
+				// e.g., "https://login.inrupt.com".
+				oidcIssuer: "https://login.inrupt.com",
+				// Specify the URL the Solid Identity Provider should redirect the user once logged in,
+				// e.g., the current page for a single-page app.
+				redirectUrl: await getRedirectUrl(),
+				// Provide a name for the application when sending to the Solid Identity Provider
+				clientName: "My application",
+			});
+		}
+	}
+	async function getRedirectUrl() {
+		setIsLoggedIn(true);
+		const session = getDefaultSession();
+		const webId = session.info.webId;
+		const sessionId = session.info.sessionId;
+		const body = {
+			sessionId: sessionId,
+			webId: webId,
+		};
+		console.log(body);
+		await axios.post("http://localhost:8080/login-from-webapp", body);
+		return window.location.href;
+	}
+
+	function logOut() {
+		setIsLoggedIn(false);
+	}
+
+	return (
+		<>
+			{isLoggedIn ? (
+				<I18nextProvider i18n={i18next}>
+					<ThemeContextProvider children={<App logOutFunction={logOut} />} />
+				</I18nextProvider>
+			) : (
+				<Login logInFunction={login} />
+			)}
+		</>
+	);
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <MyComponent />
-  </React.StrictMode>
+	<React.StrictMode>
+		<MyComponent />
+	</React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -5,12 +5,6 @@ const cors = require("cors");
 //Inicializa app
 const app = express();
 
-app.use(
-	cors({
-		origin: "http://localhost:3000",
-	})
-);
-
 app.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Credentials", "true");
@@ -55,6 +49,7 @@ const friendController = require("./controllers/FriendController");
 const routeController = require("./controllers/RouteController");
 
 const userSessionRouter = require("./routes/userSessionRouter");
+
 //Router
 app.use("/location", userSessionRouter);
 app.use("/review", userSessionRouter);
