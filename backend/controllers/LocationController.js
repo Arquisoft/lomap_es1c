@@ -4,14 +4,18 @@ const Location = require("../models/locationModels/Location");
 const Photo = require("../models/locationModels/Photo");
 const Review = require("../models/locationModels/Review");
 const Comment = require("../models/locationModels/Comment");
+const session = require("./util/sessionController");
 const solid = require("../solid/Solid.js");
 
 //CRUD
 
 async function getLocation(req, res) {
 	const { id } = req.params;
-	session = await getSessionFromStorage(req.session.sessionId);
-	const location1 = await solid.getLocationById(session, id, req.session.user);
+	const location1 = await solid.getLocationById(
+		session.getSession().getSession(),
+		id,
+		req.session.user
+	);
 	if (location1 != null) {
 		res.send(JSON.stringify(location1));
 	} else {
@@ -20,8 +24,10 @@ async function getLocation(req, res) {
 }
 
 async function getAllLocations(req, res) {
-	session = await getSessionFromStorage(req.session.sessionId);
-	const locations = await solid.getAllLocations(session, req.session.user);
+	const locations = await solid.getAllLocations(
+		session.getSession().getSession(),
+		req.session.user
+	);
 	res.send(JSON.stringify(locations));
 }
 
@@ -32,7 +38,7 @@ async function createLocation(req, res) {
 		res.status(400).json({ error: "Faltan datos" });
 		return;
 	}
-	session = await getSessionFromStorage(req.session.sessionId);
+
 	const location = new Location(
 		name,
 		latitude,
@@ -41,7 +47,7 @@ async function createLocation(req, res) {
 		req.session.user,
 		category
 	);
-	await solid.saveLocation(session, location, req.session.user);
+	await solid.saveLocation(session.getSession(), location, req.session.user);
 	res.status(201).json(location);
 }
 
@@ -53,23 +59,26 @@ async function updateLocation(req, res) {
 		res.status(400).json({ error: "Faltan datos" });
 		return;
 	}
-	const location = await solid.getLocationById(id);
+	let location = await solid.getLocationById(id);
 	location.name = name;
 	location.latitude = latitude;
 	location.longitude = longitude;
 	location.description = description;
 	location.category = category;
 
-	session = await getSessionFromStorage(req.session.sessionId);
-	await solid.saveLocation(session, location, req.session.user);
+	await solid.saveLocation(session.getSession(), location, req.session.user);
 	res.status(200).json(location);
 }
 
 async function deleteLocation(req, res) {
 	const { id } = req.params;
-	const location = await solid.getLocationById(id);
+	const location = await solid.getLocationById(
+		session.getSession(),
+		id,
+		req.session.user
+	);
 	if (location != null) {
-		await solid.deleteLocationById(id);
+		await solid.deleteLocationById(session.getSession(), id, req.session.user);
 	} else {
 		res.status(404).json("No se han encontrado localizaciones con esa id");
 		return;
@@ -87,8 +96,12 @@ async function addPhoto(req, res) {
 		return;
 	}
 
+	let location = await solid.getLocationById(
+		session.getSession(),
+		id,
+		req.session.user
+	);
 	const photo = new Photo(req.session.user, name, photoUrl);
-	const location = await solid.getLocationById(id);
 	location.addPhoto(photo);
 	await solid.saveLocation(location);
 	res.status(201).json({ message: "Photo added successfully" });
@@ -109,8 +122,13 @@ async function addReview(req, res) {
 		res.status(400).json({ error: "Faltan datos" });
 		return;
 	}
+	let location = await solid.getLocationById(
+		session.getSession(),
+		id,
+		req.session.user
+	);
 	const review = new Review(rating, req.session.user);
-	const location = await solid.getLocationById(id);
+
 	location.addReview(review);
 	await solid.saveLocation(location);
 	res.status(201).json({ message: "Photo added successfully" });
@@ -123,13 +141,6 @@ async function deleteReview(req, res) {
 	res.status(204).json({ message: "Review removed successfully" });
 }
 
-async function deleteComment(req, res) {
-	const { id } = req.params;
-	const { idComment } = req.body;
-	await solid.deleteComment(id, idComment);
-	res.status(204).json({ message: "Comment removed successfully" });
-}
-
 async function addComment(req, res) {
 	const { id } = req.params;
 	const { text } = req.body;
@@ -138,11 +149,22 @@ async function addComment(req, res) {
 		res.status(400).json({ error: "Faltan datos" });
 		return;
 	}
+	let location = await solid.getLocationById(
+		session.getSession(),
+		id,
+		req.session.user
+	);
 	const comment = new Comment(req.session.user, text);
-	const location = await solid.getLocationById(id);
 	location.addComment(commentObject);
 	await solid.saveLocation(location);
 	res.status(201).json({ message: "Comment added successfully" });
+}
+
+async function deleteComment(req, res) {
+	const { id } = req.params;
+	const { idComment } = req.body;
+	await solid.deleteComment(id, idComment);
+	res.status(204).json({ message: "Comment removed successfully" });
 }
 
 //  Categories
@@ -153,7 +175,10 @@ async function getCategories(req, res) {
 
 async function getLocationsByCategory(req, res) {
 	const { category } = req.params;
-	let locations = await solid.getAllLocations();
+	let locations = await solid.getAllLocations(
+		session.getSession(),
+		req.session.user
+	);
 	locations = locations.filter((location) => location.category === category);
 	res.send(JSON.stringify(locations));
 }
