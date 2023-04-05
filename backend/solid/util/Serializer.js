@@ -13,6 +13,7 @@ async function serializeLocation(Session, myBaseUrl, location) {
 		name: location.name,
 		latitude: location.latitude,
 		longitude: location.longitude,
+		description: location.description,
 		author: location.author,
 		category: location.category,
 		id: location.id,
@@ -61,16 +62,16 @@ function serializePhoto(photo) {
 	return photoJson;
 }
 
-async function serializeReviewComplet(review) { // Se utiliza para serializar la informacion de las reviews que va en la carpeta reviews
+async function serializeReviewComplet(review) {
+	// Se utiliza para serializar la informacion de las reviews que va en la carpeta reviews
 	let ratingJson = {
 		rating: review.rating,
 		author: review.author,
 		id: review.id,
 	};
 
-
 	let blob = new Blob([JSON.stringify(ratingJson)], {
-	type: "application/json",
+		type: "application/json",
 	});
 
 	let buffer = Buffer.from(await blob.arrayBuffer());
@@ -78,7 +79,8 @@ async function serializeReviewComplet(review) { // Se utiliza para serializar la
 	return buffer;
 }
 
-async function serializeCommentComplet(comment) { // Se utiliza para serializar la informacion de los comments que va en la carpeta comments
+async function serializeCommentComplet(comment) {
+	// Se utiliza para serializar la informacion de los comments que va en la carpeta comments
 	let comentJson = {
 		author: comment.author,
 		text: comment.text,
@@ -94,16 +96,16 @@ async function serializeCommentComplet(comment) { // Se utiliza para serializar 
 
 	return buffer;
 }
-async function serializePhotoComplet(photo) { // Se utiliza para serializar la informacion de las photos que va en la carpeta photos
+async function serializePhotoComplet(photo) {
+	// Se utiliza para serializar la informacion de las photos que va en la carpeta photos
 	let photoJson = {
 		author: photo.author,
 		name: photo.name,
-		url: photo.url,  
+		url: photo.url,
 		timestamp: photo.timestamp,
 		id: photo.id,
 	};
 
-	
 	let blob = new Blob([JSON.stringify(photoJson)], {
 		type: "application/json",
 	});
@@ -113,14 +115,13 @@ async function serializePhotoComplet(photo) { // Se utiliza para serializar la i
 	return buffer;
 }
 
-
 async function serializeRoute(route) {
 	let routeJson = {
 		id: route.id,
 		name: route.name,
 		locations: route.locations.map((l) => l.id),
 		description: route.description,
-		author: route.author
+		author: route.author,
 	};
 
 	let blob = new Blob([JSON.stringify(routeJson)], {
@@ -153,7 +154,7 @@ module.exports = {
 	serializeReview,
 	serializeComment,
 	serializeFriend,
-	serializeReviewComplet, 
-	serializeCommentComplet, 
-	serializePhotoComplet
+	serializeReviewComplet,
+	serializeCommentComplet,
+	serializePhotoComplet,
 };

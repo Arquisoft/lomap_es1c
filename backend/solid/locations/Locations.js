@@ -27,18 +27,20 @@ async function addLocation(Session, ubicacion, myBaseUrl) {
 		}
 	);
 
-
 	//Añado a comentarios, reviews y fotos a sus respectivas carpetas
-	ubicacion.comments.forEach(c => Comments.addComent(Session, c));
-	ubicacion.reviews.forEach(r => Reviews.addReview(Session, r));
-	ubicacion.photos.forEach(p => Photos.addFoto(Session, p));
+	ubicacion.comments.forEach((c) => Comments.addComent(Session, c));
+	ubicacion.reviews.forEach((r) => Reviews.addReview(Session, r));
+	ubicacion.photos.forEach((p) => Photos.addFoto(Session, p));
 }
 
 async function obtenerLocalizaciones(Session, myBaseUrl) {
 	//Obtener url de todas las ubicaciones
-	let ubicacionDataset = await getSolidDataset(myBaseUrl + "LoMap/locations/locations/", {
-		fetch: Session.fetch,
-	});
+	let ubicacionDataset = await getSolidDataset(
+		myBaseUrl + "LoMap/locations/locations/",
+		{
+			fetch: Session.fetch,
+		}
+	);
 	let ubicaciones = getContainedResourceUrlAll(ubicacionDataset);
 	let modelsUbi = new Array(ubicaciones.length);
 	for (let i = 0; i < ubicaciones.length; i++) {
@@ -49,18 +51,31 @@ async function obtenerLocalizaciones(Session, myBaseUrl) {
 			myBaseUrl
 		);
 	}
+
 	return modelsUbi;
 }
 
 async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
-	let file = await getFile(myBaseUrl + "LoMap/locations/locations/" + idUbi + ".json", {
+	let file = await getFile(myBaseUrl + "LoMap/locations/locations/" + idUbi, {
 		fetch: Session.fetch,
 	});
 
-	let location =  await parser.parseLocation(file);
-	location.reviews = await Reviews.getAllReviews(Session, location.reviews, myBaseUrl);
-	location.photos = await Photos.getAllFotos(Session, location.photos, myBaseUrl);
-	location.comments = await Comments.getAllComents(Session, location.comments, myBaseUrl);
+	let location = await parser.parseLocation(file);
+	location.reviews = await Reviews.getAllReviews(
+		Session,
+		location.reviews,
+		myBaseUrl
+	);
+	location.photos = await Photos.getAllFotos(
+		Session,
+		location.photos,
+		myBaseUrl
+	);
+	location.comments = await Comments.getAllComents(
+		Session,
+		location.comments,
+		myBaseUrl
+	);
 	return location;
 }
 
