@@ -10,8 +10,8 @@ const solid = require("../solid/Solid.js");
 
 async function getLocation(req, res) {
 	const { id } = req.params;
-
-	const location1 = await solid.getLocationById(id);
+	session = await getSessionFromStorage(req.session.sessionId);
+	const location1 = await solid.getLocationById(session, id, req.session.user);
 	if (location1 != null) {
 		res.send(JSON.stringify(location1));
 	} else {
@@ -60,7 +60,8 @@ async function updateLocation(req, res) {
 	location.description = description;
 	location.category = category;
 
-	await solid.saveLocation(location);
+	session = await getSessionFromStorage(req.session.sessionId);
+	await solid.saveLocation(session, location, req.session.user);
 	res.status(200).json(location);
 }
 

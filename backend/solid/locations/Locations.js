@@ -61,6 +61,7 @@ async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
 	});
 
 	let location = await parser.parseLocation(file);
+
 	location.reviews = await Reviews.getAllReviews(
 		Session,
 		location.reviews,
@@ -76,13 +77,17 @@ async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
 		location.comments,
 		myBaseUrl
 	);
+
 	return location;
 }
 
 async function deleteLocationById(Session, idLocation, myBaseUrl) {
-	await deleteFile(myBaseUrl + "LoMap/locations/locations" + idLocation + ".json", {
-		fetch: Session.fetch,
-	});
+	await deleteFile(
+		myBaseUrl + "LoMap/locations/locations" + idLocation + ".json",
+		{
+			fetch: Session.fetch,
+		}
+	);
 }
 
 module.exports = {

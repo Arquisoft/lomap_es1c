@@ -50,7 +50,12 @@ async function getLocationById(Session, idUbi, friendWebID) {
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await locations.obtenerLocalizacion(Session, idUbi, myBaseUrl);
+	const result = await locations.obtenerLocalizacion(
+		Session,
+		idUbi + ".json",
+		myBaseUrl
+	);
+	return result;
 }
 
 async function deleteLocationById(Session, idLocation, friendWebID) {
@@ -58,7 +63,7 @@ async function deleteLocationById(Session, idLocation, friendWebID) {
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await locations.deleteLocationById(Session, idLocation, myBaseUrl);
+	await locations.deleteLocationById(Session, idLocation + ".json", myBaseUrl);
 }
 
 //COMENTS
