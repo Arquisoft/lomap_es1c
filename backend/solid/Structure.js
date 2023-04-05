@@ -86,6 +86,16 @@ async function construirEstructura(Session, myBaseUrl) {
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
 		}
+		try {
+			await getSolidDataset(myBaseUrl + "LoMap/friends", {
+				fetch: Session.fetch,
+			});
+		} catch (e) {
+			await createContainerAt(
+				myBaseUrl + "LoMap/friends",
+				{ fetch: Session.fetch } // fetch from authenticated Session
+			);
+		}
 	} catch (error) {
 		console.log(error);
 	}
