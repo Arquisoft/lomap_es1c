@@ -68,7 +68,7 @@ require("./routes/RouteRoutes.js")(app, routeController);
 
 // Error handler middleware
 app.use((err, req, res, next) => {
-	console.error(err);
+	console.log(err);
 	res.status(500).json({
 		error:
 			"Ha habido un error interno en el servidor, prueba en unos momento por favor",

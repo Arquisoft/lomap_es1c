@@ -82,12 +82,9 @@ async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
 }
 
 async function deleteLocationById(Session, idLocation, myBaseUrl) {
-	await deleteFile(
-		myBaseUrl + "LoMap/locations/locations" + idLocation + ".json",
-		{
-			fetch: Session.fetch,
-		}
-	);
+	await deleteFile(myBaseUrl + "LoMap/locations/locations" + idLocation, {
+		fetch: Session.fetch,
+	});
 }
 
 module.exports = {
