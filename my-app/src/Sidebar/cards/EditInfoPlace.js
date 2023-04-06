@@ -29,15 +29,22 @@ export default function FullInfoPlace({place, returnFunction, categorias}) {
         />
 
         <Rating value={place.valoracion}/>
+
+        <br></br>
         
-        <h3>Categoria:</h3>
         <Select
           defaultValue={place.categoria.toLowerCase()}
-          name="categoria"
+          label="Categoria"
         >
           {categoriesToList.map(
             categoria =>
-            <MenuItem key={categoria.toLowerCase()} value={categoria.toLowerCase()}>{categoria}</MenuItem>
+            <MenuItem
+              key={categoria.toLowerCase()}
+              sx={{height:"35px"}}
+              value={categoria.toLowerCase()
+            }>
+                {categoria==="" ? <em>Sin categoria</em> : categoria}
+              </MenuItem>
           )}
         </Select>
 
