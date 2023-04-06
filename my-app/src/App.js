@@ -18,6 +18,7 @@ export default function App({logOutFunction}) {
   const [data, setData] = useState('');
   const [t, i18n] = useTranslation("global")
   const [categorias, setCategorias] = useState([])
+  const [rutas, setRutas] = useState([])
 
   function getData(){
     axios.get('http://localhost:8080/location')
@@ -33,6 +34,28 @@ export default function App({logOutFunction}) {
     axios.get('http://localhost:8080/location/categories')
     .then(response => {setCategorias(response.data);})
     .catch(error => {console.log(error);});
+  }
+
+  function updateRutas() {
+    axios.get('http://localhost:8080/route')
+      .then(response => 
+        setRutas(
+          response.data.map(
+            ruta => ({
+              id: ruta.id,
+              name: ruta.name,
+              locations: ruta.locations.map(
+                location => ({
+                  id: location.id,
+                  name: location.name,
+                  latitude: location.latitude,
+                  longitude: location.longitude
+                })
+              )
+            })
+          )
+        ))
+        .catch(error => {console.log(error)});
   }
 
   useEffect(() => {
@@ -51,7 +74,11 @@ export default function App({logOutFunction}) {
 
   useEffect(() => {
     updateCategorias()
-  })
+  }, [])
+
+  useEffect(() => {
+    updateRutas()
+  }, [])
 
   //Estados de la aplicacion
   //Latitud y longitud del marcador actual que tu pongas en el mapa.
@@ -139,6 +166,7 @@ export default function App({logOutFunction}) {
         restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
         changeDrawerContent = {changeDrawerContent}
         categorias = {categorias}
+        rutas = {rutas}
       />
 
     </div>

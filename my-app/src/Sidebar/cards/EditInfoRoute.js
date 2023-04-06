@@ -54,6 +54,7 @@ export default function EditRouteInfo({route, returnFunction, userPlaces}) {
         <div className="card--line1">
         <h3>Lugares: </h3>
         <IconButton onClick={(event) => (setAnchorMenu(event.currentTarget))}><AddIcon/></IconButton>
+        </div>
 
         <Menu
             anchorEl = {anchorMenu}
@@ -69,9 +70,8 @@ export default function EditRouteInfo({route, returnFunction, userPlaces}) {
             ))}
         </Menu>
 
-        </div>
         {locations.map(location => (
-            <div className="card--line1">
+            <div key={location.id+"div"} className="card--line1">
                 <p key={location.id}>{location.name}</p>
                 <IconButton key={location.id+"db"} onClick={() => removeLocation(location.id)}><DeleteIcon/></IconButton>
             </div>
