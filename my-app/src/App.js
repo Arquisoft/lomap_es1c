@@ -123,11 +123,12 @@ export default function App({logOutFunction}) {
     setDrawerContent(newContent)
   }
 
+  // // TODO: borrar si ya lo hizo Damian
   function centerMapToCoordinates(newLatitude, newLongitude) {
-    // TODO: comprobar por qué
-    console.log("Center no funciona")
-    setLatitude(newLatitude)
-    setLongitude(newLongitude)
+  //   // TODO: comprobar por qué
+  //   console.log("Center no funciona")
+  //   setLatitude(newLatitude)
+  //   setLongitude(newLongitude)
   }
 
   return (

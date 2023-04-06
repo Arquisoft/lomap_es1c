@@ -6,7 +6,7 @@ import SpeedDialAction from '@mui/material/SpeedDialAction';
 import RouteIcon from '@mui/icons-material/Route';
 import EditRouteInfo from '../Sidebar/cards/EditInfoRoute';
 
-export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerContent, restoreDefautlDrawerContent}) {
+export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerContent, restoreDefautlDrawerContent, userPlaces}) {
 
   function activateClick(){
     canClick(true);
@@ -23,6 +23,7 @@ export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerConten
       <EditRouteInfo
         returnFunction = {restoreDefautlDrawerContent}
         route = {null}
+        userPlaces = {userPlaces}
       />
     )
   }
