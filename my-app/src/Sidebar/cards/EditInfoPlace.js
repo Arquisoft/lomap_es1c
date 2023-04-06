@@ -14,11 +14,16 @@ export default function FullInfoPlace({place, returnFunction, categorias}) {
         // TODO: conectar a la API
     }
 
+    console.log(categorias)
+
     return (
         <>
         <IconButton onClick={returnFunction}><ArrowBackIcon/></IconButton>
         <br></br>
-        <TextField defaultValue={place.name}/>
+        <TextField
+          label = "Nombre"
+          defaultValue={place.name}
+        />
 
         <Rating value={place.valoracion}/>
         
@@ -27,10 +32,14 @@ export default function FullInfoPlace({place, returnFunction, categorias}) {
           defaultValue={place.categoria.toLowerCase()}
           name="categoria"
         >
-          {categorias.map(categoria => <MenuItem key={categoria.toLowerCase()} value={categoria.toLowerCase()}>{categoria}</MenuItem>)}
+          {["", ...categorias].map(categoria => <MenuItem key={categoria.toLowerCase()} value={categoria.toLowerCase()}>{categoria}</MenuItem>)}
         </Select>
 
-        <h3>Comentario:</h3>
+        <br></br>
+
+        <TextField
+          label = "Comentario"
+        />
         <p></p>
 
         <h3>Fotos:</h3>
