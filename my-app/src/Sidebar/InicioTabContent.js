@@ -35,6 +35,7 @@ export default function InicioTabContent(props) {
                     place = {place}
                     changeDrawerContent={props.changeDrawerContent}
                     categorias = {props.categorias}
+                    centerMapToCoordinates = {props.centerMapToCoordinates}
                 />)
             }
         </div>

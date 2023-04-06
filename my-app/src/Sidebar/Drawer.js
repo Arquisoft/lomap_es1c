@@ -15,6 +15,7 @@ export default function DrawerSidebar(props) {
           restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
           categorias = {props.categorias}
           rutas = {props.rutas}
+          centerMapToCoordinates = {props.centerMapToCoordinates}
         />
       )
 

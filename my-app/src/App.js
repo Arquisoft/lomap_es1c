@@ -123,6 +123,13 @@ export default function App({logOutFunction}) {
     setDrawerContent(newContent)
   }
 
+  function centerMapToCoordinates(newLatitude, newLongitude) {
+    // TODO: comprobar por qué
+    console.log("Center no funciona")
+    setLatitude(newLatitude)
+    setLongitude(newLongitude)
+  }
+
   return (
     <div id={currentTheme}>
       <CreateModal
@@ -167,6 +174,7 @@ export default function App({logOutFunction}) {
         changeDrawerContent = {changeDrawerContent}
         categorias = {categorias}
         rutas = {rutas}
+        centerMapToCoordinates={centerMapToCoordinates}
       />
 
     </div>

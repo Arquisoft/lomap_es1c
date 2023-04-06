@@ -17,6 +17,7 @@ export default function DrawerDefaultContent(props) {
             restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
             categorias = {props.categorias}
             rutas = {props.rutas}
+            centerMapToCoordinates = {props.centerMapToCoordinates}
         />
 
         {contenidoAMostrar}

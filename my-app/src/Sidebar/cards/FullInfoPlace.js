@@ -46,7 +46,7 @@ const images = [
 },
 ];
 
-export default function FullInfoPlace({place, returnFunction, changeDrawerContent, categorias}) {
+export default function FullInfoPlace({place, returnFunction, changeDrawerContent, categorias, centerMapToCoordinates}) {
     function allowEdit() {
         changeDrawerContent(
             <EditInfoPlace
@@ -59,7 +59,7 @@ export default function FullInfoPlace({place, returnFunction, changeDrawerConten
     }
 
     function centerMapToPlace() {
-        // TODO: pendiente de implementar
+        centerMapToCoordinates(place.lat, place.lng)
     }
 
     function deletePlace() {
@@ -93,7 +93,7 @@ export default function FullInfoPlace({place, returnFunction, changeDrawerConten
         </Swiper>
 
         <IconButton onClick={allowEdit}><EditIcon/></IconButton>
-        <IconButton><TravelExploreIcon/></IconButton>
+        <IconButton onClick={centerMapToPlace}><TravelExploreIcon/></IconButton>
         <IconButton><DeleteIcon/></IconButton>
         </>
     )

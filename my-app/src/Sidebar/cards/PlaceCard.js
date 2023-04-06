@@ -14,6 +14,7 @@ export default function LugarCard(props) {
                 returnFunction={() => props.changeDrawerContent(null)}
                 changeDrawerContent = {props.changeDrawerContent}
                 categorias = {props.categorias}
+                centerMapToCoordinates = {props.centerMapToCoordinates}
             />)
     }
 

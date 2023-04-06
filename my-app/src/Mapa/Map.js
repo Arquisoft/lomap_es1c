@@ -66,7 +66,7 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
     }
   };
 
-  //Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la unicación del usuario.
+  //Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la ubicación del usuario.
   const [position, setPosition] = useState({
     lat: Number(latitude), 
     lng: Number(longitude)
