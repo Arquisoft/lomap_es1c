@@ -59,13 +59,11 @@ function MyComponent() {
 	async function callApi() {
 		console.log("Logged in!");
 		const session = getDefaultSession();
-		const body = {
-			token: session.accessToken,
-		};
-		console.log(session);
+		console.log(session.info.webId);
+
 		setIsLoggedIn(true);
-		console.log(body);
-		await axios.post("http://localhost:8080/login-from-webapp", body);
+
+		//await axios.post("http://localhost:8080/login-from-webapp", body);
 	}
 
 	function logOut() {
