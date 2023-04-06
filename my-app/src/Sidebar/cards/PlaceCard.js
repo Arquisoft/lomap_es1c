@@ -26,7 +26,6 @@ export default function LugarCard(props) {
                 {place.categoria  &&  <p>{place.categoria}</p>}
             </div>
             {place.valoracion ? <Rating value={place.valoracion} readOnly/> : <Rating value={place.valoracion} disabled/>}
-            {place.fotos  &&  place.fotos.length>0  &&  <img src={place.fotos[0]}/>}
             <br></br>
             <IconButton onClick={showFullInfo}><FullscreenIcon/></IconButton>
         </div>
