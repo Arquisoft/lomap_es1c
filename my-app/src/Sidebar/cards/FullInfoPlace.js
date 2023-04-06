@@ -6,20 +6,14 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditInfoPlace from './EditInfoPlace';
 import Rating from '@mui/material/Rating';
-
 import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MobileStepper from '@mui/material/MobileStepper';
-import Button from '@mui/material/Button';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
-
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
+// TODO eliminar datos hardcodeados
 const images = [
 {
     label: 'San Francisco – Oakland Bay Bridge, United States',
@@ -77,8 +71,6 @@ export default function FullInfoPlace({place, returnFunction, changeDrawerConten
     const [activeStep, setActiveStep] = useState(0)
     // const maxSteps = place.image
 
-    console.log(place)
-
     return (
         <>
         <IconButton onClick={returnFunction}><ArrowBackIcon/></IconButton>
@@ -93,7 +85,6 @@ export default function FullInfoPlace({place, returnFunction, changeDrawerConten
         <p></p>
 
         <h3>Fotos:</h3>
-
         <Swiper
             pagination={{ type: "fraction", }}
             navigation={true}
@@ -102,11 +93,9 @@ export default function FullInfoPlace({place, returnFunction, changeDrawerConten
             {/* TODO: reemplazar por las imágenes del lugar */}
             {images.map(
                 i => 
-                (<SwiperSlide><img src={i.imgPath}/></SwiperSlide>)
+                (<SwiperSlide key={i.imgPath+"slide"}><img src={i.imgPath}/></SwiperSlide>)
             )}
         </Swiper>
-        {/* TODO: añadir listado con todas las fotos */}
-        <p></p>
 
         <IconButton onClick={allowEdit}><EditIcon/></IconButton>
         <IconButton><TravelExploreIcon/></IconButton>
