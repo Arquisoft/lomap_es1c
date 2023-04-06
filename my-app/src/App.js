@@ -8,7 +8,6 @@ import axios from 'axios';
 import { useTranslation } from "react-i18next";
 import SettingsSpeedDial from './buttons/SettingsSpeedDial';
 import DrawerSidebar from './Sidebar/Drawer';
-import DrawerDefaultContent from './Sidebar/DrawerDefaultContent.js';
 import addPlace from './Places/Places';
 
 var a = [];
@@ -17,6 +16,8 @@ export default function App({logOutFunction}) {
 
   const [data, setData] = useState('');
   const [t, i18n] = useTranslation("global")
+  const [categorias, setCategorias] = useState([])
+  const [rutas, setRutas] = useState([])
 
   function getData(){
     axios.get('http://localhost:8080/location')
@@ -26,6 +27,34 @@ export default function App({logOutFunction}) {
       .catch(error => {
         console.log(error);
       });
+  }
+
+  function updateCategorias() {
+    axios.get('http://localhost:8080/location/categories')
+    .then(response => {setCategorias(response.data);})
+    .catch(error => {console.log(error);});
+  }
+
+  function updateRutas() {
+    axios.get('http://localhost:8080/route')
+      .then(response => 
+        setRutas(
+          response.data.map(
+            ruta => ({
+              id: ruta.id,
+              name: ruta.name,
+              locations: ruta.locations.map(
+                location => ({
+                  id: location.id,
+                  name: location.name,
+                  latitude: location.latitude,
+                  longitude: location.longitude
+                })
+              )
+            })
+          )
+        ))
+        .catch(error => {console.log(error)});
   }
 
   useEffect(() => {
@@ -40,8 +69,15 @@ export default function App({logOutFunction}) {
             categoria: data[i].category
           })}
       }
-
   });
+
+  useEffect(() => {
+    updateCategorias()
+  }, [])
+
+  useEffect(() => {
+    updateRutas()
+  }, [])
 
   //Estados de la aplicacion
   //Latitud y longitud del marcador actual que tu pongas en el mapa.
@@ -87,6 +123,14 @@ export default function App({logOutFunction}) {
     setDrawerContent(newContent)
   }
 
+  // // TODO: borrar si ya lo hizo Damian
+  function centerMapToCoordinates(newLatitude, newLongitude) {
+  //   // TODO: comprobar por qué
+  //   console.log("Center no funciona")
+  //   setLatitude(newLatitude)
+  //   setLongitude(newLongitude)
+  }
+
   return (
     <div id={currentTheme}>
       <CreateModal
@@ -113,6 +157,7 @@ export default function App({logOutFunction}) {
         setCanCick={setCanCick}
         changeDrawerContent={changeDrawerContent}
         restoreDefautlDrawerContent={restoreDefautlDrawerContent}
+        categorias = {categorias}
       />
 
       <SettingsSpeedDial
@@ -128,6 +173,9 @@ export default function App({logOutFunction}) {
         contentToDisplay = {drawerContent}
         restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
         changeDrawerContent = {changeDrawerContent}
+        categorias = {categorias}
+        rutas = {rutas}
+        centerMapToCoordinates={centerMapToCoordinates}
       />
 
     </div>

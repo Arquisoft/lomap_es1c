@@ -13,6 +13,9 @@ export default function DrawerSidebar(props) {
           userPlaces={props.userPlaces}
           changeDrawerContent = {props.changeDrawerContent}
           restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
+          categorias = {props.categorias}
+          rutas = {props.rutas}
+          centerMapToCoordinates = {props.centerMapToCoordinates}
         />
       )
 
@@ -21,7 +24,7 @@ export default function DrawerSidebar(props) {
         <IconButton
             sx = {{position: 'absolute', top: 16, left: 16}}
             size="extra"
-            onClick={() => props.setIsDrawerOpen(true)}
+            onClick={() => props.changeDrawerContent(null)}
         >
             <MenuIcon />
         </IconButton>

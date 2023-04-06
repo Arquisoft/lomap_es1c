@@ -4,17 +4,33 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import RoomIcon from "@mui/icons-material/Room";
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import RouteIcon from '@mui/icons-material/Route';
+import EditRouteInfo from '../Sidebar/cards/EditInfoRoute';
 
-export default function OpenIconSpeedDial({canClick,openInfo}) {
+export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerContent, restoreDefautlDrawerContent, userPlaces}) {
 
   function activateClick(){
     canClick(true);
     openInfo(true);
   }
 
+  function createRoute() {
+    canClick(false);
+    openInfo(false);
+
+    console.log("--")
+
+    changeDrawerContent(
+      <EditRouteInfo
+        returnFunction = {restoreDefautlDrawerContent}
+        route = {null}
+        userPlaces = {userPlaces}
+      />
+    )
+  }
+
   const actions = [
     { icon: <RoomIcon onClick={activateClick} />, name: 'Añadir Marcador' },
-    { icon: <RouteIcon />, name: 'Crear Ruta' },
+    { icon: <RouteIcon onClick={createRoute}/>, name: 'Crear Ruta' },
   ];
 
   return (
