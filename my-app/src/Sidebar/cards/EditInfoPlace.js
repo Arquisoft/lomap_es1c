@@ -14,7 +14,10 @@ export default function FullInfoPlace({place, returnFunction, categorias}) {
         // TODO: conectar a la API
     }
 
-    console.log(categorias)
+    const categoriesToList = ["", ...categorias]
+    if (!categoriesToList.includes(place.categoria)) {
+      categoriesToList.push(place.categoria)
+  }
 
     return (
         <>
@@ -32,7 +35,10 @@ export default function FullInfoPlace({place, returnFunction, categorias}) {
           defaultValue={place.categoria.toLowerCase()}
           name="categoria"
         >
-          {["", ...categorias].map(categoria => <MenuItem key={categoria.toLowerCase()} value={categoria.toLowerCase()}>{categoria}</MenuItem>)}
+          {categoriesToList.map(
+            categoria =>
+            <MenuItem key={categoria.toLowerCase()} value={categoria.toLowerCase()}>{categoria}</MenuItem>
+          )}
         </Select>
 
         <br></br>
