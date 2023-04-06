@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { darkMapStyle, lightMapStyle } from "./themes/MapThemes";
 import FullInfoPlace from "../Sidebar/cards/FullInfoPlace";
 
-export default function CreateMap({open,setLatitude,setLongitude,markers,setMarkers,places,canCick,setCanCick,changeDrawerContent,restoreDefautlDrawerContent}) {
+export default function CreateMap({open,setLatitude,setLongitude,markers,setMarkers,places,canCick,setCanCick,changeDrawerContent,restoreDefautlDrawerContent,categorias}) {
     const { isLoaded } = useLoadScript({
       googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     });
@@ -23,6 +23,7 @@ export default function CreateMap({open,setLatitude,setLongitude,markers,setMark
         places={places} style={{position:"none"}}
         changeDrawerContent = {changeDrawerContent}
         restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
+        categorias={categorias}
         />
       </div>
     );
@@ -31,7 +32,7 @@ export default function CreateMap({open,setLatitude,setLongitude,markers,setMark
 
 var Located = true;
 
-function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers,places,canCick,setCanCick,changeDrawerContent,restoreDefautlDrawerContent}) {
+function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers,places,canCick,setCanCick,changeDrawerContent,restoreDefautlDrawerContent,categorias}) {
 
   //Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
   
@@ -112,6 +113,8 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
       <FullInfoPlace
         place={places.find(place => place.id == marker.id)}
         returnFunction={restoreDefautlDrawerContent}
+        changeDrawerContent={changeDrawerContent}
+        categorias={categorias}
       />
     )
   }

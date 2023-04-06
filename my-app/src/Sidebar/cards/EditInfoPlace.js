@@ -65,6 +65,10 @@ export default function FullInfoPlace({place, returnFunction, categorias}) {
       console.log("añadir imagen: pendiente")
     }
 
+    function deleteImage() {
+      
+    }
+
     return (
         <>
         <IconButton onClick={returnFunction}><ArrowBackIcon/></IconButton>

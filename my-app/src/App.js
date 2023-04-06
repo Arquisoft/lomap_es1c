@@ -8,7 +8,6 @@ import axios from 'axios';
 import { useTranslation } from "react-i18next";
 import SettingsSpeedDial from './buttons/SettingsSpeedDial';
 import DrawerSidebar from './Sidebar/Drawer';
-import DrawerDefaultContent from './Sidebar/DrawerDefaultContent.js';
 import addPlace from './Places/Places';
 
 var a = [];
@@ -150,6 +149,7 @@ export default function App({logOutFunction}) {
         setCanCick={setCanCick}
         changeDrawerContent={changeDrawerContent}
         restoreDefautlDrawerContent={restoreDefautlDrawerContent}
+        categorias = {categorias}
       />
 
       <SettingsSpeedDial

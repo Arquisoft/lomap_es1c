@@ -6,7 +6,6 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditInfoPlace from './EditInfoPlace';
 import Rating from '@mui/material/Rating';
-import { useTheme } from '@mui/material/styles';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
 import "swiper/css";
@@ -66,10 +65,6 @@ export default function FullInfoPlace({place, returnFunction, changeDrawerConten
     function deletePlace() {
         // TODO: pendiente de implementar
     }
-
-    const photosTheme = useTheme()
-    const [activeStep, setActiveStep] = useState(0)
-    // const maxSteps = place.image
 
     return (
         <>
