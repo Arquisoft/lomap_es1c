@@ -61,6 +61,23 @@ require("./routes/LocationRoutes.js")(app, locationController);
 require("./routes/FriendRoutes.js")(app, friendController);
 require("./routes/RouteRoutes.js")(app, routeController);
 
+//TODO
+/*
+const allowedOrigins = ['https://example.com'];
+const corsOptions = {
+	origin: function (origin, callback) {
+	  if (allowedOrigins.indexOf(origin) !== -1) {
+		callback(null, true)
+	  } else {
+		callback(new Error('Not allowed by CORS'))
+	  }
+	}
+  }
+  
+  app.use('/login-from-webapp', cors(corsOptions), function(req, res) {
+	// your route code here
+  });
+  */
 // Error handler middleware
 app.use((err, req, res, next) => {
 	console.log(err);

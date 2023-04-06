@@ -40,40 +40,32 @@ function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [cookie, setCookie] = useState(false);
 
-	async function login() {
-		// 1. Call `handleIncomingRedirect()` to complete the authentication process.
-		//    If called after the user has logged in with the Solid Identity Provider,
-		//      the user's credentials are stored in-memory, and
-		//      the login process is complete.
-		//   Otherwise, no-op.
-		await handleIncomingRedirect();
+	async function loginWeb() {
+		await redirectInrupt();
+		await callApi();
+	}
 
-		// 2. Start the Login Process if not already logged in.
+	async function redirectInrupt() {
+		await handleIncomingRedirect();
 		if (!getDefaultSession().info.isLoggedIn) {
 			await login({
-				// Specify the URL of the user's Solid Identity Provider;
-				// e.g., "https://login.inrupt.com".
 				oidcIssuer: "https://login.inrupt.com",
-				// Specify the URL the Solid Identity Provider should redirect the user once logged in,
-				// e.g., the current page for a single-page app.
-				redirectUrl: await getRedirectUrl(),
-				// Provide a name for the application when sending to the Solid Identity Provider
+				redirectUrl: window.location.href,
 				clientName: "My application",
 			});
 		}
 	}
-	async function getRedirectUrl() {
-		setIsLoggedIn(true);
+
+	async function callApi() {
+		console.log("Logged in!");
 		const session = getDefaultSession();
-		const webId = session.info.webId;
-		const sessionId = session.info.sessionId;
 		const body = {
-			sessionId: sessionId,
-			webId: webId,
+			token: session.accessToken,
 		};
+		console.log(session);
+		setIsLoggedIn(true);
 		console.log(body);
 		await axios.post("http://localhost:8080/login-from-webapp", body);
-		return window.location.href;
 	}
 
 	function logOut() {
@@ -87,7 +79,7 @@ function MyComponent() {
 					<ThemeContextProvider children={<App logOutFunction={logOut} />} />
 				</I18nextProvider>
 			) : (
-				<Login logInFunction={login} />
+				<Login logInFunction={loginWeb} />
 			)}
 		</>
 	);

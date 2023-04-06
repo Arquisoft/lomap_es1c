@@ -1,5 +1,3 @@
-const { getSessionFromStorage } = require("@inrupt/solid-client-authn-node");
-
 const Location = require("../models/locationModels/Location");
 const Photo = require("../models/locationModels/Photo");
 const Review = require("../models/locationModels/Review");
@@ -31,6 +29,8 @@ async function getLocation(req, res) {
 async function getAllLocations(req, res, next) {
 	try {
 		const session = SessionController.getSession(req, next);
+		console.log(session);
+
 		const locations = await solid.getAllLocations(session, req.session.user);
 		res.send(JSON.stringify(locations));
 	} catch (err) {
