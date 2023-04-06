@@ -1,4 +1,4 @@
-name: CI for LOMAP ES1c
+name: default CI for LOMAP ES1c
 
 on:
   release:

@@ -1,0 +1,49 @@
+.caja{
+    background-color: #1e2124;
+    width: 500px;
+    height: 500px;
+    border-radius: 25px;
+    grid-column-start: 2;
+    grid-row: 2;
+    border: 6px solid #1e2124;
+}
+
+.mainDiv{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.formName{
+    grid-column-start: 2;
+    display: grid;
+    grid-template-rows: 40% auto 25%;
+}
+
+.formName .btnLogin{
+    top: 90%;
+    left: 40%;
+    border: 0.25em solid white;
+    color: white;
+}
+
+.logo{
+    position: relative;
+    width: 600px;
+    height: 278px;
+    top: 70%;
+    left: 35%;
+    grid-row-start: 0;
+}
+
+.logoYParrafo{
+    grid-column-start: 1;
+    display: grid;
+    grid-template-rows: auto auto;
+}
+
+.descripción{
+    position: relative;
+    top: 95%;
+    left: 25%;
+    font-size: 25px;
+}

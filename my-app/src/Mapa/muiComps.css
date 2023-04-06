@@ -1,0 +1,79 @@
+.nombre input {
+    color: white;
+}
+
+.nombre label {
+    color: white;
+}
+
+.nombre fieldset {
+    border-color: white;
+}
+
+.rating svg{
+    color: yellow;
+}
+
+.rating label{
+    font-size: 35px;
+}
+
+.categoria div{
+    color: white;
+}
+
+.categoria label{
+    color: white;
+}
+
+.categoria fieldset{
+    border-color: white;
+}
+
+.categoria svg{
+    color: white;
+}
+
+.privacidad div{
+    color: white;
+}
+
+.privacidad label{
+    color: white;
+}
+
+.privacidad fieldset{
+    border-color: white;
+}
+
+.privacidad svg{
+    color: white;
+}
+
+.comentario textarea{
+    color: white;
+}
+
+.comentario fieldset{
+    border-color: white;
+}
+
+.submitFormLugares .btn{
+    border: 0.25em solid white;
+    color: white;
+}
+
+.submitFormLugares .btnCancel{
+    border: 0.25em solid white;
+    color: white;
+}
+
+.filtros{
+    position: absolute;
+    left: 5%;
+    top: 1%;
+}
+
+.filtros > button{
+    margin-left: 10px;
+}

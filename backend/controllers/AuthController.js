@@ -26,16 +26,14 @@ async function redirectFromSolidIdp(req, res, next) {
 
 	if (session.info.isLoggedIn) {
 		solid.createStruct(session);
-
 		req.session.user = session.info.webId;
 		req.session.sessionId = req.session.sessionId;
 		res.cookie("sessionId", req.session.sessionId, {
 			maxAge: 24 * 60 * 60 * 1000,
 		}); // Set cookie with name 'sessionId' and value of req.session.sessionId with a max age of 24 hours (in milliseconds)
-
-		return res.send(
-			`<p>User ${req.session.user} logged in with the session ${req.session.sessionid}.</p>`
-		);
+		console.log(session);
+		//return res.send("xd,tas logeao chaval");
+		return res.send(`<p>Logged in.</p>`);
 	}
 }
 
@@ -50,9 +48,22 @@ async function index(req, res, next) {
 	res.send(`<p>Esta es la respuesta default de la restAPI</p>`);
 }
 
+async function loginFromWebapp(req, res, next) {
+	const { token } = req.body;
+	console.log(token);
+	const session = new Session();
+	await session.fromToken(token);
+	console.log(session);
+
+	req.session.webId = session.info.webId;
+	req.session.sessionId = session.info.sessionId;
+	res.status(204).json({ message: "Logged in" });
+}
+
 module.exports = {
 	login,
 	logout,
 	redirectFromSolidIdp,
 	index,
+	loginFromWebapp,
 };
