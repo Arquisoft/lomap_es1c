@@ -6,11 +6,14 @@ import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 export default function EditRouteInfo({route, returnFunction, userPlaces}) {
     const [name, setName] = useState(route == null ? "" : route.name)
     const [locations, setLocations] = useState(route == null ? [] : route.locations)
     const [canSave, setCanSave] = useState(route != null)
+    const [anchorMenu, setAnchorMenu] = useState(false)
 
     function handleNameChange(event) {
         setName(event.target.value)
@@ -26,17 +29,16 @@ export default function EditRouteInfo({route, returnFunction, userPlaces}) {
         }
     }
 
-    function addLocation() {
-        const notIncludedLocations = userPlaces.filter(location => ! locations.find((l) => l.id === location.id))
-        // TODO: display locations
-        // TODO: add location to list
-        // TODO: conectar a la api
-        console.log("pendiente")
+    function clickOnNewLocation(locationId) {
+        setLocations((current) => [...current, userPlaces.find(l => l.id == locationId)])
+        setAnchorMenu(null)
+        // TODO: conectar con la api
+        console.log("Conectar con la API")
     }
 
     function removeLocation(id) {
         //TODO: guardar en la api
-        setLocations((current) => ([...current].filter(location => location.id != id)))
+        setLocations((current) => (current.filter(location => location.id != id)))
         console.log("pendiente de juntar a la api")
     }
 
@@ -49,15 +51,29 @@ export default function EditRouteInfo({route, returnFunction, userPlaces}) {
             defaultValue = {name}
             onChange={handleNameChange}
         />
-        <br></br>
         <div className="card--line1">
         <h3>Lugares: </h3>
-        <IconButton onClick={addLocation}><AddIcon/></IconButton>
+        <IconButton onClick={(event) => (setAnchorMenu(event.currentTarget))}><AddIcon/></IconButton>
+
+        <Menu
+            anchorEl = {anchorMenu}
+            open = {Boolean(anchorMenu)}
+            onClose={() => setAnchorMenu(null)}
+        >
+            {userPlaces
+            .filter(location => ! locations.find((l) => l.id === location.id))
+            .map((location) => (
+                <MenuItem key={location.id + "mnitem"} onClick={() => clickOnNewLocation(location.id)}>
+                    {location.name}
+                </MenuItem>
+            ))}
+        </Menu>
+
         </div>
         {locations.map(location => (
             <div className="card--line1">
                 <p key={location.id}>{location.name}</p>
-                <IconButton onClick={() => removeLocation(location.id)}><DeleteIcon/></IconButton>
+                <IconButton key={location.id+"db"} onClick={() => removeLocation(location.id)}><DeleteIcon/></IconButton>
             </div>
         ))}
 
