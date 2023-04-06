@@ -20,7 +20,7 @@ export default function EditRouteInfo({route, returnFunction, userPlaces}) {
     }
 
     function save() {
-        // TODO: pendiente de implementar
+        // TODO: pendiente de implementar ¿De verdad necesito hacer objetos command?
         console.log("Pendiente de implementar")
         if (canSave) {
             // TODO: conectar a la API

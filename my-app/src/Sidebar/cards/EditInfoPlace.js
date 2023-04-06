@@ -3,33 +3,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { IconButton } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import TextField from '@mui/material/TextField';
-import axios from 'axios';
 import Select from "@mui/material/Select";
 import MenuItem from '@mui/material/MenuItem';
 import Rating from '@mui/material/Rating';
 
-export default function FullInfoPlace({place, returnFunction}) {
-    const [categorias, setCategorias] = React.useState([]);
-
-    function updateCategories(nuevasCategorias) {
-        setCategorias(nuevasCategorias)
-
-        // TODO comprobar si de verdad hace falta
-        if (place.categoria != ""  &&  !categorias.includes(place.categoria)) {
-            setCategorias(current => [...current, place.categoria])
-        }
-    }
-
-    function getCategories(){
-        axios.get('http://localhost:8080/location/categories')
-        .then(response => {updateCategories(response.data);})
-        .catch(error => {console.log(error);});
-    }
-
-    useEffect(() => {
-        getCategories();
-    }, []);
-
+export default function FullInfoPlace({place, returnFunction, categorias}) {
     function save() {
         console.log("Pendiente de implementar")
         // TODO: pendiente de implementar

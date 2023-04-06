@@ -10,6 +10,7 @@ export default function TabButtons(props) {
     const inicioTabContent = <InicioTabContent
         userPlaces = {props.userPlaces}
         changeDrawerContent = {props.changeDrawerContent}
+        categorias = {props.categorias}
     />
     const amigosTabContent = <AmigosTabContent />
     const rutasTabContent = <RutasTabContent

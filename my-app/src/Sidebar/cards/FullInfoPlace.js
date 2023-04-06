@@ -7,13 +7,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditInfoPlace from './EditInfoPlace';
 import Rating from '@mui/material/Rating';
 
-export default function FullInfoPlace({place, returnFunction, changeDrawerContent}) {
+export default function FullInfoPlace({place, returnFunction, changeDrawerContent, categorias}) {
     function allowEdit() {
         changeDrawerContent(
             <EditInfoPlace
                 place = {place}
                 changeDrawerContent = {changeDrawerContent}
                 returnFunction = {() => changeDrawerContent(this)}
+                categorias={categorias}
             />
         )
     }

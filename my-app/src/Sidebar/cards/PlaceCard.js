@@ -13,6 +13,7 @@ export default function LugarCard(props) {
                 place={place}
                 returnFunction={() => props.changeDrawerContent(null)}
                 changeDrawerContent = {props.changeDrawerContent}
+                categorias = {props.categorias}
             />)
     }
 

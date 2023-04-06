@@ -34,6 +34,7 @@ export default function InicioTabContent(props) {
                     key={place.id}
                     place = {place}
                     changeDrawerContent={props.changeDrawerContent}
+                    categorias = {props.categorias}
                 />)
             }
         </div>

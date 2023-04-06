@@ -13,6 +13,7 @@ export default function DrawerSidebar(props) {
           userPlaces={props.userPlaces}
           changeDrawerContent = {props.changeDrawerContent}
           restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
+          categorias = {props.categorias}
         />
       )
 

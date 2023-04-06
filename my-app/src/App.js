@@ -17,6 +17,7 @@ export default function App({logOutFunction}) {
 
   const [data, setData] = useState('');
   const [t, i18n] = useTranslation("global")
+  const [categorias, setCategorias] = useState([])
 
   function getData(){
     axios.get('http://localhost:8080/location')
@@ -26,6 +27,12 @@ export default function App({logOutFunction}) {
       .catch(error => {
         console.log(error);
       });
+  }
+
+  function updateCategorias() {
+    axios.get('http://localhost:8080/location/categories')
+    .then(response => {setCategorias(response.data);})
+    .catch(error => {console.log(error);});
   }
 
   useEffect(() => {
@@ -40,8 +47,11 @@ export default function App({logOutFunction}) {
             categoria: data[i].category
           })}
       }
-
   });
+
+  useEffect(() => {
+    updateCategorias()
+  })
 
   //Estados de la aplicacion
   //Latitud y longitud del marcador actual que tu pongas en el mapa.
@@ -128,6 +138,7 @@ export default function App({logOutFunction}) {
         contentToDisplay = {drawerContent}
         restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
         changeDrawerContent = {changeDrawerContent}
+        categorias = {categorias}
       />
 
     </div>

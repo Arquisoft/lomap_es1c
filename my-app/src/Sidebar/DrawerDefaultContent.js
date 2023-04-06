@@ -15,6 +15,7 @@ export default function DrawerDefaultContent(props) {
             userPlaces = {props.userPlaces}
             changeDrawerContent = {props.changeDrawerContent}
             restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
+            categorias = {props.categorias}
         />
 
         {contenidoAMostrar}
