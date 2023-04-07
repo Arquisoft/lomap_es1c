@@ -1,3 +1,4 @@
+
 const Location = require("../models/locationModels/Location");
 const Photo = require("../models/locationModels/Photo");
 const Review = require("../models/locationModels/Review");
@@ -63,6 +64,8 @@ async function createLocation(req, res) {
 		next(err);
 	}
 }
+
+
 
 async function updateLocation(req, res) {
 	const { id } = req.params;
@@ -232,6 +235,7 @@ async function getLocationsByCategory(req, res, next) {
 		next(err);
 	}
 }
+
 
 module.exports = {
 	createLocation,
