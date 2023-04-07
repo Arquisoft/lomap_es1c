@@ -61,3 +61,8 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 .Form
 Tabular or free form text.
 ****
+
+[options="header"]
+|===
+| Quality Requirements | Quality Scenarios
+|===
