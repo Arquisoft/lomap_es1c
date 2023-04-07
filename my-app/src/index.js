@@ -5,7 +5,7 @@ import {
 } from "@inrupt/solid-client-authn-browser";
 import axios from "axios";
 import i18next from "i18next";
-import Cookies from "js-cookie";
+
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
@@ -36,19 +36,31 @@ i18next.init({
 	},
 });
 
+function getCookie(name) {
+	const cookieString = document.cookie;
+	const cookies = cookieString.split("; ");
+	for (let i = 0; i < cookies.length; i++) {
+		const cookie = cookies[i];
+		const [cookieName, cookieValue] = cookie.split("=");
+		if (cookieName === name) {
+			return decodeURIComponent(cookieValue);
+		}
+	}
+	return null;
+}
+
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [cookie, setCookie] = useState(false);
 
 	useEffect(() => {
-		talogeao();
+		isLogged();
 	});
-	async function talogeao() {
+
+	async function isLogged() {
 		try {
-			const sessionId = Cookies.get("sessionId");
-			console.log(sessionId);
-			const response = await axios.post("http://localhost:8080/isLoggedIn", {
-				sessionId,
+			const response = await axios.get("http://localhost:8080/isLoggedIn", {
+				withCredentials: true,
 			});
 			if (response.status === 200) {
 				if (isLoggedIn === false) {
@@ -59,8 +71,8 @@ function MyComponent() {
 			console.log(error);
 		}
 	}
+
 	function loginWeb() {
-		Cookies.set("sessionId", "some-session-id", { path: "/" });
 		window.location.href = "http://localhost:8080/login-from-webapp";
 	}
 

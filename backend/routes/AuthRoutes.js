@@ -8,5 +8,5 @@ module.exports = function (app, sessionController) {
 		"/redirect-from-solid-idp-web",
 		sessionController.redirectFromSolidIdpWeb
 	);
-	app.post("/isLoggedIn", sessionController.isLoggedIn);
+	app.get("/isLoggedIn", sessionController.isLoggedIn);
 };

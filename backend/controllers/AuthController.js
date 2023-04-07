@@ -1,13 +1,14 @@
 const {
 	getSessionFromStorage,
 	Session,
+	getSessionIdFromStorageAll,
 } = require("@inrupt/solid-client-authn-node");
 const solid = require("../solid/Solid.js");
 const port = 8080;
 
 async function login(req, res, next) {
 	const session = new Session();
-	req.session.sessionId = session.info.sessionId;
+	res.cookie("sessionId", session.info.sessionId);
 	const redirectToSolidIdentityProvider = (url) => {
 		res.redirect(url);
 	};
@@ -20,14 +21,10 @@ async function login(req, res, next) {
 }
 
 async function redirectFromSolidIdp(req, res, next) {
-	const session = await getSessionFromStorage(req.session.sessionId);
+	const session = await getSessionFromStorage(req.cookies.sessionId);
 	await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
-
 	if (session.info.isLoggedIn) {
 		solid.createStruct(session);
-		console.log(req.session.sessionId);
-		req.session.user = session.info.webId;
-		req.session.sessionId = req.session.sessionId;
 		return res.send(`<p>Logged in.</p>`);
 	}
 }
@@ -35,8 +32,6 @@ async function redirectFromSolidIdp(req, res, next) {
 async function logout(req, res, next) {
 	const session = await getSessionFromStorage(req.session.sessionId);
 	session.logout();
-	req.session.user = null;
-	req.session.sessionId = null;
 	res.send(`<p>Logged out.</p>`);
 }
 
@@ -46,7 +41,7 @@ async function index(req, res, next) {
 
 async function loginFromWeb(req, res, next) {
 	const session = new Session();
-	req.session.sessionId = session.info.sessionId;
+	res.cookie("sessionId", session.info.sessionId);
 	const redirectToSolidIdentityProvider = (url) => {
 		res.redirect(url);
 	};
@@ -59,30 +54,30 @@ async function loginFromWeb(req, res, next) {
 }
 
 async function redirectFromSolidIdpWeb(req, res, next) {
-	const session = await getSessionFromStorage(req.session.sessionId);
-	await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
-	if (session.info.isLoggedIn) {
-		solid.createStruct(session);
-		req.session.user = session.info.webId;
-		req.session.sessionId = req.session.sessionId;
-
-		return res
-			.cookie("sessionId", req.session.sessionId)
-			.redirect(`http://localhost:3000`);
+	try {
+		const session = await getSessionFromStorage(req.cookies.sessionId);
+		await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
+		if (session.info.isLoggedIn) {
+			solid.createStruct(session);
+			return res.status(200).redirect("http://localhost:3000");
+		}
+	} catch (err) {
+		next(err);
 	}
 }
-async function isLoggedIn(req, res) {
-	const { sessionId } = req.body;
 
-	console.log(typeof sessionId);
-	console.log(sessionId);
-	const session = await getSessionFromStorage(sessionId);
+async function isLoggedIn(req, res, next) {
+	try {
+		const session = await getSessionFromStorage(req.cookies.sessionId);
+		if (session) {
+			console.log("Ha logeao");
 
-	console.log(session);
-	if (session) {
-		res.status(200).json("Sesion iniciada");
-	} else {
-		res.status(401).json("what");
+			res.status(200).json("Sesion iniciada");
+		} else {
+			res.status(401).json("what");
+		}
+	} catch (err) {
+		next(err);
 	}
 }
 
