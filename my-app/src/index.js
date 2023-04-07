@@ -3,8 +3,10 @@ import {
 	handleIncomingRedirect,
 	login,
 } from "@inrupt/solid-client-authn-browser";
+import axios from "axios";
 import i18next from "i18next";
-import React, { useState } from "react";
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import App from "./App";
@@ -12,8 +14,6 @@ import { ThemeContextProvider } from "./contexts/ThemeContext";
 import "./index.css";
 import Login from "./login";
 import reportWebVitals from "./reportWebVitals";
-
-import axios from "axios";
 import global_en from "./translations/en/global.json";
 import global_es from "./translations/es/global.json";
 
@@ -40,32 +40,28 @@ function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [cookie, setCookie] = useState(false);
 
-	async function loginWeb() {
-		await redirectInrupt();
-		await callApi();
-	}
-
-	async function redirectInrupt() {
-		await handleIncomingRedirect();
-		if (!getDefaultSession().info.isLoggedIn) {
-			await login({
-				oidcIssuer: "https://login.inrupt.com",
-				redirectUrl: window.location.href,
-				clientName: "My application",
+	useEffect(() => {
+		talogeao();
+	});
+	async function talogeao() {
+		try {
+			const sessionId = Cookies.get("sessionId");
+			console.log(sessionId);
+			const response = await axios.post("http://localhost:8080/isLoggedIn", {
+				sessionId,
 			});
+			if (response.status === 200) {
+				if (isLoggedIn === false) {
+					setIsLoggedIn(true);
+				}
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	}
-
-	async function callApi() {
-		console.log("Logged in!");
-		const session = getDefaultSession();
-		const body = {
-			token: session.accessToken,
-		};
-		console.log(session);
-		setIsLoggedIn(true);
-		console.log(body);
-		await axios.post("http://localhost:8080/login-from-webapp", body);
+	function loginWeb() {
+		Cookies.set("sessionId", "some-session-id", { path: "/" });
+		window.location.href = "http://localhost:8080/login-from-webapp";
 	}
 
 	function logOut() {
