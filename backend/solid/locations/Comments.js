@@ -1,3 +1,10 @@
+const {
+	overwriteFile,
+	getFile,
+	deleteFile,
+	getPodUrlAll
+} = require("@inrupt/solid-client");
+
 const locations = require("./Locations.js");
 
 const parser = require("../util/Parser.js");
@@ -8,10 +15,10 @@ async function addComent(Session, coment) {
 	let myUrl = await getPodUrlAll(Session.info.webId, { fetch: Session.fetch });
 	myUrl = myUrl[0];
 
-	let file = serializer.serializeCommentComplet(coment);
+	let file = await serializer.serializeCommentComplet(coment);
 
 	await overwriteFile(
-		myBaseUrl + "LoMap/locations/comments/" + coment.id + ".json",
+		myUrl + "LoMap/locations/comments/" + coment.id + ".json",
 		file,
 		{
 			contentType: file.type,
@@ -21,8 +28,10 @@ async function addComent(Session, coment) {
 }
 
 async function getAllComents(Session, jsonComments) { //jsonComments es una lista de json { "author": //webId del autor", "idComment": //id }
-	let comments = jsonComments.map(c => getComment(Session, c));
-	return comments.filter(c => c!=null);
+	for(let i=0;i<jsonComments.length;i++){
+		jsonComments[i] = await getComment(Session, jsonComments[i]);
+	}
+	return jsonComments.filter(c => c!=null);
 }
 
 
@@ -31,7 +40,7 @@ async function getComment(Session, jsonComment){
 		let myUrl = await getPodUrlAll(jsonComment.author, { fetch: Session.fetch });
 		myUrl = myUrl[0];
 	
-		let file = await getFile(myBaseUrl + "LoMap/locations/comments/" + jsonComment.id + ".json", {
+		let file = await getFile(myUrl + "LoMap/locations/comments/" + jsonComment.id + ".json", {
 			fetch: Session.fetch,
 		});
 	

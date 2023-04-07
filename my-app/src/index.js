@@ -3,8 +3,10 @@ import {
 	handleIncomingRedirect,
 	login,
 } from "@inrupt/solid-client-authn-browser";
+import axios from "axios";
 import i18next from "i18next";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import App from "./App";
@@ -12,8 +14,6 @@ import { ThemeContextProvider } from "./contexts/ThemeContext";
 import "./index.css";
 import Login from "./login";
 import reportWebVitals from "./reportWebVitals";
-
-import axios from "axios";
 import global_en from "./translations/en/global.json";
 import global_es from "./translations/es/global.json";
 
@@ -36,34 +36,44 @@ i18next.init({
 	},
 });
 
+function getCookie(name) {
+	const cookieString = document.cookie;
+	const cookies = cookieString.split("; ");
+	for (let i = 0; i < cookies.length; i++) {
+		const cookie = cookies[i];
+		const [cookieName, cookieValue] = cookie.split("=");
+		if (cookieName === name) {
+			return decodeURIComponent(cookieValue);
+		}
+	}
+	return null;
+}
+
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [cookie, setCookie] = useState(false);
 
-	async function loginWeb() {
-		await redirectInrupt();
-		await callApi();
-	}
+	useEffect(() => {
+		isLogged();
+	});
 
-	async function redirectInrupt() {
-		await handleIncomingRedirect();
-		if (!getDefaultSession().info.isLoggedIn) {
-			await login({
-				oidcIssuer: "https://login.inrupt.com",
-				redirectUrl: window.location.href,
-				clientName: "My application",
+	async function isLogged() {
+		try {
+			const response = await axios.get("http://localhost:8080/isLoggedIn", {
+				withCredentials: true,
 			});
+			if (response.status === 200) {
+				if (isLoggedIn === false) {
+					setIsLoggedIn(true);
+				}
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	}
 
-	async function callApi() {
-		console.log("Logged in!");
-		const session = getDefaultSession();
-		console.log(session.info.webId);
-
-		setIsLoggedIn(true);
-
-		//await axios.post("http://localhost:8080/login-from-webapp", body);
+	function loginWeb() {
+		window.location.href = "http://localhost:8080/login-from-webapp";
 	}
 
 	function logOut() {

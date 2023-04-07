@@ -3,7 +3,7 @@ class Comment {
 		if (!author || author.trim().length === 0) {
 			throw new Error("Comment author cannot be null or empty");
 		}
-		if (!text || comment.trim().length === 0) {
+		if (!text || text.trim().length === 0) {
 			throw new Error("Comment text cannot be null or empty");
 		}
 		this.author = author;
@@ -27,3 +27,5 @@ class Comment {
 		return `${currentDate}_${randomIdentifier}`;
 	}
 }
+
+module.exports = Comment;
