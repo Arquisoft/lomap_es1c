@@ -1,8 +1,12 @@
+
 const Location = require("../models/locationModels/Location");
 const Photo = require("../models/locationModels/Photo");
 const Review = require("../models/locationModels/Review");
 const Comment = require("../models/locationModels/Comment");
 const SessionController = require("./util/sessionController");
+
+const { getSessionFromStorage } = require("@inrupt/solid-client-authn-node");
+
 const solid = require("../solid/Solid.js");
 
 //CRUD
@@ -63,6 +67,8 @@ async function createLocation(req, res) {
 		next(err);
 	}
 }
+
+
 
 async function updateLocation(req, res) {
 	const { id } = req.params;
@@ -231,6 +237,7 @@ async function getLocationsByCategory(req, res) {
 		next(err);
 	}
 }
+
 
 module.exports = {
 	createLocation,
