@@ -1,6 +1,8 @@
-import React from "react"
-import AmigoCard from "./AmigoCard"
+import React from "react";
+import AmigoCard from "./cards/AmigoCard";
+import { useTranslation } from "react-i18next";
 
+// TODO: eliminar datos hardcodeados
 const amigos = [
     {
         id: 1,
@@ -25,6 +27,8 @@ const amigos = [
 ]
 
 export default function AmigosTabContent(props) {
+    const [t, i18n] = useTranslation("global")
+
     const cards = amigos.map(
         amigo =>
         <AmigoCard
@@ -34,8 +38,8 @@ export default function AmigosTabContent(props) {
     )
 
     return (
-        <div id="Amigos" className="tabcontent">
-            <h1>El contenido de amigos</h1>
+        <div className="tabcontent">
+            <h1 id="centered">{t("sidebar.tabs.friend-content.title")}</h1>
             {cards}
         </div>
     )

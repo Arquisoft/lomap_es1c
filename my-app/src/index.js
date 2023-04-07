@@ -1,17 +1,91 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { Themes, ThemeContext, ThemeContextProvider } from './contexts/ThemeContext';
+import {
+	getDefaultSession,
+	handleIncomingRedirect,
+	login,
+} from "@inrupt/solid-client-authn-browser";
+import axios from "axios";
+import i18next from "i18next";
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom/client";
+import { I18nextProvider } from "react-i18next";
+import App from "./App";
+import { ThemeContextProvider } from "./contexts/ThemeContext";
+import "./index.css";
+import Login from "./login";
+import reportWebVitals from "./reportWebVitals";
+import global_en from "./translations/en/global.json";
+import global_es from "./translations/es/global.json";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const availableLanguages = ["es", "en"];
+const preferredLanguage = navigator.language.toLowerCase().substring(0, 2);
+const defaultAlternativeLanguage = "es";
+
+i18next.init({
+	interpolation: { escapeValue: false },
+	lng: availableLanguages.includes(preferredLanguage)
+		? preferredLanguage
+		: defaultAlternativeLanguage,
+	resources: {
+		es: {
+			global: global_es,
+		},
+		en: {
+			global: global_en,
+		},
+	},
+});
+
+function MyComponent() {
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [cookie, setCookie] = useState(false);
+
+	useEffect(() => {
+		talogeao();
+	});
+	async function talogeao() {
+		try {
+			const sessionId = Cookies.get("sessionId");
+			console.log(sessionId);
+			const response = await axios.post("http://localhost:8080/isLoggedIn", {
+				sessionId,
+			});
+			if (response.status === 200) {
+				if (isLoggedIn === false) {
+					setIsLoggedIn(true);
+				}
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+	function loginWeb() {
+		Cookies.set("sessionId", "some-session-id", { path: "/" });
+		window.location.href = "http://localhost:8080/login-from-webapp";
+	}
+
+	function logOut() {
+		setIsLoggedIn(false);
+	}
+
+	return (
+		<>
+			{isLoggedIn ? (
+				<I18nextProvider i18n={i18next}>
+					<ThemeContextProvider children={<App logOutFunction={logOut} />} />
+				</I18nextProvider>
+			) : (
+				<Login logInFunction={loginWeb} />
+			)}
+		</>
+	);
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <ThemeContextProvider
-      children={<App />}
-    />
-  </React.StrictMode>
+	<React.StrictMode>
+		<MyComponent />
+	</React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

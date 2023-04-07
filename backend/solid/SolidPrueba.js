@@ -95,9 +95,11 @@ async function deleteLocationById(id) {
 	let index = getIndexOfLocation(id);
 	locations.splice(index, 1);
 }
-async function getAllLocations() {
-	return locations;
+
+async function getAllLocations(){
+    return locations;
 }
+
 function getIndexOfLocation(id) {
 	for (const key in locations) {
 		if (locations[key].id === id) {

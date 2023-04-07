@@ -26,6 +26,11 @@ textarea{
   margin-left: 45%;
 }
 
+.toggleLanguageButton {
+  position: absolute;
+  margin-left: 55%;
+}
+
 #light button {
   background-color: #ebecf0;
   color: #3f3f3f;
@@ -34,4 +39,54 @@ textarea{
 #dark button  {
   background-color: #3f3f3f;
   color: #ebecf0;
+}
+
+#light p {
+  color: #3f3f3f;
+}
+#dark p {
+  color: #ebecf0;
+}
+
+#light h1 {
+  color: #3f3f3f;
+}
+#dark h1 {
+  color: #ebecf0;
+}
+#light h2 {
+  color: #3f3f3f;
+}
+#dark h2 {
+  color: #ebecf0;
+}
+#light h3 {
+  color: #3f3f3f;
+}
+#dark h3 {
+  color: #ebecf0;
+}
+#light h4 {
+  color: #3f3f3f;
+}
+#dark h4 {
+  color: #ebecf0;
+}
+#light h5 {
+  color: #3f3f3f;
+}
+#dark h5 {
+  color: #ebecf0;
+}
+#light h6 {
+  color: #3f3f3f;
+}
+#dark h6 {
+  color: #ebecf0;
+}
+
+#centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
