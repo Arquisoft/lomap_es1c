@@ -1,18 +1,17 @@
-const { getSessionFromStorage } = require("@inrupt/solid-client-authn-node");
 
 const Location = require("../models/locationModels/Location");
 const Photo = require("../models/locationModels/Photo");
 const Review = require("../models/locationModels/Review");
 const Comment = require("../models/locationModels/Comment");
 const SessionController = require("./util/sessionController");
-const solid = require("../solid/Solid.js");
+const solid = require("../solid/SolidPrueba.js");
 
 //CRUD
 
 async function getLocation(req, res) {
 	const { id } = req.params;
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		const location1 = await solid.getLocationById(
 			session,
 			id,
@@ -30,8 +29,10 @@ async function getLocation(req, res) {
 
 async function getAllLocations(req, res, next) {
 	try {
-		const session = SessionController.getSession(req, next);
-		const locations = await solid.getAllLocations(session, req.session.user);
+		const session = await SessionController.getSession(req, next);
+		console.log(session);
+
+		const locations = await solid.getAllLocations(session, session.info.webId);
 		res.send(JSON.stringify(locations));
 	} catch (err) {
 		next(err);
@@ -56,13 +57,15 @@ async function createLocation(req, res) {
 	);
 
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		await solid.saveLocation(session, location, req.session.user);
 		res.status(201).json(location);
 	} catch (err) {
 		next(err);
 	}
 }
+
+
 
 async function updateLocation(req, res) {
 	const { id } = req.params;
@@ -79,7 +82,7 @@ async function updateLocation(req, res) {
 	location.description = description || location.description;
 	location.category = category || location.category;
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		await solid.saveLocation(session.getSession(), location, req.session.user);
 		res.status(200).json(location);
 	} catch (err) {
@@ -90,7 +93,7 @@ async function updateLocation(req, res) {
 async function deleteLocation(req, res) {
 	const { id } = req.params;
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		const location = await solid.getLocationById(session, id, req.session.user);
 		if (location != null) {
 			await solid.deleteLocationById(session, id, req.session.user);
@@ -114,7 +117,7 @@ async function addPhoto(req, res) {
 		return;
 	}
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		let location = await solid.getLocationById(session, id, req.session.user);
 		const photo = new Photo(req.session.user, name, photoUrl);
 		location.addPhoto(photo);
@@ -129,7 +132,7 @@ async function deletePhoto(req, res) {
 	const { id } = req.params;
 	const { idPhoto } = req.body;
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		await solid.deletePhoto(id, idPhoto);
 		res.status(204).json({ message: "Photo removed successfully" });
 	} catch (err) {
@@ -146,7 +149,7 @@ async function addReview(req, res) {
 		return;
 	}
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		let location = await solid.getLocationById(session, id, req.session.user);
 		const review = new Review(rating, req.session.user);
 
@@ -166,7 +169,7 @@ async function deleteReview(req, res) {
 		return;
 	}
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		await solid.deleteComment(id, idReview);
 		res.status(204).json({ message: "Review removed successfully" });
 	} catch (err) {
@@ -183,7 +186,7 @@ async function addComment(req, res) {
 		return;
 	}
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		let location = await solid.getLocationById(session, id, req.session.user);
 		const comment = new Comment(req.session.user, text);
 		location.addComment(commentObject);
@@ -194,11 +197,11 @@ async function addComment(req, res) {
 	}
 }
 
-async function deleteComment(req, res) {
+async function deleteComment(req, res, next) {
 	const { id } = req.params;
 	const { idComment } = req.body;
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		await solid.deleteComment(id, idComment);
 		res.status(204).json({ message: "Comment removed successfully" });
 	} catch (err) {
@@ -207,9 +210,10 @@ async function deleteComment(req, res) {
 }
 
 //  Categories
-async function getCategories(req, res) {
+async function getCategories(req, res, next) {
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
+		console.log(session);
 		let categories = await solid.getCategories();
 		res.send(JSON.stringify(categories));
 	} catch (err) {
@@ -217,10 +221,10 @@ async function getCategories(req, res) {
 	}
 }
 
-async function getLocationsByCategory(req, res) {
+async function getLocationsByCategory(req, res, next) {
 	const { category } = req.params;
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		let locations = await solid.getAllLocations(
 			session.getSession(),
 			req.session.user
@@ -231,6 +235,7 @@ async function getLocationsByCategory(req, res) {
 		next(err);
 	}
 }
+
 
 module.exports = {
 	createLocation,

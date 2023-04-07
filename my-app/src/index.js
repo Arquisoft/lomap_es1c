@@ -3,8 +3,10 @@ import {
 	handleIncomingRedirect,
 	login,
 } from "@inrupt/solid-client-authn-browser";
+import axios from "axios";
 import i18next from "i18next";
-import React, { useCallback, useEffect, useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import App from "./App";
@@ -12,8 +14,6 @@ import { ThemeContextProvider } from "./contexts/ThemeContext";
 import "./index.css";
 import Login from "./login";
 import reportWebVitals from "./reportWebVitals";
-
-import axios from "axios";
 import global_en from "./translations/en/global.json";
 import global_es from "./translations/es/global.json";
 
@@ -36,47 +36,44 @@ i18next.init({
 	},
 });
 
-var isLogued = false;
+function getCookie(name) {
+	const cookieString = document.cookie;
+	const cookies = cookieString.split("; ");
+	for (let i = 0; i < cookies.length; i++) {
+		const cookie = cookies[i];
+		const [cookieName, cookieValue] = cookie.split("=");
+		if (cookieName === name) {
+			return decodeURIComponent(cookieValue);
+		}
+	}
+	return null;
+}
 
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [cookie, setCookie] = useState(false);
 
-	async function login() {
-		// 1. Call `handleIncomingRedirect()` to complete the authentication process.
-		//    If called after the user has logged in with the Solid Identity Provider,
-		//      the user's credentials are stored in-memory, and
-		//      the login process is complete.
-		//   Otherwise, no-op.
-		await handleIncomingRedirect();
+	useEffect(() => {
+		isLogged();
+	});
 
-		// 2. Start the Login Process if not already logged in.
-		if (!getDefaultSession().info.isLoggedIn) {
-			await login({
-				// Specify the URL of the user's Solid Identity Provider;
-				// e.g., "https://login.inrupt.com".
-				oidcIssuer: "https://login.inrupt.com",
-				// Specify the URL the Solid Identity Provider should redirect the user once logged in,
-				// e.g., the current page for a single-page app.
-				redirectUrl: await getRedirectUrl(),
-				// Provide a name for the application when sending to the Solid Identity Provider
-				clientName: "My application",
+	async function isLogged() {
+		try {
+			const response = await axios.get("http://localhost:8080/isLoggedIn", {
+				withCredentials: true,
 			});
+			if (response.status === 200) {
+				if (isLoggedIn === false) {
+					setIsLoggedIn(true);
+				}
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	}
 
-	
-	async function getRedirectUrl() {
-		setIsLoggedIn(true);
-		const session = getDefaultSession();
-		const webId = session.info.webId;
-		const sessionId = session.info.sessionId;
-		const body = {
-			sessionId: sessionId,
-			webId: webId,
-		};
-		await axios.post("http://localhost:8080/login-from-webapp", body);
-		return window.location.href;
+	function loginWeb() {
+		window.location.href = "http://localhost:8080/login-from-webapp";
 	}
 
 	function logOut() {
@@ -96,7 +93,7 @@ function MyComponent() {
 					<ThemeContextProvider children={<App logOutFunction={logOut} />} />
 				</I18nextProvider>
 			) : (
-				<Login logInFunction={logInA} />
+				<Login logInFunction={loginWeb} />
 			)}
 		</>
 	);
