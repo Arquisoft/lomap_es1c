@@ -9,7 +9,7 @@ module.exports = function (app, locationController) {
 	app.get("/location/:id", locationController.getLocation);
 	app.delete("/location/:id", locationController.deleteLocation);
 	app.put("/location/:id", locationController.updateLocation);
-	app.post("/location", locationController.createLocation2);
+	app.post("/location", locationController.createLocation);
 	//Arrays
 	app.post("/location/:id/review", locationController.addReview);
 	app.delete("/location/:id/review/:id", locationController.deleteReview);

@@ -1,10 +1,9 @@
-
 const Location = require("../models/locationModels/Location");
 const Photo = require("../models/locationModels/Photo");
 const Review = require("../models/locationModels/Review");
 const Comment = require("../models/locationModels/Comment");
 const SessionController = require("./util/sessionController");
-const solid = require("../solid/SolidPrueba.js");
+const solid = require("../solid/Solid.js");
 
 //CRUD
 
@@ -30,9 +29,8 @@ async function getLocation(req, res) {
 async function getAllLocations(req, res, next) {
 	try {
 		const session = await SessionController.getSession(req, next);
-		console.log(session);
-
 		const locations = await solid.getAllLocations(session, session.info.webId);
+		console.log(locations);
 		res.send(JSON.stringify(locations));
 	} catch (err) {
 		next(err);
@@ -64,8 +62,6 @@ async function createLocation(req, res) {
 		next(err);
 	}
 }
-
-
 
 async function updateLocation(req, res) {
 	const { id } = req.params;
@@ -235,7 +231,6 @@ async function getLocationsByCategory(req, res, next) {
 		next(err);
 	}
 }
-
 
 module.exports = {
 	createLocation,
