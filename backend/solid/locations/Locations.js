@@ -4,6 +4,7 @@ const {
 	overwriteFile,
 	getFile,
 	deleteFile,
+	getPodUrlAll
 } = require("@inrupt/solid-client");
 
 const parser = require("../util/Parser.js");
@@ -26,7 +27,7 @@ async function addLocation(Session, ubicacion, myBaseUrl) {
 			fetch: Session.fetch,
 		}
 	);
-
+		
 	//Añado a comentarios, reviews y fotos a sus respectivas carpetas
 	ubicacion.comments.forEach((c) => Comments.addComent(Session, c));
 	ubicacion.reviews.forEach((r) => Reviews.addReview(Session, r));

@@ -4,7 +4,7 @@ const Coment = require("../../models/locationModels/Comment.js");
 const Route = require("../../models/Route.js");
 const Foto = require("../../models/locationModels/Photo.js");
 
-const Localizaciones = require("../locations/Locations.js");
+//const Localizaciones = require("../locations/Locations.js");
 
 async function parseLocation(location) {
 	let locationJson = await getJsonFromBlob(location);
@@ -22,35 +22,35 @@ async function parseLocation(location) {
 		locationJson.reviews,
 		locationJson.photos
 	);
+
 }
 
-async function parseRating(review) {
+async function parseReview(review) {
 	let reviewJson = await getJsonFromBlob(review);
 	return new Rating(
-		reviewJson.id,
+		reviewJson.rating,
 		reviewJson.author,
-		reviewJson.score,
-		reviewJson.date
+		reviewJson.id,
 	);
 }
 
 async function parseComent(coment) {
 	let comentJson = await getJsonFromBlob(coment);
 	return new Coment(
-		comentJson.id,
 		comentJson.author,
-		comentJson.coment,
-		comentJson.date
+		comentJson.text,
+		comentJson.timestamp,
+		comentJson.id,
 	);
 }
 
 async function parseFoto(foto) {
-	let fotoJson = await getJsonFromBlob(coment);
+	let fotoJson = await getJsonFromBlob(foto);
 	return new Foto(
 		fotoJson.author,
 		fotoJson.name,
 		fotoJson.url,
-		fotoJson.date,
+		fotoJson.timestamp,
 		fotoJson.id
 	);
 }
@@ -87,6 +87,6 @@ module.exports = {
 	parseLocation,
 	parseFoto,
 	parseRoute,
-	parseRating,
+	parseReview,
 	parseComent,
 };

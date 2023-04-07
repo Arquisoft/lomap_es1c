@@ -1,3 +1,10 @@
+const {
+	overwriteFile,
+	getFile,
+	deleteFile,
+	getPodUrlAll
+} = require("@inrupt/solid-client");
+
 const locations = require("./Locations.js");
 
 const parser = require("../util/Parser.js");
@@ -9,10 +16,10 @@ async function addReview(Session, review) {
 	let myUrl = await getPodUrlAll(Session.info.webId, { fetch: Session.fetch });
 	myUrl = myUrl[0];
 
-	let file = serializer.serializeReviewComplet(review);
+	let file = await serializer.serializeReviewComplet(review);
 
 	await overwriteFile(
-		myBaseUrl + "LoMap/locations/reviews/" + review.id + ".json",
+		myUrl + "LoMap/locations/reviews/" + review.id + ".json",
 		file,
 		{
 			contentType: file.type,
@@ -22,8 +29,11 @@ async function addReview(Session, review) {
 }
 
 async function getAllReviews(Session, jsonReviews) {
-	let reviews = jsonReviews.map(r => getReview(Session, r));
-	return reviews.filter(r => r != null);
+
+	for(let i=0;i<jsonReviews.length;i++){
+		jsonReviews[i] = await getReview(Session, jsonReviews[i]);
+	}
+	return jsonReviews.filter(r => r != null);
 }
 
 async function getReview(Session, jsonReview){
@@ -31,7 +41,7 @@ async function getReview(Session, jsonReview){
 		let myUrl = await getPodUrlAll(jsonReview.author, { fetch: Session.fetch });
 		myUrl = myUrl[0];
 	
-		let file = await getFile(myBaseUrl + "LoMap/locations/reviews/" + jsonReview.id + ".json", {
+		let file = await getFile(myUrl + "LoMap/locations/reviews/" + jsonReview.id + ".json", {
 			fetch: Session.fetch,
 		});
 	
