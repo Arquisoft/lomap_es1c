@@ -46,6 +46,7 @@ async function logout(req, res, next) {
 async function index(req, res, next) {
 	res.send(`<p>Esta es la respuesta default de la restAPI</p>`);
 }
+
 async function loginFromWebapp(req, res, next) {
 	const { webId, sessionId } = req.body;
 	req.session.user = webId;

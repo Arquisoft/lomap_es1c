@@ -4,7 +4,7 @@ import {
 	login,
 } from "@inrupt/solid-client-authn-browser";
 import i18next from "i18next";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import App from "./App";
@@ -36,6 +36,8 @@ i18next.init({
 	},
 });
 
+var isLogued = false;
+
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [cookie, setCookie] = useState(false);
@@ -62,6 +64,8 @@ function MyComponent() {
 			});
 		}
 	}
+
+	
 	async function getRedirectUrl() {
 		setIsLoggedIn(true);
 		const session = getDefaultSession();
@@ -71,7 +75,6 @@ function MyComponent() {
 			sessionId: sessionId,
 			webId: webId,
 		};
-		console.log(body);
 		await axios.post("http://localhost:8080/login-from-webapp", body);
 		return window.location.href;
 	}
@@ -80,6 +83,12 @@ function MyComponent() {
 		setIsLoggedIn(false);
 	}
 
+	function logInA(){
+		// login();
+		setIsLoggedIn(true);
+	}
+	
+
 	return (
 		<>
 			{isLoggedIn ? (
@@ -87,7 +96,7 @@ function MyComponent() {
 					<ThemeContextProvider children={<App logOutFunction={logOut} />} />
 				</I18nextProvider>
 			) : (
-				<Login logInFunction={login} />
+				<Login logInFunction={logInA} />
 			)}
 		</>
 	);
