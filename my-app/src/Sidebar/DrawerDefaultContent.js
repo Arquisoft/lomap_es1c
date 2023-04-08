@@ -15,6 +15,9 @@ export default function DrawerDefaultContent(props) {
             userPlaces = {props.userPlaces}
             changeDrawerContent = {props.changeDrawerContent}
             restoreDefautlDrawerContent = {props.restoreDefautlDrawerContent}
+            categorias = {props.categorias}
+            rutas = {props.rutas}
+            centerMapToCoordinates = {props.centerMapToCoordinates}
             setPosition={props.setPosition}
         />
 

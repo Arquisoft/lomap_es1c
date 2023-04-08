@@ -16,6 +16,8 @@ export default function App({ logOutFunction }) {
 	const [data, setData] = useState("");
 
 	const [i18n] = useTranslation("global");
+  const [categorias, setCategorias] = useState([])
+  const [rutas, setRutas] = useState([])
 
 	async function getData() {
 		await axios
@@ -30,6 +32,34 @@ export default function App({ logOutFunction }) {
 				console.log(error);
 			});
 	}
+
+  function updateCategorias() {
+    axios.get('http://localhost:8080/location/categories')
+    .then(response => {setCategorias(response.data);})
+    .catch(error => {console.log(error);});
+  }
+
+  function updateRutas() {
+    axios.get('http://localhost:8080/route')
+      .then(response => 
+        setRutas(
+          response.data.map(
+            ruta => ({
+              id: ruta.id,
+              name: ruta.name,
+              locations: ruta.locations.map(
+                location => ({
+                  id: location.id,
+                  name: location.name,
+                  latitude: location.latitude,
+                  longitude: location.longitude
+                })
+              )
+            })
+          )
+        ))
+        .catch(error => {console.log(error)});
+  }
 
 	useEffect(() => {
 		getData();
@@ -47,6 +77,14 @@ export default function App({ logOutFunction }) {
 			}
 		}
 	});
+
+	useEffect(() => {
+		updateCategorias()
+	  }, [])
+	
+	  useEffect(() => {
+		updateRutas()
+	  }, [])
 
 	//Estados de la aplicacion
 	//Latitud y longitud del marcador actual que tu pongas en el mapa.
@@ -128,6 +166,7 @@ export default function App({ logOutFunction }) {
 				restoreDefautlDrawerContent={restoreDefautlDrawerContent}
 				position={position}
 				setPosition={setPosition}
+        categorias = {categorias}
 			/>
 
 			<SettingsSpeedDial
@@ -144,6 +183,8 @@ export default function App({ logOutFunction }) {
 				restoreDefautlDrawerContent={restoreDefautlDrawerContent}
 				changeDrawerContent={changeDrawerContent}
 				setPosition={setPosition}
+				categorias = {categorias}
+				rutas = {rutas}
 			/>
 		</div>
 	);

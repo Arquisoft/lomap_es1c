@@ -10,7 +10,7 @@ import { darkMapStyle, lightMapStyle } from "./themes/MapThemes";
 import FullInfoPlace from "../Sidebar/cards/FullInfoPlace";
 
 export default function CreateMap({ open, setLatitude, setLongitude, markers, setMarkers, places, canCick,
-  setCanCick, changeDrawerContent, restoreDefautlDrawerContent, position, setPosition }) {
+  setCanCick, changeDrawerContent, restoreDefautlDrawerContent, position, setPosition ,categorias}) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
@@ -24,6 +24,7 @@ export default function CreateMap({ open, setLatitude, setLongitude, markers, se
         changeDrawerContent={changeDrawerContent}
         restoreDefautlDrawerContent={restoreDefautlDrawerContent}
         position={position} setPosition={setPosition}
+        categorias={categorias}
       />
     </div>
   );
@@ -33,7 +34,7 @@ export default function CreateMap({ open, setLatitude, setLongitude, markers, se
 var Located = true;
 
 function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMarkers, places, canCick, setCanCick,
-  changeDrawerContent, restoreDefautlDrawerContent, position, setPosition }) {
+  changeDrawerContent, restoreDefautlDrawerContent,categorias, position, setPosition }) {
 
   //Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
 
@@ -132,6 +133,8 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
       <FullInfoPlace
         place={places.find(place => place.id == marker.id)}
         returnFunction={restoreDefautlDrawerContent}
+        changeDrawerContent={changeDrawerContent}
+        categorias={categorias}
       />
     )
   }
@@ -146,7 +149,13 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
         </Alert>
       </Snackbar>
 
-      <OpenIconSpeedDial canClick={setCanCick} openInfo={setOpenInfo} />
+      <OpenIconSpeedDial
+        canClick={setCanCick}
+        openInfo={setOpenInfo}
+        changeDrawerContent={changeDrawerContent}
+        restoreDefautlDrawerContent={restoreDefautlDrawerContent}
+        userPlaces = {places}
+       />
 
       <GoogleMap
         zoom={13}

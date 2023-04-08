@@ -5,8 +5,9 @@ import RoomIcon from "@mui/icons-material/Room";
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import RouteIcon from '@mui/icons-material/Route';
 import {useTranslation} from "react-i18next"
+import EditRouteInfo from '../Sidebar/cards/EditInfoRoute';
 
-export default function OpenIconSpeedDial({canClick,openInfo}) {
+export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerContent, restoreDefautlDrawerContent, userPlaces}) {
   const [t, i18n] = useTranslation("global");
 
 
@@ -15,11 +16,24 @@ export default function OpenIconSpeedDial({canClick,openInfo}) {
     openInfo(true);
   }
 
-  
+  function createRoute() {
+    canClick(false);
+    openInfo(false);
+
+    console.log("--")
+
+    changeDrawerContent(
+      <EditRouteInfo
+        returnFunction = {restoreDefautlDrawerContent}
+        route = {null}
+        userPlaces = {userPlaces}
+      />
+    )
+  }
 
   const actions = [
     { icon: <RoomIcon onClick={activateClick} />, name: "add" },
-    { icon: <RouteIcon />, name: "createRoute" },
+    { icon: <RouteIcon onClick={createRoute}/>, name: "createRoute" },
   ];
 
   return (
