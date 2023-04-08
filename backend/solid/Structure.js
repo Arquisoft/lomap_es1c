@@ -84,11 +84,13 @@ async function construirEstructura(Session, myBaseUrl) {
 			await getSolidDataset(myBaseUrl + "LoMap/locations/locations", {
 				fetch: Session.fetch,
 			});
+			console.log("Bien")
 		} catch (e) {
 			await createContainerAt(
 				myBaseUrl + "LoMap/locations/locations",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
+			console.log("Error")
 		}
 		try {
 			await getSolidDataset(myBaseUrl + "LoMap/friends", {

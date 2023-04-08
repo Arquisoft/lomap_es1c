@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import { GoogleMap, useLoadScript, Marker, MarkerF, DirectionsService } from "@react-google-maps/api";
 import { Themes, ThemeContext } from '../contexts/ThemeContext';
 import Geolocation from '@react-native-community/geolocation';
@@ -6,7 +6,6 @@ import { Alert, AlertTitle, Snackbar } from "@mui/material";
 import OpenIconSpeedDial from "./bottonMarkers";
 import FilterButtons from "./filterButtons";
 import { useContext } from "react";
-import { useEffect } from "react";
 import { darkMapStyle, lightMapStyle } from "./themes/MapThemes";
 import FullInfoPlace from "../Sidebar/cards/FullInfoPlace";
 
@@ -39,11 +38,29 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
   //Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
 
 
-  //Constantes de las longitudes y latitudes de el marcador que se pone en el mapa.
+  //DIferentes estados necesarios para el mapa.
   const [latitude, setLatitude] = React.useState('');
   const [longitude, setLongitude] = React.useState('');
   const [response, setResponse] = useState(null);
   const [openInfo, setOpenInfo] = React.useState(false);
+  const [filteredPlaces, setFilteredPlaces] = useState([]);
+	const [categortFiltered, setCategortFiltered] = useState({
+		activated: false,
+		category: ""
+	});
+
+  useEffect(() =>{
+    var temp = places;
+    if(categortFiltered.activated){
+      temp = [];
+      for (let i = 0; i < places.length; i++) {
+        if(places.some(() => places[i].categoria === categortFiltered.category)){
+          temp[temp.length] = places[i];
+        }
+      }
+    }
+    setFilteredPlaces(temp);
+  }, [places, categortFiltered, filteredPlaces]);
 
   //Constante de el marcador, es donde se guarda el marcador actual para mostrarlo en el mapa.
   const markers = markersState;
@@ -151,7 +168,7 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
             position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
           />
         ))}
-        {places.map((marker) => (
+        {filteredPlaces.map((marker) => (
           <MarkerF
             key={marker.id}
             position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
@@ -161,7 +178,7 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
         ))}
       </GoogleMap>
 
-      <FilterButtons />
+      <FilterButtons setCategortFiltered={setCategortFiltered}/>
     </div>
   );
 }

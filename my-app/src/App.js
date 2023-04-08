@@ -17,12 +17,14 @@ export default function App({ logOutFunction }) {
 
 	const [i18n] = useTranslation("global");
 
-	function getData() {
-		axios
+	async function getData() {
+		await axios
 			.get("http://localhost:8080/location", { withCredentials: true })
 			.then((response) => {
-				console.log(response.data);
-				setData(response.data);
+				if(response.data.length !== data.length){
+					console.log(response.data);
+					setData(response.data);
+				}
 			})
 			.catch((error) => {
 				console.log(error);
