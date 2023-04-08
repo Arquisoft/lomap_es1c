@@ -6,7 +6,6 @@ import TextField from '@mui/material/TextField';
 import Select from "@mui/material/Select";
 import MenuItem from '@mui/material/MenuItem';
 import Rating from '@mui/material/Rating';
-import { useTheme } from '@mui/material/styles';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
 import "swiper/css";
