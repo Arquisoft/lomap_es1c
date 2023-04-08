@@ -16,22 +16,11 @@ export default function App({ logOutFunction }) {
 	const [data, setData] = useState("");
 
 	const [i18n] = useTranslation("global");
-  const [categorias, setCategorias] = useState([])
-  const [rutas, setRutas] = useState([])
+  	const [categorias, setCategorias] = useState([])
+ 	const [rutas, setRutas] = useState([])
 
-	async function getData() {
-		await axios
-			.get("http://localhost:8080/location", { withCredentials: true })
-			.then((response) => {
-				if(response.data.length !== data.length){
-					console.log(response.data);
-					setData(response.data);
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	}
+	//Todos los lugares de la aplicacion
+	const [places,setPlaces] = React.useState(a);
 
   function updateCategorias() {
     axios.get('http://localhost:8080/location/categories')
@@ -62,6 +51,20 @@ export default function App({ logOutFunction }) {
   }
 
 	useEffect(() => {
+		async function getData() {
+			await axios
+				.get("http://localhost:8080/location", { withCredentials: true })
+				.then((response) => {
+					if(response.data.length !== data.length){
+						console.log(response.data);
+						setData(response.data);
+					}
+				})
+				.catch((error) => {
+					getData();
+					console.log(error);
+				});
+		}
 		getData();
 		for (let i = 0; i < data.length; i++) {
 			if (!places.some((value) => value.id === data[i].id)) {
@@ -76,7 +79,8 @@ export default function App({ logOutFunction }) {
 				);
 			}
 		}
-	});
+		setPlaces(a);
+	}, [setData, data, places],);
 
 	useEffect(() => {
 		updateCategorias()
@@ -97,8 +101,7 @@ export default function App({ logOutFunction }) {
 	//Controla si el boton para añadir marcador a puntos esta activado, este boton saca el popup con el formulario
 	const [disabledB, setDisabledB] = React.useState(true);
 
-	//Todos los lugares de la aplicacion
-	const [places] = React.useState(a);
+
 
 	//Constantes del Modal
 	const [modalIsOpen, setIsOpen] = React.useState(false);
