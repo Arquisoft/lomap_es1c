@@ -37,6 +37,7 @@ export default function InicioTabContent(props) {
                     categorias = {props.categorias}
                     centerMapToCoordinates = {props.centerMapToCoordinates}
                     setPosition={props.setPosition}
+                    API_location_calls = {props.API_location_calls}
                 />)
             }
         </div>

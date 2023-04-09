@@ -144,6 +144,25 @@ export default function App({ logOutFunction }) {
     "API_changeOrderOfLocationInRoute": API_changeOrderOfLocationInRoute
   }
 
+  function API_updateLocation(placeID, newName, newCategory, newPrivacy) {
+    const url = "http://localhost:8080/location/"+placeID
+    const data = {
+        name: newName,
+        category: newCategory,
+        privacy: newPrivacy
+    };
+    const config = {
+        withCredentials: true,
+    };
+    axios.put(url, data, config);
+
+    // TODO: actualizar datos
+  }
+
+  const API_location_calls = {
+    "API_updateLocation": API_updateLocation,
+  }
+
   //Estados de la aplicacion
   //Latitud y longitud del marcador actual que tu pongas en el mapa.
     const [latitude, setLatitude] = React.useState('');
@@ -251,6 +270,7 @@ export default function App({ logOutFunction }) {
         rutas = {rutas}
         centerMapToCoordinates={centerMapToCoordinates}
         API_route_calls = {API_route_calls}
+        API_location_calls = {API_location_calls}
         setPosition={setPosition}
       />
 

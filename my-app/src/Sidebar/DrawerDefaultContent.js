@@ -20,6 +20,7 @@ export default function DrawerDefaultContent(props) {
             centerMapToCoordinates = {props.centerMapToCoordinates}
             API_route_calls = {props.API_route_calls}
             setPosition={props.setPosition}
+            API_location_calls = {props.API_location_calls}
         />
 
         {contenidoAMostrar}

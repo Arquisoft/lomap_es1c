@@ -13,6 +13,7 @@ export default function TabButtons(props) {
         setPosition={props.setPosition}
         categorias = {props.categorias}
         centerMapToCoordinates = {props.centerMapToCoordinates}
+        API_location_calls = {props.API_location_calls}
     />
     const amigosTabContent = <AmigosTabContent />
     const rutasTabContent = <RutasTabContent
