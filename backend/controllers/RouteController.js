@@ -68,6 +68,7 @@ async function updateRoute(req, res, next) {
 
 async function deleteRoute(req, res, next) {
 	try {
+		const session = await SessionController.getSession(req, next);
 		const { id } = req.params;
 		const session = await SessionController.getSession(req, next);
 
@@ -97,14 +98,18 @@ async function addLocationToRoute(req, res, next) {
 			idLocation,
 			session.info.webId
 		);
+		console.log("---1---")
 		if (route == null) {
+			console.log("---2---")
 			res.status(404).json("No se han encontrado rutas con esa id");
 			return;
 		}
 		if (location == null) {
+			console.log("---3---")
 			res.status(404).json("No se han encontrado localizaciones con esa id");
 			return;
 		}
+		console.log("---4---")
 		route.addLocation(location);
 		await solid.saveRoute(session, route, session.info.webId);
 		res.status(200).json(route);

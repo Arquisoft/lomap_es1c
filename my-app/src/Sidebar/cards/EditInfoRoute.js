@@ -16,36 +16,35 @@ const modifications = {
 }
 
 export default function EditRouteInfo({route, returnFunction, userPlaces, API_route_calls}) {
+    var theRouteID = route==null ? "" : route.id
     const [name, setName] = useState(route == null ? "" : route.name)
     const [description, setDescription] = useState("")
     const [locations, setLocations] = useState(route == null ? [] : route.locations)
-    const [canSave, setCanSave] = useState(route != null)
     const [anchorMenu, setAnchorMenu] = useState(false)
 
     function handleNameChange(event) {
         setName(event.target.value)
     }
 
+    function handleDescriptionChange(event) {
+        setDescription(event.target.value)
+    }
+
     const [locationsModifications, setLocationsModifications] = useState([])
 
-    function save() {
-        if (true) {
-            if (route == null) {
-                // New route
-                API_route_calls.API_addRoute(name, description)
-            } else {
-                if (name != route.name  ||  description != route.description) {
-                    API_route_calls.API_updateRouteInfo(route.id, name, description)
-                }
-            }
-            for (var modification of locationsModifications) {
-                modification.execute(route.ID)
-            }
-
-            // TODO: retornar
+    async function save() {
+        if (route == null) {
+            theRouteID = await API_route_calls.API_addRoute(name, description)
         } else {
-            // TODO: mostrar error
+            if (name != route.name  ||  description != route.description) {
+                API_route_calls.API_updateRouteInfo(theRouteID, name, description)
+            }
         }
+        for (var modification of locationsModifications) {
+            modification.execute(theRouteID)
+        }
+
+        returnFunction()
     }
 
     function clickOnNewLocation(locationId) {
@@ -64,7 +63,6 @@ export default function EditRouteInfo({route, returnFunction, userPlaces, API_ro
     }
 
     function removeLocation(locationId) {
-        //TODO: guardar en la api
         setLocations((current) => (current.filter(location => location.id != locationId)))
         
         setLocationsModifications(
@@ -88,6 +86,12 @@ export default function EditRouteInfo({route, returnFunction, userPlaces, API_ro
             label = "Título"
             defaultValue = {name}
             onChange={handleNameChange}
+        />
+        <br></br>
+        <TextField
+            label = "Descripcion"
+            defaultValue = {description}
+            onChange={handleDescriptionChange}
         />
         <div className="card--line1">
         <h3>Lugares: </h3>

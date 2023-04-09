@@ -20,34 +20,32 @@ export default function App({ logOutFunction }) {
   const [t, i18n] = useTranslation("global")
   const [categorias, setCategorias] = useState([])
   const [rutas, setRutas] = useState([])
+  const [amigos, setAmigos] = useState([])
 
   function updateCategorias() {
-    axios.get('http://localhost:8080/location/categories')
+    axios.get("http://localhost:8080/location/category", { withCredentials: true })
     .then(response => {setCategorias(response.data);})
     .catch(error => {console.log(error);});
   }
 
+  function updateAmigos() {
+		async function getAmigosData() {
+			await axios
+				.get("http://localhost:8080/friend", { withCredentials: true })
+				.then((response) => {setAmigos(response.data)})
+				.catch((error) => {console.log(error);});
+		}
+		// getAmigosData();
+  }
+
   function updateRutas() {
-    //TODO código actualizar con la nueva llamada a la API
-    axios.get('http://localhost:8080/route')
-      .then(response => 
-        setRutas(
-          response.data.map(
-            ruta => ({
-              id: ruta.id,
-              name: ruta.name,
-              locations: ruta.locations.map(
-                location => ({
-                  id: location.id,
-                  name: location.name,
-                  latitude: location.latitude,
-                  longitude: location.longitude
-                })
-              )
-            })
-          )
-        ))
-        .catch(error => {console.log(error)});
+    async function API_getAllRoutes() {
+      await axios
+        .get("http://localhost:8080/route", {withCredentials: true})
+        .then((response) => {setRutas(response.data)})
+        .catch((error) => {console.log(error);})
+      }
+    API_getAllRoutes()
   }
 
 	useEffect(() => {
@@ -89,53 +87,64 @@ export default function App({ logOutFunction }) {
     updateRutas()
   }, [])
 
-  function API_getAllRoutes() {
-    //TODO:
-    console.log("get all pendiente")
+  useEffect(() => {
+    updateAmigos()
+  }, [])
+
+
+
+  async function API_getRouteByID(routeID) {
+    const url = "http://localhost:8080/route/"+routeID
+    const response = await axios.get(url, {withCredentials: true})
+    return response
   }
 
-  function API_getRouteByID(routeID) {
-    //TODO
-    console.log("get by id pendiente")
-  }
-
-  function API_addRoute(routeName, routeDescription) {
-    // TODO
-    console.log("add pendiente")
-    updateRutas()
+  async function API_addRoute(routeName, routeDescription) {
+    const url = "http://localhost:8080/route"
+    const data = {
+      name: routeName,
+      description: routeDescription
+    }
+    const response = await axios.post(url, data, {withCredentials: true}).then((r) => updateRutas())
+    return response.id
   }
 
   function API_updateRouteInfo(routeID, newRouteName, newRouteDescription) {
-    // TODO
-    console.log("update pendiente")
-    updateRutas()
+    const url = "http://localhost:8080/route/"+routeID
+    const data = {
+      name: newRouteName,
+      description: newRouteDescription
+    }
+    axios.put(url, data, {withCredentials: true}).then((r) => updateRutas())
   }
 
   function API_deleteRoute(routeID) {
-    //TODO
-    console.log("delete pendiente")
-    updateRutas()
+    console.log(routeID)
+    const url = "http://localhost:8080/route/"+routeID
+    axios.delete(url, {withCredentials: true}).then((r) => updateRutas())
   }
 
   function API_addLocationToRoute(routeID, locationID) {
-    //TODO
-    console.log("add location pendiente")
-    updateRutas()
+    const url = "http://localhost:8080/route/"+routeID+"/"+locationID
+    console.log(url)
+    axios.get(url, {withCredentials: true}).then((r) => updateRutas())
   }
 
   function API_deleteLocationFromRoute(routeID, locationID) {
-    //TODO
-    console.log("delete location pendiente")
-    updateRutas()
+    const url = "http://localhost:8080/route/"+routeID+"/location/"+locationID
+    axios.delete(url, {withCredentials: true}).then((r) => updateRutas())
   }
+
   function API_changeOrderOfLocationInRoute(routeID, locationID, newPosition) {
-    //TODO
-    console.log("change order pendiente")
-    updateRutas()
+    const url = "http://localhost:8080/route/"+routeID+"/location/"+locationID
+    const data = {
+      index: newPosition
+    }
+    axios.post(url, data, {withCredentials: true}).then((r) => updateRutas())
   }
 
   const API_route_calls = {
-    "API_getAllRoutes": API_getAllRoutes,
+    // "API_getAllRoutes": API_getAllRoutes,
     "API_getRouteByID": API_getRouteByID,
     "API_addRoute": API_addRoute,
     "API_updateRouteInfo": API_updateRouteInfo,
@@ -160,8 +169,35 @@ export default function App({ logOutFunction }) {
     // TODO: actualizar datos
   }
 
+  function API_addFriend(friendName, friendWebId) {
+    const url = "http://localhost:8080/friend"
+    const data = {
+      name: friendName,
+      webId: friendWebId
+    }
+    const config = {
+      withCredentials: true,
+    }
+    axios.post(url, data, config)
+
+    updateAmigos()
+  }
+
+  function API_deleteFriend(friendWebID) {
+    const url = "http://localhost:8080/friend/"+friendWebID
+    const config = {
+      withCredentials: true,
+    }
+    axios.delete(url, config)
+    updateAmigos()
+  }
+
   const API_location_calls = {
     "API_updateLocation": API_updateLocation,
+  }
+  const API_friend_calls = {
+    "API_addFriend": API_addFriend,
+    "API_deleteFriend": API_deleteFriend,
   }
 
   //Estados de la aplicacion
@@ -174,8 +210,6 @@ export default function App({ logOutFunction }) {
 
     //Controla si el boton para añadir marcador a puntos esta activado, este boton saca el popup con el formulario
     const [disabledB,setDisabledB] = React.useState(true);
-
-    
 
     //Constantes del Modal
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -273,6 +307,8 @@ export default function App({ logOutFunction }) {
         API_route_calls = {API_route_calls}
         API_location_calls = {API_location_calls}
         setPosition={setPosition}
+        amigos = {amigos}
+        API_friend_calls = {API_friend_calls}
       />
 
     </div>

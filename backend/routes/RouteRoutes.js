@@ -5,7 +5,7 @@ module.exports = function (app, routeController) {
 	app.put("/route/:id", routeController.updateRoute);
 	app.delete("/route/:id", routeController.deleteRoute);
 	app.get(
-		"route/:idRoute/location/:idLocation",
+		"route/:idRoute/:idLocation",
 		routeController.addLocationToRoute
 	);
 	app.delete(

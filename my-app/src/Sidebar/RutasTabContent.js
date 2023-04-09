@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import RutaCard from "./cards/RutaCard";
 import { useTranslation } from "react-i18next";
-import axios from 'axios';
 
 export default function RutasTabContent(props) {
     const [t, i18n] = useTranslation("global")
