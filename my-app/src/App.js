@@ -36,6 +36,7 @@ export default function App({logOutFunction}) {
   }
 
   function updateRutas() {
+    //TODO código actualizar con la nueva llamada a la API
     axios.get('http://localhost:8080/route')
       .then(response => 
         setRutas(
@@ -78,6 +79,62 @@ export default function App({logOutFunction}) {
   useEffect(() => {
     updateRutas()
   }, [])
+
+  function API_getAllRoutes() {
+    //TODO:
+    console.log("get all pendiente")
+  }
+
+  function API_getRouteByID(routeID) {
+    //TODO
+    console.log("get by id pendiente")
+  }
+
+  function API_addRoute(routeName, routeDescription) {
+    // TODO
+    console.log("add pendiente")
+    updateRutas()
+  }
+
+  function API_updateRouteInfo(routeID, newRouteName, newRouteDescription) {
+    // TODO
+    console.log("update pendiente")
+    updateRutas()
+  }
+
+  function API_deleteRoute(routeID) {
+    //TODO
+    console.log("delete pendiente")
+    updateRutas()
+  }
+
+  function API_addLocationToRoute(routeID, locationID) {
+    //TODO
+    console.log("add location pendiente")
+    updateRutas()
+  }
+
+  function API_deleteLocationFromRoute(routeID, locationID) {
+    //TODO
+    console.log("delete location pendiente")
+    updateRutas()
+  }
+  function API_changeOrderOfLocationInRoute(routeID, locationID, newPosition) {
+    //TODO
+    console.log("change order pendiente")
+    updateRutas()
+  }
+
+  const API_route_calls = {
+    "API_getAllRoutes": API_getAllRoutes,
+    "API_getRouteByID": API_getRouteByID,
+    "API_addRoute": API_addRoute,
+    "API_updateRouteInfo": API_updateRouteInfo,
+    "API_deleteRoute": API_deleteRoute,
+    "API_addLocationToRoute": API_addLocationToRoute,
+    "API_deleteLocationFromRoute": API_deleteLocationFromRoute,
+    "API_changeOrderOfLocationInRoute": API_changeOrderOfLocationInRoute
+  }
 
   //Estados de la aplicacion
   //Latitud y longitud del marcador actual que tu pongas en el mapa.
@@ -176,6 +233,7 @@ export default function App({logOutFunction}) {
         categorias = {categorias}
         rutas = {rutas}
         centerMapToCoordinates={centerMapToCoordinates}
+        API_route_calls = {API_route_calls} //TODO: pasar llamadas también al botón de crear ruta
       />
 
     </div>

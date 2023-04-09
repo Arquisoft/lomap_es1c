@@ -15,6 +15,7 @@ export default function RutaCard(props) {
                 returnFunction={() => props.changeDrawerContent(null)}
                 changeDrawerContent={props.changeDrawerContent}
                 userPlaces = {props.userPlaces}
+                API_route_calls = {props.API_route_calls}
             />
         )
     }

@@ -9,8 +9,15 @@ import { useState } from "react";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-export default function EditRouteInfo({route, returnFunction, userPlaces}) {
+const modifications = {
+    ADD: "add",
+    DELETE: "delete",
+    REORDER: "reorder"
+}
+
+export default function EditRouteInfo({route, returnFunction, userPlaces, API_route_calls}) {
     const [name, setName] = useState(route == null ? "" : route.name)
+    const [description, setDescription] = useState("")
     const [locations, setLocations] = useState(route == null ? [] : route.locations)
     const [canSave, setCanSave] = useState(route != null)
     const [anchorMenu, setAnchorMenu] = useState(false)
@@ -19,11 +26,23 @@ export default function EditRouteInfo({route, returnFunction, userPlaces}) {
         setName(event.target.value)
     }
 
+    const [locationsModifications, setLocationsModifications] = useState([])
+
     function save() {
-        // TODO: pendiente de implementar ¿De verdad necesito hacer objetos command?
-        console.log("Pendiente de implementar")
         if (canSave) {
-            // TODO: conectar a la API
+            if (route == null) {
+                // New route
+                API_route_calls.API_addRoute(name, description)
+            } else {
+                if (name != route.name  ||  description != route.description) {
+                    API_route_calls.API_updateRouteInfo(route.id, name, description)
+                }
+            }
+            for (var modification of locationsModifications) {
+                modification.execute(route.ID)
+            }
+
+            // TODO: retornar
         } else {
             // TODO: mostrar error
         }
@@ -31,15 +50,34 @@ export default function EditRouteInfo({route, returnFunction, userPlaces}) {
 
     function clickOnNewLocation(locationId) {
         setLocations((current) => [...current, userPlaces.find(l => l.id == locationId)])
+        setLocationsModifications(
+            (current) => 
+            [...current,
+                {
+                    type: modifications.ADD,
+                    locationID: location.id,
+                    execute: (routeID) => API_route_calls.API_addLocationToRoute(routeID, location.id)
+                }
+            ]
+        )
         setAnchorMenu(null)
-        // TODO: conectar con la api
-        console.log("Conectar con la API")
     }
 
-    function removeLocation(id) {
+    function removeLocation(LocationID) {
         //TODO: guardar en la api
-        setLocations((current) => (current.filter(location => location.id != id)))
-        console.log("pendiente de juntar a la api")
+        setLocations((current) => (current.filter(location => location.id != LocationID)))
+        
+        setLocationsModifications(
+            (current) => 
+            // Eliminar los ADDS innecesarios
+            current.filter(modification => modification.locationID!=LocationID).concat(
+                {
+                    type: modifications.DELETE,
+                    locationID: location.id,
+                    execute: (routeID) => API_route_calls.API_deleteLocationFromRoute(routeID, location.id)
+                }
+            )
+        )
     }
 
     return (

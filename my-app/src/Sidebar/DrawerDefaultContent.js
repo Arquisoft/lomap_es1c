@@ -18,6 +18,7 @@ export default function DrawerDefaultContent(props) {
             categorias = {props.categorias}
             rutas = {props.rutas}
             centerMapToCoordinates = {props.centerMapToCoordinates}
+            API_route_calls = {props.API_route_calls}
         />
 
         {contenidoAMostrar}

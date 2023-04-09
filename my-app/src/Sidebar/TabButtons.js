@@ -18,6 +18,7 @@ export default function TabButtons(props) {
         userPlaces = {props.userPlaces}
         changeDrawerContent = {props.changeDrawerContent}
         rutas = {props.rutas}
+        API_route_calls = {props.API_route_calls}
     />
     const descubrirTabContent = <DescubrirTabContent />
 
