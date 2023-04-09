@@ -61,12 +61,10 @@ export default function App({ logOutFunction }) {
 				.get("http://localhost:8080/location", { withCredentials: true })
 				.then((response) => {
 					if (response.data.length !== data.length) {
-						console.log(response.data);
 						setData(response.data);
 					}
 				})
 				.catch((error) => {
-					//getData();
 					console.log(error);
 				});
 		}
