@@ -7,7 +7,7 @@ import RouteIcon from '@mui/icons-material/Route';
 import {useTranslation} from "react-i18next"
 import EditRouteInfo from '../Sidebar/cards/EditInfoRoute';
 
-export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerContent, restoreDefautlDrawerContent, userPlaces}) {
+export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerContent, restoreDefautlDrawerContent, userPlaces, API_route_calls}) {
   const [t, i18n] = useTranslation("global");
 
 
@@ -27,6 +27,7 @@ export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerConten
         returnFunction = {restoreDefautlDrawerContent}
         route = {null}
         userPlaces = {userPlaces}
+        API_route_calls = {API_route_calls}
       />
     )
   }

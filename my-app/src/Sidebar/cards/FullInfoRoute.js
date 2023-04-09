@@ -6,7 +6,7 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditInfoRoute from './EditInfoRoute';
 
-export default function FullRouteInfo({route, returnFunction, changeDrawerContent, userPlaces}) {
+export default function FullRouteInfo({route, returnFunction, changeDrawerContent, userPlaces, API_route_calls}) {
     function allowEdit() {
         changeDrawerContent(
             <EditInfoRoute
@@ -14,6 +14,7 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
                 changeDrawerContent={changeDrawerContent}
                 returnFunction={() => changeDrawerContent(this)}
                 userPlaces = {userPlaces}
+                API_route_calls = {API_route_calls}
             />
         )
     }
@@ -23,7 +24,7 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
     }
 
     function deleteRoute() {
-
+        API_route_calls.API_deleteRoute(route.id)
     }
 
     return (
@@ -41,7 +42,7 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
         }
         <IconButton onClick={allowEdit}><EditIcon/></IconButton>
         <IconButton><TravelExploreIcon/></IconButton>
-        <IconButton><DeleteIcon/></IconButton>
+        <IconButton onClick={deleteRoute}><DeleteIcon/></IconButton>
         </>
     )
 }
