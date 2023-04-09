@@ -77,7 +77,7 @@ export default function App({ logOutFunction }) {
 						lat: data[i].latitude,
 						lng: data[i].longitude,
 						name: data[i].name,
-						categoria: data[i].category,
+						categoria: data[i].category
 					})
 				);
 			}

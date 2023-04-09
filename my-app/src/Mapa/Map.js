@@ -42,7 +42,6 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
   //DIferentes estados necesarios para el mapa.
   const [latitude, setLatitude] = React.useState('');
   const [longitude, setLongitude] = React.useState('');
-  const [response, setResponse] = useState(null);
   const [openInfo, setOpenInfo] = React.useState(false);
 	const [categortFiltered, setCategortFiltered] = useState({
 		activated: false,
@@ -88,11 +87,7 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
     }
   };
 
-  const directionsCallback = (response) => {
-    if (response !== null && response.status === 'OK') {
-      setResponse(response);
-    }
-  };
+
 
   const mapRef = useRef(null);
 
