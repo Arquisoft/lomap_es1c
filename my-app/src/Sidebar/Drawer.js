@@ -19,6 +19,8 @@ export default function DrawerSidebar(props) {
           API_route_calls = {props.API_route_calls}
           setPosition={props.setPosition}
           API_location_calls = {props.API_location_calls}
+          amigos = {props.amigos}
+          API_friend_calls = {props.API_friend_calls}
         />
       )
 
