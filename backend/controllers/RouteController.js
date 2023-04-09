@@ -52,8 +52,8 @@ async function deleteRoute(req, res) {
 	res.status(200).json(route);
 }
 async function addLocationToRoute(req, res) {
-	const { id } = req.params;
-	const { locationId } = req.body;
+	const { idRoute, idLocation } = req.params;
+
 	const route = await solid.getRouteById(id);
 	const location = await solid.getLocationById(locationId);
 	if (route == null) {
@@ -70,7 +70,7 @@ async function addLocationToRoute(req, res) {
 }
 
 async function deleteLocationFromRoute(req, res) {
-	const { id, locationId } = req.params;
+	const { idRoute, idLocation } = req.params;
 	await solid.deleteLocationFromRoute(id, locationId);
 	res.status(200).json("Localización eliminada de la ruta");
 }
