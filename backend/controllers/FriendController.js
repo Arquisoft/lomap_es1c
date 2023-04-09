@@ -1,10 +1,11 @@
-const solid = require("../solid/SolidPrueba.js");
+const solid = require("../solid/Solid.js");
 const Friend = require("../models/Friend.js");
 
 async function getAllFriends(req, res) {
 	const friends = await solid.getAllFriends();
 	res.send(JSON.stringify(friends));
 }
+
 async function deleteFriend(req, res) {
 	const { id } = req.params;
 	const friend = await solid.getFriendById(id);
