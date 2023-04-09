@@ -50,11 +50,7 @@ async function getLocationById(Session, idUbi, friendWebID) {
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	const result = await locations.obtenerLocalizacion(
-		Session,
-		idUbi + ".json",
-		myBaseUrl
-	);
+	const result = await locations.obtenerLocalizacion(Session, idUbi, myBaseUrl);
 	return result;
 }
 
@@ -114,10 +110,10 @@ async function deleteCommentById(Session, idComent, friendWebID) {
 
 async function addReview(Session, rating, idUbicacion, friendWebID) {
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
-	myBaseUrl = myBaseUrl[0];
+	let friendUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
+	friendUrl = friendUrl[0];
 
-	await ratings.addReview(Session, rating, idUbicacion, myBaseUrl);
+	await ratings.addReview(Session, rating, idUbicacion, friendUrl);
 }
 
 async function getAllReviews(Session, idUbicacion, friendWebID) {
