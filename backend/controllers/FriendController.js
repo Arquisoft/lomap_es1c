@@ -1,53 +1,98 @@
-const solid = require("../solid/Solid.js");
 const Friend = require("../models/Friend.js");
+const solid = require("../solid/Solid.js");
+const SessionController = require("../controllers/util/SessionController.js");
 
-async function getAllFriends(req, res) {
-	const friends = await solid.getAllFriends();
-	res.send(JSON.stringify(friends));
+async function getAllFriends(req, res, next) {
+	try {
+		const session = await SessionController.getSession(req, next);
+		const friends = await solid.getAllFriends(session);
+		res.status(200).json(JSON.stringify(friends));
+	} catch (err) {
+		next(err);
+	}
 }
+async function addFriend(req, res, next) {
+	try {
+		const { name, webid } = req.body;
+		if (!name || !webid) {
+			res.status(400).json({ error: "Faltan datos" });
+			return;
+		}
 
-async function deleteFriend(req, res) {
-	const { id } = req.params;
-	const friend = await solid.getFriendById(id);
-	if (friend != null) {
-		await solid.deleteFriend(friend);
-		res.status(200).json(friend);
-	} else {
-		res.status(404).json("No se han encontrado amigos con esa id");
+		const session = await SessionController.getSession(req, next);
+		const friend = new Friend(name, webid);
+
+		await solid.addFriend(session, friend);
+		res.status(201).json(friend);
+	} catch (err) {
+		next(err);
 	}
 }
 
-async function addFriend(req, res) {
-	const { name, webid } = req.body;
-	if (!name || !webid) {
-		res.status(400).json({ error: "Faltan datos" });
-		return;
+async function deleteFriend(req, res, next) {
+	try {
+		const { friendId } = req.params;
+		const session = await SessionController.getSession(req, next);
+		await solid.deleteFriendById(session, friendId);
+		res.status(200).json(friendId);
+	} catch (err) {
+		next(err);
 	}
-	const friend = new Friend(name, webid);
-	await solid.saveFriend(friend);
-	res.status(201).json(friend);
+}
+//PROBAR
+async function getAllLocationsFromFriends(req, res, next) {
+	try {
+		const session = await SessionController.getSession(req, next);
+		const locations = await solid.getAllLocationsFromFriends(session);
+		res.status(200).json(JSON.stringify(locations));
+	} catch (err) {
+		next(err);
+	}
 }
 
-async function getAllLocationsFromFriends(req, res) {
-	const locations = await solid.getAllLocationsFromFriends();
-	res.send(JSON.stringify(locations));
-}
-
+//PROBAR
 async function getFriendLocations(req, res) {
-	const { id } = req.params;
-	const locations = await solid.getFriendLocations(id);
-	res.send(JSON.stringify(locations));
+	try {
+		const { id } = req.params;
+		const session = await SessionController.getSession(req, next);
+		const locations = await solid.getAllLocations(session, id);
+		res.status(200).send(JSON.stringify(locations));
+	} catch (err) {
+		next(err);
+	}
 }
 
 async function getAllLocationsByCategory(req, res) {
-	const { name } = req.params;
-	const locations = await solid.getAllLocationsFromFriends();
-	const locationsByCategory = locations.filter(
-		(location) => location.category === name
-	);
-	res.send(JSON.stringify(locationsByCategory));
+	try {
+		const { name } = req.params;
+		const session = await SessionController.getSession(req, next);
+		const locations = await solid.getAllLocationsFromFriends(session);
+		const locationsByCategory = locations.filter(
+			(location) => location.category === name
+		);
+		res.status(200).send(JSON.stringify(locationsByCategory));
+	} catch (err) {
+		next(err);
+	}
 }
-
+/*
+async function givePermissions(req, res, next) {
+	try {
+		const { friendId } = req.params;
+		await SolidFriends.givePermissions(Session, friendId);
+	} catch (err) {
+		next(err);
+	}
+}
+async function removePermissions(req, res, next) {
+	try {
+		const { friendId } = req.params;
+		await SolidFriends.removePermissions(Session, friendId);
+	} catch (err) {
+		next(err);
+	}
+}
+*/
 module.exports = {
 	getAllFriends,
 	deleteFriend,
