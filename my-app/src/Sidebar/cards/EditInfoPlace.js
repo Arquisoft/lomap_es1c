@@ -53,7 +53,7 @@ export default function FullInfoPlace({ place, returnFunction, categorias }) {
 		console.log("Pendiente de implementar");
 		// TODO: pendiente de implementar
 		// TODO: conectar a la API
-		const url = "http://localhost:8080/location/" + id;
+		//const url = "http://localhost:8080/location/" + id;
 		const data = {
 			name: "",
 			privacy: "",
@@ -62,7 +62,7 @@ export default function FullInfoPlace({ place, returnFunction, categorias }) {
 		const config = {
 			withCredentials: true,
 		};
-		axios.put(url, data, config);
+		//axios.put(url, data, config);
 	}
 
 	const categoriesToList = ["", ...categorias];

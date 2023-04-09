@@ -1,10 +1,17 @@
 const solid = require("../solid/Solid.js");
-const SessionController = require("./util/sessionController");
 const Route = require("../models/Route");
+const SessionController = require("../controllers/util/SessionController.js");
 
 async function getAllRoutes(req, res) {
-	const routes = await solid.getAllRoutes();
-	res.send(JSON.stringify(routes));
+	try {
+		const session = SessionController.getSession(req, next);
+		const routes = await solid.getAllRoutes();
+		res.status(200).json(JSON.stringify(routes));
+	} catch (err) {
+		console.log(err);
+	}
+
+	//res.send(JSON.stringify(routes));
 }
 
 async function getRouteById(req, res) {
@@ -16,7 +23,6 @@ async function getRouteById(req, res) {
 		res.status(404).json("No se han encontrado rutas con esa id");
 	}
 }
-
 async function addRoute(req, res) {
 	const { name, description } = req.body;
 	if (!name) {
