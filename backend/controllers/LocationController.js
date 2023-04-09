@@ -8,7 +8,6 @@ const SessionController = require("../controllers/util/SessionController.js");
 const { getSessionFromStorage } = require("@inrupt/solid-client-authn-node");
 
 //CRUD
-
 async function getLocation(req, res) {
 	const { id } = req.params;
 	try {
@@ -38,34 +37,58 @@ async function getAllLocations(req, res, next) {
 	}
 }
 
-
-
-async function createLocation(req, res) {
-	const { name, latitude, longitude, description, category } = req.body;
-
-	if (!name || !latitude || !longitude) {
+async function createLocation(req, res, next) {
+	const {
+		name,
+		latitude,
+		longitude,
+		privacy,
+		category,
+		comment,
+		review,
+		photo,
+	} = req.body;
+	if (!name || !latitude || !longitude || !privacy) {
 		res.status(400).json({ error: "Faltan datos" });
 		return;
 	}
-
 	try {
 		const session = await SessionController.getSession(req, next);
 		const location = new Location(
 			name,
 			latitude,
 			longitude,
-			description,
+			privacy,
 			session.info.webId,
 			category
 		);
 		await solid.saveLocation(session, location, session.info.webId);
+
+		if (comment) {
+			const comment1 = new Comment(session.info.webId, comment);
+			await solid.addComment(
+				session,
+				comment1,
+				location.id,
+				session.info.webId
+			);
+		}
+		if (review) {
+			const review1 = new Review(review, session.info.webId);
+			await solid.addReview(session, review1, location.id, session.info.webId);
+		}
+		if (photo) {
+			const photo1 = new Photo(photo, session.info.webId);
+			await solid.addPhoto(session, photo1, location.id, session.info.webId);
+		}
+
 		res.status(201).json(location);
 	} catch (err) {
 		next(err);
 	}
 }
 
-async function updateLocation(req, res) {
+async function updateLocation(req, res, next) {
 	const { id } = req.params;
 	const { name, latitude, longitude, description, category } = req.body;
 
@@ -92,7 +115,7 @@ async function updateLocation(req, res) {
 	}
 }
 
-async function deleteLocation(req, res) {
+async function deleteLocation(req, res, next) {
 	const { id } = req.params;
 	try {
 		const session = await SessionController.getSession(req, next);
@@ -114,7 +137,7 @@ async function deleteLocation(req, res) {
 }
 
 //PHOTOS REVIEWS COMMENTS
-async function addPhoto(req, res) {
+async function addPhoto(req, res, next) {
 	const { id } = req.params;
 	const { name, photoUrl } = req.body;
 
@@ -126,7 +149,6 @@ async function addPhoto(req, res) {
 		const session = await SessionController.getSession(req, next);
 		let location = await solid.getLocationById(session, id, session.info.webId);
 		const photo = new Photo(session.info.webId, name, photoUrl);
-		location.addPhoto(photo);
 		await solid.saveLocation(location);
 		res.status(201).json({ message: "Photo added successfully" });
 	} catch (err) {
@@ -134,7 +156,7 @@ async function addPhoto(req, res) {
 	}
 }
 
-async function deletePhoto(req, res) {
+async function deletePhoto(req, res, next) {
 	const { id } = req.params;
 	const { idPhoto } = req.body;
 	try {
@@ -146,7 +168,7 @@ async function deletePhoto(req, res) {
 	}
 }
 
-async function addReview(req, res) {
+async function addReview(req, res, next) {
 	const { id } = req.params;
 	const { rating } = req.body;
 
@@ -158,16 +180,14 @@ async function addReview(req, res) {
 		const session = await SessionController.getSession(req, next);
 		let location = await solid.getLocationById(session, id, session.info.webId);
 		const review = new Review(rating, session.info.webId);
-
-		location.addReview(review);
-		await solid.saveLocation(location);
+		await solid.addReview(session, review, location.id, session.info.webId);
 		res.status(201).json({ message: "Photo added successfully" });
 	} catch (err) {
 		next(err);
 	}
 }
 
-async function deleteReview(req, res) {
+async function deleteReview(req, res, next) {
 	const { id } = req.params;
 	const { idReview } = req.body;
 	if (!idReview) {
@@ -176,14 +196,14 @@ async function deleteReview(req, res) {
 	}
 	try {
 		const session = await SessionController.getSession(req, next);
-		await solid.deleteComment(id, idReview);
+		await solid.deleteReviewById(id, idReview);
 		res.status(204).json({ message: "Review removed successfully" });
 	} catch (err) {
 		next(err);
 	}
 }
 
-async function addComment(req, res) {
+async function addComment(req, res, next) {
 	const { id } = req.params;
 	const { text } = req.body;
 
@@ -195,8 +215,8 @@ async function addComment(req, res) {
 		const session = await SessionController.getSession(req, next);
 		let location = await solid.getLocationById(session, id, session.info.webId);
 		const comment = new Comment(session.info.webId, text);
-		location.addComment(commentObject);
-		await solid.saveLocation(location);
+
+		await solid.addReview(session, comment, location.id, session.info.webId);
 		res.status(201).json({ message: "Comment added successfully" });
 	} catch (err) {
 		next(err);
@@ -208,7 +228,7 @@ async function deleteComment(req, res, next) {
 	const { idComment } = req.body;
 	try {
 		const session = await SessionController.getSession(req, next);
-		await solid.deleteComment(id, idComment);
+		await solid.deleteCommentById(id, idComment);
 		res.status(204).json({ message: "Comment removed successfully" });
 	} catch (err) {
 		next(err);
