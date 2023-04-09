@@ -1782,6 +1782,42 @@ here in this central section or whether you better document it locally
 </div>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Design Decision</th>
+<th class="tableblock halign-left valign-top">Pros</th>
+<th class="tableblock halign-left valign-top">Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">React</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A useful library widely used in large companies with lots of facilities and examples. It is an easy library to learn and also makes user interface development easy. It also has high compatibility with SOLID technologies.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It is the first time we use this technology, it is easy to learn to use it but it is difficult to master it. In addition, official documentation is missing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NodeJS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It allows users and the server to communicate in an easy way. In addition, we can handle errors and management of data with errors to notify the client</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Although we have some experience with this technology, it&#8217;s mostly new, so we need to know how to use it. Also, it is very difficult to debug and it is a young technology that can cause some unexpected problems.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JavaScript</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We have previous experience with this technology and it allows us a lot of freedom in development in combination with React</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The freedom it provides can also be a major drawback, as it can cause weird errors with type handling. Also, it can cause some problems when reading new code developed by other members of the group.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GoogleMaps</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It is a free library that has a lot of customization and facilities for the map, we also have previous experience with it</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Although it is free to use, it is limited to a time and uses, so if it is going to work for a long time, we will have to pay.</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1808,6 +1844,9 @@ concrete and measurable.</p>
 </div>
 <div class="sect2">
 <h3 id="_quality_tree">10.1. Quality Tree</h3>
+<div class="paragraph">
+<p><span class="image"><img src="./images/10.1-QualityTree.png" alt="Quality Tree"></span></p>
+</div>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -1878,6 +1917,52 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </div>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Scenario</th>
+<th class="tableblock halign-left valign-top">Quality Requirements</th>
+<th class="tableblock halign-left valign-top">Quality Scenarios</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user tries to modify other users data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The data that the user storages or uses in the application must be protected and only modifiable by the user o others that the user authorized.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user adds information that is private and only want to be seen by the user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The user only provides to other and to the application only the information they want.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A new user enters the application for the first time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must ensure that new users know in few time how to use the basic functionality.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user adds information in an other app that uses the same data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interoperability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LoMap has to be able to use the information stored in other application as long as the data structure is the same.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">New functionality is needed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scalability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be developed always thinking that this is not the final product and we can always add new functionality.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some functionality of the application is not running correctly</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Testability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tests will run to prevent functionality to not work as intended, even if new functionality is added.</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1909,18 +1994,31 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
-<col style="width: 66.6667%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Risk</th>
-<th class="tableblock halign-left valign-top">Brief description</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Measure</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Big Proyect</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Being a large project compared to the projects we have done so far, communication and collaboration will be very important to have a good result in its development.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Big Project and Time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Being a large project compared to the projects we have done so far, the magnitude and the time we have are two of the things that we need to have in mind.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Being aware of the time, deadlines and also, have a good atmosphere in the team, solve the problems we encounter and  support each other during the development.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID knowledge and usage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The project uses the SOLID technology, called PODs, to store the data that the user uses in the application, this a new technology that we need to understand and use. Also we are very susceptible to changes in the SOLID technology that can cause bugs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read the documentation and see examples of the usage of SOLID. Trust that SOLID works properly and we have the methods to control those errors and notify  them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usage of new technologies</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">As well as SOLID is something new for us we also are using other technologies that we never used before</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This can be mitigated with some experience that we will gain when developing the application, reading all the available documentation that we will need and seeing examples</p></td>
 </tr>
 </tbody>
 </table>
@@ -2001,12 +2099,20 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <td class="tableblock halign-left valign-top"><p class="tableblock">Solid is a project that aims to radically change the way Web applications work today, resulting in true data ownership as well as improved privacy.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Personal data storage that is not kept in the application, is on cloud and the user decides what information the application uses.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">React.js</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">React is an open source Javascript library designed to create user interfaces to make it easy to develop single page applications.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Node.js</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Node.js is an open source, cross-platform runtime environment for the server layer based on the JavaScript programming language, asynchronous.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API(Application Program Interface)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">External service that provides some functionalities that makes our development easier</p></td>
 </tr>
 </tbody>
 </table>
@@ -2035,7 +2141,7 @@ Created by Dr. Peter Hruschka &amp; Dr. Gernot Starke.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-01-31 09:40:14 +0100
+Last updated 2023-02-14 19:01:13 +0100
 </div>
 </div>
 </body>
