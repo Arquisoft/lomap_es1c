@@ -1,8 +1,3 @@
-import {
-	getDefaultSession,
-	handleIncomingRedirect,
-	login,
-} from "@inrupt/solid-client-authn-browser";
 import axios from "axios";
 import i18next from "i18next";
 
@@ -36,22 +31,8 @@ i18next.init({
 	},
 });
 
-function getCookie(name) {
-	const cookieString = document.cookie;
-	const cookies = cookieString.split("; ");
-	for (let i = 0; i < cookies.length; i++) {
-		const cookie = cookies[i];
-		const [cookieName, cookieValue] = cookie.split("=");
-		if (cookieName === name) {
-			return decodeURIComponent(cookieValue);
-		}
-	}
-	return null;
-}
-
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [cookie, setCookie] = useState(false);
 
 	useEffect(() => {
 		isLogged();

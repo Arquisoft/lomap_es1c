@@ -9,6 +9,7 @@ export default function CreateModal({
 	isOpen,
 	latMark,
 	lngMark,
+	setPlaces,
 	setIsOpen,
 	setMarkers,
 	setStateButton,
@@ -137,6 +138,7 @@ export default function CreateModal({
 			setValoracion("");
 			setIsOpen(false);
 			setCanCick(false);
+			setPlaces([]);
 		}
 	}
 
@@ -210,7 +212,7 @@ export default function CreateModal({
 					onChange={handleCategoryChange}
 				>
 					{categorias.map((categoria) => (
-						<MenuItem value={categoria.toLowerCase()}>{categoria}</MenuItem>
+						<MenuItem value={categoria}>{categoria}</MenuItem>
 					))}
 				</Select>
 
