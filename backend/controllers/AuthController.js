@@ -74,7 +74,7 @@ async function isLoggedIn(req, res, next) {
 
 			res.status(200).json("Sesion iniciada");
 		} else {
-			res.status(401).json("what");
+			res.status(401).json("No ha iniciado sesión");
 		}
 	} catch (err) {
 		next(err);

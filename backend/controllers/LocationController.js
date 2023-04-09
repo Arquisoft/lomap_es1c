@@ -30,7 +30,6 @@ async function getAllLocations(req, res, next) {
 	try {
 		const session = await SessionController.getSession(req, next);
 		const locations = await solid.getAllLocations(session, session.info.webId);
-		console.log(locations);
 		res.send(JSON.stringify(locations));
 	} catch (err) {
 		next(err);
