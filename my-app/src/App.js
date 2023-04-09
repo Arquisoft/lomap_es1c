@@ -149,6 +149,7 @@ export default function App({ logOutFunction }) {
 				latMark={latitude}
 				lngMark={longitude}
 				places={places}
+				setPlaces={setPlaces}
 				setIsOpen={setIsOpen}
 				setMarkers={setMarkers}
 				setStateButton={setDisabledB}

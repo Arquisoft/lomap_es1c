@@ -8,8 +8,8 @@ async function parseLocation(location) {
 
 	return new Location(
 		locationJson.name,
-		parseInt(locationJson.latitude),
-		parseInt(locationJson.longitude),
+		parseFloat(locationJson.latitude),
+		parseFloat(locationJson.longitude),
 		locationJson.privacy,
 		locationJson.author,
 		locationJson.category,
