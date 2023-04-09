@@ -98,7 +98,7 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
         </Swiper>
 
         <Tooltip title={t("sidebar.place.edit")} placement="bottom"><IconButton onClick={allowEdit}><EditIcon/></IconButton></Tooltip>
-        <Tooltip title={t("sidebar.place.locate")} placement="bottom"><IconButton onClick={centerMapToPlace} onClick={centerMapToPlace}><TravelExploreIcon/></IconButton></Tooltip>
+        <Tooltip title={t("sidebar.place.locate")} placement="bottom"><IconButton onClick={centerMapToPlace}><TravelExploreIcon/></IconButton></Tooltip>
         <Tooltip title={t("sidebar.place.delete")} placement="bottom"><IconButton><DeleteIcon/></IconButton></Tooltip>
         </>
     )

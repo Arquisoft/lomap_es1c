@@ -9,6 +9,7 @@ export default function CreateModal({
 	isOpen,
 	latMark,
 	lngMark,
+	setPlaces,
 	setIsOpen,
 	setMarkers,
 	setStateButton,
@@ -31,10 +32,9 @@ export default function CreateModal({
 	}
 
 	useEffect(() => {
-		if(categorias.length === 0){
+		if (categorias.length === 0) {
 			getData();
 		}
-		
 	});
 
 	const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"];
@@ -123,25 +123,51 @@ export default function CreateModal({
 			alert("La puntuación tiene que ser mayor de 0 y menor de 5");
 		} else {
 			setStateButton(true);
-			addPlaceApi(nombre, latitudeMark, longitudeMark, categoria);
+			addPlaceApi(
+				nombre,
+				latitudeMark,
+				longitudeMark,
+				categoria,
+				valoracion * 2,
+				comentario,
+				fotos,
+				privacidad
+			);
 			console.log(fotos);
 			setNombre("");
 			setValoracion("");
 			setIsOpen(false);
 			setCanCick(false);
+			setPlaces([]);
 		}
 	}
 
-	function addPlaceApi(nombreP, latitudeMarkP, longitudeMarkP, categoriaP) {
-		console.log(latitudeMarkP);
-		axios.post("http://localhost:8080/location",{
-			withCredentials: true,
+	function addPlaceApi(
+		nombreP,
+		latitudeMarkP,
+		longitudeMarkP,
+		categoriaP,
+		reviewP,
+		commentP,
+		photoP,
+		privacyP
+	) {
+		const url = "http://localhost:8080/location/";
+		const data = {
 			name: nombreP,
-			address: "Oviedo",
 			latitude: latitudeMarkP,
 			longitude: longitudeMarkP,
 			category: categoriaP,
-		});
+			review: reviewP,
+			comment: commentP,
+			photo: photoP,
+			privacy: privacyP,
+		};
+
+		const config = {
+			withCredentials: true,
+		};
+		axios.post(url, data, config);
 	}
 
 	return (
@@ -186,7 +212,7 @@ export default function CreateModal({
 					onChange={handleCategoryChange}
 				>
 					{categorias.map((categoria) => (
-						<MenuItem value={categoria.toLowerCase()}>{categoria}</MenuItem>
+						<MenuItem value={categoria}>{categoria}</MenuItem>
 					))}
 				</Select>
 

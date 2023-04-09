@@ -1,5 +1,5 @@
 import React, { useRef, useState,useEffect } from "react";
-import { GoogleMap, useLoadScript, Marker, MarkerF, DirectionsService } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, Marker, MarkerF } from "@react-google-maps/api";
 import { Themes, ThemeContext } from '../contexts/ThemeContext';
 import Geolocation from '@react-native-community/geolocation';
 import { Alert, AlertTitle, Snackbar } from "@mui/material";
@@ -44,24 +44,26 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
   const [longitude, setLongitude] = React.useState('');
   const [response, setResponse] = useState(null);
   const [openInfo, setOpenInfo] = React.useState(false);
-  const [filteredPlaces, setFilteredPlaces] = useState([]);
 	const [categortFiltered, setCategortFiltered] = useState({
 		activated: false,
 		category: ""
 	});
 
-  useEffect(() =>{
+  function Filter(){
     var temp = places;
     if(categortFiltered.activated){
       temp = [];
       for (let i = 0; i < places.length; i++) {
-        if(places.some(() => places[i].categoria === categortFiltered.category)){
+        if(places.some(() => places[i].categoria.toLowerCase() === categortFiltered.category.toLowerCase())){
           temp[temp.length] = places[i];
         }
       }
     }
-    setFilteredPlaces(temp);
-  }, [places, categortFiltered, filteredPlaces]);
+   return temp;
+  }
+
+
+  
 
   //Constante de el marcador, es donde se guarda el marcador actual para mostrarlo en el mapa.
   const markers = markersState;
@@ -131,10 +133,11 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
   function details(marker) {
     changeDrawerContent(
       <FullInfoPlace
-        place={places.find(place => place.id == marker.id)}
+        place={places.find(place => place.id === marker.id)}
         returnFunction={restoreDefautlDrawerContent}
         changeDrawerContent={changeDrawerContent}
         categorias={categorias}
+        setPosition={setPosition}
       />
     )
   }
@@ -177,7 +180,7 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
             position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
           />
         ))}
-        {filteredPlaces.map((marker) => (
+        {Filter().map((marker) => (
           <MarkerF
             key={marker.id}
             position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}

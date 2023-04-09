@@ -3,7 +3,7 @@ class Location {
 		name,
 		latitude,
 		longitude,
-		description,
+		privacy = "private",
 		author,
 		category = null,
 		id = null,
@@ -14,6 +14,9 @@ class Location {
 	) {
 		if (!name || name.trim().length === 0) {
 			throw new Error("Location name cannot be null or empty");
+		}
+		if (!privacy || privacy.trim().length === 0) {
+			throw new Error("Location privacy cannot be null or empty");
 		}
 
 		if (isNaN(latitude) || isNaN(longitude)) {
@@ -28,19 +31,25 @@ class Location {
 		this.category = category;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.description = description;
+		this.privacy = privacy;
 		this.comments = comments || [];
 		this.reviews = reviews || [];
 		this.photos = photos || [];
 		this.timestamp = timestamp ? timestamp : this.generateTimestamp();
 		this.author = author;
 	}
-
-	addComment(comment) {
-		if (comment == null) {
-			throw new Error("Comment is null");
+	changePrivacy(privacy) {
+		if (!privacy || privacy.trim().length === 0) {
+			throw new Error("Location privacy cannot be null or empty");
 		}
-		this.comments.push(comment);
+		if (
+			privacy !== "public" &&
+			privacy !== "friends" &&
+			privacy !== "private"
+		) {
+			throw new Error("Location privacy must be public, friends or private");
+		}
+		this.privacy = privacy;
 	}
 
 	getRating() {
@@ -54,27 +63,6 @@ class Location {
 		return sum / this.reviews.length;
 	}
 
-	//Reviews
-	addReview(review) {
-		if (review == null) {
-			throw new Error("Review is null");
-		}
-		this.reviews.push(review);
-	}
-	//Comments
-	addComment(comment) {
-		if (comment == null) {
-			throw new Error("Comment is null");
-		}
-		this.comments.push(comment);
-	}
-	//Photos
-	addPhoto(photoUrl) {
-		if (photoUrl == null) {
-			throw new Error("PhotoUrl is null");
-		}
-		this.photos.push(photoUrl);
-	}
 	//Generate
 	generateRandomId() {
 		const randomIdentifier = Math.random().toString(36).substring(2, 8);

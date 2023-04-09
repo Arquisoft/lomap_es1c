@@ -16,52 +16,55 @@ export default function App({ logOutFunction }) {
 	const [data, setData] = useState("");
 
 	const [i18n] = useTranslation("global");
-  	const [categorias, setCategorias] = useState([])
- 	const [rutas, setRutas] = useState([])
+	const [categorias, setCategorias] = useState([]);
+	const [rutas, setRutas] = useState([]);
 
 	//Todos los lugares de la aplicacion
-	const [places,setPlaces] = React.useState(a);
+	const [places, setPlaces] = React.useState(a);
 
-  function updateCategorias() {
-    axios.get('http://localhost:8080/location/categories')
-    .then(response => {setCategorias(response.data);})
-    .catch(error => {console.log(error);});
-  }
+	function updateCategorias() {
+		axios
+			.get("http://localhost:8080/location/categories")
+			.then((response) => {
+				setCategorias(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
-  function updateRutas() {
-    axios.get('http://localhost:8080/route')
-      .then(response => 
-        setRutas(
-          response.data.map(
-            ruta => ({
-              id: ruta.id,
-              name: ruta.name,
-              locations: ruta.locations.map(
-                location => ({
-                  id: location.id,
-                  name: location.name,
-                  latitude: location.latitude,
-                  longitude: location.longitude
-                })
-              )
-            })
-          )
-        ))
-        .catch(error => {console.log(error)});
-  }
+	function updateRutas() {
+		axios
+			.get("http://localhost:8080/route")
+			.then((response) =>
+				setRutas(
+					response.data.map((ruta) => ({
+						id: ruta.id,
+						name: ruta.name,
+						locations: ruta.locations.map((location) => ({
+							id: location.id,
+							name: location.name,
+							latitude: location.latitude,
+							longitude: location.longitude,
+						})),
+					}))
+				)
+			)
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
 	useEffect(() => {
 		async function getData() {
 			await axios
 				.get("http://localhost:8080/location", { withCredentials: true })
 				.then((response) => {
-					if(response.data.length !== data.length){
-						console.log(response.data);
+					if (response.data.length !== data.length) {
 						setData(response.data);
 					}
 				})
 				.catch((error) => {
-					getData();
 					console.log(error);
 				});
 		}
@@ -80,15 +83,15 @@ export default function App({ logOutFunction }) {
 			}
 		}
 		setPlaces(a);
-	}, [setData, data, places],);
+	}, [setData, data, places]);
 
 	useEffect(() => {
-		updateCategorias()
-	  }, [])
-	
-	  useEffect(() => {
-		updateRutas()
-	  }, [])
+		updateCategorias();
+	}, []);
+
+	useEffect(() => {
+		updateRutas();
+	}, []);
 
 	//Estados de la aplicacion
 	//Latitud y longitud del marcador actual que tu pongas en el mapa.
@@ -100,8 +103,6 @@ export default function App({ logOutFunction }) {
 
 	//Controla si el boton para añadir marcador a puntos esta activado, este boton saca el popup con el formulario
 	const [disabledB, setDisabledB] = React.useState(true);
-
-
 
 	//Constantes del Modal
 	const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -148,6 +149,7 @@ export default function App({ logOutFunction }) {
 				latMark={latitude}
 				lngMark={longitude}
 				places={places}
+				setPlaces={setPlaces}
 				setIsOpen={setIsOpen}
 				setMarkers={setMarkers}
 				setStateButton={setDisabledB}
@@ -169,7 +171,7 @@ export default function App({ logOutFunction }) {
 				restoreDefautlDrawerContent={restoreDefautlDrawerContent}
 				position={position}
 				setPosition={setPosition}
-        categorias = {categorias}
+				categorias={categorias}
 			/>
 
 			<SettingsSpeedDial
@@ -186,8 +188,8 @@ export default function App({ logOutFunction }) {
 				restoreDefautlDrawerContent={restoreDefautlDrawerContent}
 				changeDrawerContent={changeDrawerContent}
 				setPosition={setPosition}
-				categorias = {categorias}
-				rutas = {rutas}
+				categorias={categorias}
+				rutas={rutas}
 			/>
 		</div>
 	);
