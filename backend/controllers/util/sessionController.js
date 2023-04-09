@@ -15,7 +15,11 @@ async function addSession(session) {
 	hashMapSession[session.info.sessionId] = session;
 }
 async function removeSession(session) {
-	delete hashMapSession[session.info.sessionId];
+	try {
+		delete hashMapSession[session.info.sessionId];
+	}catch (err) {
+		next(err);
+	}
 }
 
 module.exports = {
