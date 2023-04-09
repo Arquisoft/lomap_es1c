@@ -73,18 +73,12 @@ function MyComponent() {
 	}
 
 	function loginWeb() {
-		window.location.href = "http://localhost:8080/login-from-webapp";
+		window.location.href = "http://localhost:8080/login";
 	}
 
 	function logOut() {
 		setIsLoggedIn(false);
 	}
-
-	function logInA(){
-		// login();
-		setIsLoggedIn(true);
-	}
-	
 
 	return (
 		<>
