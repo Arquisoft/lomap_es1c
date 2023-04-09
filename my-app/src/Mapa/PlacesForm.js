@@ -122,7 +122,16 @@ export default function CreateModal({
 			alert("La puntuación tiene que ser mayor de 0 y menor de 5");
 		} else {
 			setStateButton(true);
-			addPlaceApi(nombre, latitudeMark, longitudeMark, categoria);
+			addPlaceApi(
+				nombre,
+				latitudeMark,
+				longitudeMark,
+				categoria,
+				valoracion * 2,
+				comentario,
+				fotos,
+				privacidad
+			);
 			console.log(fotos);
 			setNombre("");
 			setValoracion("");
@@ -131,15 +140,32 @@ export default function CreateModal({
 		}
 	}
 
-	function addPlaceApi(nombreP, latitudeMarkP, longitudeMarkP, categoriaP) {
-		console.log(latitudeMarkP);
-		axios.post("http://localhost:8080/location", {
-			withCredentials: true,
+	function addPlaceApi(
+		nombreP,
+		latitudeMarkP,
+		longitudeMarkP,
+		categoriaP,
+		reviewP,
+		commentP,
+		photoP,
+		privacyP
+	) {
+		const url = "http://localhost:8080/location";
+		const data = {
 			name: nombreP,
 			latitude: latitudeMarkP,
 			longitude: longitudeMarkP,
 			category: categoriaP,
-		});
+			review: reviewP,
+			comment: commentP,
+			photo: photoP,
+			privacy: privacyP,
+		};
+
+		const config = {
+			withCredentials: true,
+		};
+		axios.post(url, data, config);
 	}
 
 	return (
