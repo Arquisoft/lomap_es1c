@@ -465,6 +465,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-solution-strategy">4. Solution Strategy</a>
 <ul class="sectlevel2">
 <li><a href="#_technological_decisions">4.1. Technological Decisions</a></li>
+<li><a href="#_top_level_decomposition">4.2. Top-Level Decomposition</a></li>
+<li><a href="#_decisions_to_achieve_quality_goals">4.3. Decisions to achieve quality goals</a></li>
 </ul>
 </li>
 <li><a href="#section-building-block-view">5. Building Block View</a>
@@ -1065,18 +1067,51 @@ Refer to details in the following sections.</p>
 <div class="sect2">
 <h3 id="_technological_decisions">4.1. Technological Decisions</h3>
 <div class="paragraph">
-<p>For the development of the application we have decided to use the following technologies:</p>
+<p>For the development of the application we have decided to use JavaScript as the main language in contrast to TypeScript. This decision is based on the ease of JavaScript and also on the experience we have with it. Although TypeScript is similar to JavaScript, we decided it&#8217;s better to stick with something we now know how to use and not try to understand another new technology. In addition to JavaScript we are going to use other technologies:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>SOLID: Solid is perfect for the development of this application, since it allows users to maintain their privacy by storing information in their personal pods.</p>
+<p>SOLID: Solid is perfect for the development of this application, since it allows users to maintain the users privacy by storing information in their personal pods.</p>
 </li>
 <li>
 <p>React.js: We chose react for its simplicity, ease of learning, and reliability (as it is a widely used library in the industry, it is highly error-tested).</p>
 </li>
 <li>
 <p>Node.js: Node allows you to manage multiple connections at the same time, thanks to the fact that it is an asynchronous runtime environment. Besides, it allows a very fast execution of JavaScript.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_top_level_decomposition">4.2. Top-Level Decomposition</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Editor: For the development of the project we decided that we are going to use Visual Studio Code, due to the ease and familiarity we have with the IDE, as well as all the extension that facilitates the development.</p>
+</li>
+<li>
+<p>GitHub: All project progress and development is stored in a public GitHub repository. The main feature is that we all work with the same code and we can easily share the changes we make.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_decisions_to_achieve_quality_goals">4.3. Decisions to achieve quality goals</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Privacy and Security: To guarantee the privacy and security of the data that we store or that the user wants to share, we will use SOLID technology known as PODs, which stores data and allows the user to decide what information they want to share.</p>
+</li>
+<li>
+<p>Usability: We focus on making an interface that is user friendly, fluid, simple and intuitive. We use some icons that are common to make some familiarity and help understanding of the application.
+*Efficiency: Although we use PODs and that can make the app slower because we need to rely on an external technology, we try to use some stored data and an API to make the app run faster and smoother.</p>
+</li>
+<li>
+<p>Interoperability and Scalability: We will try to make clean code that is easy to understand and modify for future updates</p>
+</li>
+<li>
+<p>Testability: Different tets have been make to ensure that the project is running as we intended, some important test types are unit tests and usability tests.</p>
 </li>
 </ul>
 </div>
