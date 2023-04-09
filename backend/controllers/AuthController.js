@@ -113,7 +113,5 @@ module.exports = {
 	logout,
 	redirectFromSolidIdp,
 	index,
-	loginFromWeb,
-	redirectFromSolidIdpWeb,
 	isLoggedIn,
 };
