@@ -8,7 +8,7 @@ const port = 8080;
 const SessionController = require("../controllers/util/SessionController.js");
 
 async function login(req, res, next) {
-	const { provider, redirect } = req.body;
+	const { provider } = req.body;
 	try {
 		let loginProvider;
 		if (provider) {

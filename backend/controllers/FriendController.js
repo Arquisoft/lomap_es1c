@@ -51,7 +51,7 @@ async function getAllLocationsFromFriends(req, res, next) {
 }
 
 //PROBAR
-async function getFriendLocations(req, res) {
+async function getFriendLocations(req, res, next) {
 	try {
 		const { id } = req.params;
 		const session = await SessionController.getSession(req, next);
@@ -62,7 +62,7 @@ async function getFriendLocations(req, res) {
 	}
 }
 
-async function getAllLocationsByCategory(req, res) {
+async function getAllLocationsByCategory(req, res, next) {
 	try {
 		const { name } = req.params;
 		const session = await SessionController.getSession(req, next);
