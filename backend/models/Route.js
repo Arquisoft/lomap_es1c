@@ -17,6 +17,17 @@ class Route {
 	addLocation(location) {
 		this.locations.push(location);
 	}
+	deleteLocation(locationId) {
+		const location = this.locations.find(
+			(location) => location.id === locationId
+		);
+		if (!location) {
+			throw new Error("Location not found in route");
+		}
+		const index = this.locations.indexOf(location);
+		this.locations.splice(index, 1);
+	}
+
 	changeOrder(location, newPosition) {
 		const oldPosition = this.locations.indexOf(location);
 		if (oldPosition === -1) {
