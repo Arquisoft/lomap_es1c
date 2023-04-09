@@ -40,7 +40,7 @@ For the development of the application we have decided to use JavaScript as the 
 
 * Privacy and Security: To guarantee the privacy and security of the data that we store or that the user wants to share, we will use SOLID technology known as PODs, which stores data and allows the user to decide what information they want to share.
 * Usability: We focus on making an interface that is user friendly, fluid, simple and intuitive. We use some icons that are common to make some familiarity and help understanding of the application.
-*Efficiency: Although we use PODs and that can make the app slower because we need to rely on an external technology, we try to use some stored data and an API to make the app run faster and smoother.
+* Efficiency: Although we use PODs and that can make the app slower because we need to rely on an external technology, we try to use some stored data and an API to make the app run faster and smoother.
 * Interoperability and Scalability: We will try to make clean code that is easy to understand and modify for future updates
 * Testability: Different tets have been make to ensure that the project is running as we intended, some important test types are unit tests and usability tests.
 
