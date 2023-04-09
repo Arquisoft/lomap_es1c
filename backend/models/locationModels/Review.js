@@ -12,5 +12,10 @@ class Review {
 		this.rating = rating;
 		this.author = author;
 	}
+	generateRandomId() {
+		const randomIdentifier = Math.random().toString(36).substring(2, 8);
+		const currentDate = new Date().getTime();
+		return `${currentDate}_${randomIdentifier}`;
+	}
 }
 module.exports = Review;

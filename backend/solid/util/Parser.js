@@ -1,10 +1,7 @@
 const Location = require("../../models/locationModels/Location.js");
 const Rating = require("../../models/locationModels/Review.js");
 const Coment = require("../../models/locationModels/Comment.js");
-const Route = require("../../models/Route.js");
 const Foto = require("../../models/locationModels/Photo.js");
-
-//const Localizaciones = require("../locations/Locations.js");
 
 async function parseLocation(location) {
 	let locationJson = await getJsonFromBlob(location);
@@ -13,7 +10,7 @@ async function parseLocation(location) {
 		locationJson.name,
 		parseInt(locationJson.latitude),
 		parseInt(locationJson.longitude),
-		locationJson.description,
+		locationJson.privacy,
 		locationJson.author,
 		locationJson.category,
 		locationJson.id,
@@ -22,29 +19,24 @@ async function parseLocation(location) {
 		locationJson.reviews,
 		locationJson.photos
 	);
-
 }
 
 async function parseReview(review) {
 	let reviewJson = await getJsonFromBlob(review);
-	return new Rating(
-		reviewJson.rating,
-		reviewJson.author,
-		reviewJson.id,
-	);
+	return new Rating(reviewJson.rating, reviewJson.author, reviewJson.id);
 }
 
-async function parseComent(coment) {
+async function parseComment(coment) {
 	let comentJson = await getJsonFromBlob(coment);
 	return new Coment(
 		comentJson.author,
 		comentJson.text,
 		comentJson.timestamp,
-		comentJson.id,
+		comentJson.id
 	);
 }
 
-async function parseFoto(foto) {
+async function parsePhoto(foto) {
 	let fotoJson = await getJsonFromBlob(foto);
 	return new Foto(
 		fotoJson.author,
@@ -53,14 +45,6 @@ async function parseFoto(foto) {
 		fotoJson.timestamp,
 		fotoJson.id
 	);
-}
-
-async function parseRoute(Session, myBaseUrl, route) {
-	let routeJson = await getJsonFromBlob(route);
-	let locs = await routeJson.locations.map((id) =>
-		Localizaciones.obtenerLocalizacion(Session, id, myBaseUrl)
-	);
-	return new Route(routeJson.id, routeJson.name, locs);
 }
 
 //XD
@@ -85,8 +69,7 @@ function getJpegFromBlob(blob) {
 
 module.exports = {
 	parseLocation,
-	parseFoto,
-	parseRoute,
+	parsePhoto,
 	parseReview,
-	parseComent,
+	parseComment,
 };

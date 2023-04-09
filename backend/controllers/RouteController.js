@@ -1,4 +1,6 @@
-const solid = require("../solid/SolidPrueba.js");
+const solid = require("../solid/Solid.js");
+const SessionController = require("./util/sessionController");
+const Route = require("../models/Route");
 
 async function getAllRoutes(req, res) {
 	const routes = await solid.getAllRoutes();

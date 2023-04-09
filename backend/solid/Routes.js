@@ -6,11 +6,11 @@ const {
 	deleteFile,
 } = require("@inrupt/solid-client");
 
-const parser = require("./util/Parser.js");
+const parser = require("./util/ParserRoute.js");
 const serializer = require("./util/Serializer.js");
 
 async function addRoute(Session, route, myBaseUrl) {
-	let file = serializer.serializeRoute(route);
+	let file = await serializer.serializeRoute(route);
 
 	await overwriteFile(myBaseUrl + "LoMap/" + "routes/" + route.id + ".json", file, {
 		contentType: file.type,
@@ -28,7 +28,7 @@ async function getAllRoutes(Session, myBaseUrl) {
 		let urlSplit = rutas[i].split("/");
 		modelsRuta[i] = await getRouteById(
 			Session,
-			urlSplit[urlSplit.length - 1],
+			urlSplit[urlSplit.length - 1].split(".")[0],
 			myBaseUrl
 		);
 	}
