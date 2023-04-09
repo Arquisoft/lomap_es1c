@@ -19,7 +19,7 @@ const location1 = new Location(
 	2.2945,
 	"A wrought-iron lattice tower on the Champ de Mars in Paris, France",
 	"Jane Smith",
-	"Landmark"
+	"Punto de Interes"
 );
 const location2 = new Location(
 	"Golden Gate Bridge",
@@ -27,7 +27,7 @@ const location2 = new Location(
 	-122.4783,
 	"A suspension bridge spanning the Golden Gate strait in San Francisco, California",
 	"Bob Johnson",
-	"Landmark"
+	"Punto de Interes"
 );
 const location3 = new Location(
 	"Central Park",
@@ -35,7 +35,7 @@ const location3 = new Location(
 	-73.9654,
 	"A large public park in New York City",
 	"John Doe",
-	"Park"
+	"Tienda"
 );
 const location4 = new Location(
 	"Grand Canyon",
@@ -43,7 +43,7 @@ const location4 = new Location(
 	-112.1126,
 	"A steep-sided canyon carved by the Colorado River in Arizona, United States",
 	"Sarah Lee",
-	"National Park"
+	"Restaurante"
 );
 const location5 = new Location(
 	"Sydney Opera House",
@@ -51,7 +51,7 @@ const location5 = new Location(
 	151.2153,
 	"A multi-venue performing arts center in Sydney, Australia",
 	"David Lee",
-	"Theater"
+	"Ocio"
 );
 const location6 = new Location(
 	"Machu Picchu",
@@ -59,7 +59,7 @@ const location6 = new Location(
 	-72.545,
 	"An ancient Inca city in the Andes Mountains of Peru",
 	"Maria Garcia",
-	"Archaeological Site"
+	"Tienda"
 );
 const location7 = new Location(
 	"Taj Mahal",
@@ -67,7 +67,7 @@ const location7 = new Location(
 	78.0422,
 	"A white marble mausoleum in Agra, India, built by Mughal emperor Shah Jahan in memory of his wife Mumtaz Mahal",
 	"Rahul Singh",
-	"Landmark"
+	"Punto de Interes"
 );
 
 const locations = [location1, location2, location3, location4, location5];
