@@ -8,7 +8,7 @@ const port = 8080;
 const SessionController = require("../controllers/util/SessionController.js");
 
 async function login(req, res, next) {
-	const { provider, redirect } = req.body;
+	const { provider } = req.body;
 	try {
 		let loginProvider;
 		if (provider) {
@@ -16,12 +16,7 @@ async function login(req, res, next) {
 		} else {
 			loginProvider = "https://login.inrupt.com";
 		}
-		let redirection;
-		if (redirect) {
-			redirection = redirect;
-		} else {
-			redirection = false;
-		}
+
 		const session = new Session();
 		res.cookie("sessionId", session.info.sessionId);
 		const redirectToSolidIdentityProvider = (url) => {
@@ -63,37 +58,7 @@ async function logout(req, res, next) {
 async function index(req, res, next) {
 	res.send(`<p>Esta es la respuesta default de la restAPI</p>`);
 }
-/*
-async function loginFromWeb(req, res, next) {
-	const session = new Session();
 
-	res.cookie("sessionId", session.info.sessionId);
-	const redirectToSolidIdentityProvider = (url) => {
-		res.redirect(url);
-	};
-	await session.login({
-		redirectUrl: "http://localhost:" + port + "/redirect-from-solid-idp-web",
-		oidcIssuer: "https://login.inrupt.com",
-		clientName: "LoMap",
-		handleRedirect: redirectToSolidIdentityProvider,
-	});
-}
-
-async function redirectFromSolidIdpWeb(req, res, next) {
-	try {
-		const session = await getSessionFromStorage(req.cookies.sessionId);
-		await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
-		if (session.info.isLoggedIn) {
-			await SessionController.addSession(session);
-			console.log(await SessionController.getAllSessions());
-			solid.createStruct(session);
-			return res.status(200).redirect("http://localhost:3000");
-		}
-	} catch (err) {
-		next(err);
-	}
-}
-*/
 async function isLoggedIn(req, res, next) {
 	try {
 		const session = await SessionController.getSession(req, next);

@@ -1,17 +1,18 @@
-import React, { useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { IconButton, Tooltip } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-import DeleteIcon from '@mui/icons-material/Delete';
-import {useTranslation} from "react-i18next"
-import EditInfoPlace from './EditInfoPlace';
+import { IconButton, Tooltip } from '@mui/material';
 import Rating from '@mui/material/Rating';
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigation, Pagination } from "swiper";
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
+import EditInfoPlace from './EditInfoPlace';
+import axios from "axios";
 
 // TODO eliminar datos hardcodeados
 const images = [
@@ -69,7 +70,11 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
     }
 
     function deletePlace() {
-        // TODO: pendiente de implementar
+        const url = "http://localhost:8080/location/"+place.id;
+		const config = {
+			withCredentials: true,
+		};
+		axios.delete(url, config);
     }
 
     return (
@@ -100,7 +105,7 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
 
         <Tooltip title={t("sidebar.place.edit")} placement="bottom"><IconButton onClick={allowEdit}><EditIcon/></IconButton></Tooltip>
         <Tooltip title={t("sidebar.place.locate")} placement="bottom"><IconButton onClick={centerMapToPlace}><TravelExploreIcon/></IconButton></Tooltip>
-        <Tooltip title={t("sidebar.place.delete")} placement="bottom"><IconButton><DeleteIcon/></IconButton></Tooltip>
+        <Tooltip title={t("sidebar.place.delete")} placement="bottom"><IconButton onClick={deletePlace}><DeleteIcon/></IconButton></Tooltip>
         </>
     )
 }

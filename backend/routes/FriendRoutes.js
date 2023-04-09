@@ -11,4 +11,9 @@ module.exports = function (app, friendController) {
 		"/friend/location/category/:name",
 		friendController.getAllLocationsByCategory
 	);
+	/*
+	//Permissions
+	app.get("/friend/:id/givePermissions", friendController.givePermissions);
+	app.get("/friend/:id/removePermissions", friendController.removePermissions);
+	*/
 };
