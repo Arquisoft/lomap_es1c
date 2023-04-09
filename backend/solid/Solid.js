@@ -63,7 +63,7 @@ async function deleteLocationById(Session, idLocation, friendWebID) {
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await locations.deleteLocationById(Session, idLocation + ".json", myBaseUrl);
+	await locations.deleteLocationById(Session, idLocation, myBaseUrl);
 }
 
 //COMENTS
@@ -87,12 +87,12 @@ async function getAllComents(Session, idUbicacion, friendWebID) {
 	await coments.getAllComents(Session, idUbicacion, myBaseUrl);
 }
 
-async function deleteComentById(Session, idComent, idLocation, friendWebID) {
+async function deleteComentById(Session, idComent, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await coments.deleteComentById(Session, idComent, idLocation, myBaseUrl);
+	await coments.deleteComentById(Session, idComent, myBaseUrl);
 }
 
 //RATINGS
@@ -116,12 +116,12 @@ async function getAllRatings(Session, idUbicacion, friendWebID) {
 	await ratings.getAllRatings(Session, idUbicacion, myBaseUrl);
 }
 
-async function deleteRatingById(Session, idRating, idLocation, friendWebID) {
+async function deleteRatingById(Session, idRating, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await ratings.deleteRatingById(Session, idRating, idLocation, myBaseUrl);
+	await ratings.deleteReviewById(Session, idRating, myBaseUrl);
 }
 
 //FOTOS
@@ -145,12 +145,12 @@ async function getAllFotos(Session, idUbicacion, friendWebID) {
 	await fotos.getAllFotos(Session, idUbicacion, myBaseUrl);
 }
 
-async function deleteFotoById(Session, idFoto, idUbicacion, friendWebID) {
+async function deleteFotoById(Session, idFoto, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await fotos.deleteFotoById(Session, idFoto, idUbicacion, myBaseUrl);
+	await fotos.deleteFotoById(Session, idFoto, myBaseUrl);
 }
 
 //ROUTES

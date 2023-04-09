@@ -5,6 +5,8 @@ const Comment = require("../models/locationModels/Comment");
 const SessionController = require("./util/sessionController");
 const solid = require("../solid/Solid.js");
 
+const { getSessionFromStorage } = require("@inrupt/solid-client-authn-node");
+
 //CRUD
 
 async function getLocation(req, res) {
@@ -36,6 +38,8 @@ async function getAllLocations(req, res, next) {
 		next(err);
 	}
 }
+
+
 
 async function createLocation(req, res) {
 	const { name, latitude, longitude, description, category } = req.body;

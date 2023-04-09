@@ -51,11 +51,9 @@ async function getComment(Session, jsonComment){
 	}
 }
 
-async function deleteComentById(Session, idComent) {
-	let myUrl = await getPodUrlAll(jsonComment.author, { fetch: Session.fetch });
-	myUrl = myUrl[0];
-
-	await deleteFile(myUrl + "LoMap/locations/comments" + idComent + ".json", {
+async function deleteComentById(Session, idComent, myBaseUrl) {
+	
+	await deleteFile(myBaseUrl + "LoMap/locations/comments/" + idComent + ".json", {
 	fetch: Session.fetch,
 	});
 }

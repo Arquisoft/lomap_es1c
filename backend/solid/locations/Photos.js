@@ -49,11 +49,9 @@ async function getFoto(Session, jsonPhoto){
 	}
 }
 
-async function deleteFotoById(Session, idFoto) {
-	let myUrl = await getPodUrlAll(jsonComment.author, { fetch: Session.fetch });
-	myUrl = myUrl[0];
+async function deleteFotoById(Session, idFoto, myBaseUrl) {
 
-	await deleteFile(myUrl + "LoMap/locations/photos" + idFoto + ".json", {
+	await deleteFile(myBaseUrl + "LoMap/locations/photos/" + idFoto + ".json", {
 	fetch: Session.fetch,
 	});
 }

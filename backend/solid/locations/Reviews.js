@@ -52,11 +52,9 @@ async function getReview(Session, jsonReview){
 	}
 }
 
-async function deleteReviewById(Session, idRating) {
-	let myUrl = await getPodUrlAll(jsonComment.author, { fetch: Session.fetch });
-	myUrl = myUrl[0];
+async function deleteReviewById(Session, idRating, myBaseUrl) {
 
-	await deleteFile(myUrl + "LoMap/locations/photos" + idRating + ".json", {
+	await deleteFile(myBaseUrl + "LoMap/locations/reviews/" + idRating + ".json", {
 	fetch: Session.fetch,
 	});
 }
