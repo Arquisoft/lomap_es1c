@@ -3,7 +3,6 @@ const Rating = require("../../models/locationModels/Review.js");
 const Coment = require("../../models/locationModels/Comment.js");
 const Foto = require("../../models/locationModels/Photo.js");
 
-
 async function parseLocation(location) {
 	let locationJson = await getJsonFromBlob(location);
 
@@ -11,7 +10,7 @@ async function parseLocation(location) {
 		locationJson.name,
 		parseInt(locationJson.latitude),
 		parseInt(locationJson.longitude),
-		locationJson.description,
+		locationJson.privacy,
 		locationJson.author,
 		locationJson.category,
 		locationJson.id,
@@ -20,29 +19,24 @@ async function parseLocation(location) {
 		locationJson.reviews,
 		locationJson.photos
 	);
-
 }
 
 async function parseReview(review) {
 	let reviewJson = await getJsonFromBlob(review);
-	return new Rating(
-		reviewJson.rating,
-		reviewJson.author,
-		reviewJson.id,
-	);
+	return new Rating(reviewJson.rating, reviewJson.author, reviewJson.id);
 }
 
-async function parseComent(coment) {
+async function parseComment(coment) {
 	let comentJson = await getJsonFromBlob(coment);
 	return new Coment(
 		comentJson.author,
 		comentJson.text,
 		comentJson.timestamp,
-		comentJson.id,
+		comentJson.id
 	);
 }
 
-async function parseFoto(foto) {
+async function parsePhoto(foto) {
 	let fotoJson = await getJsonFromBlob(foto);
 	return new Foto(
 		fotoJson.author,
@@ -52,7 +46,6 @@ async function parseFoto(foto) {
 		fotoJson.id
 	);
 }
-
 
 //XD
 async function getJsonFromBlob(blob) {
@@ -76,7 +69,7 @@ function getJpegFromBlob(blob) {
 
 module.exports = {
 	parseLocation,
-	parseFoto,
+	parsePhoto,
 	parseReview,
-	parseComent,
+	parseComment,
 };

@@ -2,7 +2,7 @@ const {
 	overwriteFile,
 	getFile,
 	deleteFile,
-	getPodUrlAll
+	getPodUrlAll,
 } = require("@inrupt/solid-client");
 
 const locations = require("./Locations.js");
@@ -10,7 +10,7 @@ const locations = require("./Locations.js");
 const parser = require("../util/Parser.js");
 const serializer = require("../util/Serializer.js");
 
-async function addFoto(Session, foto) {
+async function addPhoto(Session, foto) {
 	let myUrl = await getPodUrlAll(Session.info.webId, { fetch: Session.fetch });
 	myUrl = myUrl[0];
 
@@ -26,38 +26,39 @@ async function addFoto(Session, foto) {
 	);
 }
 
-async function getAllFotos(Session, jsonPhotos) {
-	for(let i=0;i<jsonPhotos.length;i++){
-		jsonPhotos[i] = await getFoto(Session, jsonPhotos[i]);
+async function getAllPhotos(Session, jsonPhotos) {
+	for (let i = 0; i < jsonPhotos.length; i++) {
+		jsonPhotos[i] = await getPhoto(Session, jsonPhotos[i]);
 	}
-	return jsonPhotos.filter(f => f != null);
+	return jsonPhotos.filter((f) => f != null);
 }
 
-async function getFoto(Session, jsonPhoto){
-	try{
+async function getPhoto(Session, jsonPhoto) {
+	try {
 		let myUrl = await getPodUrlAll(jsonPhoto.author, { fetch: Session.fetch });
 		myUrl = myUrl[0];
-	
-		let file = await getFile(myUrl + "LoMap/locations/photos/" + jsonPhoto.id + ".json", {
-			fetch: Session.fetch,
-		});
-	
+
+		let file = await getFile(
+			myUrl + "LoMap/locations/photos/" + jsonPhoto.id + ".json",
+			{
+				fetch: Session.fetch,
+			}
+		);
+
 		return await parser.parsePhoto(file);
-	}
-	catch(err){
+	} catch (err) {
 		return null;
 	}
 }
 
-async function deleteFotoById(Session, idFoto, myBaseUrl) {
-
+async function deletePhotoById(Session, idFoto, myBaseUrl) {
 	await deleteFile(myBaseUrl + "LoMap/locations/photos/" + idFoto + ".json", {
-	fetch: Session.fetch,
+		fetch: Session.fetch,
 	});
 }
 
 module.exports = {
-	addFoto,
-	getAllFotos,
-	deleteFotoById,
+	addPhoto,
+	getAllPhotos,
+	deletePhotoById,
 };

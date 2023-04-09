@@ -4,7 +4,7 @@ const {
 	overwriteFile,
 	getFile,
 	deleteFile,
-	getPodUrlAll
+	getPodUrlAll,
 } = require("@inrupt/solid-client");
 
 const parser = require("../util/Parser.js");
@@ -27,9 +27,9 @@ async function addLocation(Session, ubicacion, myBaseUrl) {
 			fetch: Session.fetch,
 		}
 	);
-		
+
 	//Añado a comentarios, reviews y fotos a sus respectivas carpetas
-	ubicacion.comments.forEach((c) => Comments.addComent(Session, c));
+	ubicacion.comments.forEach((c) => Comments.addComment(Session, c));
 	ubicacion.reviews.forEach((r) => Reviews.addReview(Session, r));
 	ubicacion.photos.forEach((p) => Photos.addFoto(Session, p));
 }
@@ -57,9 +57,12 @@ async function obtenerLocalizaciones(Session, myBaseUrl) {
 }
 
 async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
-	let file = await getFile(myBaseUrl + "LoMap/locations/locations/" + idUbi + ".json", {
-		fetch: Session.fetch,
-	});
+	let file = await getFile(
+		myBaseUrl + "LoMap/locations/locations/" + idUbi + ".json",
+		{
+			fetch: Session.fetch,
+		}
+	);
 
 	let location = await parser.parseLocation(file);
 
@@ -68,12 +71,12 @@ async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
 		location.reviews,
 		myBaseUrl
 	);
-	location.photos = await Photos.getAllFotos(
+	location.photos = await Photos.getAllPhotos(
 		Session,
 		location.photos,
 		myBaseUrl
 	);
-	location.comments = await Comments.getAllComents(
+	location.comments = await Comments.getAllComments(
 		Session,
 		location.comments,
 		myBaseUrl
@@ -83,9 +86,12 @@ async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
 }
 
 async function deleteLocationById(Session, idLocation, myBaseUrl) {
-	await deleteFile(myBaseUrl + "LoMap/locations/locations/" + idLocation + ".json", {
-		fetch: Session.fetch,
-	});
+	await deleteFile(
+		myBaseUrl + "LoMap/locations/locations/" + idLocation + ".json",
+		{
+			fetch: Session.fetch,
+		}
+	);
 }
 
 module.exports = {
