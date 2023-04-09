@@ -1,8 +1,17 @@
-const solid = require("../solid/SolidPrueba.js");
+const solid = require("../solid/Solid.js");
+const Route = require("../models/Route");
+const SessionController = require("../controllers/util/SessionController.js");
 
 async function getAllRoutes(req, res) {
-	const routes = await solid.getAllRoutes();
-	res.send(JSON.stringify(routes));
+	try {
+		const session = SessionController.getSession(req, next);
+		const routes = await solid.getAllRoutes();
+		res.status(200).json(JSON.stringify(routes));
+	} catch (err) {
+		console.log(err);
+	}
+
+	//res.send(JSON.stringify(routes));
 }
 
 async function getRouteById(req, res) {
@@ -14,7 +23,6 @@ async function getRouteById(req, res) {
 		res.status(404).json("No se han encontrado rutas con esa id");
 	}
 }
-
 async function addRoute(req, res) {
 	const { name, description } = req.body;
 	if (!name) {
@@ -50,8 +58,8 @@ async function deleteRoute(req, res) {
 	res.status(200).json(route);
 }
 async function addLocationToRoute(req, res) {
-	const { id } = req.params;
-	const { locationId } = req.body;
+	const { idRoute, idLocation } = req.params;
+
 	const route = await solid.getRouteById(id);
 	const location = await solid.getLocationById(locationId);
 	if (route == null) {
@@ -68,7 +76,7 @@ async function addLocationToRoute(req, res) {
 }
 
 async function deleteLocationFromRoute(req, res) {
-	const { id, locationId } = req.params;
+	const { idRoute, idLocation } = req.params;
 	await solid.deleteLocationFromRoute(id, locationId);
 	res.status(200).json("Localización eliminada de la ruta");
 }

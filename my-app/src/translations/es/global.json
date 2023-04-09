@@ -22,6 +22,31 @@
             "route-content": {
                 "title": "Tus rutas"
             }
+        },"place":{
+            "edit":"Editar",
+            "locate":"Localizar",
+            "delete":"Eliminar"
+        }
+    },"filters":{
+        "all": "Todos",
+        "mine": "Solo Mios",
+        "friends": "Solo Amigos",
+        "chooseFriends": "Elegir Amigos",
+        "chooseCategoty": "Elegir Categoria"
+    },"locations":{
+        "add": "Añadir Marcador",
+        "createRoute": "Crear Ruta",
+        "form":{
+            "title":"Añade un Punto al Mapa",
+            "name":"Nombre",
+            "score":"Valoracion",
+            "category": "Categoria",
+            "privacy": "Privacidad",
+            "photos": "Fotos",
+            "comment":"Comentario",
+            "commentPlaceHolder":"Puede añadir un comentario",
+            "add": "Añadir",
+            "cancel": "Cancelar"
         }
     }
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import TabButtons from './TabButtons.js';
 
 export default function DrawerDefaultContent(props) {
@@ -19,6 +19,7 @@ export default function DrawerDefaultContent(props) {
             rutas = {props.rutas}
             centerMapToCoordinates = {props.centerMapToCoordinates}
             API_route_calls = {props.API_route_calls}
+            setPosition={props.setPosition}
         />
 
         {contenidoAMostrar}

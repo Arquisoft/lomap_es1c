@@ -13,7 +13,7 @@ async function serializeLocation(Session, myBaseUrl, location) {
 		name: location.name,
 		latitude: location.latitude,
 		longitude: location.longitude,
-		description: location.description,
+		privacy: location.privacy,
 		author: location.author,
 		category: location.category,
 		id: location.id,

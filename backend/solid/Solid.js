@@ -63,7 +63,18 @@ async function deleteLocationById(Session, idLocation, friendWebID) {
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await locations.deleteLocationById(Session, idLocation + ".json", myBaseUrl);
+	await locations.deleteLocationById(Session, idLocation, myBaseUrl);
+}
+
+async function getCategories() {
+	const categories = [
+		"Restaurante",
+		"Punto de Interés",
+		"Tienda",
+		"Parque",
+		"Ocio",
+	];
+	return categories;
 }
 
 //COMENTS
@@ -72,56 +83,56 @@ async function deleteLocationById(Session, idLocation, friendWebID) {
 //COMENTS
 //COMENTS
 
-async function addComent(Session, coment, idUbicacion, friendWebID) {
+async function addComment(Session, coment, idUbicacion, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await coments.addComent(Session, coment, idUbicacion, myBaseUrl);
+	await coments.addComment(Session, coment, idUbicacion, myBaseUrl);
 }
 
-async function getAllComents(Session, idUbicacion, friendWebID) {
+async function getAllComments(Session, idUbicacion, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
-	await coments.getAllComents(Session, idUbicacion, myBaseUrl);
+	await coments.getAllComments(Session, idUbicacion, myBaseUrl);
 }
 
-async function deleteComentById(Session, idComent, idLocation, friendWebID) {
-	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
-	myBaseUrl = myBaseUrl[0];
-
-	await coments.deleteComentById(Session, idComent, idLocation, myBaseUrl);
-}
-
-//RATINGS
-//RATINGS
-//RATINGS
-//RATINGS
-//RATINGS
-
-async function addRating(Session, rating, idUbicacion, friendWebID) {
+async function deleteCommentById(Session, idComent, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await ratings.addRating(Session, rating, idUbicacion, myBaseUrl);
+	await coments.deleteCommentById(Session, idComent, myBaseUrl);
 }
 
-async function getAllRatings(Session, idUbicacion, friendWebID) {
+//Review
+//Review
+//Review
+//Review
+//Review
+
+async function addReview(Session, rating, idUbicacion, friendWebID) {
+	//Obtencion de url del pod
+	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
+	myBaseUrl = myBaseUrl[0];
+
+	await ratings.addReview(Session, rating, idUbicacion, myBaseUrl);
+}
+
+async function getAllReviews(Session, idUbicacion, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	await ratings.getAllRatings(Session, idUbicacion, myBaseUrl);
 }
 
-async function deleteRatingById(Session, idRating, idLocation, friendWebID) {
+async function deleteReviewById(Session, idRating, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await ratings.deleteRatingById(Session, idRating, idLocation, myBaseUrl);
+	await ratings.deleteReviewById(Session, idRating, myBaseUrl);
 }
 
 //FOTOS
@@ -130,7 +141,7 @@ async function deleteRatingById(Session, idRating, idLocation, friendWebID) {
 //FOTOS
 //FOTOS
 
-async function addFoto(Session, foto, idUbicacion, friendWebID) {
+async function addPhoto(Session, foto, idUbicacion, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
@@ -138,19 +149,19 @@ async function addFoto(Session, foto, idUbicacion, friendWebID) {
 	await fotos.addFoto(Session, foto, idUbicacion, myBaseUrl);
 }
 
-async function getAllFotos(Session, idUbicacion, friendWebID) {
+async function getAllPhotos(Session, idUbicacion, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
-	await fotos.getAllFotos(Session, idUbicacion, myBaseUrl);
+	await fotos.getAllPhotos(Session, idUbicacion, myBaseUrl);
 }
 
-async function deleteFotoById(Session, idFoto, idUbicacion, friendWebID) {
+async function deletePhotoById(Session, idFoto, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await fotos.deleteFotoById(Session, idFoto, idUbicacion, myBaseUrl);
+	await fotos.deletePhotoById(Session, idFoto, myBaseUrl);
 }
 
 //ROUTES
@@ -171,7 +182,7 @@ async function getAllRoutes(Session, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
-	await routes.getAllRoutes(Session, myBaseUrl);
+	return await routes.getAllRoutes(Session, myBaseUrl);
 }
 
 async function getRouteById(Session, idRoute, friendWebID) {
@@ -194,16 +205,16 @@ async function deleteRouteById(Session, idRoute, friendWebID) {
 //FRIENDS
 //FRIENDS
 
-async function addFriend(Session, friend) {
+async function addFriend(Session, idFriend) {
 	const webID = Session.info.webId;
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	let friendBaseUrl = await getPodUrlAll(friend.id, { fetch: Session.fetch });
+	let friendBaseUrl = await getPodUrlAll(idFriend, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await friends.addFriend(Session, friend, myBaseUrl, friendBaseUrl);
+	await friends.addFriend(Session, idFriend, myBaseUrl, friendBaseUrl);
 }
 
 async function getAllFriends(Session) {
@@ -220,7 +231,7 @@ async function deleteFriendById(Session, idFriend) {
 	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	let friendBaseUrl = await getPodUrlAll(friend.id, { fetch: Session.fetch });
+	let friendBaseUrl = await getPodUrlAll(idFriend, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
 	await friends.deleteFriendById(Session, idFriend, myBaseUrl, friendBaseUrl);
@@ -232,15 +243,15 @@ module.exports = {
 	getAllLocations,
 	getLocationById,
 	deleteLocationById,
-	addComent,
-	getAllComents,
-	deleteComentById,
-	addRating,
-	getAllRatings,
-	deleteRatingById,
-	addFoto,
-	getAllFotos,
-	deleteFotoById,
+	addComment,
+	getAllComments,
+	deleteCommentById,
+	addReview,
+	getAllReviews,
+	deleteReviewById,
+	addPhoto,
+	getAllPhotos,
+	deletePhotoById,
 	addRoute,
 	getAllRoutes,
 	getRouteById,
@@ -248,4 +259,5 @@ module.exports = {
 	addFriend,
 	getAllFriends,
 	deleteFriendById,
+	getCategories,
 };

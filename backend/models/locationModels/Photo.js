@@ -31,3 +31,5 @@ class Photo {
 		return `${currentDate}`;
 	}
 }
+
+module.exports = Photo;

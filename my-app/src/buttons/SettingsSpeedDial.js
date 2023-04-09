@@ -9,7 +9,7 @@ import { Themes, ThemeContext } from '../contexts/ThemeContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function SettingsSpeedDial(props) {
-    const [t, i18n] = useTranslation("global")
+    const [t] = useTranslation("global")
     const {currentTheme} = useContext(ThemeContext)
 
     return (

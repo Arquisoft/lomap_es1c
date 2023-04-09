@@ -1,33 +1,22 @@
-import './App.css';
-import './Sidebar/Sidebar.css';
-import CreateMap from './Mapa/Map';
-import React, { useState, useEffect, useContext } from 'react';
-import CreateModal from './Mapa/PlacesForm';
-import { Themes, ThemeContext } from './contexts/ThemeContext';
-import axios from 'axios';
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import SettingsSpeedDial from './buttons/SettingsSpeedDial';
-import DrawerSidebar from './Sidebar/Drawer';
-import addPlace from './Places/Places';
+import "./App.css";
+import CreateMap from "./Mapa/Map";
+import CreateModal from "./Mapa/PlacesForm";
+import addPlace from "./Places/Places";
+import DrawerSidebar from "./Sidebar/Drawer";
+import "./Sidebar/Sidebar.css";
+import SettingsSpeedDial from "./buttons/SettingsSpeedDial";
+import { ThemeContext, Themes } from "./contexts/ThemeContext";
 
 var a = [];
 
-export default function App({logOutFunction}) {
-
+export default function App({ logOutFunction }) {
   const [data, setData] = useState('');
   const [t, i18n] = useTranslation("global")
   const [categorias, setCategorias] = useState([])
   const [rutas, setRutas] = useState([])
-
-  function getData(){
-    axios.get('http://localhost:8080/location')
-      .then(response => {
-        setData(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
 
   function updateCategorias() {
     axios.get('http://localhost:8080/location/categories')
@@ -58,19 +47,35 @@ export default function App({logOutFunction}) {
         .catch(error => {console.log(error)});
   }
 
-  useEffect(() => {
-      getData();
-      for (let i = 0; i < data.length; i++) {
-        if(!places.some(value => value.id===data[i].id)){
-          addPlace(a[i] = {
-            id: data[i].id,
-            lat: data[i].latitude,
-            lng: data[i].longitude,
-            name : data[i].name,
-            categoria: data[i].category
-          })}
-      }
-  });
+	useEffect(() => {
+		async function getData() {
+			await axios
+				.get("http://localhost:8080/location", { withCredentials: true })
+				.then((response) => {
+					if (response.data.length !== data.length) {
+						setData(response.data);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
+		getData();
+		for (let i = 0; i < data.length; i++) {
+			if (!places.some((value) => value.id === data[i].id)) {
+				addPlace(
+					(a[i] = {
+						id: data[i].id,
+						lat: data[i].latitude,
+						lng: data[i].longitude,
+						name: data[i].name,
+						categoria: data[i].category,
+					})
+				);
+			}
+		}
+		setPlaces(a);
+	}, [setData, data, places]);
 
   useEffect(() => {
     updateCategorias()
@@ -188,6 +193,12 @@ export default function App({logOutFunction}) {
   //   setLongitude(newLongitude)
   }
 
+  	//Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la unicación del usuario.
+	const [position, setPosition] = useState({
+		lat: 0,
+		lng: 0,
+	});
+
   return (
     <div id={currentTheme}>
       <CreateModal
@@ -195,6 +206,7 @@ export default function App({logOutFunction}) {
         latMark={latitude}
         lngMark={longitude}
         places={places}
+        setPlaces={setPlaces}
         setIsOpen={setIsOpen}
         setMarkers={setMarkers}
         setStateButton={setDisabledB}
@@ -214,6 +226,8 @@ export default function App({logOutFunction}) {
         setCanCick={setCanCick}
         changeDrawerContent={changeDrawerContent}
         restoreDefautlDrawerContent={restoreDefautlDrawerContent}
+        position={position}
+				setPosition={setPosition}
         categorias = {categorias}
       />
 
@@ -234,6 +248,7 @@ export default function App({logOutFunction}) {
         rutas = {rutas}
         centerMapToCoordinates={centerMapToCoordinates}
         API_route_calls = {API_route_calls} //TODO: pasar llamadas también al botón de crear ruta
+        setPosition={setPosition}
       />
 
     </div>

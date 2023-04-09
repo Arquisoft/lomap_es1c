@@ -4,9 +4,12 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import RoomIcon from "@mui/icons-material/Room";
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import RouteIcon from '@mui/icons-material/Route';
+import {useTranslation} from "react-i18next"
 import EditRouteInfo from '../Sidebar/cards/EditInfoRoute';
 
 export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerContent, restoreDefautlDrawerContent, userPlaces}) {
+  const [t, i18n] = useTranslation("global");
+
 
   function activateClick(){
     canClick(true);
@@ -29,8 +32,8 @@ export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerConten
   }
 
   const actions = [
-    { icon: <RoomIcon onClick={activateClick} />, name: 'Añadir Marcador' },
-    { icon: <RouteIcon onClick={createRoute}/>, name: 'Crear Ruta' },
+    { icon: <RoomIcon onClick={activateClick} />, name: "add" },
+    { icon: <RouteIcon onClick={createRoute}/>, name: "createRoute" },
   ];
 
   return (
@@ -43,7 +46,7 @@ export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerConten
         <SpeedDialAction
           key={action.name}
           icon={action.icon}
-          tooltipTitle={action.name}
+          tooltipTitle={t("locations."+action.name)}
         />
         ))}
     </SpeedDial>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import { GoogleMap, useLoadScript, Marker, MarkerF } from "@react-google-maps/api";
 import { Themes, ThemeContext } from '../contexts/ThemeContext';
 import Geolocation from '@react-native-community/geolocation';
@@ -6,42 +6,64 @@ import { Alert, AlertTitle, Snackbar } from "@mui/material";
 import OpenIconSpeedDial from "./bottonMarkers";
 import FilterButtons from "./filterButtons";
 import { useContext } from "react";
-import { useEffect } from "react";
 import { darkMapStyle, lightMapStyle } from "./themes/MapThemes";
 import FullInfoPlace from "../Sidebar/cards/FullInfoPlace";
 
-export default function CreateMap({open,setLatitude,setLongitude,markers,setMarkers,places,canCick,setCanCick,changeDrawerContent,restoreDefautlDrawerContent,categorias}) {
-    const { isLoaded } = useLoadScript({
-      googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-    });
+export default function CreateMap({ open, setLatitude, setLongitude, markers, setMarkers, places, canCick,
+  setCanCick, changeDrawerContent, restoreDefautlDrawerContent, position, setPosition ,categorias}) {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+  });
 
-    if (!isLoaded) return <div>Loading...</div>;
-    return (
-      <div>
-        <Map openModal={open} setLatitudeMark={setLatitude} setLongitudeMark={setLongitude} markersState={markers}
+  if (!isLoaded) return <div>Loading...</div>;
+  return (
+    <div>
+      <Map openModal={open} setLatitudeMark={setLatitude} setLongitudeMark={setLongitude} markersState={markers}
         setMarkers={setMarkers} canCick={canCick} setCanCick={setCanCick}
-        places={places} style={{position:"none"}}
-        changeDrawerContent = {changeDrawerContent}
-        restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
+        places={places} style={{ position: "none" }}
+        changeDrawerContent={changeDrawerContent}
+        restoreDefautlDrawerContent={restoreDefautlDrawerContent}
+        position={position} setPosition={setPosition}
         categorias={categorias}
-        />
-      </div>
-    );
-  }
+      />
+    </div>
+  );
+}
 
 
 var Located = true;
 
-function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers,places,canCick,setCanCick,changeDrawerContent,restoreDefautlDrawerContent,categorias}) {
+function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMarkers, places, canCick, setCanCick,
+  changeDrawerContent, restoreDefautlDrawerContent,categorias, position, setPosition }) {
 
   //Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
-  
 
-  //Constantes de las longitudes y latitudes de el marcador que se pone en el mapa ademas de otrs dos duplicados para el uso de guardar el punto.
+
+  //DIferentes estados necesarios para el mapa.
   const [latitude, setLatitude] = React.useState('');
   const [longitude, setLongitude] = React.useState('');
-  
+  const [response, setResponse] = useState(null);
   const [openInfo, setOpenInfo] = React.useState(false);
+	const [categortFiltered, setCategortFiltered] = useState({
+		activated: false,
+		category: ""
+	});
+
+  function Filter(){
+    var temp = places;
+    if(categortFiltered.activated){
+      temp = [];
+      for (let i = 0; i < places.length; i++) {
+        if(places.some(() => places[i].categoria.toLowerCase() === categortFiltered.category.toLowerCase())){
+          temp[temp.length] = places[i];
+        }
+      }
+    }
+   return temp;
+  }
+
+
+  
 
   //Constante de el marcador, es donde se guarda el marcador actual para mostrarlo en el mapa.
   const markers = markersState;
@@ -51,12 +73,12 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
   */
 
   const onMapClick = (e) => {
-    if(canCick){
+    if (canCick) {
       setMarkers((current) => [current,
         {
           lat: e.latLng.lat(),
           lng: e.latLng.lng(),
-          
+
         },
       ]);
       Located = false;
@@ -66,11 +88,11 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
     }
   };
 
-  //Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la ubicación del usuario.
-  const [position, setPosition] = useState({
-    lat: Number(latitude), 
-    lng: Number(longitude)
-  });
+  const directionsCallback = (response) => {
+    if (response !== null && response.status === 'OK') {
+      setResponse(response);
+    }
+  };
 
   const mapRef = useRef(null);
 
@@ -83,15 +105,15 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
   }
 
   function handleLoad(map) {
-    Geolocation.getCurrentPosition((position) =>{
-      if(Located){
+    Geolocation.getCurrentPosition((position) => {
+      if (Located) {
         setPosition({
           lat: position.coords.latitude,
-          lng : position.coords.longitude
+          lng: position.coords.longitude
         })
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude)
-        if(position.coords.latitude !== 0){
+        if (position.coords.latitude !== 0) {
           Located = false;
         }
       }
@@ -108,13 +130,14 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
     setCurrentMapStyle(currentTheme === Themes.LIGHT ? lightMapStyle : darkMapStyle);
   }, [currentTheme]);
 
-  function details(marker){
+  function details(marker) {
     changeDrawerContent(
       <FullInfoPlace
-        place={places.find(place => place.id == marker.id)}
+        place={places.find(place => place.id === marker.id)}
         returnFunction={restoreDefautlDrawerContent}
         changeDrawerContent={changeDrawerContent}
         categorias={categorias}
+        setPosition={setPosition}
       />
     )
   }
@@ -135,8 +158,8 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
         changeDrawerContent={changeDrawerContent}
         restoreDefautlDrawerContent={restoreDefautlDrawerContent}
         userPlaces = {places}
-      />
-      
+       />
+
       <GoogleMap
         zoom={13}
         center={position}
@@ -157,17 +180,17 @@ function Map({openModal,setLongitudeMark,setLatitudeMark,markersState,setMarkers
             position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
           />
         ))}
-        {places.map((marker) => (
+        {Filter().map((marker) => (
           <MarkerF
             key={marker.id}
             position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
             onClick={() => details(marker)}
-            //options={{icon: {url:(require("./marker.svg").default),scaledSize: {width: 36, height: 36},fillColor:"#34495e"}}}
+          //options={{icon: {url:(require("./marker.svg").default),scaledSize: {width: 36, height: 36},fillColor:"#34495e"}}}
           />
         ))}
       </GoogleMap>
-      
-      <FilterButtons />
+
+      <FilterButtons setCategortFiltered={setCategortFiltered}/>
     </div>
   );
 }

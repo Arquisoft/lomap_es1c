@@ -4,11 +4,6 @@ export function addPlace(place){
     if(!places.some(value => value.id===place.id)){
         places[places.length] = place;
     }
-    
-    places.forEach(elemento => 
-        {
-            //console.log(elemento);
-        });
 }
 
 export function getPlaces(){
