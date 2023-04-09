@@ -34,10 +34,10 @@ export default function EditRouteInfo({route, returnFunction, userPlaces, API_ro
 
     async function save() {
         if (route == null) {
-            const theRouteID = await API_route_calls.API_addRoute(name, description)
+            theRouteID = await API_route_calls.API_addRoute(name, description)
         } else {
             if (name != route.name  ||  description != route.description) {
-                API_route_calls.API_updateRouteInfo(route.id, name, description)
+                API_route_calls.API_updateRouteInfo(theRouteID, name, description)
             }
         }
         for (var modification of locationsModifications) {

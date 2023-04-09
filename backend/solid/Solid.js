@@ -184,7 +184,7 @@ async function getAllRoutes(Session, friendWebID) {
 async function getRouteById(Session, idRoute, friendWebID) {
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
-	await routes.getRouteById(Session, idRoute, myBaseUrl);
+	return await routes.getRouteById(Session, idRoute, myBaseUrl);
 }
 
 async function deleteRouteById(Session, idRoute, friendWebID) {

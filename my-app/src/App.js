@@ -23,7 +23,7 @@ export default function App({ logOutFunction }) {
   const [amigos, setAmigos] = useState([])
 
   function updateCategorias() {
-    axios.get('http://localhost:8080/location/category', { withCredentials: true })
+    axios.get("http://localhost:8080/location/category", { withCredentials: true })
     .then(response => {setCategorias(response.data);})
     .catch(error => {console.log(error);});
   }
@@ -35,14 +35,14 @@ export default function App({ logOutFunction }) {
 				.then((response) => {setAmigos(response.data)})
 				.catch((error) => {console.log(error);});
 		}
-		getAmigosData();
+		// getAmigosData();
   }
 
   function updateRutas() {
     async function API_getAllRoutes() {
       await axios
         .get("http://localhost:8080/route", {withCredentials: true})
-        .then((response) => {setRutas(response)})
+        .then((response) => {setRutas(response.data)})
         .catch((error) => {console.log(error);})
       }
     API_getAllRoutes()
@@ -105,8 +105,7 @@ export default function App({ logOutFunction }) {
       name: routeName,
       description: routeDescription
     }
-    const response = await axios.post(url, data, {withCredentials: true})
-    updateRutas()
+    const response = await axios.post(url, data, {withCredentials: true}).then((r) => updateRutas())
     return response.id
   }
 
@@ -116,26 +115,24 @@ export default function App({ logOutFunction }) {
       name: newRouteName,
       description: newRouteDescription
     }
-    axios.put(url, data, {withCredentials: true})
-    updateRutas()
+    axios.put(url, data, {withCredentials: true}).then((r) => updateRutas())
   }
 
   function API_deleteRoute(routeID) {
+    console.log(routeID)
     const url = "http://localhost:8080/route/"+routeID
-    axios.delete(url, {withCredentials: true})
-    updateRutas()
+    axios.delete(url, {withCredentials: true}).then((r) => updateRutas())
   }
 
   function API_addLocationToRoute(routeID, locationID) {
-    const url = "http://localhost:8080/route/"+routeID+"/location/"+locationID
-    axios.get(url, {withCredentials: true})
-    updateRutas()
+    const url = "http://localhost:8080/route/"+routeID+"/"+locationID
+    console.log(url)
+    axios.get(url, {withCredentials: true}).then((r) => updateRutas())
   }
 
   function API_deleteLocationFromRoute(routeID, locationID) {
     const url = "http://localhost:8080/route/"+routeID+"/location/"+locationID
-    axios.delete(url, {withCredentials: true})
-    updateRutas()
+    axios.delete(url, {withCredentials: true}).then((r) => updateRutas())
   }
 
   function API_changeOrderOfLocationInRoute(routeID, locationID, newPosition) {
@@ -143,8 +140,7 @@ export default function App({ logOutFunction }) {
     const data = {
       index: newPosition
     }
-    axios.post(url, data, {withCredentials: true})
-    updateRutas()
+    axios.post(url, data, {withCredentials: true}).then((r) => updateRutas())
   }
 
   const API_route_calls = {
@@ -177,7 +173,7 @@ export default function App({ logOutFunction }) {
     const url = "http://localhost:8080/friend"
     const data = {
       name: friendName,
-      webid: friendWebId
+      webId: friendWebId
     }
     const config = {
       withCredentials: true,

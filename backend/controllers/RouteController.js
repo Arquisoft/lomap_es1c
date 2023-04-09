@@ -2,23 +2,23 @@ const solid = require("../solid/Solid.js");
 const Route = require("../models/Route");
 const SessionController = require("../controllers/util/SessionController.js");
 
-async function getAllRoutes(req, res) {
+async function getAllRoutes(req, res, next) {
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		const routes = await solid.getAllRoutes(session, session.info.webId);
-		res.status(200).json(JSON.stringify(routes));
+		res.status(200).json(routes);
 	} catch (err) {
 		next(err);
 	}
 }
 
-async function getRouteById(req, res) {
+async function getRouteById(req, res, next) {
 	try {
 		const { id } = req.params;
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		const route = await solid.getRouteById(session, id, session.info.webId);
 		if (route != null) {
-			res.send(JSON.stringify(route));
+			res.status(200).json(route);
 		} else {
 			res.status(404).json("No se han encontrado rutas con esa id");
 		}
@@ -27,9 +27,9 @@ async function getRouteById(req, res) {
 	}
 }
 
-async function addRoute(req, res) {
+async function addRoute(req, res, next) {
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		const { name, description } = req.body;
 		if (!name) {
 			res.status(400).json({ error: "Faltan datos" });
@@ -43,9 +43,9 @@ async function addRoute(req, res) {
 	}
 }
 
-async function updateRoute(req, res) {
+async function updateRoute(req, res, next) {
 	try {
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		const { id } = req.params;
 		const { name, description } = req.body;
 		if (!name) {
@@ -66,25 +66,29 @@ async function updateRoute(req, res) {
 	}
 }
 
-async function deleteRoute(req, res) {
+async function deleteRoute(req, res, next) {
 	try {
+		const session = await SessionController.getSession(req, next);
 		const { id } = req.params;
 		const route = await solid.getRouteById(session, id, session.info.webId);
 		if (route == null) {
 			res.status(404).json("No se han encontrado rutas con esa id");
 			return;
 		}
-		const session = SessionController.getSession(req, next);
 		await solid.deleteRouteById(session, id, session.info.webId);
 	} catch (err) {
 		next(err);
 	}
 }
 
-async function addLocationToRoute(req, res) {
+async function addLocationToRoute(req, res, next) {
+
+	console.log("ENTRO DENTRO")
+	console.log("ENTRO DENTRO")
+	console.log("ENTRO DENTRO")
 	try {
 		const { idRoute, idLocation } = req.params;
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		const route = await solid.getRouteById(
 			session,
 			idRoute,
@@ -95,14 +99,18 @@ async function addLocationToRoute(req, res) {
 			idLocation,
 			session.info.webId
 		);
+		console.log("---1---")
 		if (route == null) {
+			console.log("---2---")
 			res.status(404).json("No se han encontrado rutas con esa id");
 			return;
 		}
 		if (location == null) {
+			console.log("---3---")
 			res.status(404).json("No se han encontrado localizaciones con esa id");
 			return;
 		}
+		console.log("---4---")
 		route.addLocation(location);
 		await solid.saveRoute(session, route, session.info.webId);
 		res.status(200).json(route);
@@ -111,10 +119,10 @@ async function addLocationToRoute(req, res) {
 	}
 }
 
-async function deleteLocationFromRoute(req, res) {
+async function deleteLocationFromRoute(req, res, next) {
 	try {
 		const { idRoute, idLocation } = req.params;
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		const route = await solid.getRouteById(
 			session,
 			idRoute,
@@ -145,11 +153,11 @@ async function deleteLocationFromRoute(req, res) {
 	res.status(200).json("Localización eliminada de la ruta");
 }
 
-async function changeOrderOfLocationInRoute(req, res) {
+async function changeOrderOfLocationInRoute(req, res, next) {
 	try {
 		const { id, locationId } = req.params;
 		const { index } = req.body;
-		const session = SessionController.getSession(req, next);
+		const session = await SessionController.getSession(req, next);
 		const route = await solid.getRouteById(session, id, session.info.webId);
 		const location = await solid.getLocationById(
 			session,

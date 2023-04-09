@@ -5,7 +5,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { IconButton, Tooltip } from '@mui/material';
 import Rating from '@mui/material/Rating';
-import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigation, Pagination } from "swiper";
 import "swiper/css";
