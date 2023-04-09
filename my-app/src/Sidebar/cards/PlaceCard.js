@@ -14,6 +14,7 @@ export default function LugarCard(props) {
                 setPosition={props.setPosition} returnFunction={() => props.changeDrawerContent(null)}
                 changeDrawerContent = {props.changeDrawerContent}
                 categorias = {props.categorias}
+                API_location_calls = {props.API_location_calls}
             />)
     }
 

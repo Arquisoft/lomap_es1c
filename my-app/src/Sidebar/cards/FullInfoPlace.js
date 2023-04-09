@@ -47,7 +47,7 @@ const images = [
 },
 ];
 
-export default function FullInfoPlace({place, returnFunction,setPosition, changeDrawerContent, categorias, centerMapToCoordinates}) {
+export default function FullInfoPlace({place, returnFunction,setPosition, changeDrawerContent, categorias, centerMapToCoordinates, API_location_calls}) {
     const [t] = useTranslation("global");
     function allowEdit() {
         changeDrawerContent(
@@ -56,6 +56,7 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
                 changeDrawerContent = {changeDrawerContent}
                 returnFunction = {() => changeDrawerContent(this)}
                 categorias={categorias}
+                API_location_calls = {API_location_calls}
             />
         )
     }
