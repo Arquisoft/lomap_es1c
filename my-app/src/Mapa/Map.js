@@ -10,7 +10,7 @@ import { darkMapStyle, lightMapStyle } from "./themes/MapThemes";
 import FullInfoPlace from "../Sidebar/cards/FullInfoPlace";
 
 export default function CreateMap({ open, setLatitude, setLongitude, markers, setMarkers, places, canCick,
-  setCanCick, changeDrawerContent, restoreDefautlDrawerContent, position, setPosition ,categorias}) {
+  setCanCick, changeDrawerContent, restoreDefautlDrawerContent, position, setPosition ,categorias, API_route_calls}) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
@@ -25,6 +25,7 @@ export default function CreateMap({ open, setLatitude, setLongitude, markers, se
         restoreDefautlDrawerContent={restoreDefautlDrawerContent}
         position={position} setPosition={setPosition}
         categorias={categorias}
+        API_route_calls = {API_route_calls}
       />
     </div>
   );
@@ -34,7 +35,7 @@ export default function CreateMap({ open, setLatitude, setLongitude, markers, se
 var Located = true;
 
 function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMarkers, places, canCick, setCanCick,
-  changeDrawerContent, restoreDefautlDrawerContent,categorias, position, setPosition }) {
+  changeDrawerContent, restoreDefautlDrawerContent,categorias, position, setPosition, API_route_calls }) {
 
   //Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
 
@@ -158,6 +159,7 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
         changeDrawerContent={changeDrawerContent}
         restoreDefautlDrawerContent={restoreDefautlDrawerContent}
         userPlaces = {places}
+        API_route_calls = {API_route_calls}
        />
 
       <GoogleMap

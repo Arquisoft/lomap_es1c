@@ -29,7 +29,7 @@ export default function EditRouteInfo({route, returnFunction, userPlaces, API_ro
     const [locationsModifications, setLocationsModifications] = useState([])
 
     function save() {
-        if (canSave) {
+        if (true) {
             if (route == null) {
                 // New route
                 API_route_calls.API_addRoute(name, description)
@@ -55,26 +55,26 @@ export default function EditRouteInfo({route, returnFunction, userPlaces, API_ro
             [...current,
                 {
                     type: modifications.ADD,
-                    locationID: location.id,
-                    execute: (routeID) => API_route_calls.API_addLocationToRoute(routeID, location.id)
+                    locationID: locationId,
+                    execute: (routeID) => API_route_calls.API_addLocationToRoute(routeID, locationId)
                 }
             ]
         )
         setAnchorMenu(null)
     }
 
-    function removeLocation(LocationID) {
+    function removeLocation(locationId) {
         //TODO: guardar en la api
-        setLocations((current) => (current.filter(location => location.id != LocationID)))
+        setLocations((current) => (current.filter(location => location.id != locationId)))
         
         setLocationsModifications(
             (current) => 
             // Eliminar los ADDS innecesarios
-            current.filter(modification => modification.locationID!=LocationID).concat(
+            current.filter(modification => modification.locationID!=locationId).concat(
                 {
                     type: modifications.DELETE,
-                    locationID: location.id,
-                    execute: (routeID) => API_route_calls.API_deleteLocationFromRoute(routeID, location.id)
+                    locationID: locationId,
+                    execute: (routeID) => API_route_calls.API_deleteLocationFromRoute(routeID, locationId)
                 }
             )
         )

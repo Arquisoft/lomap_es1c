@@ -13,6 +13,9 @@ import { ThemeContext, Themes } from "./contexts/ThemeContext";
 var a = [];
 
 export default function App({ logOutFunction }) {
+  //Todos los lugares de la aplicacion
+  const [places,setPlaces] = React.useState(a);
+
   const [data, setData] = useState('');
   const [t, i18n] = useTranslation("global")
   const [categorias, setCategorias] = useState([])
@@ -152,8 +155,7 @@ export default function App({ logOutFunction }) {
     //Controla si el boton para añadir marcador a puntos esta activado, este boton saca el popup con el formulario
     const [disabledB,setDisabledB] = React.useState(true);
 
-    //Todos los lugares de la aplicacion
-    const [places,setPlaces] = React.useState(a);
+    
 
     //Constantes del Modal
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -229,6 +231,7 @@ export default function App({ logOutFunction }) {
         position={position}
 				setPosition={setPosition}
         categorias = {categorias}
+        API_route_calls = {API_route_calls}
       />
 
       <SettingsSpeedDial
@@ -247,7 +250,7 @@ export default function App({ logOutFunction }) {
         categorias = {categorias}
         rutas = {rutas}
         centerMapToCoordinates={centerMapToCoordinates}
-        API_route_calls = {API_route_calls} //TODO: pasar llamadas también al botón de crear ruta
+        API_route_calls = {API_route_calls}
         setPosition={setPosition}
       />
 
