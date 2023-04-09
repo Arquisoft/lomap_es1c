@@ -14,7 +14,6 @@ const friends = require("./Friends.js");
 //ESTRUCTURA
 
 async function createStruct(Session) {
-	console.log("Entra");
 	const webID = Session.info.webId;
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
@@ -65,6 +64,17 @@ async function deleteLocationById(Session, idLocation, friendWebID) {
 	myBaseUrl = myBaseUrl[0];
 
 	await locations.deleteLocationById(Session, idLocation, myBaseUrl);
+}
+
+async function getCategories() {
+	const categories = [
+		"Restaurante",
+		"Punto de Interés",
+		"Tienda",
+		"Parque",
+		"Ocio",
+	];
+	return categories;
 }
 
 //COMENTS
@@ -249,4 +259,5 @@ module.exports = {
 	addFriend,
 	getAllFriends,
 	deleteFriendById,
+	getCategories,
 };

@@ -5,9 +5,11 @@ const {
 } = require("@inrupt/solid-client-authn-node");
 const solid = require("../solid/Solid.js");
 const port = 8080;
+const SessionController = require("../controllers/util/SessionController.js");
 
 async function login(req, res, next) {
 	const session = new Session();
+
 	res.cookie("sessionId", session.info.sessionId);
 	const redirectToSolidIdentityProvider = (url) => {
 		res.redirect(url);
@@ -21,7 +23,8 @@ async function login(req, res, next) {
 }
 
 async function redirectFromSolidIdp(req, res, next) {
-	const session = await getSessionFromStorage(req.cookies.sessionId);
+	//const session = await getSessionFromStorage(req.cookies.sessionId);
+	const session = SessionController.getSession(req, next);
 	await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
 	if (session.info.isLoggedIn) {
 		solid.createStruct(session);
@@ -30,8 +33,10 @@ async function redirectFromSolidIdp(req, res, next) {
 }
 
 async function logout(req, res, next) {
-	const session = await getSessionFromStorage(req.session.sessionId);
+	//const session = await getSessionFromStorage(req.session.sessionId);
+	const session = SessionController.getSession(req, next);
 	session.logout();
+	SessionController.removeSession(session);
 	res.send(`<p>Logged out.</p>`);
 }
 
@@ -41,6 +46,7 @@ async function index(req, res, next) {
 
 async function loginFromWeb(req, res, next) {
 	const session = new Session();
+
 	res.cookie("sessionId", session.info.sessionId);
 	const redirectToSolidIdentityProvider = (url) => {
 		res.redirect(url);
@@ -58,6 +64,8 @@ async function redirectFromSolidIdpWeb(req, res, next) {
 		const session = await getSessionFromStorage(req.cookies.sessionId);
 		await session.handleIncomingRedirect(`http://localhost:${port}${req.url}`);
 		if (session.info.isLoggedIn) {
+			await SessionController.addSession(session);
+			console.log(await SessionController.getAllSessions());
 			solid.createStruct(session);
 			return res.status(200).redirect("http://localhost:3000");
 		}
@@ -68,13 +76,12 @@ async function redirectFromSolidIdpWeb(req, res, next) {
 
 async function isLoggedIn(req, res, next) {
 	try {
-		const session = await getSessionFromStorage(req.cookies.sessionId);
+		const session = await SessionController.getSession(req, next);
+		//const session = await getSessionFromStorage(req.cookies.sessionId);
 		if (session) {
-			console.log("Ha logeao");
-
 			res.status(200).json("Sesion iniciada");
 		} else {
-			res.status(401).json("what");
+			res.status(401).json("No se ha iniciado sesion");
 		}
 	} catch (err) {
 		next(err);

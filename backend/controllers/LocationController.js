@@ -2,8 +2,8 @@ const Location = require("../models/locationModels/Location");
 const Photo = require("../models/locationModels/Photo");
 const Review = require("../models/locationModels/Review");
 const Comment = require("../models/locationModels/Comment");
-const SessionController = require("./util/sessionController");
 const solid = require("../solid/Solid.js");
+const SessionController = require("../controllers/util/SessionController.js");
 
 const { getSessionFromStorage } = require("@inrupt/solid-client-authn-node");
 
@@ -32,7 +32,6 @@ async function getAllLocations(req, res, next) {
 	try {
 		const session = await SessionController.getSession(req, next);
 		const locations = await solid.getAllLocations(session, session.info.webId);
-		console.log(locations);
 		res.send(JSON.stringify(locations));
 	} catch (err) {
 		next(err);
@@ -44,23 +43,22 @@ async function getAllLocations(req, res, next) {
 async function createLocation(req, res) {
 	const { name, latitude, longitude, description, category } = req.body;
 
-	if (!name || !description || !latitude || !longitude) {
+	if (!name || !latitude || !longitude) {
 		res.status(400).json({ error: "Faltan datos" });
 		return;
 	}
 
-	const location = new Location(
-		name,
-		latitude,
-		longitude,
-		description,
-		req.session.user,
-		category
-	);
-
 	try {
 		const session = await SessionController.getSession(req, next);
-		await solid.saveLocation(session, location, req.session.user);
+		const location = new Location(
+			name,
+			latitude,
+			longitude,
+			description,
+			session.info.webId,
+			category
+		);
+		await solid.saveLocation(session, location, session.info.webId);
 		res.status(201).json(location);
 	} catch (err) {
 		next(err);
@@ -71,19 +69,23 @@ async function updateLocation(req, res) {
 	const { id } = req.params;
 	const { name, latitude, longitude, description, category } = req.body;
 
-	let location = await solid.getLocationById(
-		session.getSession(),
-		id,
-		req.session.user
-	);
-	location.name = name || location.name;
-	location.latitude = latitude || location.latitude;
-	location.longitude = longitude || location.longitude;
-	location.description = description || location.description;
-	location.category = category || location.category;
 	try {
 		const session = await SessionController.getSession(req, next);
-		await solid.saveLocation(session.getSession(), location, req.session.user);
+		let location = await solid.getLocationById(
+			session.getSession(),
+			id,
+			session.info.webId
+		);
+		location.name = name || location.name;
+		location.latitude = latitude || location.latitude;
+		location.longitude = longitude || location.longitude;
+		location.description = description || location.description;
+		location.category = category || location.category;
+		await solid.saveLocation(
+			session.getSession(),
+			location,
+			session.info.webId
+		);
 		res.status(200).json(location);
 	} catch (err) {
 		next(err);
@@ -94,9 +96,13 @@ async function deleteLocation(req, res) {
 	const { id } = req.params;
 	try {
 		const session = await SessionController.getSession(req, next);
-		const location = await solid.getLocationById(session, id, req.session.user);
+		const location = await solid.getLocationById(
+			session,
+			id,
+			session.info.webId
+		);
 		if (location != null) {
-			await solid.deleteLocationById(session, id, req.session.user);
+			await solid.deleteLocationById(session, id, session.info.webId);
 		} else {
 			res.status(404).json("No se han encontrado localizaciones con esa id");
 			return;
@@ -118,8 +124,8 @@ async function addPhoto(req, res) {
 	}
 	try {
 		const session = await SessionController.getSession(req, next);
-		let location = await solid.getLocationById(session, id, req.session.user);
-		const photo = new Photo(req.session.user, name, photoUrl);
+		let location = await solid.getLocationById(session, id, session.info.webId);
+		const photo = new Photo(session.info.webId, name, photoUrl);
 		location.addPhoto(photo);
 		await solid.saveLocation(location);
 		res.status(201).json({ message: "Photo added successfully" });
@@ -150,8 +156,8 @@ async function addReview(req, res) {
 	}
 	try {
 		const session = await SessionController.getSession(req, next);
-		let location = await solid.getLocationById(session, id, req.session.user);
-		const review = new Review(rating, req.session.user);
+		let location = await solid.getLocationById(session, id, session.info.webId);
+		const review = new Review(rating, session.info.webId);
 
 		location.addReview(review);
 		await solid.saveLocation(location);
@@ -187,8 +193,8 @@ async function addComment(req, res) {
 	}
 	try {
 		const session = await SessionController.getSession(req, next);
-		let location = await solid.getLocationById(session, id, req.session.user);
-		const comment = new Comment(req.session.user, text);
+		let location = await solid.getLocationById(session, id, session.info.webId);
+		const comment = new Comment(session.info.webId, text);
 		location.addComment(commentObject);
 		await solid.saveLocation(location);
 		res.status(201).json({ message: "Comment added successfully" });
@@ -212,8 +218,6 @@ async function deleteComment(req, res, next) {
 //  Categories
 async function getCategories(req, res, next) {
 	try {
-		const session = await SessionController.getSession(req, next);
-		console.log(session);
 		let categories = await solid.getCategories();
 		res.send(JSON.stringify(categories));
 	} catch (err) {
@@ -225,10 +229,7 @@ async function getLocationsByCategory(req, res, next) {
 	const { category } = req.params;
 	try {
 		const session = await SessionController.getSession(req, next);
-		let locations = await solid.getAllLocations(
-			session.getSession(),
-			req.session.user
-		);
+		let locations = await solid.getAllLocations(session, session.info.webId);
 		locations = locations.filter((location) => location.category === category);
 		res.send(JSON.stringify(locations));
 	} catch (err) {

@@ -31,10 +31,9 @@ export default function CreateModal({
 	}
 
 	useEffect(() => {
-		if(categorias.length === 0){
+		if (categorias.length === 0) {
 			getData();
 		}
-		
 	});
 
 	const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"];
@@ -134,10 +133,9 @@ export default function CreateModal({
 
 	function addPlaceApi(nombreP, latitudeMarkP, longitudeMarkP, categoriaP) {
 		console.log(latitudeMarkP);
-		axios.post("http://localhost:8080/location",{
+		axios.post("http://localhost:8080/location", {
 			withCredentials: true,
 			name: nombreP,
-			address: "Oviedo",
 			latitude: latitudeMarkP,
 			longitude: longitudeMarkP,
 			category: categoriaP,
