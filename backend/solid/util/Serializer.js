@@ -132,7 +132,15 @@ async function serializeRoute(route) {
 	return buffer;
 }
 
-function serializeFriend(friend) {}
+async function serializeFriend(friend) {
+	let friendJson = {
+		name: friend.name,
+		webId: friend.webId,
+		id: friend.id,
+	};
+
+	return friendJson;
+}
 
 /*
 async function serializePhoto(Session, myBaseUrl, photo) {
