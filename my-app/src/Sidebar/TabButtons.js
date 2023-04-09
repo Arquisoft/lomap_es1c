@@ -11,10 +11,14 @@ export default function TabButtons(props) {
         userPlaces = {props.userPlaces}
         changeDrawerContent = {props.changeDrawerContent}
         setPosition={props.setPosition}
+        categorias = {props.categorias}
+        centerMapToCoordinates = {props.centerMapToCoordinates}
     />
     const amigosTabContent = <AmigosTabContent />
     const rutasTabContent = <RutasTabContent
+        userPlaces = {props.userPlaces}
         changeDrawerContent = {props.changeDrawerContent}
+        rutas = {props.rutas}
     />
     const descubrirTabContent = <DescubrirTabContent />
 

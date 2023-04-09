@@ -61,3 +61,12 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 .Form
 Tabular or free form text.
 ****
+
+[options="header"]
+|===
+| Quality Requirements | Quality Scenarios
+| Usability | When a new user enter the application for the first time, the user needs to understand how to use the application in less than 5 minutes. The user interface must be clear and always tell what you are doing. 
+| Privacy | The data of the user must be decentralized and the user has always the control of what data the application uses. Also other users can't modify or watch data that is private for the user.
+| Efficiency | The application must response in good conditions under 10 seconds.
+| Flexibility | çç 
+|===

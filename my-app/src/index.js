@@ -80,6 +80,12 @@ function MyComponent() {
 		setIsLoggedIn(false);
 	}
 
+	function logInA(){
+		// login();
+		setIsLoggedIn(true);
+	}
+	
+
 	return (
 		<>
 			{isLoggedIn ? (
