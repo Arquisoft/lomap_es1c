@@ -11,10 +11,9 @@ export default function LugarCard(props) {
         props.changeDrawerContent(
             <FullInfoPlace
                 place={place}
-                returnFunction={() => props.changeDrawerContent(null)}
+                setPosition={props.setPosition} returnFunction={() => props.changeDrawerContent(null)}
                 changeDrawerContent = {props.changeDrawerContent}
                 categorias = {props.categorias}
-                centerMapToCoordinates = {props.centerMapToCoordinates}
             />)
     }
 

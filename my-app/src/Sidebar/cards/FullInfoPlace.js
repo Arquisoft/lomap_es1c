@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {useTranslation} from "react-i18next"
 import EditInfoPlace from './EditInfoPlace';
 import Rating from '@mui/material/Rating';
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -46,7 +47,8 @@ const images = [
 },
 ];
 
-export default function FullInfoPlace({place, returnFunction, changeDrawerContent, categorias, centerMapToCoordinates}) {
+export default function FullInfoPlace({place, returnFunction,setPosition, changeDrawerContent, categorias, centerMapToCoordinates}) {
+    const [t] = useTranslation("global");
     function allowEdit() {
         changeDrawerContent(
             <EditInfoPlace
@@ -59,7 +61,10 @@ export default function FullInfoPlace({place, returnFunction, changeDrawerConten
     }
 
     function centerMapToPlace() {
-        centerMapToCoordinates(place.lat, place.lng)
+        setPosition({
+            lat: place.lat,
+            lng: place.lng
+        });
     }
 
     function deletePlace() {
@@ -92,9 +97,9 @@ export default function FullInfoPlace({place, returnFunction, changeDrawerConten
             )}
         </Swiper>
 
-        <IconButton onClick={allowEdit}><EditIcon/></IconButton>
-        <IconButton onClick={centerMapToPlace}><TravelExploreIcon/></IconButton>
-        <IconButton><DeleteIcon/></IconButton>
+        <Tooltip title={t("sidebar.place.edit")} placement="bottom"><IconButton onClick={allowEdit}><EditIcon/></IconButton></Tooltip>
+        <Tooltip title={t("sidebar.place.locate")} placement="bottom"><IconButton onClick={centerMapToPlace} onClick={centerMapToPlace}><TravelExploreIcon/></IconButton></Tooltip>
+        <Tooltip title={t("sidebar.place.delete")} placement="bottom"><IconButton><DeleteIcon/></IconButton></Tooltip>
         </>
     )
 }

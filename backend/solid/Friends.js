@@ -1,4 +1,4 @@
-const { getSolidDataset, overwriteFile } = require("@inrupt/solid-client");
+const { getSolidDataset, overwriteFile, FOAF, VCARD, AccessControlList, setPublicAccess, setAgentAccess} = require("@inrupt/solid-client");
 
 const parser = require("./util/Parser.js");
 const serializer = require("./util/Serializer.js");
@@ -6,16 +6,20 @@ const serializer = require("./util/Serializer.js");
 async function addFriend(Session, friend, myBaseUrl, friendBaseUrl) {
 	let file = await serializer.serializeFriend(friend);
 
-	await overwriteFile(friendBaseUrl + "friends/", file, {
+	await overwriteFile(friendBaseUrl +  "LoMap/friends/" + friend.webId + ".json", file, {
 		contentType: file.type,
 		fetch: Session.fetch,
 	});
 
-	darPermisos(Session, friend.id, myBaseUrl + "friends/");
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/locations", 	{read: true, write: true});
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/reviews", {read: true});
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/comments", {read: true});
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/photos", {read: true});
+	darPermisos(Session, friend.id, myBaseUrl + "LoMap/routes", {read: true});
 }
 
 async function getAllFriends(Session, myBaseUrl) {
-	let friendsDataset = await getSolidDataset(myBaseUrl + "friends/", {
+	let friendsDataset = await getSolidDataset(myBaseUrl + "LoMap/friends/", {
 		fetch: Session.fetch,
 	});
 	let friends = getContainedResourceUrlAll(friendsDataset);
@@ -32,7 +36,7 @@ async function getAllFriends(Session, myBaseUrl) {
 }
 
 async function getFriendById(Session, idFriend, myBaseUrl) {
-	let file = await getFile(myBaseUrl + "friends/" + idFriend, {
+	let file = await getFile(myBaseUrl + "LoMap/friends/" + idFriend + ".json", {
 		fetch: Session.fetch,
 	});
 
@@ -40,19 +44,68 @@ async function getFriendById(Session, idFriend, myBaseUrl) {
 }
 
 async function deleteFriendById(Session, idFriend, myBaseUrl, friendBaseUrl) {
-	await deleteFile(friendBaseUrl + "friends/" + idFriend, {
+	await deleteFile(friendBaseUrl + "LoMap/friends/" + idFriend + ".json", {
 		fetch: Session.fetch,
 	});
 
-	quitarPermisos(Session, idFriend, myBaseUrl + "friends/");
+	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/locations");
+	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/reviews");
+	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/comments");
+	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/photos");
+	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/routes");
 }
 
-async function darPermisos(Session, idFriend, url) {}
 
-async function quitarPermisos(Session, idFriend, url) {}
+/*async function darPermisos(Session, webId, carpetaUrl, permisos) {
+	const carpeta = await Session.fetch(carpetaUrl);
+  
+	// Obtiene la lista de control de acceso (ACL) de la carpeta
+	let acl = await AccessControlList.fetchFrom(carpeta);
+	if (!acl) {
+	  // Si la carpeta no tiene una ACL, crea una nueva a partir de la ACL por defecto
+	  acl = createAclFromFallback(carpeta);
+	}
+  
+	// Agrega el WebID y los permisos necesarios a la lista de control de acceso
+	acl.addRule(webId, FOAF.Agent, VCARD.Individual, permisos);
+	
+	// Actualiza la lista de control de acceso de la carpeta con los nuevos permisos
+	await Session.fetch(acl.saveTo(carpeta));
+}*/
+
+async function darPermisos(Session, webId, carpetaUrl, permisos) {
+	await setAgentAccess(
+		carpetaUrl,
+		webId,
+		permisos,
+		{ fetch: Session.fetch },
+	  );
+}
+
+async function darPermisosPublicos(Session, carpetaUrl, permisos) {
+	await setPublicAccess(
+		carpetaUrl,
+		permisos,
+		{ fetch: Session.fetch },
+	);
+}
+
+async function quitarPermisos(Session, webId, carpetaUrl) {
+	const carpeta = await Session.fetch(carpetaUrl);
+
+	// Obtiene la lista de control de acceso (ACL) de la carpeta
+	const acl = await AccessControlList.fetchFrom(carpeta);
+  
+	// Elimina el WebID de la lista de control de acceso
+	acl.removeRule(webId);
+  
+	// Actualiza la lista de control de acceso de la carpeta sin los permisos del WebID
+	await Session.fetch(acl.saveTo(carpeta));
+}
 
 module.exports = {
 	addFriend,
 	getAllFriends,
 	deleteFriendById,
+	darPermisosPublicos
 };

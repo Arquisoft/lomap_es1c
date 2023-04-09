@@ -8,7 +8,7 @@ async function serializeLocation(Session, myBaseUrl, location) {
 		serializePhoto(Session, myBaseUrl, p)
 	);
 	let comments = location.comments.map((c) => serializeComment(c));
-
+	
 	let locationJson = {
 		name: location.name,
 		latitude: location.latitude,

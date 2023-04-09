@@ -10,6 +10,7 @@ export default function TabButtons(props) {
     const inicioTabContent = <InicioTabContent
         userPlaces = {props.userPlaces}
         changeDrawerContent = {props.changeDrawerContent}
+        setPosition={props.setPosition}
         categorias = {props.categorias}
         centerMapToCoordinates = {props.centerMapToCoordinates}
     />
