@@ -90,7 +90,7 @@ async function createLocation(req, res, next) {
 
 async function updateLocation(req, res, next) {
 	const { id } = req.params;
-	const { name, latitude, longitude, description, category } = req.body;
+	const { name, latitude, longitude, privacy, category } = req.body;
 
 	try {
 		const session = await SessionController.getSession(req, next);
@@ -102,7 +102,7 @@ async function updateLocation(req, res, next) {
 		location.name = name || location.name;
 		location.latitude = latitude || location.latitude;
 		location.longitude = longitude || location.longitude;
-		location.description = description || location.description;
+		location.privacy = privacy || location.privacy;
 		location.category = category || location.category;
 		await solid.saveLocation(
 			session.getSession(),

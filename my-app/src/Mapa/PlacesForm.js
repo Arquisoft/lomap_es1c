@@ -152,7 +152,7 @@ export default function CreateModal({
 		photoP,
 		privacyP
 	) {
-		const url = "http://localhost:8080/location";
+		const url = "http://localhost:8080/location/";
 		const data = {
 			name: nombreP,
 			latitude: latitudeMarkP,
