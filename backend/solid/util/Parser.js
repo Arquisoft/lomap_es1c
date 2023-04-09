@@ -1,10 +1,8 @@
 const Location = require("../../models/locationModels/Location.js");
 const Rating = require("../../models/locationModels/Review.js");
 const Coment = require("../../models/locationModels/Comment.js");
-const Route = require("../../models/Route.js");
 const Foto = require("../../models/locationModels/Photo.js");
 
-//const Localizaciones = require("../locations/Locations.js");
 
 async function parseLocation(location) {
 	let locationJson = await getJsonFromBlob(location);
@@ -55,13 +53,6 @@ async function parseFoto(foto) {
 	);
 }
 
-async function parseRoute(Session, myBaseUrl, route) {
-	let routeJson = await getJsonFromBlob(route);
-	let locs = await routeJson.locations.map((id) =>
-		Localizaciones.obtenerLocalizacion(Session, id, myBaseUrl)
-	);
-	return new Route(routeJson.id, routeJson.name, locs);
-}
 
 //XD
 async function getJsonFromBlob(blob) {
@@ -86,7 +77,6 @@ function getJpegFromBlob(blob) {
 module.exports = {
 	parseLocation,
 	parseFoto,
-	parseRoute,
 	parseReview,
 	parseComent,
 };

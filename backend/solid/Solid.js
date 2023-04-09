@@ -171,7 +171,7 @@ async function getAllRoutes(Session, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
-	await routes.getAllRoutes(Session, myBaseUrl);
+	return await routes.getAllRoutes(Session, myBaseUrl);
 }
 
 async function getRouteById(Session, idRoute, friendWebID) {

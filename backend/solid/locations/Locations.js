@@ -48,7 +48,7 @@ async function obtenerLocalizaciones(Session, myBaseUrl) {
 		let urlSplit = ubicaciones[i].split("/");
 		modelsUbi[i] = await obtenerLocalizacion(
 			Session,
-			urlSplit[urlSplit.length - 1],
+			urlSplit[urlSplit.length - 1].split(".")[0],
 			myBaseUrl
 		);
 	}
@@ -57,7 +57,7 @@ async function obtenerLocalizaciones(Session, myBaseUrl) {
 }
 
 async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
-	let file = await getFile(myBaseUrl + "LoMap/locations/locations/" + idUbi, {
+	let file = await getFile(myBaseUrl + "LoMap/locations/locations/" + idUbi + ".json", {
 		fetch: Session.fetch,
 	});
 
