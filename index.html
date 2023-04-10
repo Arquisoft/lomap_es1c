@@ -1184,6 +1184,19 @@ Thus it contains the white box description of selected building blocks of level 
 </div>
 <div class="sect2">
 <h3 id="_whitebox_overall_system">5.1. Whitebox Overall System</h3>
+<hr>
+<div class="paragraph">
+<p>Actor User
+Component LoMap
+Component REST API
+Component pod as "Pod&#8217;s service"
+User -right&#8594; LoMap: Interacts With
+LoMap -right&#8594; REST API: Uses
+REST API -right&#8594; pod: Store Data
+pod -right&#8594; REST API: Get Data
+User -right&#8594; pod: Owns
+---</p>
+</div>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
