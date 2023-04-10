@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import EditRouteInfo from "./EditInfoRoute";
-import { ThemeContextProvider } from '../contexts/ThemeContext';
+// import { ThemeContextProvider } from '../contexts/ThemeContext';
 import { I18nextProvider } from "react-i18next";
 import i18next from 'i18next';
 
