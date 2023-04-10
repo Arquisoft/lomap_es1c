@@ -132,14 +132,20 @@ async function serializeRoute(route) {
 	return buffer;
 }
 
-async function serializeFriend(friend) {
+ async function serializeFriend(friend) {
 	let friendJson = {
 		name: friend.name,
-		webId: friend.webId,
+		webid: friend.webid,
 		id: friend.id,
 	};
 
-	return friendJson;
+	let blob = new Blob([JSON.stringify(friendJson)], {
+		type: "application/json",
+	});
+
+	let buffer = Buffer.from(await blob.arrayBuffer());
+
+	return buffer;
 }
 
 /*
