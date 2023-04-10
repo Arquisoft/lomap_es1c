@@ -57,6 +57,7 @@ async function obtenerLocalizaciones(Session, myBaseUrl) {
 }
 
 async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
+	let location;
 	try {
 		let file = await getFile(
 			myBaseUrl + "LoMap/locations/locations/" + idUbi + ".json",
@@ -66,26 +67,27 @@ async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
 		);
 
 		let location = await parser.parseLocation(file);
+
+		location.reviews = await Reviews.getAllReviews(
+			Session,
+			location.reviews,
+			myBaseUrl
+		);
+		location.photos = await Photos.getAllPhotos(
+			Session,
+			location.photos,
+			myBaseUrl
+		);
+		location.comments = await Comments.getAllComments(
+			Session,
+			location.comments,
+			myBaseUrl
+		);
+
+		return location;
 	} catch (err) {
 		return null;
 	}
-	location.reviews = await Reviews.getAllReviews(
-		Session,
-		location.reviews,
-		myBaseUrl
-	);
-	location.photos = await Photos.getAllPhotos(
-		Session,
-		location.photos,
-		myBaseUrl
-	);
-	location.comments = await Comments.getAllComments(
-		Session,
-		location.comments,
-		myBaseUrl
-	);
-
-	return location;
 }
 
 async function deleteLocationById(Session, idLocation, myBaseUrl) {
