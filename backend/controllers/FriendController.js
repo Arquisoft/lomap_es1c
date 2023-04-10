@@ -6,7 +6,7 @@ async function getAllFriends(req, res, next) {
 	try {
 		const session = await SessionController.getSession(req, next);
 		const friends = await solid.getAllFriends(session);
-		res.status(200).json(JSON.stringify(friends));
+		res.status(200).json(friends);
 	} catch (err) {
 		next(err);
 	}
@@ -19,7 +19,6 @@ async function addFriend(req, res, next) {
 			res.status(400).json({ error: "Faltan datos" });
 			return;
 		}
-
 		const session = await SessionController.getSession(req, next);
 		const friend = new Friend(name, webId);
 
