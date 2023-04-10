@@ -7,8 +7,17 @@ const {
 	FOAF,
 	VCARD,
 	AccessControlList,
-	setPublicAccess,
-	setAgentAccess,
+	universalAccess,
+
+	getSolidDatasetWithAcl,
+	hasResourceAcl,
+	hasFallbackAcl,
+	hasAccessibleAcl,
+	createAcl,
+	createAclFromFallbackAcl,
+	getResourceAcl,
+	setAgentResourceAccess,
+	saveAclFor,
 } = require("@inrupt/solid-client");
 
 const parser = require("./util/Parser.js");
@@ -22,6 +31,16 @@ async function addFriend(Session, myBaseUrl, friend) {
 		file,
 		{fetch: Session.fetch,}
 	);
+
+	await darPermisos(Session, friend.webid, myBaseUrl + "LoMap/", {
+		read: true,
+		write: true,
+		append: true,
+		controlRead: true,
+		controlWrite: true,
+	});
+
+	await obtenerPermisos(Session, friend.webid, myBaseUrl + "LoMap/");
 
 	/*darPermisos(Session, friend.webId, myBaseUrl + "LoMap/locations/locations", {
 		read: true,
@@ -78,25 +97,58 @@ async function deleteFriendById(Session, idFriend, myBaseUrl) {
 	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/routes");*/
 }
 
+//Solo da permiso a la carpetaUrl pero no a las carpetas o recursos hijos
+async function darPermisos(Session, webId, carpetaUrl, permisos) {
+	await universalAccess.setAgentAccess(carpetaUrl, webId, permisos, { fetch: Session.fetch });
+}
+
+
+//Da permiso a la carpetaUrl y todos sus hijos (no funciona)
 /*async function darPermisos(Session, webId, carpetaUrl, permisos) {
-	const carpeta = await Session.fetch(carpetaUrl);
-  
-	// Obtiene la lista de control de acceso (ACL) de la carpeta
-	let acl = await AccessControlList.fetchFrom(carpeta);
-	if (!acl) {
-	  // Si la carpeta no tiene una ACL, crea una nueva a partir de la ACL por defecto
-	  acl = createAclFromFallback(carpeta);
+	// Fetch the SolidDataset and its associated ACLs, if available:
+const myDatasetWithAcl = await getSolidDatasetWithAcl(carpetaUrl, { fetch: Session.fetch } );
+
+// Obtain the SolidDataset's own ACL, if available,
+// or initialise a new one, if possible:
+let resourceAcl;
+if (!hasResourceAcl(myDatasetWithAcl)) {
+  if (!hasAccessibleAcl(myDatasetWithAcl)) {
+    throw new Error(
+      "The current user does not have permission to change access rights to this Resource."
+    );
+  }
+  if (!hasFallbackAcl(myDatasetWithAcl)) {
+    throw new Error(
+      "The current user does not have permission to see who currently has access to this Resource."
+    );
+    // Alternatively, initialise a new empty ACL as follows,
+    // but be aware that if you do not give someone Control access,
+    // **nobody will ever be able to change Access permissions in the future**:
+    // resourceAcl = createAcl(myDatasetWithAcl);
 	}
-  
-	// Agrega el WebID y los permisos necesarios a la lista de control de acceso
-	acl.addRule(webId, FOAF.Agent, VCARD.Individual, permisos);
-	
-	// Actualiza la lista de control de acceso de la carpeta con los nuevos permisos
-	await Session.fetch(acl.saveTo(carpeta));
+	resourceAcl = createAclFromFallbackAcl(myDatasetWithAcl, { fetch: Session.fetch });
+} else {
+  resourceAcl = getResourceAcl(myDatasetWithAcl, { fetch: Session.fetch });
+}
+
+// Give someone Control access to the given Resource:
+const updatedAcl = setAgentResourceAccess(
+  resourceAcl,
+  webId,
+  permisos, { fetch: Session.fetch }
+);
+
+// Now save the ACL:
+await saveAclFor(myDatasetWithAcl, updatedAcl,  { fetch: Session.fetch });
+
 }*/
 
-async function darPermisos(Session, webId, carpetaUrl, permisos) {
-	await setAgentAccess(carpetaUrl, webId, permisos, { fetch: Session.fetch });
+
+
+async function obtenerPermisos(Session, webId, carpetaUrl) {
+	await universalAccess.getAgentAccess(carpetaUrl, webId, { fetch: Session.fetch }).then((agentAccess) => {
+		logAccessInfo(webId, agentAccess, carpetaUrl)
+	  });
 }
 
 async function darPermisosPublicos(Session, carpetaUrl, permisos) {
@@ -115,6 +167,16 @@ async function quitarPermisos(Session, webId, carpetaUrl) {
 	// Actualiza la lista de control de acceso de la carpeta sin los permisos del WebID
 	await Session.fetch(acl.saveTo(carpeta));
 }
+
+
+function logAccessInfo(agent, agentAccess, resource) {
+	console.log(`For resource::: ${resource}`);
+	if (agentAccess === null) {
+	  console.log(`Could not load ${agent}'s access details.`);
+	} else {
+	  console.log(`${agent}'s Access:: ${JSON.stringify(agentAccess)}`);
+	}
+  }
 
 module.exports = {
 	addFriend,

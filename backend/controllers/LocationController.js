@@ -27,7 +27,7 @@ async function getLocation(req, res) {
 	}
 }
 
-async function getAllLocations(req, res, next) {
+/*async function getAllLocations(req, res, next) {
 	try {
 		const session = await SessionController.getSession(req, next);
 		const locations = await solid.getAllLocations(session, session.info.webId);
@@ -35,7 +35,26 @@ async function getAllLocations(req, res, next) {
 	} catch (err) {
 		next(err);
 	}
+}*/
+
+
+async function getAllLocations(req, res, next) {
+	try {
+		const session = await SessionController.getSession(req, next);
+		const location1 = await solid.getLocationById(
+			session,
+			//"1680817954671_q0cfau",
+			"1680817954671_q0cfau",
+			"https://id.inrupt.com/uo284647"
+		);
+		res.send(JSON.stringify(location1));
+	} catch (err) {
+		next(err);
+	}
 }
+
+
+
 
 async function createLocation(req, res, next) {
 	const {
