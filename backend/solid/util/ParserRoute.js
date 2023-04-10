@@ -3,12 +3,18 @@ const Route = require("../../models/Route.js");
 
 async function parseRoute(Session, myBaseUrl, route) {
 	let routeJson = JSON.parse(await route.text());
-	for (let i = 0; i < route.locations.length; i++) {
-		routeJson.locations[i] = await Localizaciones.obtenerLocalizacion(
+
+	for (let i = 0; i < routeJson.locations.length; i++) {
+		let location = await Localizaciones.obtenerLocalizacion(
 			Session,
-			route.locations[i],
+			routeJson.locations[i],
 			myBaseUrl
 		);
+		if (location != null) {
+			routeJson.locations[i];
+		} else {
+			routeJson.locations.splice(i, 1);
+		}
 	}
 
 	return new Route(
