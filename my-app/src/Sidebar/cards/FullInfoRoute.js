@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditInfoRoute from './EditInfoRoute';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function FullRouteInfo({route, returnFunction, changeDrawerContent, userPlaces, API_route_calls}) {
+    const [loading, setLoading] = useState(false)
+    
     function allowEdit() {
         changeDrawerContent(
             <EditInfoRoute
@@ -23,8 +26,11 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
 
     }
 
-    function deleteRoute() {
-        API_route_calls.API_deleteRoute(route.id)
+    async function deleteRoute() {
+        setLoading(true)
+        await API_route_calls.API_deleteRoute(route.id)
+        setLoading(false)
+        returnFunction()
     }
 
     return (
@@ -42,7 +48,19 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
         }
         <IconButton onClick={allowEdit}><EditIcon/></IconButton>
         <IconButton><TravelExploreIcon/></IconButton>
-        <IconButton onClick={deleteRoute}><DeleteIcon/></IconButton>
+
+        <br></br>
+
+        <LoadingButton
+            color="secondary"
+            onClick={deleteRoute}
+            loading={loading}
+            loadingPosition="start"
+            startIcon={<DeleteIcon />}
+            variant="contained"
+        >
+            <span>Borrar</span>
+        </LoadingButton>
         </>
     )
 }
