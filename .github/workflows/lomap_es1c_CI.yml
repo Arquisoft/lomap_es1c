@@ -3,7 +3,7 @@ name: custom CI for LOMAP ES1c
 on: [push, pull_request]
 
 jobs:
-  unit-test-webapp:
+  unit-tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -20,7 +20,7 @@ jobs:
     # Run tests
     - run: npm --prefix frontend test --coverage --watchAll
     - run: npm --prefix backend test --coverage --watchAll
-    
+
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
       env:
