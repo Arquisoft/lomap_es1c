@@ -2,26 +2,11 @@ const Friend = require("../models/Friend.js");
 const solid = require("../solid/Solid.js");
 const SessionController = require("../controllers/util/SessionController.js");
 
-/*async function getAllFriends(req, res, next) {
+async function getAllFriends(req, res, next) {
 	try {
 		const session = await SessionController.getSession(req, next);
 		const friends = await solid.getAllFriends(session);
 		res.status(200).json(JSON.stringify(friends));
-	} catch (err) {
-		next(err);
-	}
-}*/
-
-
-async function getAllFriends(req, res, next) {
-	//location: 1680817954671_q0cfau
-	//idFriend: 1681129097428_qh78ln
-	try {
-		const session = await SessionController.getSession(req, next);
-		const friend = new Friend("mi amigo 1", "https://id.inrupt.com/rubencd22");
-
-		await solid.addFriend(session, friend);
-		res.status(201).json(friend);
 	} catch (err) {
 		next(err);
 	}
