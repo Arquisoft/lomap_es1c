@@ -36,6 +36,18 @@ Thus it contains the white box description of selected building blocks of level 
 
 === Whitebox Overall System
 
+---
+Actor User
+Component LoMap
+Component REST API
+Component pod as "Pod's service"
+User -right-> LoMap: Interacts With 
+LoMap -right-> REST API: Uses
+REST API -right-> pod: Store Data
+pod -right-> REST API: Get Data
+User -right-> pod: Owns
+---
+
 [role="arc42help"]
 ****
 Here you describe the decomposition of the overall system using the following white box template. It contains
