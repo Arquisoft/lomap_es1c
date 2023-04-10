@@ -48,11 +48,13 @@ async function redirectFromSolidIdp(req, res, next) {
 }
 
 async function logout(req, res, next) {
-	//const session = await getSessionFromStorage(req.session.sessionId);
-	const session = SessionController.getSession(req, next);
-	session.logout();
-	SessionController.removeSession(session);
-	res.send(`<p>Logged out.</p>`);
+	try {
+		const session = await SessionController.getSession(req, next);
+		SessionController.removeSession(session);
+		res.status(200).json("Sesion cerrada");
+	}catch (err) {
+		next(err);
+	}
 }
 
 async function index(req, res, next) {

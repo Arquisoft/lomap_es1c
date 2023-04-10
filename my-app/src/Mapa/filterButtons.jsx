@@ -9,6 +9,13 @@ export default function FilterButtons({setCategortFiltered}) {
     const open = Boolean(anchorEl);
     var [categorias,setCategorias] = useState([]);
 
+    const resetFilters = () => {
+        setCategortFiltered({
+            activated: false,
+            category: ""
+        })
+    }
+
     const handleClick =(event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -56,10 +63,9 @@ export default function FilterButtons({setCategortFiltered}) {
 
     return(
         <div className="filtros">
-            <Fab size="medium" variant="extended">{t("filters.all")}</Fab>
+            <Fab size="medium" variant="extended" onClick={resetFilters}>{t("filters.all")}</Fab>
             <Fab size="medium" variant="extended">{t("filters.mine")}</Fab>
             <Fab size="medium" variant="extended">{t("filters.friends")}</Fab>
-            <Fab size="medium" variant="extended">{t("filters.chooseFriends")}</Fab>
             <Fab size="medium" variant="extended" id="categoryDisplay" onClick={handleClick}>{t("filters.chooseCategoty")}</Fab>
 
             <Menu
@@ -78,6 +84,9 @@ export default function FilterButtons({setCategortFiltered}) {
            >
                 <MenuItem key={"todas"} onClick={() => handleAllClose()}>
                         Todas las Categorias
+                </MenuItem>
+                <MenuItem key={"sin categoria"} onClick={() =>handleClose("sin categoria")}>
+                        Sin Categoria
                 </MenuItem>
                 {categorias.map((option) => (
                     <MenuItem key={option} onClick={() => handleClose(option)}>

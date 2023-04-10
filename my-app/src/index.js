@@ -53,12 +53,27 @@ function MyComponent() {
 		}
 	}
 
+	async function logOutAPI() {
+		try {
+			const response = await axios.get("http://localhost:8080/logout", {
+				withCredentials: true,
+			});
+			if (response.status === 200) {
+				if (isLoggedIn === true) {
+					setIsLoggedIn(false);
+				}
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	function loginWeb() {
 		window.location.href = "http://localhost:8080/login";
 	}
 
 	function logOut() {
-		setIsLoggedIn(false);
+		logOutAPI();
 	}
 
 	return (
