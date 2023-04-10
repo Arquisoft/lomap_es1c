@@ -1,9 +1,8 @@
 # Diseño de la restAPI y de el backend.
 
-
-
-
-
+## Conceptos básicos
+El backend consiste de una RestAPI, cuyas llamadas están definidas en la carpeta routes.
+Desde cada llamada se llama a un método de los controladores, que dependiendo de la naturaleza de la llamada se comunicará con el POD del usuario en sesión para leer o escribir datos.
 ## Métodos de los controladores
 
 ### Auth
