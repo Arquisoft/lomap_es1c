@@ -57,15 +57,18 @@ async function obtenerLocalizaciones(Session, myBaseUrl) {
 }
 
 async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
-	let file = await getFile(
-		myBaseUrl + "LoMap/locations/locations/" + idUbi + ".json",
-		{
-			fetch: Session.fetch,
-		}
-	);
+	try {
+		let file = await getFile(
+			myBaseUrl + "LoMap/locations/locations/" + idUbi + ".json",
+			{
+				fetch: Session.fetch,
+			}
+		);
 
-	let location = await parser.parseLocation(file);
-
+		let location = await parser.parseLocation(file);
+	} catch (err) {
+		return null;
+	}
 	location.reviews = await Reviews.getAllReviews(
 		Session,
 		location.reviews,
