@@ -25,13 +25,12 @@ const serializer = require("./util/Serializer.js");
 
 async function addFriend(Session, myBaseUrl, friend) {
 	let file = await serializer.serializeFriend(friend);
-
 	await overwriteFile(
 		myBaseUrl + "/LoMap/friends/" + friend.id + ".json",
 		file,
-		{fetch: Session.fetch,}
+		{ fetch: Session.fetch }
 	);
-
+	/*
 	await darPermisos(Session, friend.webid, myBaseUrl + "LoMap/", {
 		read: true,
 		write: true,
@@ -41,7 +40,7 @@ async function addFriend(Session, myBaseUrl, friend) {
 	});
 
 	await obtenerPermisos(Session, friend.webid, myBaseUrl + "LoMap/");
-
+	*/
 	/*darPermisos(Session, friend.webId, myBaseUrl + "LoMap/locations/locations", {
 		read: true,
 		write: true,
@@ -99,9 +98,10 @@ async function deleteFriendById(Session, idFriend, myBaseUrl) {
 
 //Solo da permiso a la carpetaUrl pero no a las carpetas o recursos hijos
 async function darPermisos(Session, webId, carpetaUrl, permisos) {
-	await universalAccess.setAgentAccess(carpetaUrl, webId, permisos, { fetch: Session.fetch });
+	await universalAccess.setAgentAccess(carpetaUrl, webId, permisos, {
+		fetch: Session.fetch,
+	});
 }
-
 
 //Da permiso a la carpetaUrl y todos sus hijos (no funciona)
 /*async function darPermisos(Session, webId, carpetaUrl, permisos) {
@@ -143,12 +143,12 @@ await saveAclFor(myDatasetWithAcl, updatedAcl,  { fetch: Session.fetch });
 
 }*/
 
-
-
 async function obtenerPermisos(Session, webId, carpetaUrl) {
-	await universalAccess.getAgentAccess(carpetaUrl, webId, { fetch: Session.fetch }).then((agentAccess) => {
-		logAccessInfo(webId, agentAccess, carpetaUrl)
-	  });
+	await universalAccess
+		.getAgentAccess(carpetaUrl, webId, { fetch: Session.fetch })
+		.then((agentAccess) => {
+			logAccessInfo(webId, agentAccess, carpetaUrl);
+		});
 }
 
 async function darPermisosPublicos(Session, carpetaUrl, permisos) {
@@ -168,15 +168,14 @@ async function quitarPermisos(Session, webId, carpetaUrl) {
 	await Session.fetch(acl.saveTo(carpeta));
 }
 
-
 function logAccessInfo(agent, agentAccess, resource) {
 	console.log(`For resource::: ${resource}`);
 	if (agentAccess === null) {
-	  console.log(`Could not load ${agent}'s access details.`);
+		console.log(`Could not load ${agent}'s access details.`);
 	} else {
-	  console.log(`${agent}'s Access:: ${JSON.stringify(agentAccess)}`);
+		console.log(`${agent}'s Access:: ${JSON.stringify(agentAccess)}`);
 	}
-  }
+}
 
 module.exports = {
 	addFriend,
