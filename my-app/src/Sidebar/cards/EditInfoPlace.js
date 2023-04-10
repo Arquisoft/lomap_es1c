@@ -50,6 +50,8 @@ const images = [
 ];
 
 export default function FullInfoPlace({place, returnFunction, categorias, API_location_calls}) {
+	console.log(place)
+
 	const [loading, setLoading] = useState(false)
 	const [name, setName] = useState(place.name)
 	const [category, setCategory] = useState(place.categoria)
@@ -60,8 +62,13 @@ export default function FullInfoPlace({place, returnFunction, categorias, API_lo
 	async function save() {
 		setLoading(true)
 
+		console.log(place.id)
+		console.log(name)
+		console.log(category)
+
+
 		if (place.name != name  ||  place.categoria != category  ||  place.privacidad != privacy) {
-			await API_location_calls.API_updateLocation(place.ID, name, category, privacy)
+			await API_location_calls.API_updateLocation(place.id, name, category, privacy)
 			setLoading(false)
 		}
 		returnFunction()
@@ -111,7 +118,9 @@ export default function FullInfoPlace({place, returnFunction, categorias, API_lo
 				defaultValue={place.privacidad ? place.privacidad : nivelesPrivacidad[0].toLowerCase()}
 				onChange={handlePrivacyChange}
 			>
-				{nivelesPrivacidad.map((nivel) => (<MenuItem value={nivel.toLowerCase()}>{nivel}</MenuItem>))}
+				{nivelesPrivacidad.map(
+					(nivel) => (<MenuItem key={nivel.toLowerCase()} value={nivel.toLowerCase()}>{nivel}</MenuItem>))
+				}
 			</Select>
 
 				<br></br>

@@ -39,7 +39,6 @@ export default function App({ logOutFunction }) {
   }
 
   function updateRutas() {
-    console.log("ENTRADO")
     const url = "http://localhost:8080/route"
     return axios.get(url, {withCredentials: true})
       .then((response) => setRutas(response.data))
@@ -165,26 +164,19 @@ export default function App({ logOutFunction }) {
     //TODO actualizar lugares
   }
 
-  function API_addFriend(friendName, friendWebId) {
+  async function API_addFriend(friendName, friendWebId) {
     const url = "http://localhost:8080/friend"
     const data = {
       name: friendName,
       webId: friendWebId
     }
-    const config = {
-      withCredentials: true,
-    }
-    axios.post(url, data, config)
-
+    await axios.post(url, data, {withCredentials: true})
     updateAmigos()
   }
 
-  function API_deleteFriend(friendWebID) {
+  async function API_deleteFriend(friendWebID) {
     const url = "http://localhost:8080/friend/"+friendWebID
-    const config = {
-      withCredentials: true,
-    }
-    axios.delete(url, config)
+    await axios.delete(url, {withCredentials: true})
     updateAmigos()
   }
 
@@ -283,6 +275,7 @@ export default function App({ logOutFunction }) {
 				setPosition={setPosition}
         categorias = {categorias}
         API_route_calls = {API_route_calls}
+        API_location_calls = {API_location_calls}
       />
 
       <SettingsSpeedDial

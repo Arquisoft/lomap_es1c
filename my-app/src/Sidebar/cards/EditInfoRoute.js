@@ -35,19 +35,21 @@ export default function EditRouteInfo({route, returnFunction, userPlaces, API_ro
     const [locationsModifications, setLocationsModifications] = useState([])
 
     async function save() {
-        setLoading(true)
-        if (route == null) {
-            theRouteID = await API_route_calls.API_addRoute(name, description)
-        } else {
-            if (name != route.name  ||  description != route.description) {
-                API_route_calls.API_updateRouteInfo(theRouteID, name, description)
+        if (name.trim().length>0  &&  description.trim().length>0) {
+            setLoading(true)
+            if (route == null) {
+                theRouteID = await API_route_calls.API_addRoute(name, description)
+            } else {
+                if (name != route.name  ||  description != route.description) {
+                    await API_route_calls.API_updateRouteInfo(theRouteID, name, description)
+                }
             }
+            for (var modification of locationsModifications) {
+                await modification.execute(theRouteID)
+            }
+            setLoading(false)
+            returnFunction()
         }
-        for (var modification of locationsModifications) {
-            modification.execute(theRouteID)
-        }
-        setLoading(false)
-        returnFunction()
     }
 
     function clickOnNewLocation(locationId) {
