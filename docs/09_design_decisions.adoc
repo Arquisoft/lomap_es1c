@@ -24,3 +24,12 @@ Various options:
 * more detailed in form of separate sections per decision
 * ADR (architecture decision record) for every important decision
 ****
+
+[options="header"]
+|===
+| Design Decision | Pros | Cons
+| React | A useful library widely used in large companies with lots of facilities and examples. It is an easy library to learn and also makes user interface development easy. It also has high compatibility with SOLID technologies. | It is the first time we use this technology, it is easy to learn to use it but it is difficult to master it. In addition, official documentation is missing.
+| NodeJS | It allows users and the server to communicate in an easy way. In addition, we can handle errors and management of data with errors to notify the client | Although we have some experience with this technology, it's mostly new, so we need to know how to use it. Also, it is very difficult to debug and it is a young technology that can cause some unexpected problems. 
+| JavaScript | We have previous experience with this technology and it allows us a lot of freedom in development in combination with React | The freedom it provides can also be a major drawback, as it can cause weird errors with type handling. Also, it can cause some problems when reading new code developed by other members of the group.
+| GoogleMaps | It is a free library that has a lot of customization and facilities for the map, we also have previous experience with it | Although it is free to use, it is limited to a time and uses, so if it is going to work for a long time, we will have to pay.
+|===
