@@ -45,7 +45,6 @@ export default function EditRouteInfo({
 			setLoading(true);
 			if (route == null) {
 				const response = await API_route_calls.API_addRoute(name, description);
-				console.log(response)
 				theRouteID = response.id
 			} else {
 				if (name != route.name || description != route.description) {
