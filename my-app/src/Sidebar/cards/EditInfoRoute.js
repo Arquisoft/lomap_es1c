@@ -69,18 +69,22 @@ export default function EditRouteInfo({route, returnFunction, userPlaces, API_ro
 
     function removeLocation(locationId) {
         setLocations((current) => (current.filter(location => location.id != locationId)))
-        
-        setLocationsModifications(
-            (current) => 
-            // Eliminar los ADDS innecesarios
-            current.filter(modification => modification.locationID!=locationId).concat(
-                {
-                    type: modifications.DELETE,
-                    locationID: locationId,
-                    execute: (routeID) => API_route_calls.API_deleteLocationFromRoute(routeID, locationId)
-                }
-            )
-        )
+
+        const hasBeenAddedInThisModification = locations
+            .filter(modification => (modification.type===modifications.ADD  &&  modification.locationID===locationId))
+            .length>0
+
+        // Remove the unnecessary locations
+        setLocationsModifications((current) => current.filter(modification => modification.locationID!=locationId))
+
+        // Only add the DELETE modification if that location was already stored
+        if (!hasBeenAddedInThisModification) {
+            setLocationsModifications(current => [...current, {
+                type: modifications.DELETE,
+                locationID: locationId,
+                execute: (routeID) => API_route_calls.API_deleteLocationFromRoute(routeID, locationId)
+            }])
+        }
     }
 
     return (
