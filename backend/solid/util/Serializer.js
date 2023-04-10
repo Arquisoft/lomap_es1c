@@ -119,7 +119,7 @@ async function serializeRoute(route) {
 	let routeJson = {
 		id: route.id,
 		name: route.name,
-		locations: route.locations,
+		locations: route.locations.map((l) => l.id),
 		description: route.description,
 		author: route.author,
 	};
