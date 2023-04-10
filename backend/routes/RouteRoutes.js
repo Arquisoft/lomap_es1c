@@ -5,15 +5,15 @@ module.exports = function (app, routeController) {
 	app.put("/route/:id", routeController.updateRoute);
 	app.delete("/route/:id", routeController.deleteRoute);
 	app.get(
-		"route/:idRoute/:idLocation",
+		"/route/:idRoute/location/:idLocation",
 		routeController.addLocationToRoute
 	);
 	app.delete(
-		"route/:idRoute/location/:idLocation",
+		"/route/:idRoute/location/:idLocation",
 		routeController.deleteLocationFromRoute
 	);
 	app.post(
-		"route/:id/changeOrder/:id",
+		"/route/:idRoute/changeOrder/:idLocation",
 		routeController.changeOrderOfLocationInRoute
 	);
 };

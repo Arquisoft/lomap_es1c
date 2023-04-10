@@ -13,38 +13,48 @@ import { ThemeContext, Themes } from "./contexts/ThemeContext";
 var a = [];
 
 export default function App({ logOutFunction }) {
-  //Todos los lugares de la aplicacion
-  const [places,setPlaces] = React.useState(a);
+	//Todos los lugares de la aplicacion
+	const [places, setPlaces] = React.useState(a);
 
-  const [data, setData] = useState('');
-  const [t, i18n] = useTranslation("global")
-  const [categorias, setCategorias] = useState([])
-  const [rutas, setRutas] = useState([])
-  const [amigos, setAmigos] = useState([])
+	const [data, setData] = useState("");
+	const [t, i18n] = useTranslation("global");
+	const [categorias, setCategorias] = useState([]);
+	const [rutas, setRutas] = useState([]);
+	const [amigos, setAmigos] = useState([]);
 
-  function updateCategorias() {
-    axios.get("http://localhost:8080/location/category", { withCredentials: true })
-    .then(response => {setCategorias(response.data);})
-    .catch(error => {console.log(error);});
-  }
+	function updateCategorias() {
+		axios
+			.get("http://localhost:8080/location/category", { withCredentials: true })
+			.then((response) => {
+				setCategorias(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
-  function updateAmigos() {
+	function updateAmigos() {
 		async function getAmigosData() {
 			await axios
 				.get("http://localhost:8080/friend", { withCredentials: true })
-				.then((response) => {setAmigos(response.data)})
-				.catch((error) => {console.log(error);});
+				.then((response) => {
+					setAmigos(response.data);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 		}
 		// getAmigosData();
-  }
+	}
 
-  function updateRutas() {
-    console.log("ENTRADO")
-    const url = "http://localhost:8080/route"
-    return axios.get(url, {withCredentials: true})
-      .then((response) => setRutas(response.data))
-      .catch((error) => console.log(error))
-  }
+	async function updateRutas() {
+		console.log("HE ENTRADO");
+		const url = "http://localhost:8080/route";
+		return await axios
+			.get(url, { withCredentials: true })
+			.then((response) => setRutas(response.data))
+			.catch((error) => console.log(error));
+	}
 
 	useEffect(() => {
 		async function getData() {
@@ -77,237 +87,241 @@ export default function App({ logOutFunction }) {
 		setPlaces(a);
 	}, [setData, data, places]);
 
-  useEffect(() => {
-    updateCategorias()
-  }, [])
+	useEffect(() => {
+		updateCategorias();
+	}, []);
 
-  useEffect(() => {
-    updateRutas()
-  }, [places])
+	useEffect(() => {
+		updateRutas();
+	}, [places]);
 
-  useEffect(() => {
-    updateAmigos()
-  }, [])
+	useEffect(() => {
+		updateAmigos();
+	}, []);
 
-  async function API_getRouteByID(routeID) {
-    const url = "http://localhost:8080/route/"+routeID
-    const response = await axios.get(url, {withCredentials: true})
-    return response
-  }
+	async function API_getRouteByID(routeID) {
+		const url = "http://localhost:8080/route/" + routeID;
+		const response = await axios.get(url, { withCredentials: true });
+		return response;
+	}
 
-  function API_addRoute(routeName, routeDescription) {
-    const url = "http://localhost:8080/route"
-    const data = {
-      name: routeName,
-      description: routeDescription
-    }
-    return axios.post(url, data, {withCredentials: true}).then(updateRutas)
-  }
+	function API_addRoute(routeName, routeDescription) {
+		const url = "http://localhost:8080/route";
+		const data = {
+			name: routeName,
+			description: routeDescription,
+		};
+		return axios.post(url, data, { withCredentials: true }).then(updateRutas);
+	}
 
-  function API_deleteRoute(routeID) {
-    const url = "http://localhost:8080/route/"+routeID
-    return axios.delete(url, {withCredentials: true}).then(updateRutas)
-  }
+	function API_deleteRoute(routeID) {
+		const url = "http://localhost:8080/route/" + routeID;
+		return axios.delete(url, { withCredentials: true }).then(updateRutas);
+	}
 
-  function API_updateRouteInfo(routeID, newRouteName, newRouteDescription) {
-    const url = "http://localhost:8080/route/"+routeID
-    const data = {
-      name: newRouteName,
-      description: newRouteDescription
-    }
-    return axios.put(url, data, {withCredentials: true}).then(updateRutas)
-  }
+	function API_updateRouteInfo(routeID, newRouteName, newRouteDescription) {
+		const url = "http://localhost:8080/route/" + routeID;
+		const data = {
+			name: newRouteName,
+			description: newRouteDescription,
+		};
+		return axios.put(url, data, { withCredentials: true }).then(updateRutas);
+	}
 
-  function API_addLocationToRoute(routeID, locationID) {
-    const url = "http://localhost:8080/route/"+routeID+"/"+locationID
-    console.log(url)
-    return axios.get(url, {withCredentials: true}).then(updateRutas)
-  }
+	function API_addLocationToRoute(routeID, locationID) {
+		const url =
+			"http://localhost:8080/route/" + routeID + "/location/" + locationID;
+		return axios.get(url, { withCredentials: true }).then(updateRutas);
+	}
 
-  function API_deleteLocationFromRoute(routeID, locationID) {
-    const url = "http://localhost:8080/route/"+routeID+"/location/"+locationID
-    return axios.delete(url, {withCredentials: true}).then(updateRutas)
-  }
+	function API_deleteLocationFromRoute(routeID, locationID) {
+		const url =
+			"http://localhost:8080/route/" + routeID + "/location/" + locationID;
+		return axios.delete(url, { withCredentials: true }).then(updateRutas);
+	}
 
-  function API_changeOrderOfLocationInRoute(routeID, locationID, newPosition) {
-    const url = "http://localhost:8080/route/"+routeID+"/location/"+locationID
-    const data = {
-      index: newPosition
-    }
-    return axios.post(url, data, {withCredentials: true}).then(updateRutas)
-  }
+	function API_changeOrderOfLocationInRoute(routeID, locationID, newPosition) {
+		const url =
+			"http://localhost:8080/route/" + routeID + "/location/" + locationID;
+		const data = {
+			index: newPosition,
+		};
+		return axios.post(url, data, { withCredentials: true }).then(updateRutas);
+	}
 
-  const API_route_calls = {
-    // "API_getAllRoutes": API_getAllRoutes,
-    "API_getRouteByID": API_getRouteByID,
-    "API_addRoute": API_addRoute,
-    "API_updateRouteInfo": API_updateRouteInfo,
-    "API_deleteRoute": API_deleteRoute,
-    "API_addLocationToRoute": API_addLocationToRoute,
-    "API_deleteLocationFromRoute": API_deleteLocationFromRoute,
-    "API_changeOrderOfLocationInRoute": API_changeOrderOfLocationInRoute
-  }
+	const API_route_calls = {
+		// "API_getAllRoutes": API_getAllRoutes,
+		API_getRouteByID: API_getRouteByID,
+		API_addRoute: API_addRoute,
+		API_updateRouteInfo: API_updateRouteInfo,
+		API_deleteRoute: API_deleteRoute,
+		API_addLocationToRoute: API_addLocationToRoute,
+		API_deleteLocationFromRoute: API_deleteLocationFromRoute,
+		API_changeOrderOfLocationInRoute: API_changeOrderOfLocationInRoute,
+	};
 
-  function API_deleteLocation(locationID) {
-    const url = "http://localhost:8080/location/"+locationID;
-		return axios.delete(url, {withCredentials: true});
-    // TODO actualizar lugares
-  }
+	function API_deleteLocation(locationID) {
+		const url = "http://localhost:8080/location/" + locationID;
+		return axios.delete(url, { withCredentials: true });
+		// TODO actualizar lugares
+	}
 
-  function API_updateLocation(placeID, newName, newCategory, newPrivacy) {
-    const url = "http://localhost:8080/location/"+placeID
-    const data = {
-        name: newName,
-        category: newCategory,
-        privacy: newPrivacy
-    };
-    return axios.put(url, data, {withCredentials: true});
-    //TODO actualizar lugares
-  }
+	function API_updateLocation(placeID, newName, newCategory, newPrivacy) {
+		const url = "http://localhost:8080/location/" + placeID;
+		const data = {
+			name: newName,
+			category: newCategory,
+			privacy: newPrivacy,
+		};
+		return axios.put(url, data, { withCredentials: true });
+		//TODO actualizar lugares
+	}
 
-  function API_addFriend(friendName, friendWebId) {
-    const url = "http://localhost:8080/friend"
-    const data = {
-      name: friendName,
-      webId: friendWebId
-    }
-    const config = {
-      withCredentials: true,
-    }
-    axios.post(url, data, config)
+	function API_addFriend(friendName, friendWebId) {
+		const url = "http://localhost:8080/friend";
+		const data = {
+			name: friendName,
+			webId: friendWebId,
+		};
+		const config = {
+			withCredentials: true,
+		};
+		axios.post(url, data, config);
 
-    updateAmigos()
-  }
+		updateAmigos();
+	}
 
-  function API_deleteFriend(friendWebID) {
-    const url = "http://localhost:8080/friend/"+friendWebID
-    const config = {
-      withCredentials: true,
-    }
-    axios.delete(url, config)
-    updateAmigos()
-  }
+	function API_deleteFriend(friendWebID) {
+		const url = "http://localhost:8080/friend/" + friendWebID;
+		const config = {
+			withCredentials: true,
+		};
+		axios.delete(url, config);
+		updateAmigos();
+	}
 
-  const API_location_calls = {
-    "API_deleteLocation": API_deleteLocation,
-    "API_updateLocation": API_updateLocation,
-  }
-  const API_friend_calls = {
-    "API_addFriend": API_addFriend,
-    "API_deleteFriend": API_deleteFriend,
-  }
+	const API_location_calls = {
+		API_deleteLocation: API_deleteLocation,
+		API_updateLocation: API_updateLocation,
+	};
+	const API_friend_calls = {
+		API_addFriend: API_addFriend,
+		API_deleteFriend: API_deleteFriend,
+	};
 
-  //Estados de la aplicacion
-  //Latitud y longitud del marcador actual que tu pongas en el mapa.
-    const [latitude, setLatitude] = React.useState('');
-    const [longitude, setLongitude] = React.useState('');
-  
-    //Constante de el marcador, es donde se guarda el marcador actual para mostrarlo en el mapa.
-    const [markers, setMarkers] = React.useState([]);
+	//Estados de la aplicacion
+	//Latitud y longitud del marcador actual que tu pongas en el mapa.
+	const [latitude, setLatitude] = React.useState("");
+	const [longitude, setLongitude] = React.useState("");
 
-    //Controla si el boton para añadir marcador a puntos esta activado, este boton saca el popup con el formulario
-    const [disabledB,setDisabledB] = React.useState(true);
+	//Constante de el marcador, es donde se guarda el marcador actual para mostrarlo en el mapa.
+	const [markers, setMarkers] = React.useState([]);
 
-    //Constantes del Modal
-    const [modalIsOpen, setIsOpen] = React.useState(false);
+	//Controla si el boton para añadir marcador a puntos esta activado, este boton saca el popup con el formulario
+	const [disabledB, setDisabledB] = React.useState(true);
 
-    //Se puede clickar en el mapa
-    const [canCick, setCanCick] = React.useState(false);
+	//Constantes del Modal
+	const [modalIsOpen, setIsOpen] = React.useState(false);
 
-    function openModal(boolean){
-      setIsOpen(boolean)
-    }
+	//Se puede clickar en el mapa
+	const [canCick, setCanCick] = React.useState(false);
 
-    const {currentTheme, setCurrentTheme} = useContext(ThemeContext);
-    function toggleTheme() {
-      setCurrentTheme((current) => (current===Themes.LIGHT ? Themes.DARK : Themes.LIGHT));
-    }
-    function toggleLanguage() {
-      i18n.changeLanguage(i18n.language === "es" ? "en" : "es");
-    }
+	function openModal(boolean) {
+		setIsOpen(boolean);
+	}
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [drawerContent, setDrawerContent] = useState(null);
+	const { currentTheme, setCurrentTheme } = useContext(ThemeContext);
+	function toggleTheme() {
+		setCurrentTheme((current) =>
+			current === Themes.LIGHT ? Themes.DARK : Themes.LIGHT
+		);
+	}
+	function toggleLanguage() {
+		i18n.changeLanguage(i18n.language === "es" ? "en" : "es");
+	}
 
-  function restoreDefautlDrawerContent() {
-    setDrawerContent(null)
-  }
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	const [drawerContent, setDrawerContent] = useState(null);
 
-  function changeDrawerContent(newContent=null) {
-    setIsDrawerOpen(true)
-    setDrawerContent(newContent)
-  }
+	function restoreDefautlDrawerContent() {
+		setDrawerContent(null);
+	}
 
-  // // TODO: borrar si ya lo hizo Damian
-  function centerMapToCoordinates(newLatitude, newLongitude) {
-  //   // TODO: comprobar por qué
-  //   console.log("Center no funciona")
-  //   setLatitude(newLatitude)
-  //   setLongitude(newLongitude)
-  }
+	function changeDrawerContent(newContent = null) {
+		setIsDrawerOpen(true);
+		setDrawerContent(newContent);
+	}
 
-  	//Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la unicación del usuario.
+	// // TODO: borrar si ya lo hizo Damian
+	function centerMapToCoordinates(newLatitude, newLongitude) {
+		//   // TODO: comprobar por qué
+		//   console.log("Center no funciona")
+		//   setLatitude(newLatitude)
+		//   setLongitude(newLongitude)
+	}
+
+	//Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la unicación del usuario.
 	const [position, setPosition] = useState({
 		lat: 0,
 		lng: 0,
 	});
 
-  return (
-    <div id={currentTheme}>
-      <CreateModal
-        isOpen={modalIsOpen}
-        latMark={latitude}
-        lngMark={longitude}
-        places={places}
-        setPlaces={setPlaces}
-        setIsOpen={setIsOpen}
-        setMarkers={setMarkers}
-        setStateButton={setDisabledB}
-        setCanCick={setCanCick}
-      />
+	return (
+		<div id={currentTheme}>
+			<CreateModal
+				isOpen={modalIsOpen}
+				latMark={latitude}
+				lngMark={longitude}
+				places={places}
+				setPlaces={setPlaces}
+				setIsOpen={setIsOpen}
+				setMarkers={setMarkers}
+				setStateButton={setDisabledB}
+				setCanCick={setCanCick}
+			/>
 
-      <CreateMap
-        open={openModal}
-        setLatitude={setLatitude}
-        setLongitude={setLongitude}
-        markers={markers} 
-        setMarkers={setMarkers}
-        buttonState={disabledB}
-        setStateButton={setDisabledB}
-        places={places}
-        canCick={canCick}
-        setCanCick={setCanCick}
-        changeDrawerContent={changeDrawerContent}
-        restoreDefautlDrawerContent={restoreDefautlDrawerContent}
-        position={position}
+			<CreateMap
+				open={openModal}
+				setLatitude={setLatitude}
+				setLongitude={setLongitude}
+				markers={markers}
+				setMarkers={setMarkers}
+				buttonState={disabledB}
+				setStateButton={setDisabledB}
+				places={places}
+				canCick={canCick}
+				setCanCick={setCanCick}
+				changeDrawerContent={changeDrawerContent}
+				restoreDefautlDrawerContent={restoreDefautlDrawerContent}
+				position={position}
 				setPosition={setPosition}
-        categorias = {categorias}
-        API_route_calls = {API_route_calls}
-      />
+				categorias={categorias}
+				API_route_calls={API_route_calls}
+				API_location_calls={API_location_calls}
+			/>
 
-      <SettingsSpeedDial
-        changeLanguage = {toggleLanguage}
-        toggleTheme = {toggleTheme}
-        logOutFunction = {logOutFunction}
-      />
+			<SettingsSpeedDial
+				changeLanguage={toggleLanguage}
+				toggleTheme={toggleTheme}
+				logOutFunction={logOutFunction}
+			/>
 
-      <DrawerSidebar
-        userPlaces = {places}
-        isDrawerOpen = {isDrawerOpen}
-        setIsDrawerOpen = {setIsDrawerOpen}
-        contentToDisplay = {drawerContent}
-        restoreDefautlDrawerContent = {restoreDefautlDrawerContent}
-        changeDrawerContent = {changeDrawerContent}
-        categorias = {categorias}
-        rutas = {rutas}
-        centerMapToCoordinates={centerMapToCoordinates}
-        API_route_calls = {API_route_calls}
-        API_location_calls = {API_location_calls}
-        setPosition={setPosition}
-        amigos = {amigos}
-        API_friend_calls = {API_friend_calls}
-      />
-
-    </div>
-  );
+			<DrawerSidebar
+				userPlaces={places}
+				isDrawerOpen={isDrawerOpen}
+				setIsDrawerOpen={setIsDrawerOpen}
+				contentToDisplay={drawerContent}
+				restoreDefautlDrawerContent={restoreDefautlDrawerContent}
+				changeDrawerContent={changeDrawerContent}
+				categorias={categorias}
+				rutas={rutas}
+				centerMapToCoordinates={centerMapToCoordinates}
+				API_route_calls={API_route_calls}
+				API_location_calls={API_location_calls}
+				setPosition={setPosition}
+				amigos={amigos}
+				API_friend_calls={API_friend_calls}
+			/>
+		</div>
+	);
 }
