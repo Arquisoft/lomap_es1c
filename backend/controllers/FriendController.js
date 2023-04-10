@@ -31,10 +31,11 @@ async function addFriend(req, res, next) {
 
 async function deleteFriend(req, res, next) {
 	try {
-		const { friendId } = req.params;
+		const { id } = req.params;
+
 		const session = await SessionController.getSession(req, next);
-		await solid.deleteFriendById(session, friendId);
-		res.status(200).json(friendId);
+		await solid.deleteFriendById(session, id);
+		res.status(200).json(id);
 	} catch (err) {
 		next(err);
 	}
