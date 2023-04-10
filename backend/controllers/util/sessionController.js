@@ -1,13 +1,12 @@
-const { getSessionFromStorage } = require("@inrupt/solid-client-authn-node");
 const hashMapSession = {};
 async function getSession(req, next) {
 	try {
 		return hashMapSession[req.cookies.sessionId];
-		//return await getSessionFromStorage(req.cookies.sessionId);
 	} catch (err) {
 		next(err);
 	}
 }
+
 async function getAllSessions() {
 	return hashMapSession;
 }

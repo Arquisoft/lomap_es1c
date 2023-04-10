@@ -10,7 +10,7 @@ import { darkMapStyle, lightMapStyle } from "./themes/MapThemes";
 import FullInfoPlace from "../Sidebar/cards/FullInfoPlace";
 
 export default function CreateMap({ open, setLatitude, setLongitude, markers, setMarkers, places, canCick,
-  setCanCick, changeDrawerContent, restoreDefautlDrawerContent, position, setPosition ,categorias}) {
+  setCanCick, changeDrawerContent, restoreDefautlDrawerContent, position, setPosition ,categorias, API_route_calls}) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
@@ -25,6 +25,7 @@ export default function CreateMap({ open, setLatitude, setLongitude, markers, se
         restoreDefautlDrawerContent={restoreDefautlDrawerContent}
         position={position} setPosition={setPosition}
         categorias={categorias}
+        API_route_calls = {API_route_calls}
       />
     </div>
   );
@@ -34,14 +35,12 @@ export default function CreateMap({ open, setLatitude, setLongitude, markers, se
 var Located = true;
 
 function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMarkers, places, canCick, setCanCick,
-  changeDrawerContent, restoreDefautlDrawerContent,categorias, position, setPosition }) {
+  changeDrawerContent, restoreDefautlDrawerContent,categorias, position, setPosition, API_route_calls }) {
 
   //Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
 
 
   //DIferentes estados necesarios para el mapa.
-  const [latitude, setLatitude] = React.useState('');
-  const [longitude, setLongitude] = React.useState('');
   const [openInfo, setOpenInfo] = React.useState(false);
 	const [categortFiltered, setCategortFiltered] = useState({
 		activated: false,
@@ -60,9 +59,6 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
     }
    return temp;
   }
-
-
-  
 
   //Constante de el marcador, es donde se guarda el marcador actual para mostrarlo en el mapa.
   const markers = markersState;
@@ -87,8 +83,6 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
     }
   };
 
-
-
   const mapRef = useRef(null);
 
   function handleCenter() {
@@ -106,8 +100,6 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
           lat: position.coords.latitude,
           lng: position.coords.longitude
         })
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude)
         if (position.coords.latitude !== 0) {
           Located = false;
         }
@@ -153,6 +145,7 @@ function Map({ openModal, setLongitudeMark, setLatitudeMark, markersState, setMa
         changeDrawerContent={changeDrawerContent}
         restoreDefautlDrawerContent={restoreDefautlDrawerContent}
         userPlaces = {places}
+        API_route_calls = {API_route_calls}
        />
 
       <GoogleMap

@@ -9,37 +9,73 @@ import { useState } from "react";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-export default function EditRouteInfo({route, returnFunction, userPlaces}) {
+const modifications = {
+    ADD: "add",
+    DELETE: "delete",
+    REORDER: "reorder"
+}
+
+export default function EditRouteInfo({route, returnFunction, userPlaces, API_route_calls}) {
+    var theRouteID = route==null ? "" : route.id
     const [name, setName] = useState(route == null ? "" : route.name)
+    const [description, setDescription] = useState("")
     const [locations, setLocations] = useState(route == null ? [] : route.locations)
-    const [canSave, setCanSave] = useState(route != null)
     const [anchorMenu, setAnchorMenu] = useState(false)
 
     function handleNameChange(event) {
         setName(event.target.value)
     }
 
-    function save() {
-        // TODO: pendiente de implementar ¿De verdad necesito hacer objetos command?
-        console.log("Pendiente de implementar")
-        if (canSave) {
-            // TODO: conectar a la API
+    function handleDescriptionChange(event) {
+        setDescription(event.target.value)
+    }
+
+    const [locationsModifications, setLocationsModifications] = useState([])
+
+    async function save() {
+        if (route == null) {
+            const theRouteID = await API_route_calls.API_addRoute(name, description)
         } else {
-            // TODO: mostrar error
+            if (name != route.name  ||  description != route.description) {
+                API_route_calls.API_updateRouteInfo(route.id, name, description)
+            }
         }
+        for (var modification of locationsModifications) {
+            modification.execute(theRouteID)
+        }
+
+        returnFunction()
     }
 
     function clickOnNewLocation(locationId) {
         setLocations((current) => [...current, userPlaces.find(l => l.id == locationId)])
+        setLocationsModifications(
+            (current) => 
+            [...current,
+                {
+                    type: modifications.ADD,
+                    locationID: locationId,
+                    execute: (routeID) => API_route_calls.API_addLocationToRoute(routeID, locationId)
+                }
+            ]
+        )
         setAnchorMenu(null)
-        // TODO: conectar con la api
-        console.log("Conectar con la API")
     }
 
-    function removeLocation(id) {
-        //TODO: guardar en la api
-        setLocations((current) => (current.filter(location => location.id != id)))
-        console.log("pendiente de juntar a la api")
+    function removeLocation(locationId) {
+        setLocations((current) => (current.filter(location => location.id != locationId)))
+        
+        setLocationsModifications(
+            (current) => 
+            // Eliminar los ADDS innecesarios
+            current.filter(modification => modification.locationID!=locationId).concat(
+                {
+                    type: modifications.DELETE,
+                    locationID: locationId,
+                    execute: (routeID) => API_route_calls.API_deleteLocationFromRoute(routeID, locationId)
+                }
+            )
+        )
     }
 
     return (
@@ -50,6 +86,12 @@ export default function EditRouteInfo({route, returnFunction, userPlaces}) {
             label = "Título"
             defaultValue = {name}
             onChange={handleNameChange}
+        />
+        <br></br>
+        <TextField
+            label = "Descripcion"
+            defaultValue = {description}
+            onChange={handleDescriptionChange}
         />
         <div className="card--line1">
         <h3>Lugares: </h3>

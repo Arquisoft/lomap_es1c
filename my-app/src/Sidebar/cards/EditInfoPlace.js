@@ -6,13 +6,13 @@ import MenuItem from "@mui/material/MenuItem";
 import Rating from "@mui/material/Rating";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
-import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useTranslation } from "react-i18next";
 
 // TODO eliminar datos hardcodeados
 const images = [
@@ -48,21 +48,23 @@ const images = [
 	},
 ];
 
-export default function FullInfoPlace({ place, returnFunction, categorias }) {
+export default function FullInfoPlace({place, returnFunction, categorias, API_location_calls}) {
+	const [name, setName] = useState(place.name)
+	const [category, setCategory] = useState(place.categoria)
+	const [privacy, setPrivacy] = useState(place.privacidad)
+	const [t] = useTranslation("global");
+	const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"];
+
+	// placeID, newName, newCategory, newPrivacy
+
 	function save() {
-		console.log("Pendiente de implementar");
-		// TODO: pendiente de implementar
-		// TODO: conectar a la API
-		//const url = "http://localhost:8080/location/" + id;
-		const data = {
-			name: "",
-			privacy: "",
-			category: "",
-		};
-		const config = {
-			withCredentials: true,
-		};
-		//axios.put(url, data, config);
+		if (place.name != name  ||  place.categoria != category  ||  place.privacidad != privacy) {
+			API_location_calls.API_updateLocation(place.ID, name, category, privacy)
+			console.log("Se supone que está llamado")
+		} else {
+			console.log("No hay nada que actualizar")
+		}
+		// TODO cerrar sidebar
 	}
 
 	const categoriesToList = ["", ...categorias];
@@ -77,19 +79,48 @@ export default function FullInfoPlace({ place, returnFunction, categorias }) {
 
 	function deleteImage() {}
 
+	function handleNameChange(event) {
+		setName(event.target.value)
+	}
+	
+	function handleCategoryChange(event) {
+		setCategory(event.target.value)
+	}
+
+	function handlePrivacyChange(event) {
+		setPrivacy(event.target.value)
+	}
+
 	return (
 		<>
 			<IconButton onClick={returnFunction}>
 				<ArrowBackIcon />
 			</IconButton>
 			<br></br>
-			<TextField label="Nombre" defaultValue={place.name} />
+			<TextField	
+				label="Nombre"
+				defaultValue={place.name}
+				onChange={handleNameChange}
+			/>
 
 			<Rating value={place.valoracion} />
 
 			<br></br>
 
-			<Select defaultValue={place.categoria.toLowerCase()} label="Categoria">
+			<Select
+				defaultValue={place.privacidad ? place.privacidad : nivelesPrivacidad[0].toLowerCase()}
+				onChange={handlePrivacyChange}
+			>
+				{nivelesPrivacidad.map((nivel) => (<MenuItem value={nivel.toLowerCase()}>{nivel}</MenuItem>))}
+			</Select>
+
+				<br></br>
+
+			<Select
+				defaultValue={place.categoria.toLowerCase()}
+				label="Categoria"
+				onChange = {handleCategoryChange}
+			>
 				{categoriesToList.map((categoria) => (
 					<MenuItem
 						key={categoria.toLowerCase()}

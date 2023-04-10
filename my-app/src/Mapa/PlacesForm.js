@@ -133,7 +133,6 @@ export default function CreateModal({
 				fotos,
 				privacidad
 			);
-			console.log(fotos);
 			setNombre("");
 			setValoracion("");
 			setIsOpen(false);

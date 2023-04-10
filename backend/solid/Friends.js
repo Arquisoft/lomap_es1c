@@ -1,21 +1,44 @@
-const { getSolidDataset, overwriteFile, FOAF, VCARD, AccessControlList, setPublicAccess, setAgentAccess} = require("@inrupt/solid-client");
+const {
+	getSolidDataset,
+	overwriteFile,
+	FOAF,
+	VCARD,
+	AccessControlList,
+	setPublicAccess,
+	setAgentAccess,
+} = require("@inrupt/solid-client");
 
 const parser = require("./util/Parser.js");
 const serializer = require("./util/Serializer.js");
 
-async function addFriend(Session, friend, myBaseUrl, friendBaseUrl) {
+async function addFriend(Session, myBaseUrl, friend) {
 	let file = await serializer.serializeFriend(friend);
 
-	await overwriteFile(friendBaseUrl +  "LoMap/friends/" + friend.webId + ".json", file, {
-		contentType: file.type,
-		fetch: Session.fetch,
-	});
+	await overwriteFile(
+		myBaseUrl + "/LoMap/friends/" + friend.id + ".json",
+		file,
+		{
+			contentType: file.type,
+			fetch: Session.fetch,
+		}
+	);
 
-	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/locations", 	{read: true, write: true});
-	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/reviews", {read: true});
-	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/comments", {read: true});
-	darPermisos(Session, friend.id, myBaseUrl + "LoMap/locations/photos", {read: true});
-	darPermisos(Session, friend.id, myBaseUrl + "LoMap/routes", {read: true});
+	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/locations/locations", {
+		read: true,
+		write: true,
+	});
+	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/locations/reviews", {
+		read: true,
+	});
+	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/locations/comments", {
+		read: true,
+	});
+	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/locations/photos", {
+		read: true,
+	});
+	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/routes", {
+		read: true,
+	});
 }
 
 async function getAllFriends(Session, myBaseUrl) {
@@ -55,7 +78,6 @@ async function deleteFriendById(Session, idFriend, myBaseUrl, friendBaseUrl) {
 	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/routes");
 }
 
-
 /*async function darPermisos(Session, webId, carpetaUrl, permisos) {
 	const carpeta = await Session.fetch(carpetaUrl);
   
@@ -74,20 +96,11 @@ async function deleteFriendById(Session, idFriend, myBaseUrl, friendBaseUrl) {
 }*/
 
 async function darPermisos(Session, webId, carpetaUrl, permisos) {
-	await setAgentAccess(
-		carpetaUrl,
-		webId,
-		permisos,
-		{ fetch: Session.fetch },
-	  );
+	await setAgentAccess(carpetaUrl, webId, permisos, { fetch: Session.fetch });
 }
 
 async function darPermisosPublicos(Session, carpetaUrl, permisos) {
-	await setPublicAccess(
-		carpetaUrl,
-		permisos,
-		{ fetch: Session.fetch },
-	);
+	await setPublicAccess(carpetaUrl, permisos, { fetch: Session.fetch });
 }
 
 async function quitarPermisos(Session, webId, carpetaUrl) {
@@ -95,10 +108,10 @@ async function quitarPermisos(Session, webId, carpetaUrl) {
 
 	// Obtiene la lista de control de acceso (ACL) de la carpeta
 	const acl = await AccessControlList.fetchFrom(carpeta);
-  
+
 	// Elimina el WebID de la lista de control de acceso
 	acl.removeRule(webId);
-  
+
 	// Actualiza la lista de control de acceso de la carpeta sin los permisos del WebID
 	await Session.fetch(acl.saveTo(carpeta));
 }
@@ -107,5 +120,5 @@ module.exports = {
 	addFriend,
 	getAllFriends,
 	deleteFriendById,
-	darPermisosPublicos
+	darPermisosPublicos,
 };
