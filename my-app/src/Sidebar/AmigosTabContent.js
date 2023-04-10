@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AddFriendContent from './AddFriendContent';
 
 export default function AmigosTabContent({amigos, API_friend_calls, changeDrawerContent}) {
-    const [t, i18n] = useTranslation("global")
+    const [t] = useTranslation("global")
 
     function handleClickOnAddFriend(event) {
         changeDrawerContent(
@@ -26,7 +26,7 @@ export default function AmigosTabContent({amigos, API_friend_calls, changeDrawer
             {amigos.map(
                 amigo =>
                 <AmigoCard
-                    key = {amigo.webib}
+                    key = {amigo.webid}
                     amigo = {amigo}
                     API_friend_calls = {API_friend_calls}
                 />

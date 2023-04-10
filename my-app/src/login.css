@@ -1,5 +1,5 @@
 .caja{
-    background-color: #1e2124;
+    /* background-color: #1e2124; */
     width: 500px;
     height: 500px;
     border-radius: 25px;
@@ -20,11 +20,16 @@
 }
 
 .formName .btnLogin{
-    top: 90%;
+    /* top: 90%; */
     left: 40%;
-    border: 0.25em solid white;
-    color: white;
+    /* border: 0.25em solid white; */
+    /* color: white; */
 }
+
+.MuiInputBase-input {
+    color: white;
+    border-color: white;
+  }
 
 .logo{
     position: relative;
