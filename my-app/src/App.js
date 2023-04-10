@@ -83,13 +83,11 @@ export default function App({ logOutFunction }) {
 
   useEffect(() => {
     updateRutas()
-  }, [])
+  }, [places])
 
   useEffect(() => {
     updateAmigos()
   }, [])
-
-
 
   async function API_getRouteByID(routeID) {
     const url = "http://localhost:8080/route/"+routeID
@@ -153,6 +151,7 @@ export default function App({ logOutFunction }) {
   function API_deleteLocation(locationID) {
     const url = "http://localhost:8080/location/"+locationID;
 		return axios.delete(url, {withCredentials: true});
+    // TODO actualizar lugares
   }
 
   function API_updateLocation(placeID, newName, newCategory, newPrivacy) {
