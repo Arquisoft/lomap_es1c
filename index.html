@@ -479,23 +479,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a>
 <ul class="sectlevel2">
-<li><a href="#_runtime_scenario_1">6.1. &lt;Runtime Scenario 1&gt;</a></li>
-<li><a href="#_runtime_scenario_2">6.2. &lt;Runtime Scenario 2&gt;</a></li>
-<li><a href="#">6.3. &#8230;&#8203;</a></li>
-<li><a href="#_runtime_scenario_n">6.4. &lt;Runtime Scenario n&gt;</a></li>
+<li><a href="#_user_login_and_logout">6.1. User Login and Logout</a></li>
+<li><a href="#_return_all_location_of_the_map">6.2. Return all location of the map</a></li>
+<li><a href="#_add_location_to_the_map">6.3. Add location to the map</a></li>
+<li><a href="#_delete_location_of_the_map">6.4. Delete location of the map</a></li>
+<li><a href="#_modify_location_of_the_map">6.5. Modify location of the map</a></li>
 </ul>
 </li>
 <li><a href="#section-deployment-view">7. Deployment View</a>
 <ul class="sectlevel2">
 <li><a href="#_infrastructure_level_1">7.1. Infrastructure Level 1</a></li>
-<li><a href="#_infrastructure_level_2">7.2. Infrastructure Level 2</a></li>
 </ul>
 </li>
 <li><a href="#section-concepts">8. Cross-cutting Concepts</a>
 <ul class="sectlevel2">
 <li><a href="#_domain_model">8.1. Domain model</a></li>
-<li><a href="#_concept_2">8.2. <em>&lt;Concept 2&gt;</em></a></li>
-<li><a href="#_concept_n">8.3. <em>&lt;Concept n&gt;</em></a></li>
+<li><a href="#_security">8.2. Security</a></li>
+<li><a href="#_user_interface">8.3. User Interface</a></li>
+<li><a href="#_internationalization">8.4. Internationalization</a></li>
 </ul>
 </li>
 <li><a href="#section-design-decisions">9. Design Decisions</a></li>
@@ -1184,19 +1185,6 @@ Thus it contains the white box description of selected building blocks of level 
 </div>
 <div class="sect2">
 <h3 id="_whitebox_overall_system">5.1. Whitebox Overall System</h3>
-<hr>
-<div class="paragraph">
-<p>Actor User
-Component LoMap
-Component REST API
-Component pod as "Pod&#8217;s service"
-User -right&#8594; LoMap: Interacts With
-LoMap -right&#8594; REST API: Uses
-REST API -right&#8594; pod: Store Data
-pod -right&#8594; REST API: Get Data
-User -right&#8594; pod: Owns
----</p>
-</div>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -1235,218 +1223,129 @@ In the best case you will get away with examples or simple signatures.</p>
 </div>
 </div>
 </div>
-<div class="paragraph">
-<p><em><strong>&lt;Overview Diagram&gt;</strong></em></p>
+<div class="imageblock">
+<div class="content">
+<img src="./images/level1.png" alt="level1" width="421" height="137">
+</div>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Motivation</dt>
 <dd>
-<p><em>&lt;text explanation&gt;</em></p>
+<p>LoMap is an application that has a system where users can add custom places to the map. All the private data the application needs its stored in his personal POD.</p>
 </dd>
 <dt class="hdlist1">Contained Building Blocks</dt>
-<dd>
-<p><em>&lt;Description of contained building block (black boxes)&gt;</em></p>
-</dd>
-<dt class="hdlist1">Important Interfaces</dt>
-<dd>
-<p><em>&lt;Description of important interfaces&gt;</em></p>
-</dd>
 </dl>
-</div>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Insert your explanations of black boxes from level 1:</p>
-</div>
-<div class="paragraph">
-<p>If you use tabular form you will only describe your black boxes with name and
-responsibility according to the following schema:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 66.6667%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top"><strong>Name</strong></th>
-<th class="tableblock halign-left valign-top"><strong>Responsibility</strong></th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;black box 1&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"> <em>&lt;Text&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The user that interacts with the application.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;black box 2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"> <em>&lt;Text&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LoMap</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The main application that is develop to be used by the user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pod</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Personal POD of the user where the data is stored.</p></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>If you use a list of black box descriptions then you fill in a separate black box template for every important building block .
-Its headline is the name of the black box.</p>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_name_black_box_1">5.1.1. &lt;Name black box 1&gt;</h4>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Here you describe &lt;black box 1&gt;
-according the the following black box template:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Purpose/Responsibility</p>
-</li>
-<li>
-<p>Interface(s), when they are not extracted as separate paragraphs. This interfaces may include qualities and performance characteristics.</p>
-</li>
-<li>
-<p>(Optional) Quality-/Performance characteristics of the black box, e.g.availability, run time behavior, &#8230;&#8203;.</p>
-</li>
-<li>
-<p>(Optional) directory/file location</p>
-</li>
-<li>
-<p>(Optional) Fulfilled requirements (if you need traceability to requirements).</p>
-</li>
-<li>
-<p>(Optional) Open issues/problems/risks</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p><em>&lt;Purpose/Responsibility&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;Interface(s)&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(Optional) Quality/Performance Characteristics&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(Optional) Directory/File Location&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(Optional) Fulfilled Requirements&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(optional) Open Issues/Problems/Risks&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_name_black_box_2">5.1.2. &lt;Name black box 2&gt;</h4>
-<div class="paragraph">
-<p><em>&lt;black box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_name_black_box_n">5.1.3. &lt;Name black box n&gt;</h4>
-<div class="paragraph">
-<p><em>&lt;black box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_name_interface_1">5.1.4. &lt;Name interface 1&gt;</h4>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_name_interface_m">5.1.5. &lt;Name interface m&gt;</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="_level_2">5.2. Level 2</h3>
-<div class="sidebarblock arc42help">
+<div class="imageblock">
 <div class="content">
-<div class="paragraph">
-<p>Here you can specify the inner structure of (some) building blocks from level 1 as white boxes.</p>
-</div>
-<div class="paragraph">
-<p>You have to decide which building blocks of your system are important enough to justify such a detailed description.
-Please prefer relevance over completeness. Specify important, surprising, risky, complex or volatile building blocks.
-Leave out normal, simple, boring or standardized parts of your system</p>
+<img src="./images/level2.png" alt="level2" width="498" height="252">
 </div>
 </div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Motivation</dt>
+<dd>
+<p>We need to know how the LoMap service is built internally. As we see in the diagram we show the difference between the part of the application where the user interacts, and the part of the application that manages the data.</p>
+</dd>
+<dt class="hdlist1">Contained Building Blocks</dt>
+</dl>
 </div>
-<div class="sect3">
-<h4 id="_white_box_building_block_1">5.2.1. White Box <em>&lt;building block 1&gt;</em></h4>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>&#8230;&#8203;describes the internal structure of <em>building block 1</em>.</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_white_box_building_block_2">5.2.2. White Box <em>&lt;building block 2&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_white_box_building_block_m">5.2.3. White Box <em>&lt;building block m&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RESTAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The place where the data is managed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WebApp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User interface of the system that the user uses to interact with the application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Map Provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API that provide as the map interface for the main application.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_level_3">5.3. Level 3</h3>
-<div class="sidebarblock arc42help">
+<div class="imageblock">
 <div class="content">
-<div class="paragraph">
-<p>Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.</p>
-</div>
-<div class="paragraph">
-<p>When you need more detailed levels of your architecture please copy this
-part of arc42 for additional levels.</p>
+<img src="./images/level3.png" alt="level3" width="1335" height="733">
 </div>
 </div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Motivation</dt>
+<dd>
+<p>To study in more detail how the WebApp works, that is the part that user interacts with, and also the REST API, the manager of the data.</p>
+</dd>
+<dt class="hdlist1">Contained Building Blocks</dt>
+</dl>
 </div>
-<div class="sect3">
-<h4 id="_white_box_building_block_x_1">5.3.1. White Box &lt;_building block x.1_&gt;</h4>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Specifies the internal structure of <em>building block x.1</em>.</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_white_box_building_block_x_2">5.3.2. White Box &lt;_building block x.2_&gt;</h4>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_white_box_building_block_y_1">5.3.3. White Box &lt;_building block y.1_&gt;</h4>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Login</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Page of the application where you can login.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Map</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Main page where the map is display and the user can interact with.</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
-</div>
 </div>
 </div>
 </div>
@@ -1512,37 +1411,59 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 <div class="sect2">
-<h3 id="_runtime_scenario_1">6.1. &lt;Runtime Scenario 1&gt;</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><em>&lt;insert runtime diagram or textual description of the scenario&gt;</em></p>
-</li>
-<li>
-<p><em>&lt;insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.&gt;</em></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>It is possible to use a sequence diagram:</p>
-</div>
+<h3 id="_user_login_and_logout">6.1. User Login and Logout</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Sequence%20diagram.png" alt="Sequence diagram" width="332" height="335">
+<img src="./images/Sequence%20diagram%20login.png" alt="Sequence diagram login" width="526" height="651">
 </div>
+</div>
+<div class="paragraph">
+<p>A new user or a returning user enters the application.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_runtime_scenario_2">6.2. &lt;Runtime Scenario 2&gt;</h3>
-
+<h3 id="_return_all_location_of_the_map">6.2. Return all location of the map</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Sequence%20diagram%20return%20all%20location.png" alt="Sequence diagram return all location" width="852" height="365">
+</div>
+</div>
+<div class="paragraph">
+<p>A user logs into the application and the first thing the application do is load all the locations.</p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="">6.3. &#8230;&#8203;</h3>
-
+<h3 id="_add_location_to_the_map">6.3. Add location to the map</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Sequence%20diagram%20add.png" alt="Sequence diagram add" width="810" height="426">
+</div>
+</div>
+<div class="paragraph">
+<p>A user adds a new point</p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_runtime_scenario_n">6.4. &lt;Runtime Scenario n&gt;</h3>
+<h3 id="_delete_location_of_the_map">6.4. Delete location of the map</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Sequence%20diagram%20delete.png" alt="Sequence diagram delete" width="867" height="426">
+</div>
+</div>
+<div class="paragraph">
+<p>A user deletes an existing point</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_modify_location_of_the_map">6.5. Modify location of the map</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Sequence%20diagram%20modify.png" alt="Sequence diagram modify" width="896" height="487">
+</div>
+</div>
+<div class="paragraph">
+<p>A user modifies an existing point</p>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1628,60 +1549,67 @@ when your infrastructure is more complex.</p>
 </div>
 </div>
 </div>
-<div class="paragraph">
-<p><em><strong>&lt;Overview Diagram&gt;</strong></em></p>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Infrastructure.png" alt="Infrastructure" width="487" height="612">
+</div>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Motivation</dt>
 <dd>
-<p><em>&lt;explanation in text form&gt;</em></p>
+<p>To test the app, it runs on each person&#8217;s machine. However, when the development of the application progresses, it will be executed on a server that has a DockerCompose with the Dockers that contains the WebApp, which is where the user interacts, and another with the REST API, which is the part that manages the data.</p>
 </dd>
 <dt class="hdlist1">Quality and/or Performance Features</dt>
 <dd>
-<p><em>&lt;explanation in text form&gt;</em></p>
+<p>Our application depends on many different APIs, some of them are to show the map and to manage the PODs. We cannot control these APIs, so the availability and efficiency of the application may be affected. Also, these quality features could be affected by the server where the Dockers are running.</p>
 </dd>
 <dt class="hdlist1">Mapping of Building Blocks to Infrastructure</dt>
-<dd>
-<p><em>&lt;description of the mapping&gt;</em></p>
-</dd>
 </dl>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_infrastructure_level_2">7.2. Infrastructure Level 2</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Here you can include the internal structure of (some) infrastructure elements from level 1.</p>
-</div>
-<div class="paragraph">
-<p>Please copy the structure from level 1 for each selected element.</p>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_infrastructure_element_1">7.2.1. <em>&lt;Infrastructure Element 1&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;diagram + explanation&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_infrastructure_element_2">7.2.2. <em>&lt;Infrastructure Element 2&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;diagram + explanation&gt;</em></p>
-</div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_infrastructure_element_n">7.2.3. <em>&lt;Infrastructure Element n&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;diagram + explanation&gt;</em></p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Block Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DockerWeb</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Container that englobe all the WebApp part of the application, the user interface that the user interacts with.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DockerAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Container that englobe all the REST API part of the application, the part that manages the data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DockerCompose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Container that englobe all the application for an easier deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Server that is in charge of the web access of the application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GoogleMaps</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API that provide us the map where the user is going to operate the application and manage all the data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID POD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Personal and private data storage that each user has. All the private data that the user needs for the application or the data that the user generates its going to be stored here.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Device</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Device that the user is going to use. Should need internet connection.</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
-</div>
 </div>
 </div>
 </div>
@@ -1786,23 +1714,28 @@ on this list.</p>
 </div>
 <div class="sect2">
 <h3 id="_domain_model">8.1. Domain model</h3>
-<div class="paragraph">
-<p><span class="image"><img src="./images/UmlDiagram.png" alt="Example UML Diagram"></span></p>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Domain%20model.png" alt="Domain model" width="379" height="520">
 </div>
-</div>
-<div class="sect2">
-<h3 id="_concept_2">8.2. <em>&lt;Concept 2&gt;</em></h3>
-<div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
-</div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_concept_n">8.3. <em>&lt;Concept n&gt;</em></h3>
+<h3 id="_security">8.2. Security</h3>
 <div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
+<p>One of the main goals of the entire application is the privacy of the users. For this we use SOLID technology called PODs, which stores data and the user decides the privacy of the data. Users can enter the app by login with their POD provider.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_interface">8.3. User Interface</h3>
+<div class="paragraph">
+<p>We use the React library in combination with JavaScript fot thr front-part of the application. The user interface should be simple to use, have a clean appearance and be easy to navigate.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_internationalization">8.4. Internationalization</h3>
+<div class="paragraph">
+<p>The application is developed to be used by many people who can use different languages, because of this the whole app can switch the language between Spanish and English.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
