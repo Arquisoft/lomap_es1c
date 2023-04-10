@@ -37,7 +37,7 @@ export default function CreateModal({
 		}
 	});
 
-	const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"];
+	const nivelesPrivacidad = ["Publico", "Solo Amigos"];
 
 	Modal.setAppElement(document.getElementsByClassName("map-conteiner")[0]);
 	//Constantes para abrir y cerrar el modal.
@@ -133,7 +133,6 @@ export default function CreateModal({
 				fotos,
 				privacidad
 			);
-			console.log(fotos);
 			setNombre("");
 			setValoracion("");
 			setIsOpen(false);
@@ -207,10 +206,11 @@ export default function CreateModal({
 				<Select
 					id="categoria"
 					className="categoria"
-					defaultValue=""
+					defaultValue="sin categoria"
 					name="categoria"
 					onChange={handleCategoryChange}
 				>
+					<MenuItem value={"sin categoria"} defaultValue={true}>Sin Categoria</MenuItem>
 					{categorias.map((categoria) => (
 						<MenuItem value={categoria}>{categoria}</MenuItem>
 					))}
@@ -221,10 +221,11 @@ export default function CreateModal({
 				<Select
 					id="nivelPrivacidad"
 					className="privacidad"
-					defaultValue=""
+					defaultValue="privado"
 					name="nivelPrivacidad"
 					onChange={handlePrivacyChange}
 				>
+					<MenuItem value={"privado"} defaultValue={"privado"}>Privado</MenuItem>
 					{nivelesPrivacidad.map((nivel) => (
 						<MenuItem value={nivel.toLowerCase()}>{nivel}</MenuItem>
 					))}

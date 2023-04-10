@@ -17,7 +17,7 @@ export default function App({ logOutFunction }) {
 	const [places, setPlaces] = React.useState(a);
 
 	const [data, setData] = useState("");
-	const [t, i18n] = useTranslation("global");
+	const [i18n] = useTranslation("global");
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
 	const [amigos, setAmigos] = useState([]);
@@ -48,7 +48,6 @@ export default function App({ logOutFunction }) {
 	}
 
 	async function updateRutas() {
-		console.log("HE ENTRADO");
 		const url = "http://localhost:8080/route";
 		return await axios
 			.get(url, { withCredentials: true })
@@ -56,13 +55,13 @@ export default function App({ logOutFunction }) {
 			.catch((error) => console.log(error));
 	}
 
+
 	useEffect(() => {
 		async function getData() {
 			await axios
 				.get("http://localhost:8080/location", { withCredentials: true })
 				.then((response) => {
 					if (response.data.length !== data.length) {
-						console.log(response.data);
 						setData(response.data);
 					}
 				})
@@ -79,7 +78,7 @@ export default function App({ logOutFunction }) {
 						lat: data[i].latitude,
 						lng: data[i].longitude,
 						name: data[i].name,
-						categoria: data[i].category,
+						categoria: data[i].category
 					})
 				);
 			}
@@ -177,28 +176,21 @@ export default function App({ logOutFunction }) {
 		//TODO actualizar lugares
 	}
 
-	function API_addFriend(friendName, friendWebId) {
-		const url = "http://localhost:8080/friend";
-		const data = {
-			name: friendName,
-			webId: friendWebId,
-		};
-		const config = {
-			withCredentials: true,
-		};
-		axios.post(url, data, config);
+  async function API_addFriend(friendName, friendWebId) {
+    const url = "http://localhost:8080/friend"
+    const data = {
+      name: friendName,
+      webId: friendWebId
+    }
+    await axios.post(url, data, {withCredentials: true})
+    updateAmigos()
+  }
 
-		updateAmigos();
-	}
-
-	function API_deleteFriend(friendWebID) {
-		const url = "http://localhost:8080/friend/" + friendWebID;
-		const config = {
-			withCredentials: true,
-		};
-		axios.delete(url, config);
-		updateAmigos();
-	}
+  async function API_deleteFriend(friendWebID) {
+    const url = "http://localhost:8080/friend/"+friendWebID
+    await axios.delete(url, {withCredentials: true})
+    updateAmigos()
+  }
 
 	const API_location_calls = {
 		API_deleteLocation: API_deleteLocation,

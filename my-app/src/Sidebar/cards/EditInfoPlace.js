@@ -59,12 +59,12 @@ export default function FullInfoPlace({
 	const [name, setName] = useState(place.name);
 	const [category, setCategory] = useState(place.categoria);
 	const [privacy, setPrivacy] = useState(place.privacidad);
+
 	const [t] = useTranslation("global");
 	const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"];
 
 	async function save() {
 		setLoading(true);
-
 		if (
 			place.name != name ||
 			place.categoria != category ||
@@ -129,9 +129,9 @@ export default function FullInfoPlace({
 				}
 				onChange={handlePrivacyChange}
 			>
-				{nivelesPrivacidad.map((nivel) => (
-					<MenuItem value={nivel.toLowerCase()}>{nivel}</MenuItem>
-				))}
+				{nivelesPrivacidad.map(
+					(nivel) => (<MenuItem key={nivel.toLowerCase()} value={nivel.toLowerCase()}>{nivel}</MenuItem>))
+				}
 			</Select>
 
 			<br></br>
