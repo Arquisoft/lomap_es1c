@@ -24,6 +24,7 @@ export default function Login({logInFunction}){
       <div className="formName">
         <Box className="caja" component="span">
           <TextField
+            className="url"
             label="Escribir algo"
             value={text}
             onChange={(e) => setText(e.target.value)}
