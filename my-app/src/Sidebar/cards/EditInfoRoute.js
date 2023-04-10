@@ -23,7 +23,7 @@ export default function EditRouteInfo({
 }) {
 	var theRouteID = route == null ? "" : route.id;
 	const [loading, setLoading] = useState(false);
-	const [name, setName] = useState(route == null ? "" : route.name);
+	const [name, setName] = useState(route == null ? "" : route.name ? route.name : "");
 	const [description, setDescription] = useState(route == null ? "" : route.description);
 	const [locations, setLocations] = useState(
 		route == null ? [] : route.locations
@@ -100,18 +100,20 @@ export default function EditRouteInfo({
 
 	return (
 		<>
-			<IconButton onClick={returnFunction}>
+			<IconButton data-testid="back-button" onClick={returnFunction}>
 				<ArrowBackIcon />
 			</IconButton>
 			<br></br>
 			<TextField
-				label="Título"
+				inputProps={{"data-testid":"text-field-titulo"}}
+				label="Titulo"
 				defaultValue={name}
 				onChange={handleNameChange}
 				disabled={loading}
 			/>
 			<br></br>
 			<TextField
+				inputProps={{"data-testid":"text-field-description"}}
 				label="Descripcion"
 				defaultValue={description}
 				onChange={handleDescriptionChange}
@@ -119,7 +121,7 @@ export default function EditRouteInfo({
 			/>
 			<div className="card--line1">
 				<h3>Lugares: </h3>
-				<IconButton onClick={(event) => setAnchorMenu(event.currentTarget)}>
+				<IconButton data-testid="add-button" onClick={(event) => setAnchorMenu(event.currentTarget)}>
 					<AddIcon />
 				</IconButton>
 			</div>
@@ -156,6 +158,7 @@ export default function EditRouteInfo({
 			<br></br>
 
 			<LoadingButton
+				data-testid="save-button"
 				color="secondary"
 				onClick={save}
 				loading={loading}
