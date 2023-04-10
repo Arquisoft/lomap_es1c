@@ -119,7 +119,7 @@ async function serializeRoute(route) {
 	let routeJson = {
 		id: route.id,
 		name: route.name,
-		locations: route.locations.map((l) => l.id),
+		locations: route.locations,
 		description: route.description,
 		author: route.author,
 	};
@@ -132,7 +132,7 @@ async function serializeRoute(route) {
 	return buffer;
 }
 
- async function serializeFriend(friend) {
+async function serializeFriend(friend) {
 	let friendJson = {
 		name: friend.name,
 		webid: friend.webid,
