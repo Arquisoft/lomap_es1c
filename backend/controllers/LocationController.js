@@ -75,6 +75,7 @@ async function createLocation(req, res, next) {
 				session.info.webId
 			);
 		}
+
 		if (review) {
 			const review1 = new Review(review, session.info.webId);
 			await solid.addReview(session, review1, location.id, session.info.webId);
@@ -95,22 +96,22 @@ async function updateLocation(req, res, next) {
 	const { name, latitude, longitude, privacy, category } = req.body;
 
 	try {
+		if (!id) {
+			res.status(400).json({ error: "Faltan datos" });
+			return;
+		}
+
 		const session = await SessionController.getSession(req, next);
-		let location = await solid.getLocationById(
-			session.getSession(),
-			id,
-			session.info.webId
-		);
+		let location = await solid.getLocationById(session, id, session.info.webId);
+
 		location.name = name || location.name;
 		location.latitude = latitude || location.latitude;
 		location.longitude = longitude || location.longitude;
 		location.privacy = privacy || location.privacy;
 		location.category = category || location.category;
-		await solid.saveLocation(
-			session.getSession(),
-			location,
-			session.info.webId
-		);
+
+		await solid.saveLocation(session, location, session.info.webId);
+
 		res.status(200).json(location);
 	} catch (err) {
 		next(err);

@@ -11,6 +11,9 @@ async function getAllFriends(req, res, next) {
 		next(err);
 	}
 }
+
+
+
 async function addFriend(req, res, next) {
 	try {
 		const { name, webid } = req.body;

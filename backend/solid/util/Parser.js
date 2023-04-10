@@ -2,6 +2,7 @@ const Location = require("../../models/locationModels/Location.js");
 const Rating = require("../../models/locationModels/Review.js");
 const Coment = require("../../models/locationModels/Comment.js");
 const Foto = require("../../models/locationModels/Photo.js");
+const Friend = require("../../models/Friend.js");
 
 async function parseLocation(location) {
 	let locationJson = await getJsonFromBlob(location);
@@ -47,6 +48,13 @@ async function parsePhoto(foto) {
 	);
 }
 
+async function parseFriend(friend){
+	let friendJson = await getJsonFromBlob(friend);
+	return new Friend(friendJson.name, friendJson.webid, friendJson.id);
+}
+
+
+
 //XD
 async function getJsonFromBlob(blob) {
 	const json = JSON.parse(await blob.text());
@@ -72,4 +80,5 @@ module.exports = {
 	parsePhoto,
 	parseReview,
 	parseComment,
+	parseFriend
 };

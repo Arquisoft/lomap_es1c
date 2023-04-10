@@ -1,5 +1,6 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveIcon from "@mui/icons-material/Save";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { IconButton } from "@mui/material";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
@@ -7,12 +8,12 @@ import Rating from "@mui/material/Rating";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useTranslation } from "react-i18next";
 
 // TODO eliminar datos hardcodeados
 const images = [
@@ -48,23 +49,36 @@ const images = [
 	},
 ];
 
-export default function FullInfoPlace({place, returnFunction, categorias, API_location_calls}) {
-	const [name, setName] = useState(place.name)
-	const [category, setCategory] = useState(place.categoria)
-	const [privacy, setPrivacy] = useState(place.privacidad)
+export default function FullInfoPlace({
+	place,
+	returnFunction,
+	categorias,
+	API_location_calls,
+}) {
+	const [loading, setLoading] = useState(false);
+	const [name, setName] = useState(place.name);
+	const [category, setCategory] = useState(place.categoria);
+	const [privacy, setPrivacy] = useState(place.privacidad);
+
 	const [t] = useTranslation("global");
 	const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"];
 
-	// placeID, newName, newCategory, newPrivacy
-
-	function save() {
-		if (place.name != name  ||  place.categoria != category  ||  place.privacidad != privacy) {
-			API_location_calls.API_updateLocation(place.ID, name, category, privacy)
-			console.log("Se supone que está llamado")
-		} else {
-			console.log("No hay nada que actualizar")
+	async function save() {
+		setLoading(true);
+		if (
+			place.name != name ||
+			place.categoria != category ||
+			place.privacidad != privacy
+		) {
+			await API_location_calls.API_updateLocation(
+				place.id,
+				name,
+				category,
+				privacy
+			);
+			setLoading(false);
 		}
-		// TODO cerrar sidebar
+		returnFunction();
 	}
 
 	const categoriesToList = ["", ...categorias];
@@ -80,15 +94,15 @@ export default function FullInfoPlace({place, returnFunction, categorias, API_lo
 	function deleteImage() {}
 
 	function handleNameChange(event) {
-		setName(event.target.value)
+		setName(event.target.value);
 	}
-	
+
 	function handleCategoryChange(event) {
-		setCategory(event.target.value)
+		setCategory(event.target.value);
 	}
 
 	function handlePrivacyChange(event) {
-		setPrivacy(event.target.value)
+		setPrivacy(event.target.value);
 	}
 
 	return (
@@ -97,7 +111,7 @@ export default function FullInfoPlace({place, returnFunction, categorias, API_lo
 				<ArrowBackIcon />
 			</IconButton>
 			<br></br>
-			<TextField	
+			<TextField
 				label="Nombre"
 				defaultValue={place.name}
 				onChange={handleNameChange}
@@ -108,18 +122,24 @@ export default function FullInfoPlace({place, returnFunction, categorias, API_lo
 			<br></br>
 
 			<Select
-				defaultValue={place.privacidad ? place.privacidad : nivelesPrivacidad[0].toLowerCase()}
+				defaultValue={
+					place.privacidad
+						? place.privacidad.toLowerCase()
+						: nivelesPrivacidad[0].toLowerCase()
+				}
 				onChange={handlePrivacyChange}
 			>
-				{nivelesPrivacidad.map((nivel) => (<MenuItem value={nivel.toLowerCase()}>{nivel}</MenuItem>))}
+				{nivelesPrivacidad.map(
+					(nivel) => (<MenuItem key={nivel.toLowerCase()} value={nivel.toLowerCase()}>{nivel}</MenuItem>))
+				}
 			</Select>
 
-				<br></br>
+			<br></br>
 
 			<Select
 				defaultValue={place.categoria.toLowerCase()}
 				label="Categoria"
-				onChange = {handleCategoryChange}
+				onChange={handleCategoryChange}
 			>
 				{categoriesToList.map((categoria) => (
 					<MenuItem
@@ -153,9 +173,18 @@ export default function FullInfoPlace({place, returnFunction, categorias, API_lo
 				</SwiperSlide>
 			</Swiper>
 
-			<IconButton onClick={save}>
-				<SaveIcon />
-			</IconButton>
+			<br></br>
+
+			<LoadingButton
+				color="secondary"
+				onClick={save}
+				loading={loading}
+				loadingPosition="start"
+				startIcon={<SaveIcon />}
+				variant="contained"
+			>
+				<span>Save</span>
+			</LoadingButton>
 		</>
 	);
 }
