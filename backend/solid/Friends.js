@@ -1,6 +1,9 @@
 const {
 	getSolidDataset,
 	overwriteFile,
+	getFile,
+	getContainedResourceUrlAll,
+	deleteFile,
 	FOAF,
 	VCARD,
 	AccessControlList,
@@ -17,13 +20,10 @@ async function addFriend(Session, myBaseUrl, friend) {
 	await overwriteFile(
 		myBaseUrl + "/LoMap/friends/" + friend.id + ".json",
 		file,
-		{
-			contentType: file.type,
-			fetch: Session.fetch,
-		}
+		{fetch: Session.fetch,}
 	);
 
-	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/locations/locations", {
+	/*darPermisos(Session, friend.webId, myBaseUrl + "LoMap/locations/locations", {
 		read: true,
 		write: true,
 	});
@@ -38,7 +38,7 @@ async function addFriend(Session, myBaseUrl, friend) {
 	});
 	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/routes", {
 		read: true,
-	});
+	});*/
 }
 
 async function getAllFriends(Session, myBaseUrl) {
@@ -51,7 +51,7 @@ async function getAllFriends(Session, myBaseUrl) {
 		let urlSplit = friends[i].split("/");
 		modelsFriend[i] = await getFriendById(
 			Session,
-			urlSplit[urlSplit.length - 1],
+			urlSplit[urlSplit.length - 1].split(".")[0],
 			myBaseUrl
 		);
 	}
@@ -63,19 +63,19 @@ async function getFriendById(Session, idFriend, myBaseUrl) {
 		fetch: Session.fetch,
 	});
 
-	return await parser.parseFriend(Session, myBaseUrl, file);
+	return await parser.parseFriend(file);
 }
 
-async function deleteFriendById(Session, idFriend, myBaseUrl, friendBaseUrl) {
-	await deleteFile(friendBaseUrl + "LoMap/friends/" + idFriend + ".json", {
+async function deleteFriendById(Session, idFriend, myBaseUrl) {
+	await deleteFile(myBaseUrl + "LoMap/friends/" + idFriend + ".json", {
 		fetch: Session.fetch,
 	});
 
-	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/locations");
+	/*quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/locations");
 	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/reviews");
 	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/comments");
 	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/locations/photos");
-	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/routes");
+	quitarPermisos(Session, idFriend, myBaseUrl + "LoMap/routes");*/
 }
 
 /*async function darPermisos(Session, webId, carpetaUrl, permisos) {
