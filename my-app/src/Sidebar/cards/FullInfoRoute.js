@@ -37,30 +37,39 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
         <>
         <IconButton onClick={returnFunction}><ArrowBackIcon/></IconButton>
         <h1>{route.name}</h1>
+        <h3>{route.description}</h3>
+
+        <h3>{"Lugares: "}</h3>
+        <ul>
         {
             route.locations.map(
                 location => (
-                    <p key={location.id}>
+                    <li key={location.id}>
                         {location.name}
-                    </p>
+                    </li>
                 )
             )
         }
-        <IconButton onClick={allowEdit}><EditIcon/></IconButton>
-        <IconButton><TravelExploreIcon/></IconButton>
+        </ul>
 
         <br></br>
+        <div className="card--line1">
+            <IconButton onClick={allowEdit}><EditIcon/></IconButton>
+            {/* <IconButton><TravelExploreIcon/></IconButton> */}
 
-        <LoadingButton
-            color="secondary"
-            onClick={deleteRoute}
-            loading={loading}
-            loadingPosition="start"
-            startIcon={<DeleteIcon />}
-            variant="contained"
-        >
-            <span>Borrar</span>
-        </LoadingButton>
+
+            <LoadingButton
+                color="secondary"
+                onClick={deleteRoute}
+                loading={loading}
+                loadingPosition="start"
+                startIcon={<DeleteIcon />}
+                variant="contained"
+            >
+                <span>Borrar</span>
+            </LoadingButton>
+        </div>
+
         </>
     )
 }
