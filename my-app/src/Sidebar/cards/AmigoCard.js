@@ -6,8 +6,8 @@ import {useTranslation} from "react-i18next"
 export default function AmigoCard({amigo, API_friend_calls}) {
     const [t] = useTranslation("global");
 
-    function deleteFunc() {
-        API_friend_calls.API_deleteFriend(amigo.webid)
+    async function deleteFunc() {
+        await API_friend_calls.API_deleteFriend(amigo.webid)
     }
 
     return (

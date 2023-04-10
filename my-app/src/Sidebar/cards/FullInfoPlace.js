@@ -73,7 +73,7 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
 
     async function deletePlace() {
         setLoading(true)
-        await API_location_calls.API_deleteLocation(place.id)
+        const response = await API_location_calls.API_deleteLocation(place.id)
         setLoading(false)
         returnFunction()
     }

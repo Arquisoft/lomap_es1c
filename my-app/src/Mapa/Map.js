@@ -241,6 +241,7 @@ function Map({
 				))}
 			</GoogleMap>
 
+
 			<FilterButtons setCategortFiltered={setCategortFiltered} />
 		</div>
 	);
