@@ -7,17 +7,17 @@ export default function AmigoCard({amigo, API_friend_calls}) {
     const [t] = useTranslation("global");
 
     async function deleteFunc() {
-        await API_friend_calls.API_deleteFriend(amigo.webid)
+        await API_friend_calls.API_deleteFriend(amigo.id)
     }
 
     return (
         <div>
         <div className="card--line1">
-            <p key={amigo.webid}>
+            <p key={amigo.webid+"_p"}>
                 {(amigo.name  &&  amigo.name!=null) ? amigo.name : amigo.webid}
             </p>
 
-            <Tooltip title={t("sidebar.place.delete")} placement="bottom"><IconButton onClick={deleteFunc}><DeleteIcon/></IconButton></Tooltip>
+            <Tooltip key={"tooltip"+amigo.webid} title={t("sidebar.place.delete")} placement="bottom"><IconButton onClick={deleteFunc}><DeleteIcon/></IconButton></Tooltip>
 
         </div>
         <hr></hr>

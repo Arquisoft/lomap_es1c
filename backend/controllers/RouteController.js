@@ -2,7 +2,7 @@ const solid = require("../solid/Solid.js");
 const Route = require("../models/Route");
 const SessionController = require("../controllers/util/SessionController.js");
 
-async function getAllRoutes(req, res, next) {
+async function getAllRoutes(req, res,next) {
 	try {
 		const session = await SessionController.getSession(req, next);
 		const routes = await solid.getAllRoutes(session, session.info.webId);
