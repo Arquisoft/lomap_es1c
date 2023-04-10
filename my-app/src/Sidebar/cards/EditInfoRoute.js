@@ -24,7 +24,7 @@ export default function EditRouteInfo({
 	var theRouteID = route == null ? "" : route.id;
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState(route == null ? "" : route.name);
-	const [description, setDescription] = useState("");
+	const [description, setDescription] = useState(route == null ? "" : route.description);
 	const [locations, setLocations] = useState(
 		route == null ? [] : route.locations
 	);
@@ -84,8 +84,6 @@ export default function EditRouteInfo({
         const hasBeenAddedInThisModification = locationsModifications
             .filter(modification => (modification.type==modifications.ADD  &&  modification.locationID==locationId))
             .length>0
-
-		console.log(hasBeenAddedInThisModification)
 
         // Remove the unnecessary locations
         setLocationsModifications((current) => current.filter(modification => modification.locationID!=locationId))
