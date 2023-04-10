@@ -6,12 +6,12 @@
     grid-column-start: 2;
     grid-row: 2;
     border: 6px solid #1e2124;
-    background-color: grey;
+    background-color: rgb(27, 5, 151);
 }
 
 .mainDiv{
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 50% 40%;
 }
 
 .formName{
@@ -22,10 +22,13 @@
 }
 
 .formName .btnLogin{
+    align-self: center;
     top: 5%; 
     left: 25%;
      border: 0.1em solid gray; 
      color: black; 
+     background-color: rgb(59, 144, 255);
+     border-radius: 10px;
      font-size: 25px;
 }
 
@@ -50,6 +53,7 @@
 }
 
 .url{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     border: 50px solid black;
     top: 3%; 
     left: 20%;
