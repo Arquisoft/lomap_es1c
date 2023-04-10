@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Drawer, Box, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ThemeContext } from '../contexts/ThemeContext.js';
@@ -16,6 +16,11 @@ export default function DrawerSidebar(props) {
           categorias = {props.categorias}
           rutas = {props.rutas}
           centerMapToCoordinates = {props.centerMapToCoordinates}
+          API_route_calls = {props.API_route_calls}
+          setPosition={props.setPosition}
+          API_location_calls = {props.API_location_calls}
+          amigos = {props.amigos}
+          API_friend_calls = {props.API_friend_calls}
         />
       )
 

@@ -6,16 +6,20 @@ const {
 	deleteFile,
 } = require("@inrupt/solid-client");
 
-const parser = require("./util/Parser.js");
+const parser = require("./util/ParserRoute.js");
 const serializer = require("./util/Serializer.js");
 
 async function addRoute(Session, route, myBaseUrl) {
-	let file = serializer.serializeRoute(route);
+	let file = await serializer.serializeRoute(route);
 
-	await overwriteFile(myBaseUrl + "LoMap/" + "routes/" + route.id + ".json", file, {
-		contentType: file.type,
-		fetch: Session.fetch,
-	});
+	await overwriteFile(
+		myBaseUrl + "LoMap/" + "routes/" + route.id + ".json",
+		file,
+		{
+			contentType: file.type,
+			fetch: Session.fetch,
+		}
+	);
 }
 
 async function getAllRoutes(Session, myBaseUrl) {
@@ -28,22 +32,23 @@ async function getAllRoutes(Session, myBaseUrl) {
 		let urlSplit = rutas[i].split("/");
 		modelsRuta[i] = await getRouteById(
 			Session,
-			urlSplit[urlSplit.length - 1],
+			urlSplit[urlSplit.length - 1].split(".")[0],
 			myBaseUrl
 		);
 	}
-	return modelsRuta.filter(r => r!=null);
+
+	return modelsRuta.filter((r) => r != null);
 }
 
 async function getRouteById(Session, idRoute, myBaseUrl) {
-	try{
+	try {
 		let file = await getFile(myBaseUrl + "LoMap/routes/" + idRoute + ".json", {
 			fetch: Session.fetch,
 		});
-	
+
 		return await parser.parseRoute(Session, myBaseUrl, file);
-	}
-	catch(err){
+	} catch (err) {
+		console.log(err);
 		return null;
 	}
 }

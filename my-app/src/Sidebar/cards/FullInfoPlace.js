@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditInfoPlace from './EditInfoPlace';
+import { IconButton, Tooltip } from '@mui/material';
 import Rating from '@mui/material/Rating';
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper";
+import { useTranslation } from "react-i18next";
+import { Navigation, Pagination } from "swiper";
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
+import EditInfoPlace from './EditInfoPlace';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 // TODO eliminar datos hardcodeados
 const images = [
@@ -46,7 +48,10 @@ const images = [
 },
 ];
 
-export default function FullInfoPlace({place, returnFunction, changeDrawerContent, categorias, centerMapToCoordinates}) {
+export default function FullInfoPlace({place, returnFunction,setPosition, changeDrawerContent, categorias, centerMapToCoordinates, API_location_calls}) {
+    const [t] = useTranslation("global");
+    const [loading, setLoading] = useState(false)
+
     function allowEdit() {
         changeDrawerContent(
             <EditInfoPlace
@@ -54,16 +59,23 @@ export default function FullInfoPlace({place, returnFunction, changeDrawerConten
                 changeDrawerContent = {changeDrawerContent}
                 returnFunction = {() => changeDrawerContent(this)}
                 categorias={categorias}
+                API_location_calls = {API_location_calls}
             />
         )
     }
 
     function centerMapToPlace() {
-        centerMapToCoordinates(place.lat, place.lng)
+        setPosition({
+            lat: place.lat,
+            lng: place.lng
+        });
     }
 
-    function deletePlace() {
-        // TODO: pendiente de implementar
+    async function deletePlace() {
+        setLoading(true)
+        const response = await API_location_calls.API_deleteLocation(place.id)
+        setLoading(false)
+        returnFunction()
     }
 
     return (
@@ -92,9 +104,21 @@ export default function FullInfoPlace({place, returnFunction, changeDrawerConten
             )}
         </Swiper>
 
-        <IconButton onClick={allowEdit}><EditIcon/></IconButton>
-        <IconButton onClick={centerMapToPlace}><TravelExploreIcon/></IconButton>
-        <IconButton><DeleteIcon/></IconButton>
+        <Tooltip title={t("sidebar.place.edit")} placement="bottom"><IconButton onClick={allowEdit}><EditIcon/></IconButton></Tooltip>
+        <Tooltip title={t("sidebar.place.locate")} placement="bottom"><IconButton onClick={centerMapToPlace}><TravelExploreIcon/></IconButton></Tooltip>
+
+        <br></br>
+
+			<LoadingButton
+				color="secondary"
+				onClick={deletePlace}
+				loading={loading}
+				loadingPosition="start"
+				startIcon={<DeleteIcon />}
+				variant="contained"
+			>
+				<span>{t("sidebar.place.delete")}</span>
+			</LoadingButton>
         </>
     )
 }

@@ -1,5 +1,4 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { IconButton } from '@mui/material';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullRouteInfo from "./FullInfoRoute";
@@ -15,6 +14,7 @@ export default function RutaCard(props) {
                 returnFunction={() => props.changeDrawerContent(null)}
                 changeDrawerContent={props.changeDrawerContent}
                 userPlaces = {props.userPlaces}
+                API_route_calls = {props.API_route_calls}
             />
         )
     }

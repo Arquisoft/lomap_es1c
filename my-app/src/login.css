@@ -1,37 +1,48 @@
 .caja{
-    background-color: #1e2124;
+    /* background-color: #1e2124; */
     width: 500px;
     height: 500px;
     border-radius: 25px;
     grid-column-start: 2;
     grid-row: 2;
     border: 6px solid #1e2124;
+    background-color: rgb(27, 5, 151);
 }
 
 .mainDiv{
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 50% 40%;
 }
 
 .formName{
     grid-column-start: 2;
     display: grid;
     grid-template-rows: 40% auto 25%;
+    
 }
 
 .formName .btnLogin{
-    top: 90%;
-    left: 40%;
-    border: 0.25em solid white;
-    color: white;
+    align-self: center;
+    top: 5%; 
+    left: 25%;
+     border: 0.1em solid gray; 
+     color: black; 
+     background-color: rgb(59, 144, 255);
+     border-radius: 10px;
+     font-size: 25px;
 }
+
+.MuiInputBase-input {
+    color: white;
+    border-color: white;
+  }
 
 .logo{
     position: relative;
     width: 600px;
     height: 278px;
     top: 70%;
-    left: 35%;
+    left: 30%;
     grid-row-start: 0;
 }
 
@@ -41,9 +52,19 @@
     grid-template-rows: auto auto;
 }
 
+.url{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border: 50px solid black;
+    top: 3%; 
+    left: 20%;
+    background-color: white;
+    width: 300px;
+    height: 50px;
+}
+
 .descripción{
     position: relative;
     top: 95%;
-    left: 25%;
+    left: 18%;
     font-size: 25px;
 }

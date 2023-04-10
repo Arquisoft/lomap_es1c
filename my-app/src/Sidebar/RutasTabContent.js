@@ -1,40 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import RutaCard from "./cards/RutaCard";
 import { useTranslation } from "react-i18next";
-import axios from 'axios';
 
 export default function RutasTabContent(props) {
-    // const [routes, setRoutes] = useState([])
-
-    // function updateRoutes(theRoutes) {
-    //     setRoutes(
-    //         theRoutes.map(
-    //             route => ({
-    //                 id: route.id,
-    //                 name: route.name,
-    //                 locations: 
-    //                     route.locations.map(
-    //                         location => ({
-    //                             id: location.id,
-    //                             name: location.name,
-    //                             latitude: location.latitude,
-    //                             longitude: location.longitude
-    //                         })
-    //                     )
-    //             })
-    //         )
-    //     )
-    // }
-
-    // useEffect(() => {getRoutes();}, [])
-
-    // function getRoutes() {
-    //     axios
-    //         .get('http://localhost:8080/route')
-    //         .then(response => updateRoutes(response.data))
-    //         .catch(error => {console.log(error)});
-    // }
-
     const [t, i18n] = useTranslation("global")
     
     return (
@@ -47,6 +15,7 @@ export default function RutasTabContent(props) {
                     route = {route}
                     changeDrawerContent = {props.changeDrawerContent}
                     userPlaces = {props.userPlaces}
+                    API_route_calls = {props.API_route_calls}
                 />
             )}
         </div>

@@ -13,7 +13,7 @@ async function serializeLocation(Session, myBaseUrl, location) {
 		name: location.name,
 		latitude: location.latitude,
 		longitude: location.longitude,
-		description: location.description,
+		privacy: location.privacy,
 		author: location.author,
 		category: location.category,
 		id: location.id,
@@ -132,7 +132,21 @@ async function serializeRoute(route) {
 	return buffer;
 }
 
-function serializeFriend(friend) {}
+async function serializeFriend(friend) {
+	let friendJson = {
+		name: friend.name,
+		webid: friend.webid,
+		id: friend.id,
+	};
+
+	let blob = new Blob([JSON.stringify(friendJson)], {
+		type: "application/json",
+	});
+
+	let buffer = Buffer.from(await blob.arrayBuffer());
+
+	return buffer;
+}
 
 /*
 async function serializePhoto(Session, myBaseUrl, photo) {

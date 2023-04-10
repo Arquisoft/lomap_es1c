@@ -4,6 +4,7 @@ const {
 	overwriteFile,
 	getFile,
 	deleteFile,
+	getPodUrlAll,
 } = require("@inrupt/solid-client");
 
 const parser = require("../util/Parser.js");
@@ -28,7 +29,7 @@ async function addLocation(Session, ubicacion, myBaseUrl) {
 	);
 
 	//Añado a comentarios, reviews y fotos a sus respectivas carpetas
-	ubicacion.comments.forEach((c) => Comments.addComent(Session, c));
+	ubicacion.comments.forEach((c) => Comments.addComment(Session, c));
 	ubicacion.reviews.forEach((r) => Reviews.addReview(Session, r));
 	ubicacion.photos.forEach((p) => Photos.addFoto(Session, p));
 }
@@ -47,7 +48,7 @@ async function obtenerLocalizaciones(Session, myBaseUrl) {
 		let urlSplit = ubicaciones[i].split("/");
 		modelsUbi[i] = await obtenerLocalizacion(
 			Session,
-			urlSplit[urlSplit.length - 1],
+			urlSplit[urlSplit.length - 1].split(".")[0],
 			myBaseUrl
 		);
 	}
@@ -56,35 +57,46 @@ async function obtenerLocalizaciones(Session, myBaseUrl) {
 }
 
 async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
-	let file = await getFile(myBaseUrl + "LoMap/locations/locations/" + idUbi, {
-		fetch: Session.fetch,
-	});
+	let location;
+	try {
+		let file = await getFile(
+			myBaseUrl + "LoMap/locations/locations/" + idUbi + ".json",
+			{
+				fetch: Session.fetch,
+			}
+		);
 
-	let location = await parser.parseLocation(file);
+		let location = await parser.parseLocation(file);
 
-	location.reviews = await Reviews.getAllReviews(
-		Session,
-		location.reviews,
-		myBaseUrl
-	);
-	location.photos = await Photos.getAllFotos(
-		Session,
-		location.photos,
-		myBaseUrl
-	);
-	location.comments = await Comments.getAllComents(
-		Session,
-		location.comments,
-		myBaseUrl
-	);
+		location.reviews = await Reviews.getAllReviews(
+			Session,
+			location.reviews,
+			myBaseUrl
+		);
+		location.photos = await Photos.getAllPhotos(
+			Session,
+			location.photos,
+			myBaseUrl
+		);
+		location.comments = await Comments.getAllComments(
+			Session,
+			location.comments,
+			myBaseUrl
+		);
 
-	return location;
+		return location;
+	} catch (err) {
+		return null;
+	}
 }
 
 async function deleteLocationById(Session, idLocation, myBaseUrl) {
-	await deleteFile(myBaseUrl + "LoMap/locations/locations" + idLocation, {
-		fetch: Session.fetch,
-	});
+	await deleteFile(
+		myBaseUrl + "LoMap/locations/locations/" + idLocation + ".json",
+		{
+			fetch: Session.fetch,
+		}
+	);
 }
 
 module.exports = {
