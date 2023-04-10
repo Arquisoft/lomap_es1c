@@ -1,80 +1,80 @@
-const express = require('express');
-const session = require('express-session');
-
-const cors = require('cors');
+const express = require("express");
+const cookieSession = require("cookie-session");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 //Inicializa app
-let app = express();
+const app = express();
+app.use(cookieParser());
 
-let expressSession = require('express-session');
-app.use(expressSession({
-    secret: 'abcdefg',
-    resave: true,
-    saveUninitialized: true
-}));
-
-let bodyParser = require('body-parser');
-
-app.use(bodyParser.json());
-
-app.use(cors({
-  origin: 'http://localhost:3000'
-}));
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+		credentials: true,
+	})
+);
 /*
+const whitelist = ["http://localhost:3000"];
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "POST, GET, DELETE, UPDATE, PUT");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
-  // Debemos especificar todas las headers que se aceptan. Content-Type , token
-  next();
+	if (whitelist.indexOf(req.headers.origin) !== -1) {
+		res.header("Access-Control-Allow-Origin", req.headers.origin);
+	}
+	res.header("Access-Control-Allow-Credentials", "true");
+
+	res.header("Access-Control-Allow-Methods", "POST, GET, DELETE, UPDATE, PUT");
+	res.header(
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept, token"
+	);
+	next();
 });
 */
+app.use(
+	cookieSession({
+		name: "session",
+		// These keys are required by cookie-session to sign the cookies.
+		keys: [
+			"Required, but value not relevant for this demo - key1",
+			"Required, but value not relevant for this demo - key2",
+		],
+		maxAge: 24 * 60 * 60 * 1000, // 24 hours
+	})
+);
 
-//RUTAS
-const userSessionRouter = require('./routes/userSessionRouter');
+app.use(express.json());
+
+//Controllers
+const authController = require("./controllers/AuthController");
+const locationController = require("./controllers/LocationController");
+const friendController = require("./controllers/FriendController");
+const routeController = require("./controllers/RouteController");
+
+const userSessionRouter = require("./routes/userSessionRouter");
+
+//Router
 app.use("/location", userSessionRouter);
 app.use("/review", userSessionRouter);
-
-
-//CONTROLLERS
-const locationController = require('./controllers/locationController');
-const authController = require('./controllers/authController');
-const reviewController = require("./controllers/reviewController.js");
-
-// Middlewares
-
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "POST, GET, DELETE, UPDATE, PUT");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
-  // Debemos especificar todas las headers que se aceptan. Content-Type , token
-  next();
-});
-app.use(express.json());
-app.use(session({
-  secret: 'secret-key',
-  resave: false,
-  saveUninitialized: false
-}));
-
-//ROUTES
-let indexRouter = require('./routes/index')(app,authController);
-require("./routes/locationRoutes.js")(app,locationController);
-require("./routes/reviewRoutes.js")(app,reviewController);
-
-
+app.use("/friend", userSessionRouter);
+app.use("/route", userSessionRouter);
+//Routes
+require("./routes/AuthRoutes.js")(app, authController);
+require("./routes/LocationRoutes.js")(app, locationController);
+require("./routes/FriendRoutes.js")(app, friendController);
+require("./routes/RouteRoutes.js")(app, routeController);
 
 // Error handler middleware
 app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ error: 'Internal server error' });
+	console.log(err);
+	res.status(500).json({
+		error:
+			"Ha habido un error interno en el servidor, prueba en unos momento por favor",
+	});
 });
 
 // Start the server
-const PORT = process.env.PORT || 8080;
-app.set("port",PORT);
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+app.set("port", process.env.PORT || 8080);
+app.listen(app.get("port"), () => {
+	console.log(`Server started on port ${app.get("port")}`);
 });
+
+module.exports = app;

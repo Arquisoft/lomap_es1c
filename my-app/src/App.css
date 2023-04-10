@@ -21,118 +21,72 @@ textarea{
   height: 100px;
 }
 
-/* .submitFormLugares{
-  display: grid;
-  grid-template-columns: 100% 100%;
-} */
-/* 
-.btn {
-  --color: #32e641;
-  --color2: rgb(10, 25, 30);
-  padding: 0.8em 1.75em;
-  background-color: transparent;
-  border-radius: 6px;
-  border: .3px solid var(--color);
-  transition: .5s;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  z-index: 1;
-  font-weight: 300;
-  font-size: 12px;
-  font-family: 'Roboto', 'Segoe UI', sans-serif;
-  color: var(--color);
- }
- 
- .btn::after, .btn::before {
-  content: '';
-  display: block;
-  height: 100%;
-  width: 100%;
-  transform: skew(90deg) translate(-50%, -50%);
+.toggleThemeButton {
   position: absolute;
-  inset: 50%;
-  left: 25%;
-  z-index: -1;
-  transition: .5s ease-out;
-  background-color: var(--color);
- }
- 
- .btn::before {
-  top: -50%;
-  left: -25%;
-  transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
- }
- 
- .btn:hover::before {
-  transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
- }
- 
- .btn:hover::after {
-  transform: skew(45deg) translate(-50%, -50%);
- }
- 
- .btn:hover {
-  color: var(--color2);
- }
- 
- .btn:active {
-  filter: brightness(.7);
-  transform: scale(.98);
- }
+  margin-left: 45%;
+}
 
- .btnCancel {
-  --color: #eb1111;
-  --color2: rgb(10, 25, 30);
-  padding: 0.8em 1.75em;
-  background-color: transparent;
-  border-radius: 6px;
-  border: .3px solid var(--color);
-  transition: .5s;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  z-index: 1;
-  font-weight: 300;
-  font-size: 12px;
-  font-family: 'Roboto', 'Segoe UI', sans-serif;
-  color: var(--color);
- }
- 
- .btnCancel::after, .btnCancel::before {
-  content: '';
-  display: block;
-  height: 100%;
-  width: 100%;
-  transform: skew(90deg) translate(-50%, -50%);
+.toggleLanguageButton {
   position: absolute;
-  inset: 50%;
-  left: 25%;
-  z-index: -1;
-  transition: .5s ease-out;
-  background-color: var(--color);
- }
- 
- .btnCancel::before {
-  top: -50%;
-  left: -25%;
-  transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
- }
- 
- .btnCancel:hover::before {
-  transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
- }
- 
- .btnCancel:hover::after {
-  transform: skew(45deg) translate(-50%, -50%);
- }
- 
- .btnCancel:hover {
-  color: var(--color2);
- }
- 
- .btnCancel:active {
-  filter: brightness(.7);
-  transform: scale(.98);
- }
-  */
+  margin-left: 55%;
+}
+
+#light button {
+  background-color: #ebecf0;
+  color: #3f3f3f;
+}
+
+#dark button  {
+  background-color: #3f3f3f;
+  color: #ebecf0;
+}
+
+#light p {
+  color: #3f3f3f;
+}
+#dark p {
+  color: #ebecf0;
+}
+
+#light h1 {
+  color: #3f3f3f;
+}
+#dark h1 {
+  color: #ebecf0;
+}
+#light h2 {
+  color: #3f3f3f;
+}
+#dark h2 {
+  color: #ebecf0;
+}
+#light h3 {
+  color: #3f3f3f;
+}
+#dark h3 {
+  color: #ebecf0;
+}
+#light h4 {
+  color: #3f3f3f;
+}
+#dark h4 {
+  color: #ebecf0;
+}
+#light h5 {
+  color: #3f3f3f;
+}
+#dark h5 {
+  color: #ebecf0;
+}
+#light h6 {
+  color: #3f3f3f;
+}
+#dark h6 {
+  color: #ebecf0;
+}
+
+#centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

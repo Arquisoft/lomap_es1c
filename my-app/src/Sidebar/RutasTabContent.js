@@ -1,30 +1,23 @@
-import React from "react"
-import RutaCard from "./RutaCard"
-
-// TODO: eliminar datos hard-codeados
-const rutas = [
-    {
-        id: 1,
-        titulo: "Ruta 1"
-    },
-    {
-        id: 2,
-        titulo: "Otra ruta distinta"
-    },
-]
+import React from "react";
+import RutaCard from "./cards/RutaCard";
+import { useTranslation } from "react-i18next";
 
 export default function RutasTabContent(props) {
-    const cards = rutas.map(
-        ruta =>
-        <RutaCard
-            key = {ruta.id}
-            {...ruta}
-        />
-    )
+    const [t, i18n] = useTranslation("global")
+    
     return (
-        <div id="Rutas" className="tabcontent">
-            <h1>El contenido de rutas</h1>
-            {cards}
+        <div className="tabcontent">
+            <h1 id="centered">{t("sidebar.tabs.route-content.title")}</h1>
+            {props.rutas.map(
+                route =>
+                <RutaCard
+                    key = {route.id}
+                    route = {route}
+                    changeDrawerContent = {props.changeDrawerContent}
+                    userPlaces = {props.userPlaces}
+                    API_route_calls = {props.API_route_calls}
+                />
+            )}
         </div>
     )
 }

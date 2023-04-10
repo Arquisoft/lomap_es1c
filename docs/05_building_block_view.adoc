@@ -56,151 +56,99 @@ Since there are so many ways to specify interfaces why do not provide a specific
 In the best case you will get away with examples or simple signatures.
 
 ****
-
-_**<Overview Diagram>**_
+[plantuml, "level1", png]
+----
+Actor User
+Component LoMap
+Database pod as "Pod"
+User -right-> LoMap: Interacts With 
+LoMap -right-> pod: Store/Get Data
+User -right-> pod: Owns
+----
 
 Motivation::
-
-_<text explanation>_
-
+LoMap is an application that has a system where users can add custom places to the map. All the private data the application needs its stored in his personal POD.
 
 Contained Building Blocks::
-_<Description of contained building block (black boxes)>_
-
-Important Interfaces::
-_<Description of important interfaces>_
-
-[role="arc42help"]
-****
-Insert your explanations of black boxes from level 1:
-
-If you use tabular form you will only describe your black boxes with name and
-responsibility according to the following schema:
-
-[cols="1,2" options="header"]
+[options="header"] 
 |===
-| **Name** | **Responsibility**
-| _<black box 1>_ | _<Text>_
-| _<black box 2>_ | _<Text>_
+| Name | Description
+| User | The user that interacts with the application.
+| LoMap | The main application that is develop to be used by the user.
+| Pod | Personal POD of the user where the data is stored. 
 |===
-
-
-
-If you use a list of black box descriptions then you fill in a separate black box template for every important building block .
-Its headline is the name of the black box.
-****
-
-
-==== <Name black box 1>
-
-[role="arc42help"]
-****
-Here you describe <black box 1>
-according the the following black box template:
-
-* Purpose/Responsibility
-* Interface(s), when they are not extracted as separate paragraphs. This interfaces may include qualities and performance characteristics.
-* (Optional) Quality-/Performance characteristics of the black box, e.g.availability, run time behavior, ....
-* (Optional) directory/file location
-* (Optional) Fulfilled requirements (if you need traceability to requirements).
-* (Optional) Open issues/problems/risks
-
-****
-
-_<Purpose/Responsibility>_
-
-_<Interface(s)>_
-
-_<(Optional) Quality/Performance Characteristics>_
-
-_<(Optional) Directory/File Location>_
-
-_<(Optional) Fulfilled Requirements>_
-
-_<(optional) Open Issues/Problems/Risks>_
-
-
-
-
-==== <Name black box 2>
-
-_<black box template>_
-
-==== <Name black box n>
-
-_<black box template>_
-
-
-==== <Name interface 1>
-
-...
-
-==== <Name interface m>
-
-
 
 === Level 2
 
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 1 as white boxes.
+[plantuml, "level2", png]
+----
+Actor User
+Component mp as "Map Provider"
+Component LoMap{
+  Component wb as "WebApp"
+  Component ra as "RESTAPI"
+}
+Database pod as "Pod"
+User --> pod: Owns
+User -down-> wb: Interacts With 
+wb -right-> ra: Consumes
+ra -right-> pod: Store/Get Data
+wb -up-> mp: API service
 
-You have to decide which building blocks of your system are important enough to justify such a detailed description.
-Please prefer relevance over completeness. Specify important, surprising, risky, complex or volatile building blocks.
-Leave out normal, simple, boring or standardized parts of your system
-****
+----
 
-==== White Box _<building block 1>_
+Motivation::
+We need to know how the LoMap service is built internally. As we see in the diagram we show the difference between the part of the application where the user interacts, and the part of the application that manages the data.  
 
-[role="arc42help"]
-****
-...describes the internal structure of _building block 1_.
-****
-
-_<white box template>_
-
-==== White Box _<building block 2>_
-
-
-_<white box template>_
-
-...
-
-==== White Box _<building block m>_
-
-
-_<white box template>_
-
-
+Contained Building Blocks::
+[options="header"] 
+|===
+| Name | Description
+| RESTAPI | The place where the data is managed.
+| WebApp | User interface of the system that the user uses to interact with the application. 
+| Map Provider | API that provide as the map interface for the main application.
+|===
 
 === Level 3
 
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.
+[plantuml, "level3", png]
+----
+Actor User
+Component mp as "Map Provider"
+Component LoMap{
+  Component ra as "RESTAPI"{
+    Component sc as "Session Controller"
+    Component ac as "Authentication Controller"
+    Component fc as "Friend Controller"
+    Component lc as "Location Controller"
+    Component rc as "Routes Controller"
+  }
+  Component wb as "WebApp"{
+    Component Login
+    Component Logout
+    Component Map
+    Component AddPlace
+    Component DeletePlace
+    Component EditPlace
+    Component FriendsLocation
+    Component AddRoutes
+  }
+}
+Database pod as "Pod"
+User --> pod: Owns 
+User -down-> wb: Interacts With 
+wb -right-> ra: Consumes
+ra -up-> pod: Store/Get Data
+wb -right-> mp: API service
+----
 
-When you need more detailed levels of your architecture please copy this
-part of arc42 for additional levels.
-****
+Motivation::
+ To study in more detail how the WebApp works, that is the part that user interacts with, and also the REST API, the manager of the data.    
 
-
-==== White Box <_building block x.1_>
-
-[role="arc42help"]
-****
-Specifies the internal structure of _building block x.1_.
-****
-
-
-_<white box template>_
-
-
-==== White Box <_building block x.2_>
-
-_<white box template>_
-
-
-
-==== White Box <_building block y.1_>
-
-_<white box template>_
+Contained Building Blocks::
+[options="header"] 
+|===
+| Name | Description
+| Login | Page of the application where you can login.
+| Map | Main page where the map is display and the user can interact with.
+|===

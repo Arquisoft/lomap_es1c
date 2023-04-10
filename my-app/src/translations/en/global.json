@@ -1,0 +1,52 @@
+{
+    "settings-speed-dial": {
+        "change-language-text": "Change language",
+        "toggle-theme-text": "Change theme"
+    },
+    "sidebar": {
+        "log-out": "Log out",
+        "tab-buttons": {
+            "start": "Start",
+            "friends": "Friends",
+            "routes": "Routes",
+            "discover": "Discover"
+        },
+        "tabs": {
+            "start-content": {
+                "title": "Your locations",
+                "search-bar-placeholder": "Search"
+            },
+            "friend-content": {
+                "title": "Your friends"
+            },
+            "route-content": {
+                "title": "Your routes"
+            }
+        },"place":{
+            "edit":"Edit",
+            "locate":"Locate",
+            "delete":"Delete"
+        }
+    },"filters":{
+        "all": "All",
+        "mine": "Just Mine",
+        "friends": "Just Friends",
+        "chooseFriends": "Choose Friends",
+        "chooseCategoty": "Choose Category"
+    },"locations":{
+        "add": "Add Marker",
+        "createRoute": "Create Route",
+        "form":{
+            "title":"Add a Point to the Map",
+            "name":"Name",
+            "score":"Score",
+            "category": "Category",
+            "privacy": "Privacy",
+            "photos": "Photos",
+            "comment":"Comment",
+            "commentPlaceHolder":"You can add a comment",
+            "add": "Add",
+            "cancel": "Cancel"
+        }
+    }
+}

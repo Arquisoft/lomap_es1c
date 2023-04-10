@@ -1,0 +1,52 @@
+{
+    "settings-speed-dial": {
+        "change-language-text": "Cambiar idioma",
+        "toggle-theme-text": "Cambiar tema"
+    },
+    "sidebar": {
+        "log-out": "Cerrar sesión",
+        "tab-buttons": {
+            "start": "Inicio",
+            "friends": "Amigos",
+            "routes": "Rutas",
+            "discover": "Descubrir"
+        },
+        "tabs": {
+            "start-content": {
+                "title": "Tus lugares",
+                "search-bar-placeholder": "Buscar"
+            },
+            "friend-content": {
+                "title": "Tus amigos"
+            },
+            "route-content": {
+                "title": "Tus rutas"
+            }
+        },"place":{
+            "edit":"Editar",
+            "locate":"Localizar",
+            "delete":"Eliminar"
+        }
+    },"filters":{
+        "all": "Todos",
+        "mine": "Solo Mios",
+        "friends": "Solo Amigos",
+        "chooseFriends": "Elegir Amigos",
+        "chooseCategoty": "Elegir Categoria"
+    },"locations":{
+        "add": "Añadir Marcador",
+        "createRoute": "Crear Ruta",
+        "form":{
+            "title":"Añade un Punto al Mapa",
+            "name":"Nombre",
+            "score":"Valoracion",
+            "category": "Categoria",
+            "privacy": "Privacidad",
+            "photos": "Fotos",
+            "comment":"Comentario",
+            "commentPlaceHolder":"Puede añadir un comentario",
+            "add": "Añadir",
+            "cancel": "Cancelar"
+        }
+    }
+}

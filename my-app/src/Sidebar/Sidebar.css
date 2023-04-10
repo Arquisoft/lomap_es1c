@@ -1,0 +1,66 @@
+/* General sidebar styles */
+#light .drawer {
+  background: #ebecf0;
+}
+#dark .drawer {
+  background: #3f3f3f;
+}
+
+/* Wrapper for item list */
+#light .bm-item-list {
+  color: #3f3f3f;
+  padding: 0.8em;
+}
+#dark .bm-item-list {
+  color: #ebecf0;
+  padding: 0.8em;
+}
+
+#centered {
+  text-align: center;
+}
+
+/* Elementos tipo tarjeta */
+.card--line1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tablinks {
+  display: flex;
+  padding: 0;
+}
+
+.tablink {
+  flex: 1;
+  outline: none;
+  cursor: pointer;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: none;
+}
+
+/* Swiper de fotos */
+.swiper {
+  width: 100%;
+  height: 300px;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
