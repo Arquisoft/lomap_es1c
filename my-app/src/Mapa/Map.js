@@ -80,11 +80,8 @@ function Map({
 }) {
 	//Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
 
-	//DIferentes estados necesarios para el mapa.
-	const [latitude, setLatitude] = React.useState("");
-	const [longitude, setLongitude] = React.useState("");
-	const [response, setResponse] = useState(null);
-	const [openInfo, setOpenInfo] = React.useState(false);
+  //DIferentes estados necesarios para el mapa.
+  const [openInfo, setOpenInfo] = React.useState(false);
 	const [categortFiltered, setCategortFiltered] = useState({
 		activated: false,
 		category: "",
@@ -109,34 +106,28 @@ function Map({
 		return temp;
 	}
 
-	//Constante de el marcador, es donde se guarda el marcador actual para mostrarlo en el mapa.
-	const markers = markersState;
+  //Constante de el marcador, es donde se guarda el marcador actual para mostrarlo en el mapa.
+  const markers = markersState;
 
 	/*Logica de cuando clickas en el mapa, se guardan las cordenadas en el marcador para mostrarlo en el mapa,
 	 *pon a enabled el boton para añadir el punto y guarda las coordenadas para luego guardar el marcador.
 	 */
 
-	const onMapClick = (e) => {
-		if (canCick) {
-			setMarkers((current) => [
-				current,
-				{
-					lat: e.latLng.lat(),
-					lng: e.latLng.lng(),
-				},
-			]);
-			Located = false;
-			setLatitudeMark(Number(e.latLng.lat()));
-			setLongitudeMark(Number(e.latLng.lng()));
-			openModal(true);
-		}
-	};
+  const onMapClick = (e) => {
+    if (canCick) {
+      setMarkers((current) => [current,
+        {
+          lat: e.latLng.lat(),
+          lng: e.latLng.lng(),
 
-	const directionsCallback = (response) => {
-		if (response !== null && response.status === "OK") {
-			setResponse(response);
-		}
-	};
+        },
+      ]);
+      Located = false;
+      setLatitudeMark(Number(e.latLng.lat()));
+      setLongitudeMark(Number(e.latLng.lng()));
+      openModal(true);
+    }
+  };
 
 	const mapRef = useRef(null);
 
@@ -148,20 +139,19 @@ function Map({
 		setPosition(newPos);
 	}
 
-	function handleLoad(map) {
-		Geolocation.getCurrentPosition((position) => {
-			if (Located) {
-				setPosition({
-					lat: position.coords.latitude,
-					lng: position.coords.longitude,
-				});
-				setLatitude(position.coords.latitude);
-				setLongitude(position.coords.longitude);
-				if (position.coords.latitude !== 0) {
-					Located = false;
-				}
-			}
-		});
+  function handleLoad(map) {
+    Geolocation.getCurrentPosition((position) => {
+      if (Located) {
+        setPosition({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        })
+        if (position.coords.latitude !== 0) {
+          Located = false;
+        }
+      }
+    }
+    );
 
 		mapRef.current = map;
 	}
