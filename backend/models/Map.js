@@ -1,12 +1,15 @@
 class Map {
 	constructor(name, id = null, locations = []) {
+		if (!name || name.trim().length === 0) {
+			throw new Error("Map name cannot be null or empty");
+		}
 		this.id = id ? id : this.generateRandomId();
 		this.name = name;
 		this.locations = locations || [];
 	}
 
 	addLocation(location) {
-		locations.push(location);
+		this.locations.push(location);
 	}
 
 	updateName(name) {
