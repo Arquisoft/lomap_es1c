@@ -47,40 +47,52 @@ Describe (usually in a combination of diagrams, tables, and text):
 
 For multiple environments or alternative deployments please copy that section of arc42 for all relevant environments.
 ****
+[plantuml,"Infrastructure",png]
+----
+Actor User
 
-_**<Overview Diagram>**_
+node Device {
+    node WebBrowser {
+        component WebAppImage
+    }
+}
+
+node Server{
+    node DockerCompose{
+        node DockerWeb{
+            component WebApp
+        } 
+        node DockerAPI{
+            component RESTAPI
+        }
+    }
+}
+
+node sl as "SOLID POD"
+node GoogleMaps
+
+User -r-> WebAppImage 
+RESTAPI -d-> sl : User data management
+WebAppImage -d-> GoogleMaps: Supply the main map
+WebApp -d-> WebAppImage 
+----
 
 Motivation::
 
-_<explanation in text form>_
+To test the app, it runs on each person's machine. However, when the development of the application progresses, it will be executed on a server that has a DockerCompose with the Dockers that contains the WebApp, which is where the user interacts, and another with the REST API, which is the part that manages the data. 
 
 Quality and/or Performance Features::
-
-_<explanation in text form>_
+Our application depends on many different APIs, some of them are to show the map and to manage the PODs. We cannot control these APIs, so the availability and efficiency of the application may be affected. Also, these quality features could be affected by the server where the Dockers are running.
 
 Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
-
-
-=== Infrastructure Level 2
-
-[role="arc42help"]
-****
-Here you can include the internal structure of (some) infrastructure elements from level 1.
-
-Please copy the structure from level 1 for each selected element.
-****
-
-==== _<Infrastructure Element 1>_
-
-_<diagram + explanation>_
-
-==== _<Infrastructure Element 2>_
-
-_<diagram + explanation>_
-
-...
-
-==== _<Infrastructure Element n>_
-
-_<diagram + explanation>_
+[options="header"] 
+|===
+| Block Name | Description
+| DockerWeb | Container that englobe all the WebApp part of the application, the user interface that the user interacts with.
+| DockerAPI | Container that englobe all the REST API part of the application, the part that manages the data.
+| DockerCompose | Container that englobe all the application for an easier deployment.
+| Server | Server that is in charge of the web access of the application.
+| GoogleMaps | API that provide us the map where the user is going to operate the application and manage all the data.
+| SOLID POD | Personal and private data storage that each user has. All the private data that the user needs for the application or the data that the user generates its going to be stored here. 
+| Device | Device that the user is going to use. Should need internet connection. 
+|===

@@ -54,6 +54,7 @@ ra --> ra: Delete sesion from storage
 ra --> pod: Calls sesion logout
 LoMap --> User: Shows login view
 ----
+A new user or a returning user enters the application.
 
 === Return all location of the map
 [plantuml,"Sequence diagram return all location",png]
