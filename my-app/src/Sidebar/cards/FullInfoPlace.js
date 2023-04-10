@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import EditInfoPlace from './EditInfoPlace';
-import axios from "axios";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 // TODO eliminar datos hardcodeados
 const images = [
@@ -50,6 +50,8 @@ const images = [
 
 export default function FullInfoPlace({place, returnFunction,setPosition, changeDrawerContent, categorias, centerMapToCoordinates, API_location_calls}) {
     const [t] = useTranslation("global");
+    const [loading, setLoading] = useState(false)
+
     function allowEdit() {
         changeDrawerContent(
             <EditInfoPlace
@@ -69,12 +71,11 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
         });
     }
 
-    function deletePlace() {
-        const url = "http://localhost:8080/location/"+place.id;
-		const config = {
-			withCredentials: true,
-		};
-		axios.delete(url, config);
+    async function deletePlace() {
+        setLoading(true)
+        await API_location_calls.API_deleteLocation(place.id)
+        setLoading(false)
+        returnFunction()
     }
 
     return (
@@ -105,7 +106,19 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
 
         <Tooltip title={t("sidebar.place.edit")} placement="bottom"><IconButton onClick={allowEdit}><EditIcon/></IconButton></Tooltip>
         <Tooltip title={t("sidebar.place.locate")} placement="bottom"><IconButton onClick={centerMapToPlace}><TravelExploreIcon/></IconButton></Tooltip>
-        <Tooltip title={t("sidebar.place.delete")} placement="bottom"><IconButton onClick={deletePlace}><DeleteIcon/></IconButton></Tooltip>
+
+        <br></br>
+
+			<LoadingButton
+				color="secondary"
+				onClick={deletePlace}
+				loading={loading}
+				loadingPosition="start"
+				startIcon={<DeleteIcon />}
+				variant="contained"
+			>
+				<span>{t("sidebar.place.delete")}</span>
+			</LoadingButton>
         </>
     )
 }

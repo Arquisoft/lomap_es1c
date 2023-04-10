@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const modifications = {
     ADD: "add",
@@ -17,6 +18,7 @@ const modifications = {
 
 export default function EditRouteInfo({route, returnFunction, userPlaces, API_route_calls}) {
     var theRouteID = route==null ? "" : route.id
+    const [loading, setLoading] = useState(false)
     const [name, setName] = useState(route == null ? "" : route.name)
     const [description, setDescription] = useState("")
     const [locations, setLocations] = useState(route == null ? [] : route.locations)
@@ -33,6 +35,7 @@ export default function EditRouteInfo({route, returnFunction, userPlaces, API_ro
     const [locationsModifications, setLocationsModifications] = useState([])
 
     async function save() {
+        setLoading(true)
         if (route == null) {
             theRouteID = await API_route_calls.API_addRoute(name, description)
         } else {
@@ -43,7 +46,7 @@ export default function EditRouteInfo({route, returnFunction, userPlaces, API_ro
         for (var modification of locationsModifications) {
             modification.execute(theRouteID)
         }
-
+        setLoading(false)
         returnFunction()
     }
 
@@ -86,12 +89,14 @@ export default function EditRouteInfo({route, returnFunction, userPlaces, API_ro
             label = "Título"
             defaultValue = {name}
             onChange={handleNameChange}
+            disabled={loading}
         />
         <br></br>
         <TextField
             label = "Descripcion"
             defaultValue = {description}
             onChange={handleDescriptionChange}
+            disabled={loading}
         />
         <div className="card--line1">
         <h3>Lugares: </h3>
@@ -121,7 +126,17 @@ export default function EditRouteInfo({route, returnFunction, userPlaces, API_ro
 
         <br></br>
         
-        <IconButton onClick={save}><SaveIcon/></IconButton>
+
+        <LoadingButton
+            color="secondary"
+            onClick={save}
+            loading={loading}
+            loadingPosition="start"
+            startIcon={<SaveIcon />}
+            variant="contained"
+        >
+            <span>Save</span>
+        </LoadingButton>
         </>
     )
 }
