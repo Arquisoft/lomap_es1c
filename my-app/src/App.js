@@ -33,18 +33,12 @@ export default function App({ logOutFunction }) {
 			});
 	}
 
-	function updateAmigos() {
-		async function getAmigosData() {
-			await axios
-				.get("http://localhost:8080/friend", { withCredentials: true })
-				.then((response) => {
-					setAmigos(response.data);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}
-		getAmigosData();
+	async function updateAmigos() {
+		await axios.get("http://localhost:8080/friend", { withCredentials: true })
+			.then((response) => {setAmigos(response.data); console.log(response.data)})
+			.catch((error) => {
+				console.log(error);
+			});
 	}
 
 	async function updateRutas() {
@@ -185,9 +179,10 @@ export default function App({ logOutFunction }) {
 		updateAmigos();
 	}
 
-	async function API_deleteFriend(friendWebID) {
-		const url = "http://localhost:8080/friend/" + friendWebID;
-		await axios.delete(url, { withCredentials: true });
+	async function API_deleteFriend(friendID) {
+		console.log(friendID)
+		const url = "http://localhost:8080/friend/" + friendID;
+		const response = await axios.delete(url, { withCredentials: true });
 		updateAmigos();
 	}
 
@@ -197,7 +192,7 @@ export default function App({ logOutFunction }) {
 	};
 	const API_friend_calls = {
 		API_addFriend: API_addFriend,
-		API_deleteFriend: API_deleteFriend,
+		API_deleteFriend: API_deleteFriend
 	};
 
 	//Estados de la aplicacion
