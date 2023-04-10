@@ -12,18 +12,16 @@ async function getAllFriends(req, res, next) {
 	}
 }
 
-
-
 async function addFriend(req, res, next) {
 	try {
-		const { name, webid } = req.body;
-		if (!name || !webid) {
+		const { name, webId } = req.body;
+		if (!name || !webId) {
 			res.status(400).json({ error: "Faltan datos" });
 			return;
 		}
 
 		const session = await SessionController.getSession(req, next);
-		const friend = new Friend(name, webid);
+		const friend = new Friend(name, webId);
 
 		await solid.addFriend(session, friend);
 		res.status(201).json(friend);

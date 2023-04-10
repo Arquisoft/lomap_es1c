@@ -44,7 +44,7 @@ export default function App({ logOutFunction }) {
 					console.log(error);
 				});
 		}
-		// getAmigosData();
+		getAmigosData();
 	}
 
 	async function updateRutas() {
@@ -54,7 +54,6 @@ export default function App({ logOutFunction }) {
 			.then((response) => setRutas(response.data))
 			.catch((error) => console.log(error));
 	}
-
 
 	useEffect(() => {
 		async function getData() {
@@ -78,7 +77,7 @@ export default function App({ logOutFunction }) {
 						lat: data[i].latitude,
 						lng: data[i].longitude,
 						name: data[i].name,
-						categoria: data[i].category
+						categoria: data[i].category,
 					})
 				);
 			}
@@ -176,21 +175,21 @@ export default function App({ logOutFunction }) {
 		//TODO actualizar lugares
 	}
 
-  async function API_addFriend(friendName, friendWebId) {
-    const url = "http://localhost:8080/friend"
-    const data = {
-      name: friendName,
-      webId: friendWebId
-    }
-    await axios.post(url, data, {withCredentials: true})
-    updateAmigos()
-  }
+	async function API_addFriend(friendName, friendWebId) {
+		const url = "http://localhost:8080/friend";
+		const data = {
+			name: friendName,
+			webId: friendWebId,
+		};
+		await axios.post(url, data, { withCredentials: true });
+		updateAmigos();
+	}
 
-  async function API_deleteFriend(friendWebID) {
-    const url = "http://localhost:8080/friend/"+friendWebID
-    await axios.delete(url, {withCredentials: true})
-    updateAmigos()
-  }
+	async function API_deleteFriend(friendWebID) {
+		const url = "http://localhost:8080/friend/" + friendWebID;
+		await axios.delete(url, { withCredentials: true });
+		updateAmigos();
+	}
 
 	const API_location_calls = {
 		API_deleteLocation: API_deleteLocation,

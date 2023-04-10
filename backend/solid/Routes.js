@@ -36,7 +36,7 @@ async function getAllRoutes(Session, myBaseUrl) {
 			myBaseUrl
 		);
 	}
-	console.log(modelsRuta);
+
 	return modelsRuta.filter((r) => r != null);
 }
 
