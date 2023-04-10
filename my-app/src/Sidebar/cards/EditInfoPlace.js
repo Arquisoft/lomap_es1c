@@ -1,4 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from "@mui/icons-material/Save";
 import { IconButton } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -49,22 +50,21 @@ const images = [
 ];
 
 export default function FullInfoPlace({place, returnFunction, categorias, API_location_calls}) {
+	const [loading, setLoading] = useState(false)
 	const [name, setName] = useState(place.name)
 	const [category, setCategory] = useState(place.categoria)
 	const [privacy, setPrivacy] = useState(place.privacidad)
 	const [t] = useTranslation("global");
 	const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"];
 
-	// placeID, newName, newCategory, newPrivacy
+	async function save() {
+		setLoading(true)
 
-	function save() {
 		if (place.name != name  ||  place.categoria != category  ||  place.privacidad != privacy) {
-			API_location_calls.API_updateLocation(place.ID, name, category, privacy)
-			console.log("Se supone que está llamado")
-		} else {
-			console.log("No hay nada que actualizar")
+			await API_location_calls.API_updateLocation(place.ID, name, category, privacy)
+			setLoading(false)
 		}
-		// TODO cerrar sidebar
+		returnFunction()
 	}
 
 	const categoriesToList = ["", ...categorias];
@@ -153,9 +153,19 @@ export default function FullInfoPlace({place, returnFunction, categorias, API_lo
 				</SwiperSlide>
 			</Swiper>
 
-			<IconButton onClick={save}>
-				<SaveIcon />
-			</IconButton>
+			<br></br>
+
+			<LoadingButton
+				color="secondary"
+				onClick={save}
+				loading={loading}
+				loadingPosition="start"
+				startIcon={<SaveIcon />}
+				variant="contained"
+			>
+				<span>Save</span>
+			</LoadingButton>
+
 		</>
 	);
 }
