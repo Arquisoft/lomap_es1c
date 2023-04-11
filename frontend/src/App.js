@@ -17,7 +17,7 @@ export default function App({ logOutFunction }) {
 	const [places, setPlaces] = React.useState(a);
 
 	const [data, setData] = useState("");
-	const [i18n] = useTranslation("global");
+	const [t,i18n] = useTranslation("global");
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
 	const [amigos, setAmigos] = useState([]);
@@ -59,6 +59,7 @@ export default function App({ logOutFunction }) {
 				.get("http://localhost:8080/location", { withCredentials: true })
 				.then((response) => {
 					if (response.data.length !== data.length) {
+						console.log(response.data)
 						setData(response.data);
 					}
 				})
@@ -76,6 +77,7 @@ export default function App({ logOutFunction }) {
 						lng: data[i].longitude,
 						name: data[i].name,
 						categoria: data[i].category,
+						author: data[i].author
 					})
 				);
 			}
