@@ -1,7 +1,7 @@
 # LoMap es1c
 
 <p style="text-align: center;">
-<img alt="Logo de LoMap" src="./my-app/public/logoLoMapA.png" height="200">
+<img alt="Logo de LoMap" src="./frontend/public/logoLoMapA.png" height="200">
 </p>
 
 ## What is LoMap
@@ -40,5 +40,5 @@ We use different technologies for the develop of the application. For the front 
 <p float="left">
 <img alt="Logo de React" src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
 <img alt="Logo de NodeJs" src="https://miro.medium.com/max/365/1*Jr3NFSKTfQWRUyjblBSKeg.png" height="100">
-<img alt="Logo de Solid" src="./my-app/public/solidLogo.png" height="100">
+<img alt="Logo de Solid" src="./frontend/public/solidLogo.png" height="100">
 </p>
