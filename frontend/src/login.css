@@ -5,13 +5,15 @@
     border-radius: 25px;
     grid-column-start: 2;
     grid-row: 2;
-    border: 6px solid #1e2124;
-    background-color: rgb(27, 5, 151);
+    border: 6px solid #071627;
+    background-color: #0A2647;
+    color: #1e2124;
+    display: grid;
 }
 
 .mainDiv{
     display: grid;
-    grid-template-columns: 50% 40%;
+    grid-template-columns: 50% 50%;
 }
 
 .formName{
@@ -23,13 +25,11 @@
 
 .formName .btnLogin{
     align-self: center;
-    top: 5%; 
-    left: 25%;
-     border: 0.1em solid gray; 
-     color: black; 
-     background-color: rgb(59, 144, 255);
-     border-radius: 10px;
-     font-size: 25px;
+    border: 0.1em solid #143561; 
+    color: black; 
+    background-color: #3283c9;
+    border-radius: 10px;
+    font-size: 25px;
 }
 
 .MuiInputBase-input {
@@ -39,10 +39,11 @@
 
 .logo{
     position: relative;
-    width: 600px;
-    height: 278px;
-    top: 70%;
-    left: 30%;
+    width: 60%;
+    max-width: 600px;
+    height: auto;
+    top: 50%;
+    left: 26%;
     grid-row-start: 0;
 }
 
@@ -55,16 +56,102 @@
 .url{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     border: 50px solid black;
-    top: 3%; 
+    top: 25%; 
     left: 20%;
     background-color: white;
     width: 300px;
     height: 50px;
 }
 
-.descripción{
-    position: relative;
-    top: 95%;
-    left: 18%;
-    font-size: 25px;
+@media screen and (min-width: 1201px) {
+    .descripción{
+        position: relative;
+        grid-column-start: 1;
+        grid-row-start: 2;
+        top: 95%;
+        left: 14%;
+        right: 45%;
+        font-size: 25px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .descripción{
+        position: relative;
+        grid-column-start: 1;
+        grid-row-start: 3;
+        top: 145%;
+        left: 2%;
+        right: 45%;
+        font-size: 25px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .descripción{
+        position: relative;
+        grid-column-start: 1;
+        grid-row-start: 3;
+        top: 95%;
+        left: 2%;
+        right: 45%;
+        font-size: 25px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+
+    .mainDiv{
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: 25%;
+    }
+
+    .caja{
+        /* background-color: #1e2124; */
+        position: relative;
+        left: 5%;
+        width: 90%;
+        height: 400%;
+        border-radius: 25px;
+        grid-column-start: 1;
+        grid-row-start: 1;
+        display: grid;
+    }
+
+    .formName .btnLogin{
+        top: 5%; 
+        left: 0%;
+         border-radius: 10px;
+         font-size: 25px;
+    }
+
+    .formName{
+        grid-column-start: 1;
+        grid-row-start: 2;
+        display: grid;
+        grid-template-rows: 40% auto 25%;
+        
+    }
+
+    .logoYParrafo{
+        grid-column-start: 1;
+        display: grid;
+        grid-template-rows: auto auto;
+    }
+
+    .logo{
+        grid-row: 1;
+        width: 60%;
+        max-width: 300px;
+        height: auto;
+        top: 10%;
+        left: 24%;
+    }
+
+    .url{
+        top: 15%; 
+        left: 3%;
+    }
+
 }
