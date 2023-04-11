@@ -1,7 +1,7 @@
 # LoMap es1c
 
 <p style="text-align: center;">
-<img alt="Logo de LoMap" src="./my-app/public/logoLoMapA.png" height="200">
+<img alt="Logo de LoMap" src="./frontend/public/logoLoMapA.png" height="200">
 </p>
 
 ## What is LoMap
@@ -16,7 +16,7 @@ LoMap is an application developed for a school project that let's you create you
 To ensure that the code is running as we expect and also that the quality of it is above our standards we use some pages that analyses our code
 automatically.
 
-[![CI for LOMAP ES1c](https://github.com/Arquisoft/lomap_es1c/actions/workflows/lomap_es1c.yml/badge.svg)](https://github.com/Arquisoft/lomap_es1c/actions/workflows/lomap_es1c.yml)
+[![custom CI for LOMAP ES1c](https://github.com/Arquisoft/lomap_es1c/actions/workflows/lomap_es1c_CI.yml/badge.svg)](https://github.com/Arquisoft/lomap_es1c/actions/workflows/lomap_es1c_CI.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es1c&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es1c)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es1c&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es1c)
 
@@ -40,5 +40,5 @@ We use different technologies for the develop of the application. For the front 
 <p float="left">
 <img alt="Logo de React" src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
 <img alt="Logo de NodeJs" src="https://miro.medium.com/max/365/1*Jr3NFSKTfQWRUyjblBSKeg.png" height="100">
-<img alt="Logo de Solid" src="./my-app/public/solidLogo.png" height="100">
+<img alt="Logo de Solid" src="./frontend/public/solidLogo.png" height="100">
 </p>
