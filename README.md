@@ -16,7 +16,7 @@ LoMap is an application developed for a school project that let's you create you
 To ensure that the code is running as we expect and also that the quality of it is above our standards we use some pages that analyses our code
 automatically.
 
-[![CI for LOMAP ES1c](https://github.com/Arquisoft/lomap_es1c/actions/workflows/lomap_es1c.yml/badge.svg)](https://github.com/Arquisoft/lomap_es1c/actions/workflows/lomap_es1c.yml)
+[![custom CI for LOMAP ES1c](https://github.com/Arquisoft/lomap_es1c/actions/workflows/lomap_es1c_CI.yml/badge.svg)](https://github.com/Arquisoft/lomap_es1c/actions/workflows/lomap_es1c_CI.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es1c&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es1c)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es1c&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es1c)
 
