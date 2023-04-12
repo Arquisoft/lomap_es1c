@@ -21,13 +21,13 @@ export default function EditRouteInfo({
 	userPlaces,
 	API_route_calls,
 }) {
-	var theRouteID = route == null ? "" : route.id;
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState(route == null ? "" : route.name);
 	const [description, setDescription] = useState(route == null ? "" : route.description);
 	const [locations, setLocations] = useState(
 		route == null ? [] : route.locations
 	);
+
 	const [anchorMenu, setAnchorMenu] = useState(false);
 
 	function handleNameChange(event) {
@@ -44,15 +44,18 @@ export default function EditRouteInfo({
 		if (name.trim().length>0  &&  description.trim().length>0) {
 			setLoading(true);
 			if (route == null) {
-				const response = await API_route_calls.API_addRoute(name, description);
-				theRouteID = response.id
-			} else {
-				if (name != route.name || description != route.description) {
-					await API_route_calls.API_updateRouteInfo(theRouteID, name, description);
+				const newId = (await API_route_calls.API_addRoute(name, description)).data.id
+				for (var modification of locationsModifications) {
+					await modification.execute(newId);
 				}
-			}
-			for (var modification of locationsModifications) {
-				await modification.execute(theRouteID);
+			} else {
+				if (name !== route.name || description !== route.description) {
+					await API_route_calls.API_updateRouteInfo(route.id, name, description);
+
+				}
+				for (var modification of locationsModifications) {
+					await modification.execute(route.id);
+				}
 			}
 			setLoading(false);
 		}
@@ -62,7 +65,7 @@ export default function EditRouteInfo({
 	function clickOnNewLocation(locationId) {
 		setLocations((current) => [
 			...current,
-			userPlaces.find((l) => l.id == locationId),
+			userPlaces.find((l) => l.id === locationId),
 		]);
 		setLocationsModifications((current) => [
 			...current,
@@ -77,14 +80,14 @@ export default function EditRouteInfo({
 	}
 
 	function removeLocation(locationId) {
-        setLocations((current) => (current.filter(location => location.id != locationId)))
+        setLocations((current) => (current.filter(location => location.id !== locationId)))
 
         const hasBeenAddedInThisModification = locationsModifications
-            .filter(modification => (modification.type==modifications.ADD  &&  modification.locationID==locationId))
+            .filter(modification => (modification.type===modifications.ADD  &&  modification.locationID===locationId))
             .length>0
 
         // Remove the unnecessary locations
-        setLocationsModifications((current) => current.filter(modification => modification.locationID!=locationId))
+        setLocationsModifications((current) => current.filter(modification => modification.locationID!==locationId))
 
         // Only add the DELETE modification if that location was already stored
         if (!hasBeenAddedInThisModification) {

@@ -156,7 +156,7 @@ describe('EditRouteInfo', () => {
     })
 
     it ("Can create a route with no places", async () => {
-        routeCalls.API_addRoute.mockResolvedValue(Promise.resolve({id: 123456789}));
+        routeCalls.API_addRoute.mockResolvedValue(Promise.resolve({data: {id: 123456789}}));
 
         render(
             <EditRouteInfo
@@ -190,7 +190,7 @@ describe('EditRouteInfo', () => {
     })
 
     it ("Can create a route with some places", async () => {
-        routeCalls.API_addRoute.mockResolvedValue(Promise.resolve({id: 123456789}));
+        routeCalls.API_addRoute.mockResolvedValue(Promise.resolve({data: {id: 123456789}}));
 
         render(
             <EditRouteInfo
@@ -586,7 +586,7 @@ describe('EditRouteInfo', () => {
     })
 
     it ("Just stored places can be removed", async () => {
-        routeCalls.API_addRoute.mockResolvedValue(Promise.resolve({id: 123456789}));
+        routeCalls.API_addRoute.mockResolvedValue(Promise.resolve({data: {id: 123456789}}));
 
         render(
             <EditRouteInfo

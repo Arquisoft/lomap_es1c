@@ -101,13 +101,15 @@ export default function App({ logOutFunction }) {
 		return response;
 	}
 
-	function API_addRoute(routeName, routeDescription) {
+	async function API_addRoute(routeName, routeDescription) {
 		const url = "http://localhost:8080/route";
 		const data = {
 			name: routeName,
 			description: routeDescription,
 		};
-		return axios.post(url, data, { withCredentials: true }).then(updateRutas);
+		const response = await axios.post(url, data, { withCredentials: true });
+		updateRutas()
+		return response
 	}
 
 	function API_deleteRoute(routeID) {
