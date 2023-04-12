@@ -23,7 +23,7 @@ export default function EditRouteInfo({
 }) {
 	var theRouteID = route == null ? "" : route.id;
 	const [loading, setLoading] = useState(false);
-	const [name, setName] = useState(route == null ? "" : route.name ? route.name : "");
+	const [name, setName] = useState(route == null ? "" : route.name);
 	const [description, setDescription] = useState(route == null ? "" : route.description);
 	const [locations, setLocations] = useState(
 		route == null ? [] : route.locations
@@ -52,12 +52,11 @@ export default function EditRouteInfo({
 				}
 			}
 			for (var modification of locationsModifications) {
-				console.log(modification);
 				await modification.execute(theRouteID);
 			}
 			setLoading(false);
-			returnFunction();
 		}
+		returnFunction();
 	}
 
 	function clickOnNewLocation(locationId) {
@@ -99,12 +98,16 @@ export default function EditRouteInfo({
 
 	return (
 		<>
-			<IconButton data-testid="back-button" onClick={returnFunction}>
+			<IconButton
+				data-testid="back-button"
+				onClick={returnFunction}
+				disabled={loading}
+			>
 				<ArrowBackIcon />
 			</IconButton>
 			<br></br>
 			<TextField
-				inputProps={{"data-testid":"text-field-titulo"}}
+				inputProps={{"data-testid":"text-field-title"}}
 				label="Titulo"
 				defaultValue={name}
 				onChange={handleNameChange}
@@ -119,8 +122,12 @@ export default function EditRouteInfo({
 				disabled={loading}
 			/>
 			<div className="card--line1">
-				<h3>Lugares: </h3>
-				<IconButton data-testid="add-button" onClick={(event) => setAnchorMenu(event.currentTarget)}>
+				<h3 data-testid="your-locations-title">Lugares: </h3>
+				<IconButton
+					data-testid="add-button"
+					onClick={(event) => setAnchorMenu(event.currentTarget)}
+					disabled={loading}
+				>
 					<AddIcon />
 				</IconButton>
 			</div>
@@ -129,30 +136,39 @@ export default function EditRouteInfo({
 				anchorEl={anchorMenu}
 				open={Boolean(anchorMenu)}
 				onClose={() => setAnchorMenu(null)}
+				data-testid="menu-add-locations"
 			>
 				{userPlaces
 					.filter((location) => !locations.find((l) => l.id === location.id))
 					.map((location) => (
 						<MenuItem
 							key={location.id + "mnitem"}
-							onClick={() => clickOnNewLocation(location.id)}
+							onClick={() => {clickOnNewLocation(location.id); setAnchorMenu(null);}}
+							data-testid={location.id + "_mnitem"}
+							disabled={loading}
 						>
 							{location.name}
 						</MenuItem>
 					))}
 			</Menu>
 
+			<ul>
 			{locations.map((location) => (
+				<li key={location.id+"_li"} data-testid={location.id+"_li"}>
 				<div key={location.id + "div"} className="card--line1">
-					<p key={location.id}>{location.name}</p>
+					<p key={location.id+"_p"} data-testid={"location_list_name_"+location.id}>{location.name}</p>
 					<IconButton
-						key={location.id + "db"}
+						key={location.id + "_db"}
 						onClick={() => removeLocation(location.id)}
+						data-testid={"location_detetebutton_"+location.id}
+						disabled={loading}
 					>
 						<DeleteIcon />
 					</IconButton>
 				</div>
+				</li>
 			))}
+			</ul>
 
 			<br></br>
 
