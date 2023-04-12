@@ -41,11 +41,12 @@ export default function EditRouteInfo({
 	const [locationsModifications, setLocationsModifications] = useState([]);
 
 	async function save() {
+		var modification = null
 		if (name.trim().length>0  &&  description.trim().length>0) {
 			setLoading(true);
 			if (route == null) {
 				const newId = (await API_route_calls.API_addRoute(name, description)).data.id
-				for (var modification of locationsModifications) {
+				for (modification of locationsModifications) {
 					await modification.execute(newId);
 				}
 			} else {
@@ -53,7 +54,7 @@ export default function EditRouteInfo({
 					await API_route_calls.API_updateRouteInfo(route.id, name, description);
 
 				}
-				for (var modification of locationsModifications) {
+				for (modification of locationsModifications) {
 					await modification.execute(route.id);
 				}
 			}
