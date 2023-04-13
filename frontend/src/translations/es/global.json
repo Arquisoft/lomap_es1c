@@ -5,6 +5,8 @@
     },
     "sidebar": {
         "back-arrow-text": "Volver atrás",
+        "edit-button": "Editar",
+        "delete-button": "Borrar",
         "log-out": "Cerrar sesión",
         "tab-buttons": {
             "start": "Inicio",
