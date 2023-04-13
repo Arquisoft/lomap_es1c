@@ -243,14 +243,6 @@ export default function App({ logOutFunction }) {
 		setDrawerContent(newContent);
 	}
 
-	// // TODO: borrar si ya lo hizo Damian
-	function centerMapToCoordinates(newLatitude, newLongitude) {
-		//   // TODO: comprobar por qué
-		//   console.log("Center no funciona")
-		//   setLatitude(newLatitude)
-		//   setLongitude(newLongitude)
-	}
-
 	//Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la unicación del usuario.
 	const [position, setPosition] = useState({
 		lat: 0,
@@ -306,7 +298,6 @@ export default function App({ logOutFunction }) {
 				changeDrawerContent={changeDrawerContent}
 				categorias={categorias}
 				rutas={rutas}
-				centerMapToCoordinates={centerMapToCoordinates}
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
 				setPosition={setPosition}
