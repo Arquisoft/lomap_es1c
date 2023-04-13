@@ -9,6 +9,7 @@ import DrawerSidebar from "./Sidebar/Drawer";
 import "./Sidebar/Sidebar.css";
 import SettingsSpeedDial from "./buttons/SettingsSpeedDial";
 import { ThemeContext, Themes } from "./contexts/ThemeContext";
+import { ResourceStore } from "i18next";
 
 var a = [];
 
@@ -112,9 +113,11 @@ export default function App({ logOutFunction }) {
 		return response
 	}
 
-	function API_deleteRoute(routeID) {
+	async function API_deleteRoute(routeID) {
 		const url = "http://localhost:8080/route/" + routeID;
-		return axios.delete(url, { withCredentials: true }).then(updateRutas);
+		const response = await axios.delete(url, { withCredentials: true });
+		updateRutas()
+		return response;
 	}
 
 	function API_updateRouteInfo(routeID, newRouteName, newRouteDescription) {
