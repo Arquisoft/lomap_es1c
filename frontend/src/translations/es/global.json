@@ -4,6 +4,7 @@
         "toggle-theme-text": "Cambiar tema"
     },
     "sidebar": {
+        "back-arrow-text": "Volver atrás",
         "log-out": "Cerrar sesión",
         "tab-buttons": {
             "start": "Inicio",
@@ -26,6 +27,13 @@
             "edit":"Editar",
             "locate":"Localizar",
             "delete":"Eliminar"
+        }, "route": {
+            "route-name": "Nombre de la ruta",
+            "route-description": "Descripción de la ruta",
+            "places-in-route": "Lugares en la ruta: ",
+            "add-location-button": "Añade un lugar a esta ruta",
+            "remove-location-button": "Elimina este lugar de esta ruta",
+            "save-route-button": "Guardar"
         }
     },"filters":{
         "all": "Todos",

@@ -3,6 +3,9 @@ import { render, screen, waitFor, fireEvent  } from "@testing-library/react";
 import EditRouteInfo from "./EditInfoRoute";
 import userEvent from '@testing-library/user-event';
 import { act } from "react-dom/test-utils";
+import { I18nextProvider } from "react-i18next";
+import i18next from "i18next";
+import global_es from '../../translations/es/global.json';
 
 const returnFunctionMock = jest.fn()
 const routeCalls = {
@@ -11,6 +14,12 @@ const routeCalls = {
     API_addLocationToRoute: jest.fn(),
     API_deleteLocationFromRoute: jest.fn(),
 }
+
+i18next.init({
+	interpolation: { escapeValue: false },
+	lng: "es",
+	resources: {es: { global: global_es}},
+});
 
 const userPlaces = [
     {
@@ -46,12 +55,14 @@ const userPlaces = [
 describe('EditRouteInfo', () => {
     it ("Creating route renders correctly", async () => {
         render(
+            <I18nextProvider i18n={i18next}>
             <EditRouteInfo
                 route = {null}
                 returnFunction = {returnFunctionMock}
                 userPlaces = {userPlaces}
                 API_route_calls = {routeCalls}
             />
+            </I18nextProvider>
         );
 
         const returnButton = screen.getByTestId('back-button');
@@ -80,29 +91,31 @@ describe('EditRouteInfo', () => {
 
     it ("Updating route renders correctly", async () => {
         render(
-            <EditRouteInfo
-                route = {{
-                    id: 111,
-                    name: "routeName",
-                    description: "routeDescription",
-                    locations: [{
-                        id: "1",
-                        categoria: "",
-                        lat: 43.50441045903223,
-                        lng: -5.840656204113697,
-                        name: "NombreLugar1"
-                    },{
-                        id: "3",
-                        categoria: "Parque",
-                        lat: 43.56078698814968,
-                        lng: -5.88975135792229,
-                        name: "Name3Location"
-                    }]
-                }}
-                returnFunction = {returnFunctionMock}
-                userPlaces = {userPlaces}
-                API_route_calls = {routeCalls}
-            />
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {{
+                        id: 111,
+                        name: "routeName",
+                        description: "routeDescription",
+                        locations: [{
+                            id: "1",
+                            categoria: "",
+                            lat: 43.50441045903223,
+                            lng: -5.840656204113697,
+                            name: "NombreLugar1"
+                        },{
+                            id: "3",
+                            categoria: "Parque",
+                            lat: 43.56078698814968,
+                            lng: -5.88975135792229,
+                            name: "Name3Location"
+                        }]
+                    }}
+                    returnFunction = {returnFunctionMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                />
+            </I18nextProvider>
         );
 
         const returnButton = screen.getByTestId('back-button');
@@ -159,12 +172,14 @@ describe('EditRouteInfo', () => {
         routeCalls.API_addRoute.mockResolvedValue(Promise.resolve({data: {id: 123456789}}));
 
         render(
-            <EditRouteInfo
-                route = {null}
-                returnFunction = {returnFunctionMock}
-                userPlaces = {userPlaces}
-                API_route_calls = {routeCalls}
-            />
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {null}
+                    returnFunction = {returnFunctionMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                />
+            </I18nextProvider>
         );
 
         const titleTextField = screen.getByTestId('text-field-title');
@@ -193,12 +208,14 @@ describe('EditRouteInfo', () => {
         routeCalls.API_addRoute.mockResolvedValue(Promise.resolve({data: {id: 123456789}}));
 
         render(
-            <EditRouteInfo
-                route = {null}
-                returnFunction = {returnFunctionMock}
-                userPlaces = {userPlaces}
-                API_route_calls = {routeCalls}
-            />
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {null}
+                    returnFunction = {returnFunctionMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                />
+            </I18nextProvider>
         );
 
         const titleTextField = screen.getByTestId('text-field-title');
@@ -310,12 +327,14 @@ describe('EditRouteInfo', () => {
 
     it ("Cannot create a route with no name", async () => {
         render(
-            <EditRouteInfo
-                route = {null}
-                returnFunction = {returnFunctionMock}
-                userPlaces = {userPlaces}
-                API_route_calls = {routeCalls}
-            />
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {null}
+                    returnFunction = {returnFunctionMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                />
+            </I18nextProvider>
         );
 
         const saveButton = screen.getByTestId('save-button');
@@ -329,29 +348,31 @@ describe('EditRouteInfo', () => {
 
     it ("Cannot update a route to have no name", async () => {
         render(
-            <EditRouteInfo
-                route = {{
-                    id: 111,
-                    name: "routeName",
-                    description: "routeDescription",
-                    locations: [{
-                        id: "1",
-                        categoria: "",
-                        lat: 43.50441045903223,
-                        lng: -5.840656204113697,
-                        name: "NombreLugar1"
-                    },{
-                        id: "3",
-                        categoria: "Parque",
-                        lat: 43.56078698814968,
-                        lng: -5.88975135792229,
-                        name: "Name3Location"
-                    }]
-                }}
-                returnFunction = {returnFunctionMock}
-                userPlaces = {userPlaces}
-                API_route_calls = {routeCalls}
-            />
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {{
+                        id: 111,
+                        name: "routeName",
+                        description: "routeDescription",
+                        locations: [{
+                            id: "1",
+                            categoria: "",
+                            lat: 43.50441045903223,
+                            lng: -5.840656204113697,
+                            name: "NombreLugar1"
+                        },{
+                            id: "3",
+                            categoria: "Parque",
+                            lat: 43.56078698814968,
+                            lng: -5.88975135792229,
+                            name: "Name3Location"
+                        }]
+                    }}
+                    returnFunction = {returnFunctionMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                />
+            </I18nextProvider>
         );
 
         const saveButton = screen.getByTestId('save-button');
@@ -377,29 +398,31 @@ describe('EditRouteInfo', () => {
 
     it ("Can update name and description of route", async () => {
         render(
-            <EditRouteInfo
-                route = {{
-                    id: 111,
-                    name: "routeName",
-                    description: "routeDescription",
-                    locations: [{
-                        id: "1",
-                        categoria: "",
-                        lat: 43.50441045903223,
-                        lng: -5.840656204113697,
-                        name: "NombreLugar1"
-                    },{
-                        id: "3",
-                        categoria: "Parque",
-                        lat: 43.56078698814968,
-                        lng: -5.88975135792229,
-                        name: "Name3Location"
-                    }]
-                }}
-                returnFunction = {returnFunctionMock}
-                userPlaces = {userPlaces}
-                API_route_calls = {routeCalls}
-            />
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {{
+                        id: 111,
+                        name: "routeName",
+                        description: "routeDescription",
+                        locations: [{
+                            id: "1",
+                            categoria: "",
+                            lat: 43.50441045903223,
+                            lng: -5.840656204113697,
+                            name: "NombreLugar1"
+                        },{
+                            id: "3",
+                            categoria: "Parque",
+                            lat: 43.56078698814968,
+                            lng: -5.88975135792229,
+                            name: "Name3Location"
+                        }]
+                    }}
+                    returnFunction = {returnFunctionMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                />
+            </I18nextProvider>
         );
 
         const saveButton = screen.getByTestId('save-button');
@@ -426,29 +449,31 @@ describe('EditRouteInfo', () => {
 
     it ("Places can be added to existing route", async () => {
         render(
-            <EditRouteInfo
-                route = {{
-                    id: 111,
-                    name: "routeName",
-                    description: "routeDescription",
-                    locations: [{
-                        id: "1",
-                        categoria: "",
-                        lat: 43.50441045903223,
-                        lng: -5.840656204113697,
-                        name: "NombreLugar1"
-                    },{
-                        id: "3",
-                        categoria: "Parque",
-                        lat: 43.56078698814968,
-                        lng: -5.88975135792229,
-                        name: "Name3Location"
-                    }]
-                }}
-                returnFunction = {returnFunctionMock}
-                userPlaces = {userPlaces}
-                API_route_calls = {routeCalls}
-            />
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {{
+                        id: 111,
+                        name: "routeName",
+                        description: "routeDescription",
+                        locations: [{
+                            id: "1",
+                            categoria: "",
+                            lat: 43.50441045903223,
+                            lng: -5.840656204113697,
+                            name: "NombreLugar1"
+                        },{
+                            id: "3",
+                            categoria: "Parque",
+                            lat: 43.56078698814968,
+                            lng: -5.88975135792229,
+                            name: "Name3Location"
+                        }]
+                    }}
+                    returnFunction = {returnFunctionMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                />
+            </I18nextProvider>
         );
 
         const addButton = screen.getByTestId('add-button');
@@ -520,29 +545,31 @@ describe('EditRouteInfo', () => {
 
     it ("Already stored places can be removed", async () => {
         render(
-            <EditRouteInfo
-                route = {{
-                    id: 111,
-                    name: "routeName",
-                    description: "routeDescription",
-                    locations: [{
-                        id: "1",
-                        categoria: "",
-                        lat: 43.50441045903223,
-                        lng: -5.840656204113697,
-                        name: "NombreLugar1"
-                    },{
-                        id: "3",
-                        categoria: "Parque",
-                        lat: 43.56078698814968,
-                        lng: -5.88975135792229,
-                        name: "Name3Location"
-                    }]
-                }}
-                returnFunction = {returnFunctionMock}
-                userPlaces = {userPlaces}
-                API_route_calls = {routeCalls}
-            />
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {{
+                        id: 111,
+                        name: "routeName",
+                        description: "routeDescription",
+                        locations: [{
+                            id: "1",
+                            categoria: "",
+                            lat: 43.50441045903223,
+                            lng: -5.840656204113697,
+                            name: "NombreLugar1"
+                        },{
+                            id: "3",
+                            categoria: "Parque",
+                            lat: 43.56078698814968,
+                            lng: -5.88975135792229,
+                            name: "Name3Location"
+                        }]
+                    }}
+                    returnFunction = {returnFunctionMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                />
+            </I18nextProvider>
         );
 
         const saveButton = screen.getByTestId('save-button');
@@ -589,12 +616,14 @@ describe('EditRouteInfo', () => {
         routeCalls.API_addRoute.mockResolvedValue(Promise.resolve({data: {id: 123456789}}));
 
         render(
-            <EditRouteInfo
-                route = {null}
-                returnFunction = {returnFunctionMock}
-                userPlaces = {userPlaces}
-                API_route_calls = {routeCalls}
-            />
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {null}
+                    returnFunction = {returnFunctionMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                />
+            </I18nextProvider>
         );
 
         const titleTextField = screen.getByTestId('text-field-title');
@@ -634,17 +663,19 @@ describe('EditRouteInfo', () => {
 
     it ("Removed places can be re-added", async () => {
         render(
-            <EditRouteInfo
-                route = {{
-                    id: 111,
-                    name: "routeName",
-                    description: "routeDescription",
-                    locations: []
-                }}
-                returnFunction = {returnFunctionMock}
-                userPlaces = {userPlaces}
-                API_route_calls = {routeCalls}
-            />
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {{
+                        id: 111,
+                        name: "routeName",
+                        description: "routeDescription",
+                        locations: []
+                    }}
+                    returnFunction = {returnFunctionMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                />
+            </I18nextProvider>
         );
 
         expect(screen.queryByTestId('1_li')).toBeNull();
@@ -744,29 +775,31 @@ describe('EditRouteInfo', () => {
 
     it ("Menu is hidden when ESC key is clicked", async () => {
         render(
-            <EditRouteInfo
-                route = {{
-                    id: 111,
-                    name: "routeName",
-                    description: "routeDescription",
-                    locations: [{
-                        id: "1",
-                        categoria: "",
-                        lat: 43.50441045903223,
-                        lng: -5.840656204113697,
-                        name: "NombreLugar1"
-                    },{
-                        id: "3",
-                        categoria: "Parque",
-                        lat: 43.56078698814968,
-                        lng: -5.88975135792229,
-                        name: "Name3Location"
-                    }]
-                }}
-                returnFunction = {returnFunctionMock}
-                userPlaces = {userPlaces}
-                API_route_calls = {routeCalls}
-            />
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {{
+                        id: 111,
+                        name: "routeName",
+                        description: "routeDescription",
+                        locations: [{
+                            id: "1",
+                            categoria: "",
+                            lat: 43.50441045903223,
+                            lng: -5.840656204113697,
+                            name: "NombreLugar1"
+                        },{
+                            id: "3",
+                            categoria: "Parque",
+                            lat: 43.56078698814968,
+                            lng: -5.88975135792229,
+                            name: "Name3Location"
+                        }]
+                    }}
+                    returnFunction = {returnFunctionMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                />
+            </I18nextProvider>
         );
 
         const addButton = screen.getByTestId('add-button');

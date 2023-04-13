@@ -3,11 +3,12 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const modifications = {
 	ADD: "add",
@@ -27,6 +28,7 @@ export default function EditRouteInfo({
 	const [locations, setLocations] = useState(
 		route == null ? [] : route.locations
 	);
+	const [t] = useTranslation("global");
 
 	const [anchorMenu, setAnchorMenu] = useState(false);
 
@@ -102,17 +104,22 @@ export default function EditRouteInfo({
 
 	return (
 		<>
-			<IconButton
-				data-testid="back-button"
-				onClick={returnFunction}
-				disabled={loading}
+			<Tooltip
+				title={t("sidebar.back-arrow-text")}
+				placement="bottom"
 			>
-				<ArrowBackIcon />
-			</IconButton>
+				<IconButton
+					data-testid="back-button"
+					onClick={returnFunction}
+					disabled={loading}
+				>
+					<ArrowBackIcon />
+				</IconButton>
+			</Tooltip>
 			<br></br>
 			<TextField
 				inputProps={{"data-testid":"text-field-title"}}
-				label="Titulo"
+				label={t("sidebar.route.route-name")}
 				defaultValue={name}
 				onChange={handleNameChange}
 				disabled={loading}
@@ -120,20 +127,25 @@ export default function EditRouteInfo({
 			<br></br>
 			<TextField
 				inputProps={{"data-testid":"text-field-description"}}
-				label="Descripcion"
+				label={t("sidebar.route.route-description")}
 				defaultValue={description}
 				onChange={handleDescriptionChange}
 				disabled={loading}
 			/>
 			<div className="card--line1">
-				<h3 data-testid="your-locations-title">Lugares: </h3>
-				<IconButton
-					data-testid="add-button"
-					onClick={(event) => setAnchorMenu(event.currentTarget)}
-					disabled={loading}
+				<h3 data-testid="your-locations-title">{t("sidebar.route.places-in-route")}</h3>
+				<Tooltip
+					title={t("sidebar.route.add-location-button")}
+					placement="bottom"
 				>
-					<AddIcon />
-				</IconButton>
+					<IconButton
+						data-testid="add-button"
+						onClick={(event) => setAnchorMenu(event.currentTarget)}
+						disabled={loading}
+					>
+						<AddIcon />
+					</IconButton>
+				</Tooltip>
 			</div>
 
 			<Menu
@@ -161,14 +173,19 @@ export default function EditRouteInfo({
 				<li key={location.id+"_li"} data-testid={location.id+"_li"}>
 				<div key={location.id + "div"} className="card--line1">
 					<p key={location.id+"_p"} data-testid={"location_list_name_"+location.id}>{location.name}</p>
-					<IconButton
-						key={location.id + "_db"}
-						onClick={() => removeLocation(location.id)}
-						data-testid={"location_detetebutton_"+location.id}
-						disabled={loading}
+					<Tooltip
+						title={t("sidebar.route.remove-location-button")}
+						placement="bottom"
 					>
-						<DeleteIcon />
-					</IconButton>
+						<IconButton
+							key={location.id + "_db"}
+							onClick={() => removeLocation(location.id)}
+							data-testid={"location_detetebutton_"+location.id}
+							disabled={loading}
+						>
+							<DeleteIcon />
+						</IconButton>
+					</Tooltip>
 				</div>
 				</li>
 			))}
@@ -185,7 +202,7 @@ export default function EditRouteInfo({
 				startIcon={<SaveIcon />}
 				variant="contained"
 			>
-				<span>Save</span>
+				<span>{t("sidebar.route.save-route-button")}</span>
 			</LoadingButton>
 		</>
 	);
