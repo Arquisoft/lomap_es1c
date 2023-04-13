@@ -43,7 +43,7 @@ export default function EditRouteInfo({
 	const [locationsModifications, setLocationsModifications] = useState([]);
 
 	async function save() {
-		var modification = null
+		let modification
 		if (name.trim().length>0  &&  description.trim().length>0) {
 			setLoading(true);
 			if (route == null) {
