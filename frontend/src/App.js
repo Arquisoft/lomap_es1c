@@ -9,7 +9,6 @@ import DrawerSidebar from "./Sidebar/Drawer";
 import "./Sidebar/Sidebar.css";
 import SettingsSpeedDial from "./buttons/SettingsSpeedDial";
 import { ThemeContext, Themes } from "./contexts/ThemeContext";
-import { ResourceStore } from "i18next";
 
 var a = [];
 
@@ -18,7 +17,7 @@ export default function App({ logOutFunction }) {
 	const [places, setPlaces] = React.useState(a);
 
 	const [data, setData] = useState("");
-	const [i18n] = useTranslation("global");
+	const [t, i18n] = useTranslation("global");	// La t sí se usa y hace falta, no borrar
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
 	const [amigos, setAmigos] = useState([]);
