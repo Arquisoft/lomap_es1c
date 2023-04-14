@@ -12,6 +12,10 @@ async function getAllRoutes(req, res,next) {
 	}
 }
 
+
+
+
+
 async function getRouteById(req, res, next) {
 	try {
 		const { id } = req.params;
@@ -76,6 +80,7 @@ async function deleteRoute(req, res, next) {
 			return;
 		}
 		await solid.deleteRouteById(session, id, session.info.webId);
+		res.status(204).json({ message: "Route deleted successfully" });
 	} catch (err) {
 		next(err);
 	}
