@@ -48,7 +48,7 @@ const images = [
 },
 ];
 
-export default function FullInfoPlace({place, returnFunction,setPosition, changeDrawerContent, categorias, centerMapToCoordinates, API_location_calls}) {
+export default function FullInfoPlace({place, returnFunction,setPosition, changeDrawerContent, categorias, API_location_calls}) {
     const [t] = useTranslation("global");
     const [loading, setLoading] = useState(false)
 

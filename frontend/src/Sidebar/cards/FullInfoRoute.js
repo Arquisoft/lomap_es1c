@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { IconButton } from '@mui/material';
+import { Button, IconButton, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditInfoRoute from './EditInfoRoute';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useTranslation } from "react-i18next";
 
 export default function FullRouteInfo({route, returnFunction, changeDrawerContent, userPlaces, API_route_calls}) {
     const [loading, setLoading] = useState(false)
+    const [t] = useTranslation("global");
     
     function allowEdit() {
         changeDrawerContent(
@@ -22,10 +23,6 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
         )
     }
 
-    function displayRoute() {
-
-    }
-
     async function deleteRoute() {
         setLoading(true)
         await API_route_calls.API_deleteRoute(route.id)
@@ -35,16 +32,26 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
 
     return (
         <>
-        <IconButton onClick={returnFunction}><ArrowBackIcon/></IconButton>
+        <Tooltip
+            title={t("sidebar.back-arrow-text")}
+            placement="bottom"
+        >
+            <IconButton
+                onClick={returnFunction}
+                disabled={loading}
+            >
+                <ArrowBackIcon/>
+            </IconButton>
+        </Tooltip>
         <h1>{route.name}</h1>
         <h3>{route.description}</h3>
 
-        <h3>{"Lugares: "}</h3>
+        <h3>{t("sidebar.route.places-in-route")}</h3>
         <ul>
         {
             route.locations.map(
                 location => (
-                    <li key={location.id}>
+                    <li key={location.id+"_li"}>
                         {location.name}
                     </li>
                 )
@@ -54,22 +61,25 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
 
         <br></br>
         <div className="card--line1">
-            <IconButton onClick={allowEdit}><EditIcon/></IconButton>
-            {/* <IconButton><TravelExploreIcon/></IconButton> */}
-
+            <Button
+                onClick={allowEdit}
+                disabled={loading}
+                startIcon={<EditIcon/>}
+                variant="contained"
+            >
+                <span>{t("sidebar.edit-button")}</span>
+            </Button>
 
             <LoadingButton
-                color="secondary"
                 onClick={deleteRoute}
                 loading={loading}
                 loadingPosition="start"
                 startIcon={<DeleteIcon />}
                 variant="contained"
             >
-                <span>Borrar</span>
+                <span>{t("sidebar.delete-button")}</span>
             </LoadingButton>
         </div>
-
         </>
     )
 }
