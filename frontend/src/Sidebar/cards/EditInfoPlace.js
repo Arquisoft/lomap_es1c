@@ -57,8 +57,8 @@ export default function FullInfoPlace({
 }) {
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState(place.name);
-	const [category, setCategory] = useState(place.categoria);
-	const [privacy, setPrivacy] = useState(place.privacidad);
+	const [category, setCategory] = useState(place.category);
+	const [privacy, setPrivacy] = useState(place.privacy);
 
 	const [t] = useTranslation("global");
 	const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"];
@@ -67,8 +67,8 @@ export default function FullInfoPlace({
 		setLoading(true);
 		if (
 			place.name != name ||
-			place.categoria != category ||
-			place.privacidad != privacy
+			place.category != category ||
+			place.privacy != privacy
 		) {
 			await API_location_calls.API_updateLocation(
 				place.id,
@@ -82,8 +82,8 @@ export default function FullInfoPlace({
 	}
 
 	const categoriesToList = ["", ...categorias];
-	if (!categoriesToList.includes(place.categoria)) {
-		categoriesToList.push(place.categoria);
+	if (!categoriesToList.includes(place.category)) {
+		categoriesToList.push(place.category);
 	}
 
 	function addImage() {
@@ -123,8 +123,8 @@ export default function FullInfoPlace({
 
 			<Select
 				defaultValue={
-					place.privacidad
-						? place.privacidad.toLowerCase()
+					place.privacy
+						? place.privacy.toLowerCase()
 						: nivelesPrivacidad[0].toLowerCase()
 				}
 				onChange={handlePrivacyChange}
@@ -137,7 +137,7 @@ export default function FullInfoPlace({
 			<br></br>
 
 			<Select
-				defaultValue={place.categoria.toLowerCase()}
+				defaultValue={place.category.toLowerCase()}
 				label="Categoria"
 				onChange={handleCategoryChange}
 			>
@@ -154,7 +154,7 @@ export default function FullInfoPlace({
 
 			<br></br>
 
-			<TextField label="Comentario" value={place.comentario} />
+			<TextField label="Comentario" value={place.comments[0]} />
 
 			<h3>Fotos:</h3>
 			<Swiper
