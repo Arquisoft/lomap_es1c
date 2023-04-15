@@ -95,7 +95,7 @@ function Map({
 				if (
 					places.some(
 						() =>
-							places[i].categoria.toLowerCase() ===
+							places[i].category.toLowerCase() ===
 							categortFiltered.category.toLowerCase()
 					)
 				) {
@@ -224,7 +224,7 @@ function Map({
 				{Filter().map((marker) => (
 					<MarkerF
 						key={marker.id}
-						position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
+						position={{ lat: Number(marker.latitude), lng: Number(marker.longitude) }}
 						onClick={() => details(marker)}
 						//options={{icon: {url:(require("./marker.svg").default),scaledSize: {width: 36, height: 36},fillColor:"#34495e"}}}
 					/>

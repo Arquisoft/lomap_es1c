@@ -17,7 +17,7 @@ export default function App({ logOutFunction }) {
 	const [places, setPlaces] = React.useState(a);
 
 	const [data, setData] = useState("");
-	const [t,i18n] = useTranslation("global");
+	const [t, i18n] = useTranslation("global");	// La t sí se usa y hace falta, no borrar
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
 	const [amigos, setAmigos] = useState([]);
@@ -53,37 +53,20 @@ export default function App({ logOutFunction }) {
 			.catch((error) => console.log(error));
 	}
 
+	async function updateLocations() {
+		await axios
+			.get("http://localhost:8080/location", { withCredentials: true })
+			.then((response) => {
+				setPlaces(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
 	useEffect(() => {
-		async function getData() {
-			await axios
-				.get("http://localhost:8080/location", { withCredentials: true })
-				.then((response) => {
-					if (response.data.length !== data.length) {
-						console.log(response.data)
-						setData(response.data);
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}
-		getData();
-		for (let i = 0; i < data.length; i++) {
-			if (!places.some((value) => value.id === data[i].id)) {
-				addPlace(
-					(a[i] = {
-						id: data[i].id,
-						lat: data[i].latitude,
-						lng: data[i].longitude,
-						name: data[i].name,
-						categoria: data[i].category,
-						author: data[i].author
-					})
-				);
-			}
-		}
-		setPlaces(a);
-	}, [setData, data, places]);
+		updateLocations();
+	},[]);
 
 	useEffect(() => {
 		updateCategorias();
@@ -103,18 +86,22 @@ export default function App({ logOutFunction }) {
 		return response;
 	}
 
-	function API_addRoute(routeName, routeDescription) {
+	async function API_addRoute(routeName, routeDescription) {
 		const url = "http://localhost:8080/route";
 		const data = {
 			name: routeName,
 			description: routeDescription,
 		};
-		return axios.post(url, data, { withCredentials: true }).then(updateRutas);
+		const response = await axios.post(url, data, { withCredentials: true });
+		updateRutas()
+		return response
 	}
 
-	function API_deleteRoute(routeID) {
+	async function API_deleteRoute(routeID) {
 		const url = "http://localhost:8080/route/" + routeID;
-		return axios.delete(url, { withCredentials: true }).then(updateRutas);
+		const response = await axios.delete(url, { withCredentials: true });
+		updateRutas()
+		return response;
 	}
 
 	function API_updateRouteInfo(routeID, newRouteName, newRouteDescription) {
@@ -243,14 +230,6 @@ export default function App({ logOutFunction }) {
 		setDrawerContent(newContent);
 	}
 
-	// // TODO: borrar si ya lo hizo Damian
-	function centerMapToCoordinates(newLatitude, newLongitude) {
-		//   // TODO: comprobar por qué
-		//   console.log("Center no funciona")
-		//   setLatitude(newLatitude)
-		//   setLongitude(newLongitude)
-	}
-
 	//Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la unicación del usuario.
 	const [position, setPosition] = useState({
 		lat: 0,
@@ -264,7 +243,7 @@ export default function App({ logOutFunction }) {
 				latMark={latitude}
 				lngMark={longitude}
 				places={places}
-				setPlaces={setPlaces}
+				updateLocations={updateLocations}
 				setIsOpen={setIsOpen}
 				setMarkers={setMarkers}
 				setStateButton={setDisabledB}
@@ -306,7 +285,6 @@ export default function App({ logOutFunction }) {
 				changeDrawerContent={changeDrawerContent}
 				categorias={categorias}
 				rutas={rutas}
-				centerMapToCoordinates={centerMapToCoordinates}
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
 				setPosition={setPosition}

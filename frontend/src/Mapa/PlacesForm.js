@@ -9,7 +9,7 @@ export default function CreateModal({
 	isOpen,
 	latMark,
 	lngMark,
-	setPlaces,
+	updateLocations,
 	setIsOpen,
 	setMarkers,
 	setStateButton,
@@ -137,7 +137,7 @@ export default function CreateModal({
 			setValoracion("");
 			setIsOpen(false);
 			setCanCick(false);
-			setPlaces([]);
+			updateLocations();
 		}
 	}
 

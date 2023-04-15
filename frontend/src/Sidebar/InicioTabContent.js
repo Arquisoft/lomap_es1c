@@ -35,7 +35,6 @@ export default function InicioTabContent(props) {
                     place = {place}
                     changeDrawerContent={props.changeDrawerContent}
                     categorias = {props.categorias}
-                    centerMapToCoordinates = {props.centerMapToCoordinates}
                     setPosition={props.setPosition}
                     API_location_calls = {props.API_location_calls}
                 />)
