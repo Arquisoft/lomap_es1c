@@ -4,20 +4,15 @@ import { useTranslation } from "react-i18next";
 import "./App.css";
 import CreateMap from "./Mapa/Map";
 import CreateModal from "./Mapa/PlacesForm";
-import addPlace from "./Places/Places";
 import DrawerSidebar from "./Sidebar/Drawer";
 import "./Sidebar/Sidebar.css";
 import SettingsSpeedDial from "./buttons/SettingsSpeedDial";
 import { ThemeContext, Themes } from "./contexts/ThemeContext";
 import CircularProgress from '@mui/material/CircularProgress';
 
-var a = [];
-
 export default function App({ logOutFunction }) {
 	//Todos los lugares de la aplicacion
-	const [places, setPlaces] = React.useState(a);
-
-	const [data, setData] = useState("");
+	const [places, setPlaces] = React.useState([]);
 	const [t, i18n] = useTranslation("global");	// La t sí se usa y hace falta, no borrar
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
