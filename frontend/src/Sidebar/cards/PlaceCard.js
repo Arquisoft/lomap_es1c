@@ -24,7 +24,7 @@ export default function LugarCard(props) {
             <hr />
             <div className="card--line1">
                 <h3>{place.name.substring(0, maxTextLength)} {place.name.length>maxTextLength && " ..."}</h3>
-                {place.categoria  &&  <p>{place.categoria}</p>}
+                {place.category  &&  <p>{place.category}</p>}
             </div>
             {place.valoracion ? <Rating value={place.valoracion} readOnly/> : <Rating value={place.valoracion} disabled/>}
             <br></br>

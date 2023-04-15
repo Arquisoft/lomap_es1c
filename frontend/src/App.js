@@ -53,35 +53,20 @@ export default function App({ logOutFunction }) {
 			.catch((error) => console.log(error));
 	}
 
+	async function updateLocations() {
+		await axios
+			.get("http://localhost:8080/location", { withCredentials: true })
+			.then((response) => {
+				setPlaces(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
 	useEffect(() => {
-		async function getData() {
-			await axios
-				.get("http://localhost:8080/location", { withCredentials: true })
-				.then((response) => {
-					if (response.data.length !== data.length) {
-						setData(response.data);
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}
-		getData();
-		for (let i = 0; i < data.length; i++) {
-			if (!places.some((value) => value.id === data[i].id)) {
-				addPlace(
-					(a[i] = {
-						id: data[i].id,
-						lat: data[i].latitude,
-						lng: data[i].longitude,
-						name: data[i].name,
-						categoria: data[i].category,
-					})
-				);
-			}
-		}
-		setPlaces(a);
-	}, [setData, data, places]);
+		updateLocations();
+	},[]);
 
 	useEffect(() => {
 		updateCategorias();
@@ -258,7 +243,7 @@ export default function App({ logOutFunction }) {
 				latMark={latitude}
 				lngMark={longitude}
 				places={places}
-				setPlaces={setPlaces}
+				updateLocations={updateLocations}
 				setIsOpen={setIsOpen}
 				setMarkers={setMarkers}
 				setStateButton={setDisabledB}
