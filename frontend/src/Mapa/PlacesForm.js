@@ -4,6 +4,9 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import "./muiComps.css";
+import LoadingButton from "@mui/lab/LoadingButton";
+import CancelIcon from '@mui/icons-material/Cancel';
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function CreateModal({
 	isOpen,
@@ -17,6 +20,7 @@ export default function CreateModal({
 }) {
 	const [t] = useTranslation("global");
 	const [categorias, setCategorias] = React.useState([]);
+	const [loading, setLoading] = React.useState(false);
 
 	function getData() {
 		axios
@@ -115,7 +119,7 @@ export default function CreateModal({
 
 	//Comprueba que todos los campos esten correctos, añade el punto a la lista de puntos,restea los valores por defecto del formulario
 	//Y recarga los puntos del mapa para que se vean los nuevos.
-	function addPlaceModal() {
+	async function addPlaceModal() {
 		setMarkers([]);
 		if (nombre.trim().length <= 0) {
 			alert("El nombre no puede estar vacio");
@@ -123,7 +127,7 @@ export default function CreateModal({
 			alert("La puntuación tiene que ser mayor de 0 y menor de 5");
 		} else {
 			setStateButton(true);
-			addPlaceApi(
+			await addPlaceApi(
 				nombre,
 				latitudeMark,
 				longitudeMark,
@@ -141,7 +145,7 @@ export default function CreateModal({
 		}
 	}
 
-	function addPlaceApi(
+	async function addPlaceApi(
 		nombreP,
 		latitudeMarkP,
 		longitudeMarkP,
@@ -151,6 +155,7 @@ export default function CreateModal({
 		photoP,
 		privacyP
 	) {
+		setLoading(true)
 		const url = "http://localhost:8080/location/";
 		const data = {
 			name: nombreP,
@@ -166,7 +171,9 @@ export default function CreateModal({
 		const config = {
 			withCredentials: true,
 		};
-		axios.post(url, data, config);
+		const response = await axios.post(url, data, config);
+		setLoading(false)
+		return response
 	}
 
 	return (
@@ -190,6 +197,7 @@ export default function CreateModal({
 					name="nombre"
 					value={nombre}
 					onChange={handleNameChange}
+					disabled={loading}
 				/>
 
 				<label htmlFor="puntuacion">{t("locations.form.score")}</label>
@@ -200,6 +208,7 @@ export default function CreateModal({
 					name="simple-controlled"
 					value={Number(valoracion)}
 					onChange={handleValChange}
+					disabled={loading}
 				/>
 
 				<label htmlFor="categoria">{t("locations.form.category")}</label>
@@ -209,10 +218,11 @@ export default function CreateModal({
 					defaultValue="sin categoria"
 					name="categoria"
 					onChange={handleCategoryChange}
+					disabled={loading}
 				>
 					<MenuItem value={"sin categoria"} defaultValue={true}>Sin Categoria</MenuItem>
 					{categorias.map((categoria) => (
-						<MenuItem value={categoria}>{categoria}</MenuItem>
+						<MenuItem value={categoria} disabled={loading}>{categoria}</MenuItem>
 					))}
 				</Select>
 
@@ -224,10 +234,11 @@ export default function CreateModal({
 					defaultValue="privado"
 					name="nivelPrivacidad"
 					onChange={handlePrivacyChange}
+					disabled={loading}
 				>
-					<MenuItem value={"privado"} defaultValue={"privado"}>Privado</MenuItem>
+					<MenuItem value={"privado"} defaultValue={"privado"} disabled={loading}>Privado</MenuItem>
 					{nivelesPrivacidad.map((nivel) => (
-						<MenuItem value={nivel.toLowerCase()}>{nivel}</MenuItem>
+						<MenuItem value={nivel.toLowerCase()} disabled={loading}>{nivel}</MenuItem>
 					))}
 				</Select>
 
@@ -238,6 +249,7 @@ export default function CreateModal({
 					id="fotos"
 					placeholder="Escoja las imagenes"
 					onChange={handleFotoChange}
+					disabled={loading}
 				/>
 
 				<label htmlFor="comentarios">{t("locations.form.comment")}</label>
@@ -249,13 +261,25 @@ export default function CreateModal({
 					className="comentario"
 					multiline
 					rows={8}
+					disabled={loading}
 				/>
 			</form>
 			<div className="submitFormLugares">
-				<Button className="btn" onClick={addPlaceModal}>
+				<LoadingButton
+					className="btn"
+					onClick={addPlaceModal}
+					disabled={loading}
+					loading={loading}
+					loadingPosition="start"
+					startIcon={<SaveIcon/>}
+				>
 					{t("locations.form.add")}
-				</Button>
-				<Button className="btnCancel" onClick={closeModal}>
+				</LoadingButton>
+				<Button
+					className="btnCancel"
+					onClick={closeModal}
+					disabled={loading}
+				>
 					{t("locations.form.cancel")}
 				</Button>
 			</div>
