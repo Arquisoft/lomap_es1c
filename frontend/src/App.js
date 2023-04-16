@@ -4,64 +4,56 @@ import { useTranslation } from "react-i18next";
 import "./App.css";
 import CreateMap from "./Mapa/Map";
 import CreateModal from "./Mapa/PlacesForm";
-import addPlace from "./Places/Places";
 import DrawerSidebar from "./Sidebar/Drawer";
 import "./Sidebar/Sidebar.css";
 import SettingsSpeedDial from "./buttons/SettingsSpeedDial";
 import { ThemeContext, Themes } from "./contexts/ThemeContext";
-
-var a = [];
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function App({ logOutFunction }) {
 	//Todos los lugares de la aplicacion
-	const [places, setPlaces] = React.useState(a);
-
-	const [data, setData] = useState("");
+	const [places, setPlaces] = React.useState([]);
 	const [t, i18n] = useTranslation("global");	// La t sí se usa y hace falta, no borrar
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
 	const [amigos, setAmigos] = useState([]);
+	const [loading, setLoading] = useState(0);
 
-	function updateCategorias() {
-		axios
+	async function updateCategorias() {
+		setLoading(current => current+1)
+		await axios
 			.get("http://localhost:8080/location/category", { withCredentials: true })
-			.then((response) => {
-				setCategorias(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+			.then((response) => setCategorias(response.data))
+			.catch((error) => console.log(error));
+		setLoading(current => current-1)
 	}
 
 	async function updateAmigos() {
+		setLoading(current => current+1)
 		await axios
 			.get("http://localhost:8080/friend", { withCredentials: true })
-			.then((response) => {
-				setAmigos(response.data);
-				console.log(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+			.then((response) => setAmigos(response.data))
+			.catch((error) => console.log(error));
+		setLoading(current => current-1)
 	}
 
 	async function updateRutas() {
+		setLoading(current => current+1)
 		const url = "http://localhost:8080/route";
-		return await axios
+		await axios
 			.get(url, { withCredentials: true })
 			.then((response) => setRutas(response.data))
 			.catch((error) => console.log(error));
+		setLoading(current => current-1)
 	}
 
 	async function updateLocations() {
+		setLoading(current => current+1)
 		await axios
 			.get("http://localhost:8080/location", { withCredentials: true })
-			.then((response) => {
-				setPlaces(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+			.then((response) => setPlaces(response.data))
+			.catch((error) => console.log(error));
+		setLoading(current => current-1)
 	}
 
 	useEffect(() => {
@@ -145,21 +137,23 @@ export default function App({ logOutFunction }) {
 		API_changeOrderOfLocationInRoute: API_changeOrderOfLocationInRoute,
 	};
 
-	function API_deleteLocation(locationID) {
+	async function API_deleteLocation(locationID) {
 		const url = "http://localhost:8080/location/" + locationID;
-		return axios.delete(url, { withCredentials: true });
-		// TODO actualizar lugares
+		const response = await axios.delete(url, { withCredentials: true });
+		updateLocations()
+		return response
 	}
 
-	function API_updateLocation(placeID, newName, newCategory, newPrivacy) {
+	async function API_updateLocation(placeID, newName, newCategory, newPrivacy) {
 		const url = "http://localhost:8080/location/" + placeID;
 		const data = {
 			name: newName,
 			category: newCategory,
 			privacy: newPrivacy,
 		};
-		return axios.put(url, data, { withCredentials: true });
-		//TODO actualizar lugares
+		const response = await axios.put(url, data, { withCredentials: true });
+		updateLocations()
+		return response
 	}
 
 	async function API_addFriend(friendName, friendWebId) {
@@ -168,14 +162,16 @@ export default function App({ logOutFunction }) {
 			name: friendName,
 			webId: friendWebId,
 		};
-		await axios.post(url, data, { withCredentials: true });
+		const response = await axios.post(url, data, { withCredentials: true });
 		updateAmigos();
+		return response
 	}
 
 	async function API_deleteFriend(friendID) {
 		const url = "http://localhost:8080/friend/" + friendID;
 		const response = await axios.delete(url, { withCredentials: true });
 		updateAmigos();
+		return response
 	}
 
 	const API_location_calls = {
@@ -237,6 +233,8 @@ export default function App({ logOutFunction }) {
 	});
 
 	return (
+		Boolean(loading) ?
+		<CircularProgress /> :
 		<div id={currentTheme}>
 			<CreateModal
 				isOpen={modalIsOpen}
