@@ -51,7 +51,7 @@ async function getLocationById(Session, idUbi, friendWebID) {
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	const result = await locations.obtenerLocalizacion(Session, idUbi, myBaseUrl);
+	const result = await locations.obtenerLocalizacion(Session, idUbi, myBaseUrl, true);
 	return result;
 }
 
@@ -185,7 +185,7 @@ async function getAllRoutes(Session, friendWebID) {
 async function getRouteById(Session, idRoute, friendWebID) {
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
-	return await routes.getRouteById(Session, idRoute, myBaseUrl);
+	return await routes.getRouteById(Session, idRoute, myBaseUrl, true);
 }
 
 async function deleteRouteById(Session, idRoute, friendWebID) {

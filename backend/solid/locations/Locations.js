@@ -31,7 +31,7 @@ async function addLocation(Session, ubicacion, myBaseUrl) {
 	//Añado a comentarios, reviews y fotos a sus respectivas carpetas
 	ubicacion.comments.forEach((c) => Comments.addComment(Session, c));
 	ubicacion.reviews.forEach((r) => Reviews.addReview(Session, r));
-	ubicacion.photos.forEach((p) => Photos.addFoto(Session, p));
+	ubicacion.photos.forEach((p) => Photos.addPhoto(Session, p));
 }
 
 async function obtenerLocalizaciones(Session, myBaseUrl) {
@@ -49,15 +49,15 @@ async function obtenerLocalizaciones(Session, myBaseUrl) {
 		modelsUbi[i] = await obtenerLocalizacion(
 			Session,
 			urlSplit[urlSplit.length - 1].split(".")[0],
-			myBaseUrl
+			myBaseUrl,
+			false
 		);
 	}
 
 	return modelsUbi;
 }
 
-async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
-	let location;
+async function obtenerLocalizacion(Session, idUbi, myBaseUrl, returnAllReviews) {
 	try {
 		let file = await getFile(
 			myBaseUrl + "LoMap/locations/locations/" + idUbi + ".json",
@@ -68,21 +68,23 @@ async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
 
 		let location = await parser.parseLocation(file);
 
-		location.reviews = await Reviews.getAllReviews(
-			Session,
-			location.reviews,
-			myBaseUrl
-		);
-		location.photos = await Photos.getAllPhotos(
-			Session,
-			location.photos,
-			myBaseUrl
-		);
-		location.comments = await Comments.getAllComments(
-			Session,
-			location.comments,
-			myBaseUrl
-		);
+		if(returnAllReviews){
+			location.reviews = await Reviews.getAllReviews(
+				Session,
+				location.reviews,
+				myBaseUrl
+			);
+			location.photos = await Photos.getAllPhotos(
+				Session,
+				location.photos,
+				myBaseUrl
+			);
+			location.comments = await Comments.getAllComments(
+				Session,
+				location.comments,
+				myBaseUrl
+			);
+		}
 
 		return location;
 	} catch (err) {

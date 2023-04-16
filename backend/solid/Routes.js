@@ -33,20 +33,21 @@ async function getAllRoutes(Session, myBaseUrl) {
 		modelsRuta[i] = await getRouteById(
 			Session,
 			urlSplit[urlSplit.length - 1].split(".")[0],
-			myBaseUrl
+			myBaseUrl,
+			false
 		);
 	}
 
 	return modelsRuta.filter((r) => r != null);
 }
 
-async function getRouteById(Session, idRoute, myBaseUrl) {
+async function getRouteById(Session, idRoute, myBaseUrl, returnAllLocations) {
 	try {
 		let file = await getFile(myBaseUrl + "LoMap/routes/" + idRoute + ".json", {
 			fetch: Session.fetch,
 		});
 
-		return await parser.parseRoute(Session, myBaseUrl, file);
+		return await parser.parseRoute(Session, myBaseUrl, file, returnAllLocations);
 	} catch (err) {
 		console.log(err);
 		return null;

@@ -49,7 +49,7 @@ async function getComment(Session, jsonComment) {
 			}
 		);
 
-		return await parser.parseComent(file);
+		return await parser.parseComment(file);
 	} catch (err) {
 		return null;
 	}
