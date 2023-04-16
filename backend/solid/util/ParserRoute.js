@@ -9,7 +9,8 @@ async function parseRoute(Session, myBaseUrl, route, returnAllLocations) {
 			let location = await Localizaciones.obtenerLocalizacion(
 				Session,
 				routeJson.locations[i],
-				myBaseUrl
+				myBaseUrl,
+				true
 			);
 			if (location != null) {
 				locations.push(location);

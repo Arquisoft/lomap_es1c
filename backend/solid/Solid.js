@@ -51,7 +51,7 @@ async function getLocationById(Session, idUbi, friendWebID) {
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	const result = await locations.obtenerLocalizacion(Session, idUbi, myBaseUrl);
+	const result = await locations.obtenerLocalizacion(Session, idUbi, myBaseUrl, true);
 	return result;
 }
 

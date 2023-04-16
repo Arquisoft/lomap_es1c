@@ -41,6 +41,9 @@ async function getAllLocations(req, res, next) {
 
 
 
+
+
+
 async function createLocation(req, res, next) {
 	const {
 		name,
