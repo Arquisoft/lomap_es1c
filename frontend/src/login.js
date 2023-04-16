@@ -16,30 +16,29 @@ export default function Login({ logInFunction }) {
 
 	return (
 		<div className="mainDiv">
-			<div className="logoYParrafo">
+			{/* <div className="logoYParrafo"> */}
 				<img src="/logoLoMap.png" className="logo" alt="Logo de LoMap"></img>
 				<p className="descripción">
 					LoMap te permite cerar mapas personalizados de los lugares que te
 					interesan.
 				</p>
-			</div>
+			{/* </div> */}
 			<div className="formName">
-				<Box className="caja" component="span">
+				<Box className="caja" component="div">
 					<TextField
 						className="url"
-						label="Escribir algo"
+						label="Escriba la URL de su provider"
 						value={text}
+						variant="outlined"
+						type="text"
 						onChange={(e) => setText(e.target.value)}
 					/>
-					<br></br>
 					<Button className="btnLogin" onClick={handleInrupt}>
 						Inrupt
 					</Button>
-					<br></br>
 					<Button className="btnLogin" onClick={handleSolid}>
 						Solid
 					</Button>
-					<br></br>
 					<Button className="btnLogin" onClick={logInFunction}>
 						Iniciar Sesión
 					</Button>

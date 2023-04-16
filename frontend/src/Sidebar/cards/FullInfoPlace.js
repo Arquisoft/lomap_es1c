@@ -66,8 +66,8 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
 
     function centerMapToPlace() {
         setPosition({
-            lat: place.lat,
-            lng: place.lng
+            lat: place.latitude,
+            lng: place.longitude
         });
     }
 
@@ -86,7 +86,7 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
         {place.valoracion ? <Rating value={place.valoracion} readOnly/> : <Rating value={place.valoracion} disabled/>}
 
         <h3>Categoria:</h3>
-        <p>{place.categoria}</p>
+        <p>{place.category}</p>
 
         <h3>Comentario:</h3>
         <p></p>
