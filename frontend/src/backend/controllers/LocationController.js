@@ -231,7 +231,7 @@ async function deleteComment(req, res, next) {
 async function getCategories() {
 	try {
 		let categories = await solid.getCategories();
-		return JSON.stringify(categories);
+		return categories;
 	} catch (err) {
 		throw new Error(err);
 	}

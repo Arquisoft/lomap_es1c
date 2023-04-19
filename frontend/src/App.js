@@ -35,7 +35,6 @@ export default function App({ logOutFunction }) {
 
 	async function updateCategorias() {
 		setLoading((current) => current + 1);
-
 		setCategorias(await LocationController.getCategories());
 		setLoading((current) => current - 1);
 	}
