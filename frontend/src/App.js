@@ -1,3 +1,5 @@
+import { getDefaultSession } from "@inrupt/solid-client-authn-browser";
+import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,57 +10,65 @@ import DrawerSidebar from "./Sidebar/Drawer";
 import "./Sidebar/Sidebar.css";
 import SettingsSpeedDial from "./buttons/SettingsSpeedDial";
 import { ThemeContext, Themes } from "./contexts/ThemeContext";
-import CircularProgress from '@mui/material/CircularProgress';
+
+const LocationController = require("./backend/controllers/LocationController");
+const RoutesController = require("./backend/controllers/RouteController");
 
 export default function App({ logOutFunction }) {
 	//Todos los lugares de la aplicacion
 	const [places, setPlaces] = React.useState([]);
-	const [t, i18n] = useTranslation("global");	// La t sí se usa y hace falta, no borrar
+	const [t, i18n] = useTranslation("global"); // La t sí se usa y hace falta, no borrar
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
 	const [amigos, setAmigos] = useState([]);
 	const [loading, setLoading] = useState(0);
 
+	async function checkLoggedIn() {
+		let session = getDefaultSession();
+		console.log(session.info.isLoggedIn);
+		session.info.isLoggedIn = false;
+		if (!session.info.isLoggedIn) {
+			console.log("aaa");
+			session.login();
+		}
+	}
+
 	async function updateCategorias() {
-		setLoading(current => current+1)
-		await axios
-			.get("http://localhost:8080/location/category", { withCredentials: true })
-			.then((response) => setCategorias(response.data))
-			.catch((error) => console.log(error));
-		setLoading(current => current-1)
+		setLoading((current) => current + 1);
+
+		setCategorias(await LocationController.getCategories());
+		setLoading((current) => current - 1);
 	}
 
 	async function updateAmigos() {
-		setLoading(current => current+1)
+		setLoading((current) => current + 1);
 		await axios
 			.get("http://localhost:8080/friend", { withCredentials: true })
 			.then((response) => setAmigos(response.data))
 			.catch((error) => console.log(error));
-		setLoading(current => current-1)
+		setLoading((current) => current - 1);
 	}
 
 	async function updateRutas() {
-		setLoading(current => current+1)
-		const url = "http://localhost:8080/route";
-		await axios
-			.get(url, { withCredentials: true })
-			.then((response) => setRutas(response.data))
-			.catch((error) => console.log(error));
-		setLoading(current => current-1)
+		setLoading((current) => current + 1);
+		checkLoggedIn();
+		let routes = await RoutesController.getAllRoutes(getDefaultSession());
+		console.log(routes);
+		setRutas(routes);
+		setLoading((current) => current - 1);
 	}
 
 	async function updateLocations() {
-		setLoading(current => current+1)
-		await axios
-			.get("http://localhost:8080/location", { withCredentials: true })
-			.then((response) => setPlaces(response.data))
-			.catch((error) => console.log(error));
-		setLoading(current => current-1)
+		setLoading((current) => current + 1);
+		console.log(getDefaultSession());
+		//let places = await LocationController.getAllLocations(getDefaultSession());
+		//setPlaces(places);
+		setLoading((current) => current - 1);
 	}
 
 	useEffect(() => {
 		updateLocations();
-	},[]);
+	}, []);
 
 	useEffect(() => {
 		updateCategorias();
@@ -85,14 +95,14 @@ export default function App({ logOutFunction }) {
 			description: routeDescription,
 		};
 		const response = await axios.post(url, data, { withCredentials: true });
-		updateRutas()
-		return response
+		updateRutas();
+		return response;
 	}
 
 	async function API_deleteRoute(routeID) {
 		const url = "http://localhost:8080/route/" + routeID;
 		const response = await axios.delete(url, { withCredentials: true });
-		updateRutas()
+		updateRutas();
 		return response;
 	}
 
@@ -140,8 +150,8 @@ export default function App({ logOutFunction }) {
 	async function API_deleteLocation(locationID) {
 		const url = "http://localhost:8080/location/" + locationID;
 		const response = await axios.delete(url, { withCredentials: true });
-		updateLocations()
-		return response
+		updateLocations();
+		return response;
 	}
 
 	async function API_updateLocation(placeID, newName, newCategory, newPrivacy) {
@@ -152,8 +162,8 @@ export default function App({ logOutFunction }) {
 			privacy: newPrivacy,
 		};
 		const response = await axios.put(url, data, { withCredentials: true });
-		updateLocations()
-		return response
+		updateLocations();
+		return response;
 	}
 
 	async function API_addFriend(friendName, friendWebId) {
@@ -164,14 +174,14 @@ export default function App({ logOutFunction }) {
 		};
 		const response = await axios.post(url, data, { withCredentials: true });
 		updateAmigos();
-		return response
+		return response;
 	}
 
 	async function API_deleteFriend(friendID) {
 		const url = "http://localhost:8080/friend/" + friendID;
 		const response = await axios.delete(url, { withCredentials: true });
 		updateAmigos();
-		return response
+		return response;
 	}
 
 	const API_location_calls = {
@@ -232,9 +242,9 @@ export default function App({ logOutFunction }) {
 		lng: 0,
 	});
 
-	return (
-		Boolean(loading) ?
-		<CircularProgress /> :
+	return Boolean(loading) ? (
+		<CircularProgress />
+	) : (
 		<div id={currentTheme}>
 			<CreateModal
 				isOpen={modalIsOpen}
