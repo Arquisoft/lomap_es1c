@@ -21,6 +21,8 @@ const availableLanguages = ["es", "en"];
 const preferredLanguage = navigator.language.toLowerCase().substring(0, 2);
 const defaultAlternativeLanguage = "es";
 
+const podController = require("./backend/controllers/PodController");
+
 i18next.init({
 	interpolation: { escapeValue: false },
 	lng: availableLanguages.includes(preferredLanguage)
@@ -47,7 +49,7 @@ function MyComponent() {
 		}).then((info) => {
 			console.log(`Logged in with WebID [${info.webId}]`);
 			if (getDefaultSession().info.isLoggedIn) {
-				console.log("yuuujuu");
+				podController.checkStruct(getDefaultSession());
 				setIsLoggedIn(true);
 			}
 		});

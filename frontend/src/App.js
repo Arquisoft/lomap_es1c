@@ -25,10 +25,9 @@ export default function App({ logOutFunction }) {
 
 	async function checkLoggedIn() {
 		let session = getDefaultSession();
-		console.log(session.info.isLoggedIn);
-		session.info.isLoggedIn = false;
+
 		if (!session.info.isLoggedIn) {
-			console.log("aaa");
+			console.log("NO ESTA LOGEADO");
 			session.login();
 		}
 	}
@@ -37,10 +36,10 @@ export default function App({ logOutFunction }) {
 		setLoading((current) => current + 1);
 		checkLoggedIn();
 		try {
-			const response = await LocationController.getCategories()
-			setCategorias(response)
+			const response = await LocationController.getCategories();
+			setCategorias(response);
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 		setLoading((current) => current - 1);
 	}
@@ -58,10 +57,10 @@ export default function App({ logOutFunction }) {
 		setLoading((current) => current + 1);
 		checkLoggedIn();
 		try {
-			const response = await RoutesController.getAllRoutes(getDefaultSession())
-			setRutas(response)
+			const response = await RoutesController.getAllRoutes(getDefaultSession());
+			setRutas(response);
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 		setLoading((current) => current - 1);
 	}
@@ -70,10 +69,12 @@ export default function App({ logOutFunction }) {
 		setLoading((current) => current + 1);
 		checkLoggedIn();
 		try {
-			const response = await LocationController.getAllLocations(getDefaultSession())
-			setPlaces(response)
+			const response = await LocationController.getAllLocations(
+				getDefaultSession()
+			);
+			setPlaces(response);
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 		setLoading((current) => current - 1);
 	}
@@ -97,10 +98,13 @@ export default function App({ logOutFunction }) {
 	async function API_getRouteByID(routeID) {
 		checkLoggedIn();
 		try {
-			const response = await RoutesController.getAllLocations(getDefaultSession(), routeID)
-			return response
+			const response = await RoutesController.getAllLocations(
+				getDefaultSession(),
+				routeID
+			);
+			return response;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 	}
 
@@ -110,65 +114,96 @@ export default function App({ logOutFunction }) {
 			description: routeDescription,
 		};
 		try {
-			const response = await RoutesController.addRoute(getDefaultSession(), data)
+			const response = await RoutesController.addRoute(
+				getDefaultSession(),
+				data
+			);
 			updateRutas();
-			return response
+			return response;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 	}
 
 	async function API_deleteRoute(routeID) {
 		try {
-			const response = await RoutesController.deleteRoute(getDefaultSession(), routeID)
+			const response = await RoutesController.deleteRoute(
+				getDefaultSession(),
+				routeID
+			);
 			updateRutas();
-			return response
+			return response;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 	}
 
-	async function API_updateRouteInfo(routeID, newRouteName, newRouteDescription) {
+	async function API_updateRouteInfo(
+		routeID,
+		newRouteName,
+		newRouteDescription
+	) {
 		const data = {
 			name: newRouteName,
 			description: newRouteDescription,
 		};
 		try {
-			const response = await RoutesController.updateRouteInfo(getDefaultSession(), routeID, data)
-			updateRutas()
-			return response
+			const response = await RoutesController.updateRouteInfo(
+				getDefaultSession(),
+				routeID,
+				data
+			);
+			updateRutas();
+			return response;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 	}
 
 	async function API_addLocationToRoute(routeID, locationID) {
 		try {
-			const response = await RoutesController.addLocationToRoute(getDefaultSession(), routeID, locationID)
-			updateRutas()
-			return response
+			const response = await RoutesController.addLocationToRoute(
+				getDefaultSession(),
+				routeID,
+				locationID
+			);
+			updateRutas();
+			return response;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 	}
 
 	async function API_deleteLocationFromRoute(routeID, locationID) {
 		try {
-			const response = await RoutesController.deleteLocationFromRoute(getDefaultSession(), routeID, locationID)
-			updateRutas()
-			return response
+			const response = await RoutesController.deleteLocationFromRoute(
+				getDefaultSession(),
+				routeID,
+				locationID
+			);
+			updateRutas();
+			return response;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 	}
 
-	async function API_changeOrderOfLocationInRoute(routeID, locationID, newPosition) {
+	async function API_changeOrderOfLocationInRoute(
+		routeID,
+		locationID,
+		newPosition
+	) {
 		try {
-			const response = await RoutesController.changeOrderOfLocationInRoute(getDefaultSession(), routeID, locationID, newPosition)
-			updateRutas()
-			return response
+			const response = await RoutesController.changeOrderOfLocationInRoute(
+				getDefaultSession(),
+				routeID,
+				locationID,
+				newPosition
+			);
+			updateRutas();
+			return response;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 	}
 
