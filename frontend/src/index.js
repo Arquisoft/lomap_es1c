@@ -54,27 +54,14 @@ function MyComponent() {
 	}, []);
 
 	async function loginWeb(providerURL) {
-		// 1. Call `handleIncomingRedirect()` to complete the authentication process.
-		//    If called after the user has logged in with the Solid Identity Provider,
-		//      the user's credentials are stored in-memory, and
-		//      the login process is complete.
-		//   Otherwise, no-op.
 		if (getDefaultSession().info.isLoggedIn) {
 			setIsLoggedIn(true);
 		}
-
-		//"https://login.inrupt.com"
-		//let solidProvider= provider? provider :"https://solidcommunity.net";
-		// 2. Start the Login Process if not already logged in.
+		let provider = providerURL ? providerURL : "https://login.inrupt.com";
 		if (!getDefaultSession().info.isLoggedIn) {
 			await login({
-				// Specify the URL of the user's Solid Identity Provider;
-				// e.g., "https://login.inrupt.com".
-				oidcIssuer: providerURL,
-				// Specify the URL the Solid Identity Provider should redirect the user once logged in,
-				// e.g., the current page for a single-page app.
+				oidcIssuer: provider,
 				redirectUrl: window.location.href,
-				// Provide a name for the application when sending to the Solid Identity Provider
 				clientName: "My application",
 			});
 		}

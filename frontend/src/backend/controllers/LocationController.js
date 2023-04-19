@@ -13,7 +13,7 @@ async function getLocation(session, id) {
 			session.info.user
 		);
 		if (location1 != null) {
-			return JSON.stringify(location1);
+			return location1;
 		} else {
 			return null;
 		}
@@ -25,7 +25,7 @@ async function getLocation(session, id) {
 async function getAllLocations(session) {
 	try {
 		const locations = await solid.getAllLocations(session, session.info.webId);
-		return JSON.stringify(locations);
+		return locations;
 	} catch (err) {
 		throw new Error(err);
 	}
