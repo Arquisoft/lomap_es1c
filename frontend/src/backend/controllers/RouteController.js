@@ -9,81 +9,84 @@ async function getAllRoutes(session) {
 		throw new Error(err);
 	}
 }
-/*
-async function getRouteById(req, res, next) {
+
+async function getAllRoutesAllInfo(session) {
 	try {
-		const { id } = req.params;
-		const session = await SessionController.getSession(req, next);
-		const route = await solid.getRouteById(session, id, session.info.webId);
-		if (route != null) {
-			res.status(200).json(route);
-		} else {
-			res.status(404).json("No se han encontrado rutas con esa id");
-		}
+		const routes = await solid.getAllRoutesMinimalInfo(
+			session,
+			session.info.webId
+		);
+		console.log(routes);
+		return routes;
 	} catch (err) {
-		next(err);
+		throw new Error(err);
 	}
 }
 
-async function addRoute(req, res, next) {
+async function getRouteById(session, id) {
 	try {
-		const session = await SessionController.getSession(req, next);
-		const { name, description } = req.body;
+		const route = await solid.getRouteById(session, id, session.info.webId);
+		if (route != null) {
+			return route;
+		} else {
+			throw new Error("No se han encontrado rutas con esa id");
+		}
+	} catch (err) {
+		throw new Error(err);
+	}
+}
+
+async function addRoute(session, route1) {
+	try {
+		const name = route1.name;
+		const description = route1.description;
 		if (!name) {
-			res.status(400).json({ error: "Faltan datos" });
-			return;
+			throw new Error("Faltan datos");
 		}
 		const route = new Route(name, description, session.info.webId);
 		await solid.addRoute(session, route, session.info.webId);
-		res.status(201).json(route);
+		return route;
 	} catch (err) {
-		next(err);
+		throw new Error(err);
 	}
 }
 
-async function updateRoute(req, res, next) {
+async function updateRoute(session, id, route1) {
 	try {
-		const session = await SessionController.getSession(req, next);
-		const { id } = req.params;
-		const { name, description } = req.body;
+		const name = route1.name;
+		const description = route1.description;
+
 		if (!name) {
-			res.status(400).json({ error: "Faltan datos" });
-			return;
+			throw new Error("Faltan datos");
 		}
 		const route = await solid.getRouteById(session, id, session.info.webId);
 		if (route == null) {
-			res.status(404).json("No se han encontrado rutas con esa id");
-			return;
+			throw new Error("No se han encontrado rutas con esa id");
 		}
 		route.name = name;
 		route.description = description;
 		await solid.addRoute(session, route, session.info.webId);
-		res.status(200).json(route);
+		return route;
 	} catch (err) {
-		next(err);
+		throw new Error(err);
 	}
 }
 
-async function deleteRoute(req, res, next) {
+async function deleteRoute(session, id) {
 	try {
-		const { id } = req.params;
-		const session = await SessionController.getSession(req, next);
 		const route = await solid.getRouteById(session, id, session.info.webId);
 		if (route == null) {
-			res.status(404).json("No se han encontrado rutas con esa id");
-			return;
+			throw new Error("No se han encontrado rutas con esa id");
 		}
 		await solid.deleteRouteById(session, id, session.info.webId);
-		res.status(204).json({ message: "Route deleted successfully" });
+		return route;
 	} catch (err) {
-		next(err);
+		throw new Error(err);
 	}
 }
 
-async function addLocationToRoute(req, res, next) {
+async function addLocationToRoute(session, idRoute, idLocation) {
 	try {
-		const { idRoute, idLocation } = req.params;
-		const session = await SessionController.getSession(req, next);
 		const route = await solid.getRouteById(
 			session,
 			idRoute,
@@ -95,25 +98,22 @@ async function addLocationToRoute(req, res, next) {
 			session.info.webId
 		);
 		if (route == null) {
-			res.status(404).json("No se han encontrado rutas con esa id");
-			return;
+			throw new Error("No se han encontrado rutas con esa id");
 		}
 		if (location == null) {
-			res.status(404).json("No se han encontrado localizaciones con esa id");
-			return;
+			throw new Error("No se han encontrado localizaciones con esa id");
 		}
 		route.addLocation(location);
 		await solid.addRoute(session, route, session.info.webId);
-		res.status(200).json(route);
+
+		return route;
 	} catch (err) {
-		next(err);
+		throw new Error(err);
 	}
 }
 
-async function deleteLocationFromRoute(req, res, next) {
+async function deleteLocationFromRoute(session, idRoute, idLocation) {
 	try {
-		const { idRoute, idLocation } = req.params;
-		const session = await SessionController.getSession(req, next);
 		const route = await solid.getRouteById(
 			session,
 			idRoute,
@@ -126,52 +126,53 @@ async function deleteLocationFromRoute(req, res, next) {
 			session.info.webId
 		);
 		if (route == null) {
-			res.status(404).json("No se han encontrado rutas con esa id");
-			return;
+			throw new Error("No se han encontrado rutas con esa id");
 		}
 
 		if (location == null) {
-			res.status(404).json("No se han encontrado localizaciones con esa id");
-			return;
+			throw new Error("No se han encontrado localizaciones con esa id");
 		}
 		route.deleteLocation(location.id);
 		await solid.addRoute(session, route, session.info.webId);
-		res.status(200).json(route);
+		return route;
 	} catch (err) {
-		next(err);
+		throw new Error(err);
 	}
 }
 
-async function changeOrderOfLocationInRoute(req, res, next) {
+async function changeOrderOfLocationInRoute(
+	session,
+	idRoute,
+	idLocation,
+	index
+) {
 	try {
-		const { id, locationId } = req.params;
-		const { index } = req.body;
-		const session = await SessionController.getSession(req, next);
-		const route = await solid.getRouteById(session, id, session.info.webId);
+		const route = await solid.getRouteById(
+			session,
+			idRoute,
+			session.info.webId
+		);
 		const location = await solid.getLocationById(
 			session,
-			locationId,
+			idLocation,
 			session.info.webId
 		);
 		if (route == null) {
-			res.status(404).json("No se han encontrado rutas con esa id");
-			return;
+			throw new Error("No se han encontrado rutas con esa id");
 		}
 		if (location == null) {
-			res.status(404).json("No se han encontrado localizaciones con esa id");
-			return;
+			throw new Error("No se han encontrado localizaciones con esa id");
 		}
 		route.changeOrder(location, index);
 		await solid.saveRoute(session, route, session.info.webId);
-		res.status(200).json("Orden cambiado");
+		return route;
 	} catch (err) {
-		next(err);
+		throw new Error(err);
 	}
 }
-*/
+
 module.exports = {
 	getAllRoutes,
-	/*
 	getRouteById,
 	addRoute,
 	updateRoute,
@@ -179,5 +180,4 @@ module.exports = {
 	addLocationToRoute,
 	deleteLocationFromRoute,
 	changeOrderOfLocationInRoute,
-	*/
 };

@@ -40,7 +40,6 @@ async function getAllLocations(Session, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
-	
 
 	const result = await locations.obtenerLocalizaciones(Session, myBaseUrl);
 	return result;
@@ -182,6 +181,12 @@ async function getAllRoutes(Session, friendWebID) {
 	return await routes.getAllRoutes(Session, myBaseUrl);
 }
 
+async function getAllRoutesMinimalInfo(Session, friendWebId) {
+	let myBaseUrl = await getPodUrlAll(friendWebId, { fetch: Session.fetch });
+	myBaseUrl = myBaseUrl[0];
+	return await routes.getAllRoutesMinimalInfo(Session, myBaseUrl);
+}
+
 async function getRouteById(Session, idRoute, friendWebID) {
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
@@ -250,4 +255,5 @@ module.exports = {
 	getAllFriends,
 	deleteFriendById,
 	getCategories,
+	getAllRoutesMinimalInfo,
 };

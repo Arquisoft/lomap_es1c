@@ -1,6 +1,5 @@
 const Location = require("../../models/locationModels/Location.js");
 const Rating = require("../../models/locationModels/Review.js");
-const Coment = require("../../models/locationModels/Comment.js");
 const Foto = require("../../models/locationModels/Photo.js");
 const Friend = require("../../models/Friend.js");
 
@@ -24,16 +23,11 @@ async function parseLocation(location) {
 
 async function parseReview(review) {
 	let reviewJson = await getJsonFromBlob(review);
-	return new Rating(reviewJson.rating, reviewJson.author, reviewJson.id);
-}
-
-async function parseComment(coment) {
-	let comentJson = await getJsonFromBlob(coment);
-	return new Coment(
-		comentJson.author,
-		comentJson.text,
-		comentJson.timestamp,
-		comentJson.id
+	return new Rating(
+		reviewJson.rating,
+		reviewJson.comment,
+		reviewJson.author,
+		reviewJson.id
 	);
 }
 
@@ -48,12 +42,10 @@ async function parsePhoto(foto) {
 	);
 }
 
-async function parseFriend(friend){
+async function parseFriend(friend) {
 	let friendJson = await getJsonFromBlob(friend);
 	return new Friend(friendJson.name, friendJson.webid, friendJson.id);
 }
-
-
 
 //XD
 async function getJsonFromBlob(blob) {
@@ -79,6 +71,5 @@ module.exports = {
 	parseLocation,
 	parsePhoto,
 	parseReview,
-	parseComment,
-	parseFriend
+	parseFriend,
 };
