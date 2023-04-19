@@ -220,31 +220,41 @@ export default function App({ logOutFunction }) {
 
 	async function API_createLocation(location) {
 		try {
-			const response = await LocationController.createLocation(getDefaultSession(), location)
-			updateLocations()
-			return response
+			const response = await LocationController.createLocation(
+				getDefaultSession(),
+				location
+			);
+			updateLocations();
+			return response;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 	}
 
 	async function API_deleteLocation(locationID) {
 		try {
-			const response = await LocationController.deleteLocation(getDefaultSession(), locationID)
-			updateLocations()
-			return response
+			const response = await LocationController.deleteLocation(
+				getDefaultSession(),
+				locationID
+			);
+			updateLocations();
+			return response;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 	}
 
 	async function API_updateLocation(placeID, location) {
 		try {
-			const response = await LocationController.updateLocation(getDefaultSession(), placeID, location)
+			const response = await LocationController.updateLocation(
+				getDefaultSession(),
+				placeID,
+				location
+			);
 			updateLocations();
-			return response
+			return response;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 	}
 

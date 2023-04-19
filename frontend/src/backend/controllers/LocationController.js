@@ -52,7 +52,7 @@ async function createLocation(session, location) {
 			category
 		);
 		await solid.saveLocation(session, location, session.info.webId);
-
+		/*
 		if (comment) {
 			const comment1 = new Comment(session.info.webId, comment);
 			await solid.addComment(
@@ -71,10 +71,11 @@ async function createLocation(session, location) {
 			const photo1 = new Photo(photo, session.info.webId);
 			await solid.addPhoto(session, photo1, location.id, session.info.webId);
 		}
-
+		*/
 		return location;
 	} catch (err) {
-		throw new Error(err);
+		console.log(err);
+		throw new Error("error al crear la ruta");
 	}
 }
 
