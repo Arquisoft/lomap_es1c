@@ -23,7 +23,18 @@ async function parseRoute(Session, myBaseUrl, route) {
 		locations
 	);
 }
+async function parseMinimalRoute(Session, myBaseUrl, route) {
+	let routeJson = JSON.parse(await route.text());
+	return new Route(
+		routeJson.name,
+		routeJson.description,
+		routeJson.author,
+		routeJson.id,
+		routeJson.locations
+	);
+}
 
 module.exports = {
 	parseRoute,
+	parseMinimalRoute,
 };
