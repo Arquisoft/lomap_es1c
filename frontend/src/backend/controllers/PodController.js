@@ -4,6 +4,4 @@ async function checkStruct(session) {
 	await solid.createStruct(session);
 }
 
-exports.modules = {
-	checkStruct,
-};
+exports.checkStruct = checkStruct;

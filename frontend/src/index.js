@@ -47,9 +47,10 @@ function MyComponent() {
 			restorePreviousSession: true,
 		}).then((info) => {
 			console.log(`Logged in with WebID [${info.webId}]`);
+			console.log(PodController);
 			if (getDefaultSession().info.isLoggedIn) {
-				PodController.checkStruct(getDefaultSession());
 				setIsLoggedIn(true);
+				PodController.checkStruct(getDefaultSession());
 			}
 		});
 	}, []);
@@ -57,7 +58,9 @@ function MyComponent() {
 	async function loginWeb(providerURL) {
 		if (getDefaultSession().info.isLoggedIn) {
 			setIsLoggedIn(true);
+			PodController.checkStruct(getDefaultSession());
 		}
+
 		let provider = providerURL ? providerURL : "https://login.inrupt.com";
 		if (!getDefaultSession().info.isLoggedIn) {
 			await login({
