@@ -53,7 +53,7 @@ function MyComponent() {
 		});
 	}, []);
 
-	async function loginWeb(provider) {
+	async function loginWeb(providerURL) {
 		// 1. Call `handleIncomingRedirect()` to complete the authentication process.
 		//    If called after the user has logged in with the Solid Identity Provider,
 		//      the user's credentials are stored in-memory, and
@@ -70,7 +70,7 @@ function MyComponent() {
 			await login({
 				// Specify the URL of the user's Solid Identity Provider;
 				// e.g., "https://login.inrupt.com".
-				oidcIssuer: "https://solidcommunity.net",
+				oidcIssuer: providerURL,
 				// Specify the URL the Solid Identity Provider should redirect the user once logged in,
 				// e.g., the current page for a single-page app.
 				redirectUrl: window.location.href,
