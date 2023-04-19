@@ -183,23 +183,34 @@ export default function App({ logOutFunction }) {
 		API_changeOrderOfLocationInRoute: API_changeOrderOfLocationInRoute,
 	};
 
-	async function API_deleteLocation(locationID) {
-		const url = "http://localhost:8080/location/" + locationID;
-		const response = await axios.delete(url, { withCredentials: true });
-		updateLocations();
-		return response;
+	async function API_createLocation(location) {
+		try {
+			const response = await LocationController.createLocation(getDefaultSession(), location)
+			updateLocations()
+			return response
+		} catch (error) {
+			alert(error)
+		}
 	}
 
-	async function API_updateLocation(placeID, newName, newCategory, newPrivacy) {
-		const url = "http://localhost:8080/location/" + placeID;
-		const data = {
-			name: newName,
-			category: newCategory,
-			privacy: newPrivacy,
-		};
-		const response = await axios.put(url, data, { withCredentials: true });
-		updateLocations();
-		return response;
+	async function API_deleteLocation(locationID) {
+		try {
+			const response = await LocationController.deleteLocation(getDefaultSession(), locationID)
+			updateLocations()
+			return response
+		} catch (error) {
+			alert(error)
+		}
+	}
+
+	async function API_updateLocation(placeID, location) {
+		try {
+			const response = await LocationController.updateLocation(getDefaultSession(), placeID, location)
+			updateLocations();
+			return response
+		} catch (error) {
+			alert(error)
+		}
 	}
 
 	async function API_addFriend(friendName, friendWebId) {
@@ -221,6 +232,7 @@ export default function App({ logOutFunction }) {
 	}
 
 	const API_location_calls = {
+		API_createLocation: API_createLocation,
 		API_deleteLocation: API_deleteLocation,
 		API_updateLocation: API_updateLocation,
 	};
@@ -292,6 +304,8 @@ export default function App({ logOutFunction }) {
 				setMarkers={setMarkers}
 				setStateButton={setDisabledB}
 				setCanCick={setCanCick}
+				API_location_calls={API_location_calls}
+				categorias={categorias}
 			/>
 
 			<CreateMap
