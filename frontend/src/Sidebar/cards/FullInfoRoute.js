@@ -39,19 +39,23 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
             <IconButton
                 onClick={returnFunction}
                 disabled={loading}
+                data-testid="return-button"
             >
                 <ArrowBackIcon/>
             </IconButton>
         </Tooltip>
-        <h1>{route.name}</h1>
-        <h3>{route.description}</h3>
+        <h1 data-testid="full_info_route_name">{route.name}</h1>
+        <h3 data-testid="full_info_route_description">{route.description}</h3>
 
-        <h3>{t("sidebar.route.places-in-route")}</h3>
-        <ul>
+        <div className="card--line1">
+            <h3 data-testid="list-title">{t("sidebar.route.places-in-route")}</h3>
+            <p data-testid="number-of-places-text">{route.locations.length}</p>
+        </div>
+        <ul data-testid={"full_info_route_places_list"}>
         {
             route.locations.map(
                 location => (
-                    <li key={location.id+"_li"}>
+                    <li key={location.id+"_li"} data-testid={"full_info_route_place_"+location.id}>
                         {location.name}
                     </li>
                 )
@@ -66,6 +70,7 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
                 disabled={loading}
                 startIcon={<EditIcon/>}
                 variant="contained"
+                data-testid="edit-button"
             >
                 <span>{t("sidebar.edit-button")}</span>
             </Button>
@@ -76,6 +81,7 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
                 loadingPosition="start"
                 startIcon={<DeleteIcon />}
                 variant="contained"
+                data-testid="delete-button"
             >
                 <span>{t("sidebar.delete-button")}</span>
             </LoadingButton>

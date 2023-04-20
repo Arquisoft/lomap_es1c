@@ -1,8 +1,10 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import RutaCard from "./RutaCard";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
+import i18next from "i18next";
+import global_es from '../../translations/es/global.json';
 
 const route_empty = {
     id: "route01",
@@ -12,7 +14,13 @@ const route_empty = {
     locations: []
 }
 
-const changeDrawerContentMock = jest.fn()
+const changeDrawerContentMock = jest.fn()   //(content) => {render(content);}
+
+i18next.init({
+	interpolation: { escapeValue: false },
+	lng: "es",
+	resources: {es: { global: global_es}},
+});
 
 describe('RutaCard', () => {
     it ('Route renders correctly', () => {
