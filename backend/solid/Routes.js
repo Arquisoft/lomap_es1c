@@ -8,56 +8,36 @@ const {
 
 const parser = require("./util/ParserRoute.js");
 const serializer = require("./util/Serializer.js");
+const locations = require("./locations/Locations.js");
 
 async function addRoute(Session, route, myBaseUrl) {
-	let file = await serializer.serializeRoute(route);
-
-	await overwriteFile(
-		myBaseUrl + "LoMap/" + "routes/" + route.id + ".json",
-		file,
-		{
-			contentType: file.type,
-			fetch: Session.fetch,
-		}
-	);
+	let routeJsonLd = await serializer.serializeRoute(route);
+	await serializer.serializeContenedor(Session, myBaseUrl + "LoMap/routes.jsonld", routeJsonLd);
 }
 
-async function getAllRoutes(Session, myBaseUrl) {
-	let rutaDataset = await getSolidDataset(myBaseUrl + "LoMap/routes/", {
-		fetch: Session.fetch,
-	});
-	let rutas = getContainedResourceUrlAll(rutaDataset);
-	let modelsRuta = new Array(rutas.length);
-	for (let i = 0; i < rutas.length; i++) {
-		let urlSplit = rutas[i].split("/");
-		modelsRuta[i] = await getRouteById(
-			Session,
-			urlSplit[urlSplit.length - 1].split(".")[0],
-			myBaseUrl,
-			false
-		);
+async function getAllRoutes(Session, myBaseUrl, returnAllLocations) {
+	let routesJson = await parser.parseContainer(Session, myBaseUrl + "LoMap/routes.jsonld");
+	routesJson.itemListElement = routesJson.itemListElement.map(r => parser.parseRoute(Session, myBaseUrl, r, returnAllLocations));
+	for(let i=0;i<routesJson.itemListElement.length;i++){
+		routesJson.itemListElement[i] = await routesJson.itemListElement[i];
 	}
-
-	return modelsRuta.filter((r) => r != null);
+	return routesJson.itemListElement;
 }
 
 async function getRouteById(Session, idRoute, myBaseUrl, returnAllLocations) {
 	try {
-		let file = await getFile(myBaseUrl + "LoMap/routes/" + idRoute + ".json", {
-			fetch: Session.fetch,
-		});
+		let routesJson = await parser.parseContainer(Session, myBaseUrl + "LoMap/routes.jsonld");
+		let ruta = routesJson.itemListElement.find(r => r.id == idRoute);
+		ruta = await parser.parseRoute(Session, myBaseUrl, ruta, returnAllLocations);
+		return ruta;
 
-		return await parser.parseRoute(Session, myBaseUrl, file, returnAllLocations);
 	} catch (err) {
-		console.log(err);
 		return null;
 	}
 }
 
 async function deleteRouteById(Session, idRoute, myBaseUrl) {
-	await deleteFile(myBaseUrl + "LoMap/routes/" + idRoute + ".json", {
-		fetch: Session.fetch,
-	});
+	await serializer.deleteThing(Session, myBaseUrl + "LoMap/routes.jsonld", idRoute);
 }
 
 module.exports = {

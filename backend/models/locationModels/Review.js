@@ -1,5 +1,5 @@
 class Review {
-	constructor(rating, author, id = null) {
+	constructor(rating, comment, author, id = null) {
 		if (!Number.isInteger(rating) || rating < 0 || rating > 10) {
 			throw new Error(
 				"Invalid rating value. Must be an integer between 0 and 10"
@@ -11,6 +11,7 @@ class Review {
 		this.id = id ? id : this.generateRandomId();
 		this.rating = rating;
 		this.author = author;
+		this.comment = comment;
 	}
 	generateRandomId() {
 		const randomIdentifier = Math.random().toString(36).substring(2, 8);
