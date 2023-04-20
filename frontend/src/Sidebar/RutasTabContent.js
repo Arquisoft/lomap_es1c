@@ -22,7 +22,6 @@ export default function RutasTabContent(props) {
                     changeDrawerContent = {props.changeDrawerContent}
                     userPlaces = {props.userPlaces}
                     API_route_calls = {props.API_route_calls}
-                    data-testid = {"route_card_"+route.id}
                 />
             )}
         </div>

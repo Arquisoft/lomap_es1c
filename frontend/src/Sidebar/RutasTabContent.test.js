@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor, fireEvent  } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import RutasTabContent from "./RutasTabContent";
 import i18next from "i18next";
 import global_es from '../translations/es/global.json';
