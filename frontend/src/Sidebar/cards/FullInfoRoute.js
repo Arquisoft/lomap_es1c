@@ -7,7 +7,8 @@ import EditInfoRoute from './EditInfoRoute';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useTranslation } from "react-i18next";
 
-export default function FullRouteInfo({route, returnFunction, changeDrawerContent, userPlaces, API_route_calls}) {
+export default function FullRouteInfo(props) {
+    const {route, returnFunction, changeDrawerContent, userPlaces, API_route_calls} = props
     const [loading, setLoading] = useState(false)
     const [t] = useTranslation("global");
     
@@ -16,7 +17,8 @@ export default function FullRouteInfo({route, returnFunction, changeDrawerConten
             <EditInfoRoute
                 route = {route}
                 changeDrawerContent={changeDrawerContent}
-                returnFunction={() => changeDrawerContent(this)}
+                // returnTo = {<FullRouteInfo>{{...props}}</FullRouteInfo>}
+                returnTo = {null}
                 userPlaces = {userPlaces}
                 API_route_calls = {API_route_calls}
             />

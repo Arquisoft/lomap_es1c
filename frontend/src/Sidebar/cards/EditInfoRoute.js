@@ -18,7 +18,8 @@ const modifications = {
 
 export default function EditRouteInfo({
 	route,
-	returnFunction,
+	changeDrawerContent,
+	returnTo,
 	userPlaces,
 	API_route_calls,
 }) {
@@ -62,7 +63,7 @@ export default function EditRouteInfo({
 			}
 			setLoading(false);
 		}
-		returnFunction();
+		changeDrawerContent(null);
 	}
 
 	function clickOnNewLocation(locationId) {
@@ -110,7 +111,7 @@ export default function EditRouteInfo({
 			>
 				<IconButton
 					data-testid="back-button"
-					onClick={returnFunction}
+					onClick={() => changeDrawerContent(returnTo)}
 					disabled={loading}
 				>
 					<ArrowBackIcon />
