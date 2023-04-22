@@ -3,8 +3,11 @@ const Rating = require("../../models/locationModels/Review.js");
 const Foto = require("../../models/locationModels/Photo.js");
 const Friend = require("../../models/Friend.js");
 
-async function parseLocation(location) {
-	let locationJson = await getJsonFromBlob(location);
+const {
+	getFile
+} = require("@inrupt/solid-client");
+
+ function parseLocation(locationJson) {
 
 	return new Location(
 		locationJson.name,
@@ -15,24 +18,16 @@ async function parseLocation(location) {
 		locationJson.category,
 		locationJson.id,
 		locationJson.date,
-		locationJson.comments,
-		locationJson.reviews,
-		locationJson.photos
+		locationJson.reviews.map(r => {return {"id": r.id, "author": r.author}}),
+		locationJson.photos.map(p => {return {"id": p.id, "author": p.author}})
 	);
 }
 
-async function parseReview(review) {
-	let reviewJson = await getJsonFromBlob(review);
-	return new Rating(
-		reviewJson.rating,
-		reviewJson.comment,
-		reviewJson.author,
-		reviewJson.id
-	);
+ function parseReview(reviewJson) {
+	return new Rating(reviewJson.rating, reviewJson.comment, reviewJson.author, reviewJson.id);
 }
 
-async function parsePhoto(foto) {
-	let fotoJson = await getJsonFromBlob(foto);
+ function parsePhoto(fotoJson) {
 	return new Foto(
 		fotoJson.author,
 		fotoJson.name,
@@ -42,34 +37,23 @@ async function parsePhoto(foto) {
 	);
 }
 
-async function parseFriend(friend) {
-	let friendJson = await getJsonFromBlob(friend);
+ function parseFriend(friendJson){
 	return new Friend(friendJson.name, friendJson.webid, friendJson.id);
 }
 
-//XD
-async function getJsonFromBlob(blob) {
-	const json = JSON.parse(await blob.text());
-	return json;
+async function parseContainer(Session, url){
+	let file = await getFile(url, {fetch: Session.fetch,});
+	return JSON.parse(await file.text());
 }
 
-function getJpegFromBlob(blob) {
-	return new Promise((resolve, reject) => {
-		const img = new Image();
-		img.onload = () => {
-			URL.revokeObjectURL(img.src); // libera la memoria
-			resolve(img);
-		};
-		img.onerror = () => {
-			reject(new Error("No se puede leer el archivo Blob"));
-		};
-		img.src = URL.createObjectURL(blob);
-	});
-}
+
+
+
 
 module.exports = {
 	parseLocation,
 	parsePhoto,
 	parseReview,
 	parseFriend,
+	parseContainer
 };
