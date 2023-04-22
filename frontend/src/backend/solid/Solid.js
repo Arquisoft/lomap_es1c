@@ -39,8 +39,6 @@ async function getAllLocations(Session, friendWebID) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
-	
-
 	const result = await locations.obtenerLocalizaciones(Session, myBaseUrl);
 	return result;
 }
@@ -50,7 +48,12 @@ async function getLocationById(Session, idUbi, friendWebID) {
 	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	const result = await locations.obtenerLocalizacion(Session, idUbi, myBaseUrl, true);
+	const result = await locations.obtenerLocalizacion(
+		Session,
+		idUbi,
+		myBaseUrl,
+		true
+	);
 	return result;
 }
 
@@ -156,6 +159,14 @@ async function getAllFriends(Session) {
 	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	return await friends.getAllFriends(Session, myBaseUrl);
+}
+
+async function getAllFriendsMinimalInfo(Session) {
+	const webID = Session.info.webId;
+	//Obtencion de url del pod
+	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
+	myBaseUrl = myBaseUrl[0];
+	return await friends.getAllFriendsMinimalInfo(Session, myBaseUrl);
 }
 
 async function deleteFriendById(Session, idFriend) {

@@ -102,6 +102,9 @@ async function serializeFriend(friend) {
 
 async function serializeContenedor(Session, url, jsonLDToAdd) {
 	let jsonContainer = await parser.parseContainer(Session, url);
+	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
+		(j) => j.id != jsonLDToAdd.id
+	);
 
 	jsonContainer.itemListElement.push(jsonLDToAdd);
 

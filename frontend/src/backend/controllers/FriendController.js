@@ -5,7 +5,6 @@ const SessionController = require("../controllers/util/SessionController.js");
 async function getAllFriends(session) {
 	try {
 		const friends = await solid.getAllFriends(session);
-		console.log(friends);
 		return friends;
 	} catch (err) {
 		console.log("error en getAllFriends");

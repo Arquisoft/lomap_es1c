@@ -1,47 +1,55 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { IconButton } from "@mui/material";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Rating from "@mui/material/Rating";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import DeleteIcon from '@mui/icons-material/Delete';
-
 
 export default function FullInfoPlace({
 	place,
 	returnFunction,
 	categorias,
-	API_location_calls,	
+	API_location_calls,
 }) {
 	// TODO: settear correctamente la variable
-	const isUserPlace = true
+	const isUserPlace = true;
 
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState(place === null ? "" : place.name);
 	const [isNameTextFieldErrored, setIsNameTextFieldErrored] = useState(false);
 
 	// TODO: default category
-	const [category, setCategory] = useState(place === null ? "" : place.category);
+	const [category, setCategory] = useState(
+		place === null ? "" : place.category
+	);
 
 	// TODO: coger la review adecuada
-	const [rating, setRating] = useState(place?.review?.rating ? place.review?.rating/2 : null);
+	const [rating, setRating] = useState(
+		place?.review?.rating ? place.review?.rating / 2 : null
+	);
 	// TODO: coger la review adecuada
-	const [comment, setComment] = useState(place?.review?.comment ? place.review?.comment : "");
-	const [review, setReview] = useState(rating||comment ? {rating: rating, comment: comment} : null);
-	
+	const [comment, setComment] = useState(
+		place?.review?.comment ? place.review?.comment : ""
+	);
+	const [review, setReview] = useState(
+		rating || comment ? { rating: rating, comment: comment } : null
+	);
+
 	// TODO: seleccionar las imágenes adecuadas
-	const [photosURLs, setPhotosURLs] = useState(place?.images ? place?.images.filter(photo => photo.webID==="aaa") : [] )
+	const [photosURLs, setPhotosURLs] = useState(
+		place?.images ? place?.images.filter((photo) => photo.webID === "aaa") : []
+	);
 
 	const [t] = useTranslation("global");
 
-	const [imageCommands, setImageCommands] = useState([])
-	const [reviewCommand, setReviewCommand] = useState(null)
-
+	const [imageCommands, setImageCommands] = useState([]);
+	const [reviewCommand, setReviewCommand] = useState(null);
 
 	async function save() {
 		setLoading(true);
@@ -49,23 +57,26 @@ export default function FullInfoPlace({
 		var thePlaceID;
 
 		if (place === null) {
-			thePlaceID = await API_location_calls.API_createLocation()
+			thePlaceID = await API_location_calls.API_createLocation();
 			// TODO: actualizar el ID del lugar
 		} else {
 			if (isUserPlace) {
-				if (name!==place.name  ||  category!==place.category) {
-					await API_location_calls.API_updateLocation()
+				if (name !== place.name || category !== place.category) {
+					const location = {
+						name: name,
+						category: category,
+					};
+					await API_location_calls.API_updateLocation(place.id, location);
 				}
 			}
 		}
 
 		// Ejecutar el comando adecuado para la review
-		if (reviewCommand)
-			reviewCommand()
+		if (reviewCommand) reviewCommand();
 
 		// Si se añaden/borran fotos, hacer
 		for (var command of imageCommands) {
-			command.f(thePlaceID)
+			command.f(thePlaceID);
 		}
 
 		setLoading(false);
@@ -78,32 +89,51 @@ export default function FullInfoPlace({
 	}
 
 	function addImage(event) {
-		const file = event.target.files[0]
-		console.log(file)
+		const file = event.target.files[0];
+		console.log(file);
 		const reader = new FileReader();
-		reader.readAsDataURL(file)
+		reader.readAsDataURL(file);
 
 		reader.onloadend = () => {
 			if (!photosURLs.includes(reader.result)) {
-				setPhotosURLs(current => [...current, reader.result])
+				setPhotosURLs((current) => [...current, reader.result]);
 			}
-		}
-		setImageCommands(current => [...current, {url: reader.result, f: (placeID) => {console.log("añadir API PENDIENTE ")}}])
+		};
+		setImageCommands((current) => [
+			...current,
+			{
+				url: reader.result,
+				f: (placeID) => {
+					console.log("añadir API PENDIENTE ");
+				},
+			},
+		]);
 	}
 
 	function deleteImage(url) {
-		const isNewImage = imageCommands.some(imageCommand => imageCommand.url===url)
+		const isNewImage = imageCommands.some(
+			(imageCommand) => imageCommand.url === url
+		);
 		if (isNewImage) {
-			setImageCommands(current => current.filter(imageCommand => imageCommand.url!==url))
+			setImageCommands((current) =>
+				current.filter((imageCommand) => imageCommand.url !== url)
+			);
 		} else {
-			setImageCommands(current => [...current, {f: (placeID) => {console.log("BORRAR API PENDIENTE")}}])
+			setImageCommands((current) => [
+				...current,
+				{
+					f: (placeID) => {
+						console.log("BORRAR API PENDIENTE");
+					},
+				},
+			]);
 		}
-		setPhotosURLs(current => current.filter(photoURL => photoURL!==url))
+		setPhotosURLs((current) => current.filter((photoURL) => photoURL !== url));
 	}
 
 	function handleNameChange(event) {
 		setName(event.target.value);
-		setIsNameTextFieldErrored(event.target.value.trim().length <= 0)
+		setIsNameTextFieldErrored(event.target.value.trim().length <= 0);
 	}
 
 	function handleCategoryChange(event) {
@@ -111,34 +141,30 @@ export default function FullInfoPlace({
 	}
 
 	function createNewReview() {
-		setReview({rating: rating, comment: comment})
+		setReview({ rating: rating, comment: comment });
 		// TODO cambiar condicion
 		if (true) {
-			console.log("CAMBIAR CONDICION")
+			console.log("CAMBIAR CONDICION");
 			// Create a new review
-			const newReviewCommand = (placeID) => API_location_calls.API_addReview()
-			setReviewCommand(newReviewCommand)
+			const newReviewCommand = (placeID) => API_location_calls.API_addReview();
+			setReviewCommand(newReviewCommand);
 		} else {
-			// Update existing review
-			const newReviewCommand = (placeID) => API_location_calls.API_updateReview()
-			setReviewCommand(newReviewCommand)
 		}
 	}
 
 	function deleteReview() {
 		// TODO cambiar condicion
 		if (true) {
-			console.log("CAMBIAR CONDICION")
+			console.log("CAMBIAR CONDICION");
 			// Delete already existing review
-			const newReviewCommand = (placeID) => API_location_calls.API_removeReview()
-			setReviewCommand(newReviewCommand)
+			const newReviewCommand = (placeID) =>
+				API_location_calls.API_removeReview();
+			setReviewCommand(newReviewCommand);
 		} else {
-			// Remove new review
-			setReviewCommand(null)
 		}
-		setRating(null)
-		setComment("")
-		setReview(null)
+		setRating(null);
+		setComment("");
+		setReview(null);
 	}
 
 	function handleRatingChange(event) {
@@ -158,27 +184,29 @@ export default function FullInfoPlace({
 			<br></br>
 
 			{/* Nombre */}
-			{isUserPlace ?
+			{isUserPlace ? (
 				<TextField
 					disabled={loading}
 					required
-					error = {isNameTextFieldErrored}
-					label = {t("sidebar.place.name")}
-					defaultValue = {name}
-					onChange = {handleNameChange}
-					helperText = {isNameTextFieldErrored ? "El nombre no puede estar vacío" : ""}
-					margin = "normal"
+					error={isNameTextFieldErrored}
+					label={t("sidebar.place.name")}
+					defaultValue={name}
+					onChange={handleNameChange}
+					helperText={
+						isNameTextFieldErrored ? "El nombre no puede estar vacío" : ""
+					}
+					margin="normal"
 				/>
-				 :
-					<h1>{name}</h1>
-			}
-			
+			) : (
+				<h1>{name}</h1>
+			)}
+
 			<br></br>
 
 			{/* Categoria */}
-			{isUserPlace ? 
+			{isUserPlace ? (
 				<Select
-					disabled = {loading}
+					disabled={loading}
 					defaultValue={place.category.toLowerCase()}
 					label="Categoria"
 					onChange={handleCategoryChange}
@@ -193,70 +221,73 @@ export default function FullInfoPlace({
 						</MenuItem>
 					))}
 				</Select>
-			:
+			) : (
 				<p>{place.category}</p>
-			}
+			)}
 			<br></br>
 
 			<hr></hr>
 			{/* Review */}
-			{review!==null && 
+			{review !== null && (
 				<div>
-					<Rating value={rating} precision={0.5} onChange={handleRatingChange}/>
-					<TextField label="Comentario" value={comment} onChange={handleCommentChange} />
+					<Rating
+						value={rating}
+						precision={0.5}
+						onChange={handleRatingChange}
+					/>
+					<TextField
+						label="Comentario"
+						value={comment}
+						onChange={handleCommentChange}
+					/>
 				</div>
-			}
+			)}
 			<Button
 				variant="contained"
-				onClick={review===null ? createNewReview : deleteReview}
-				disabled = {loading}
+				onClick={review === null ? createNewReview : deleteReview}
+				disabled={loading}
 			>
 				{/* TODO: internacionalizar */}
-				{review===null ? "Añadir review" : "Eliminar review"}
+				{review === null ? "Añadir review" : "Eliminar review"}
 			</Button>
 			<hr></hr>
-
 
 			{/* Fotos */}
 			{/* TODO: internacionalizar */}
 			<h3>Fotos:</h3>
-			{photosURLs.map(
-				url =>
-				<div key={"photo_div"+photosURLs.indexOf(url)}>
+			{photosURLs.map((url) => (
+				<div key={"photo_div" + photosURLs.indexOf(url)}>
 					<img
 						src={url}
 						width="250"
 						height="100"
 						// TODO: poner el alto adecuado
-						key={"photo_url_"+photosURLs.indexOf(url)}
+						key={"photo_url_" + photosURLs.indexOf(url)}
 					/>
 					<IconButton
 						onClick={() => deleteImage(url)}
-						key={"delete_photo_button"+photosURLs.indexOf(url)}
+						key={"delete_photo_button" + photosURLs.indexOf(url)}
 					>
-						<DeleteIcon/>
+						<DeleteIcon />
 					</IconButton>
 				</div>
-			)}
-			
+			))}
+
 			<>
-			<input
-				type="file"
-				name="photos"
-				id="photos"
-				accept="image/*"
-				onChange={addImage}
-				style={{display: 'none'}}
-			/>
-			<label htmlFor="photos">
-				<Button
-					variant="contained"
-					component="span"
-				>
-					{/*TODO: internacionalizar*/}
-					Añadir imagen
-				</Button>
-			</label>
+				<input
+					type="file"
+					name="photos"
+					id="photos"
+					accept="image/*"
+					onChange={addImage}
+					style={{ display: "none" }}
+				/>
+				<label htmlFor="photos">
+					<Button variant="contained" component="span">
+						{/*TODO: internacionalizar*/}
+						Añadir imagen
+					</Button>
+				</label>
 			</>
 			<br></br>
 
