@@ -18,6 +18,8 @@ export default function TabButtons(props) {
         amigos = {props.amigos}
         API_friend_calls = {props.API_friend_calls}
         changeDrawerContent = {props.changeDrawerContent}
+        API_location_calls = {props.API_location_calls}
+        setPosition = {props.setPosition}
     />
     const rutasTabContent = <RutasTabContent
         userPlaces = {props.userPlaces}

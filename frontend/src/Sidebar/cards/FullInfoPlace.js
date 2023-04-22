@@ -3,7 +3,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-import { IconButton } from '@mui/material';
+import { IconButton, Button } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import { useTranslation } from "react-i18next";
 import { Navigation, Pagination } from "swiper";
@@ -16,8 +16,9 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function FullInfoPlace({place, returnFunction,setPosition, changeDrawerContent, categorias, API_location_calls}) {
     const [t] = useTranslation("global");
+    // TODO: asignar correcto valor a la variable
+    const isUserPlace = place.author
     const [loading, setLoading] = useState(false)
-    console.log(place)
 
     function allowEdit() {
         changeDrawerContent(
@@ -27,7 +28,6 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
                 returnFunction = {() => changeDrawerContent(this)}
                 categorias={categorias}
                 API_location_calls = {API_location_calls}
-                isUserPlace={true}
             />
         )
     }
@@ -114,38 +114,38 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
 
         <br></br>
 
-            <LoadingButton
-				color="secondary"
+            <Button
                 onClick={allowEdit}
-				loading={loading}
-				loadingPosition="start"
+				disabled={loading}
 				startIcon={<EditIcon/>}
 				variant="contained"
 			>
-				<span>{t("sidebar.place.edit")}</span>
-			</LoadingButton>
+				{t("sidebar.place.edit")}
+			</Button>
 
-            <LoadingButton
-				color="secondary"
+            <Button
                 onClick={centerMapToPlace}
-				loading={loading}
-				loadingPosition="start"
+				disabled={loading}
 				startIcon={<TravelExploreIcon/>}
 				variant="contained"
 			>
-				<span>{t("sidebar.place.locate")}</span>
-			</LoadingButton>
+				{t("sidebar.place.locate")}
+			</Button>
 
-			<LoadingButton
-				color="secondary"
-				onClick={deletePlace}
-				loading={loading}
-				loadingPosition="start"
-				startIcon={<DeleteIcon />}
-				variant="contained"
-			>
-				<span>{t("sidebar.place.delete")}</span>
-			</LoadingButton>
+            {
+                isUserPlace
+                    &&  
+                <LoadingButton
+                    color="secondary"
+                    onClick={deletePlace}
+                    loading={loading}
+                    loadingPosition="start"
+                    startIcon={<DeleteIcon />}
+                    variant="contained"
+                >
+                    {t("sidebar.place.delete")}
+                </LoadingButton>
+            }
         </>
     )
 }

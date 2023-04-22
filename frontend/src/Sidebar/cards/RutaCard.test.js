@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import RutaCard from "./RutaCard";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
@@ -14,7 +14,7 @@ const route_empty = {
     locations: []
 }
 
-const changeDrawerContentMock = jest.fn()   //(content) => {render(content);}
+const changeDrawerContentMock = jest.fn()
 
 i18next.init({
 	interpolation: { escapeValue: false },

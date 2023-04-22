@@ -16,9 +16,11 @@ export default function FullInfoPlace({
 	place,
 	returnFunction,
 	categorias,
-	API_location_calls,
-	isUserPlace
+	API_location_calls,	
 }) {
+	// TODO: settear correctamente la variable
+	const isUserPlace = true
+
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState(place === null ? "" : place.name);
 	const [isNameTextFieldErrored, setIsNameTextFieldErrored] = useState(false);
@@ -38,7 +40,7 @@ export default function FullInfoPlace({
 	const [t] = useTranslation("global");
 
 	const [imageCommands, setImageCommands] = useState([])
-	const [reviewCommand, setReviewCommand] = useState((placeID) => {})
+	const [reviewCommand, setReviewCommand] = useState(null)
 
 
 	async function save() {
@@ -58,7 +60,8 @@ export default function FullInfoPlace({
 		}
 
 		// Ejecutar el comando adecuado para la review
-		reviewCommand(thePlaceID)
+		if (reviewCommand)
+			reviewCommand()
 
 		// Si se añaden/borran fotos, hacer
 		for (var command of imageCommands) {
@@ -109,26 +112,29 @@ export default function FullInfoPlace({
 
 	function createNewReview() {
 		setReview({rating: rating, comment: comment})
+		// TODO cambiar condicion
 		if (true) {
-			// TODO cambiar condicion
 			console.log("CAMBIAR CONDICION")
 			// Create a new review
-			setReviewCommand((placeID) => API_location_calls.API_addReview())
+			const newReviewCommand = (placeID) => API_location_calls.API_addReview()
+			setReviewCommand(newReviewCommand)
 		} else {
 			// Update existing review
-			setReviewCommand((placeID) => API_location_calls.API_updateReview())
+			const newReviewCommand = (placeID) => API_location_calls.API_updateReview()
+			setReviewCommand(newReviewCommand)
 		}
 	}
 
 	function deleteReview() {
+		// TODO cambiar condicion
 		if (true) {
-			// TODO cambiar condicion
 			console.log("CAMBIAR CONDICION")
 			// Delete already existing review
-			setReviewCommand((placeID) => API_location_calls.API_removeReview())
+			const newReviewCommand = (placeID) => API_location_calls.API_removeReview()
+			setReviewCommand(newReviewCommand)
 		} else {
 			// Remove new review
-			setReviewCommand((placeID) => {})
+			setReviewCommand(null)
 		}
 		setRating(null)
 		setComment("")
@@ -170,7 +176,7 @@ export default function FullInfoPlace({
 			<br></br>
 
 			{/* Categoria */}
-			{userPlace ? 
+			{isUserPlace ? 
 				<Select
 					disabled = {loading}
 					defaultValue={place.category.toLowerCase()}
@@ -205,12 +211,14 @@ export default function FullInfoPlace({
 				onClick={review===null ? createNewReview : deleteReview}
 				disabled = {loading}
 			>
+				{/* TODO: internacionalizar */}
 				{review===null ? "Añadir review" : "Eliminar review"}
 			</Button>
 			<hr></hr>
 
 
 			{/* Fotos */}
+			{/* TODO: internacionalizar */}
 			<h3>Fotos:</h3>
 			{photosURLs.map(
 				url =>
