@@ -29,7 +29,6 @@ async function addLocation(Session, ubicacion, myBaseUrl) {
 	);
 
 	//Añado a comentarios, reviews y fotos a sus respectivas carpetas
-	ubicacion.comments.forEach((c) => Comments.addComment(Session, c));
 	ubicacion.reviews.forEach((r) => Reviews.addReview(Session, r));
 	ubicacion.photos.forEach((p) => Photos.addFoto(Session, p));
 }
@@ -43,6 +42,7 @@ async function obtenerLocalizaciones(Session, myBaseUrl) {
 		}
 	);
 	let ubicaciones = getContainedResourceUrlAll(ubicacionDataset);
+
 	let modelsUbi = new Array(ubicaciones.length);
 	for (let i = 0; i < ubicaciones.length; i++) {
 		let urlSplit = ubicaciones[i].split("/");
@@ -78,15 +78,10 @@ async function obtenerLocalizacion(Session, idUbi, myBaseUrl) {
 			location.photos,
 			myBaseUrl
 		);
-		location.comments = await Comments.getAllComments(
-			Session,
-			location.comments,
-			myBaseUrl
-		);
 
 		return location;
 	} catch (err) {
-		return null;
+		throw new Error("Error al obtener la localización Solid: " + err);
 	}
 }
 
