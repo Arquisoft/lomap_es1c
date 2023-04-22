@@ -5,7 +5,7 @@ import { IconButton, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import AddFriendContent from './AddFriendContent';
 
-export default function AmigosTabContent({amigos, API_friend_calls, changeDrawerContent}) {
+export default function AmigosTabContent({amigos, API_friend_calls, changeDrawerContent, API_location_calls, setPosition}) {
     const [t] = useTranslation("global")
 
     function handleClickOnAddFriend(event) {
@@ -29,6 +29,9 @@ export default function AmigosTabContent({amigos, API_friend_calls, changeDrawer
                     key = {amigo.webid}
                     amigo = {amigo}
                     API_friend_calls = {API_friend_calls}
+                    API_location_calls = {API_location_calls}
+                    changeDrawerContent = {changeDrawerContent}
+                    setPosition = {setPosition}
                 />
             )}
 
