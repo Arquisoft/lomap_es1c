@@ -161,14 +161,6 @@ async function getAllFriends(Session) {
 	return await friends.getAllFriends(Session, myBaseUrl);
 }
 
-async function getAllFriendsMinimalInfo(Session) {
-	const webID = Session.info.webId;
-	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
-	myBaseUrl = myBaseUrl[0];
-	return await friends.getAllFriendsMinimalInfo(Session, myBaseUrl);
-}
-
 async function deleteFriendById(Session, idFriend) {
 	const webID = Session.info.webId;
 	//Obtencion de url del pod

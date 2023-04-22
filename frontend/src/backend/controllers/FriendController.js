@@ -1,5 +1,8 @@
 const Friend = require("../models/Friend.js");
+const FriendRequest = require("../models/FriendRequest.js");
 const solid = require("../solid/Solid.js");
+
+//Amigos
 
 async function getAllFriends(session) {
 	try {
@@ -33,7 +36,6 @@ async function deleteFriend(session, idFriend) {
 	}
 }
 
-//PROBAR
 async function getAllLocationsFromFriends(session) {
 	try {
 		const locations = await solid.getAllLocationsFromFriends(session);
@@ -44,10 +46,9 @@ async function getAllLocationsFromFriends(session) {
 	}
 }
 
-//PROBAR
-async function getFriendLocations(session, idFriend) {
+async function getFriendLocations(session, webIdAmigo) {
 	try {
-		const locations = await solid.getAllLocations(session, idFriend);
+		const locations = await solid.getAllLocations(session, webIdAmigo);
 		return locations;
 	} catch (err) {
 		console.log("Error en getFriendLocations");
@@ -68,21 +69,47 @@ async function getAllLocationsByCategory(session, name) {
 	}
 }
 
-async function givePermissions(session, friendId) {
+//Solicitudes
+async function sendFriendRequest(session, newFriend) {
+	const name = newFriend.name;
+	const webIdAmigo = newFriend.webId;
 	try {
-		await solid.givePermissions(session, friendId);
+		const friendRequest = new FriendRequest(session.info.webId, webIdAmigo);
+		await solid.sendFriendRequest(session, friendRequest, name);
+		return true;
 	} catch (err) {
-		console.log("Error en givePermissions");
-		throw new Error("Ha ocurrido un error al dar permisos");
+		console.log("Error en sendFriendRequest");
+		throw new Error("Ha ocurrido un error al enviar la solicitud");
 	}
 }
 
-async function removePermissions(session, friendId) {
+async function getAllRequests(session) {
 	try {
-		await solid.removePermissions(session, friendId);
+		const solicitudes = await solid.getAllSolicitudes(session);
+		return solicitudes;
 	} catch (err) {
-		console.log("Error en removePermissions");
-		throw new Error("Ha ocurrido un error al quitar permisos");
+		console.log("Error en getAllSolicitudes");
+		throw new Error("Ha ocurrido un error al obtener las solicitudes");
+	}
+}
+
+async function acceptRequest(session, webId) {
+	try {
+		await solid.acceptRequest(session, webId);
+		return true;
+	} catch (err) {
+		console.log("Error en acceptRequest");
+		throw new Error("Ha ocurrido un error al aceptar la solicitud");
+	}
+}
+
+async function rejectRequest(session, webId) {
+	try {
+		await solid.rejectRequest(session, webId);
+		return true;
+	} catch (err) {
+		console.log("Error en rejectRequest");
+		throw new Error("Ha ocurrido un error al rechazar la solicitud");
 	}
 }
 
@@ -93,4 +120,8 @@ module.exports = {
 	getAllLocationsFromFriends,
 	getFriendLocations,
 	getAllLocationsByCategory,
+	sendFriendRequest,
+	getAllRequests,
+	acceptRequest,
+	rejectRequest,
 };
