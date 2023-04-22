@@ -1,7 +1,6 @@
 const Location = require("../models/locationModels/Location");
 const Photo = require("../models/locationModels/Photo");
 const Review = require("../models/locationModels/Review");
-const Comment = require("../models/locationModels/Comment");
 const solid = require("../solid/Solid.js");
 
 //CRUD
@@ -13,7 +12,7 @@ async function getLocation(session, id) {
 			session.info.user
 		);
 		if (location1 != null) {
-			return JSON.stringify(location1);
+			return location1;
 		} else {
 			return null;
 		}
@@ -25,7 +24,7 @@ async function getLocation(session, id) {
 async function getAllLocations(session) {
 	try {
 		const locations = await solid.getAllLocations(session, session.info.webId);
-		return JSON.stringify(locations);
+		return locations;
 	} catch (err) {
 		throw new Error(err);
 	}
@@ -53,7 +52,7 @@ async function createLocation(session, location) {
 			category
 		);
 		await solid.saveLocation(session, location, session.info.webId);
-
+		/*
 		if (comment) {
 			const comment1 = new Comment(session.info.webId, comment);
 			await solid.addComment(
@@ -72,10 +71,11 @@ async function createLocation(session, location) {
 			const photo1 = new Photo(photo, session.info.webId);
 			await solid.addPhoto(session, photo1, location.id, session.info.webId);
 		}
-
+		*/
 		return location;
 	} catch (err) {
-		throw new Error(err);
+		console.log(err);
+		throw new Error("error al crear la ruta");
 	}
 }
 
@@ -106,11 +106,9 @@ async function updateLocation(session, id, location) {
 		throw new Error(err);
 	}
 }
-/*
-async function deleteLocation(req, res, next) {
-	const { id } = req.params;
+
+async function deleteLocation(session, id) {
 	try {
-		const session = await SessionController.getSession(req, next);
 		const location = await solid.getLocationById(
 			session,
 			id,
@@ -119,149 +117,94 @@ async function deleteLocation(req, res, next) {
 		if (location != null) {
 			await solid.deleteLocationById(session, id, session.info.webId);
 		} else {
-			res.status(404).json("No se han encontrado localizaciones con esa id");
-			return;
+			throw new Error("Location not found");
 		}
-		res.status(204).json({ message: "Location deleted successfully" });
-	} catch (err) {
-		next(err);
-	}
-}
-
-//PHOTOS REVIEWS COMMENTS
-async function addPhoto(req, res, next) {
-	const { id } = req.params;
-	const { name, photoUrl } = req.body;
-
-	if (!photoUrl || !name) {
-		res.status(400).json({ error: "Faltan datos" });
-		return;
-	}
-	try {
-		const session = await SessionController.getSession(req, next);
-		let location = await solid.getLocationById(session, id, session.info.webId);
-		const photo = new Photo(session.info.webId, name, photoUrl);
-		await solid.saveLocation(location);
-		res.status(201).json({ message: "Photo added successfully" });
-	} catch (err) {
-		next(err);
-	}
-}
-
-async function deletePhoto(req, res, next) {
-	const { id } = req.params;
-	const { idPhoto } = req.body;
-	try {
-		const session = await SessionController.getSession(req, next);
-		await solid.deletePhoto(id, idPhoto);
-		res.status(204).json({ message: "Photo removed successfully" });
-	} catch (err) {
-		next(err);
-	}
-}
-
-async function addReview(req, res, next) {
-	const { id } = req.params;
-	const { rating } = req.body;
-
-	if (!rating) {
-		res.status(400).json({ error: "Faltan datos" });
-		return;
-	}
-	try {
-		const session = await SessionController.getSession(req, next);
-		let location = await solid.getLocationById(session, id, session.info.webId);
-		const review = new Review(rating, session.info.webId);
-		await solid.addReview(session, review, location.id, session.info.webId);
-		res.status(201).json({ message: "Photo added successfully" });
-	} catch (err) {
-		next(err);
-	}
-}
-
-async function deleteReview(req, res, next) {
-	const { id } = req.params;
-	const { idReview } = req.body;
-	if (!idReview) {
-		res.status(400).json({ error: "Faltan datos" });
-		return;
-	}
-	try {
-		const session = await SessionController.getSession(req, next);
-		await solid.deleteReviewById(id, idReview);
-		res.status(204).json({ message: "Review removed successfully" });
-	} catch (err) {
-		next(err);
-	}
-}
-
-async function addComment(req, res, next) {
-	const { id } = req.params;
-	const { text } = req.body;
-
-	if (!text) {
-		res.status(400).json({ error: "Faltan datos" });
-		return;
-	}
-	try {
-		const session = await SessionController.getSession(req, next);
-		let location = await solid.getLocationById(session, id, session.info.webId);
-		const comment = new Comment(session.info.webId, text);
-
-		await solid.addReview(session, comment, location.id, session.info.webId);
-		res.status(201).json({ message: "Comment added successfully" });
-	} catch (err) {
-		next(err);
-	}
-}
-
-async function deleteComment(req, res, next) {
-	const { id } = req.params;
-	const { idComment } = req.body;
-	try {
-		const session = await SessionController.getSession(req, next);
-		await solid.deleteCommentById(id, idComment);
-		res.status(204).json({ message: "Comment removed successfully" });
-	} catch (err) {
-		next(err);
-	}
-}
-*/
-//  Categories
-async function getCategories() {
-	try {
-		let categories = await solid.getCategories();
-		return JSON.stringify(categories);
+		return location;
 	} catch (err) {
 		throw new Error(err);
 	}
 }
-/*
-async function getLocationsByCategory(req, res, next) {
-	const { category } = req.params;
+
+//PHOTOS REVIEWS COMMENTS
+async function addPhoto(session, id, photo) {
+	const name = photo.name;
+	const photoImage = photo.photoImage;
+
+	if (!photo || !name) {
+		throw new Error("Faltan datos");
+	}
 	try {
-		const session = await SessionController.getSession(req, next);
-		let locations = await solid.getAllLocations(session, session.info.webId);
-		locations = locations.filter((location) => location.category === category);
-		res.send(JSON.stringify(locations));
+		let location = await solid.getLocationById(session, id, session.info.webId);
+		const photo = new Photo(session.info.webId, name, photoImage);
+		await solid.addPhoto(session, photo, location.id, session.info.webId);
+		await solid.saveLocation(location);
 	} catch (err) {
-		next(err);
+		throw new Error(err);
 	}
 }
-*/
+
+async function deletePhoto(session, id, idPhoto) {
+	try {
+		await solid.deletePhoto(session, id, idPhoto);
+	} catch (err) {
+		throw new Error(err);
+	}
+}
+
+async function addReview(session, id, review) {
+	const rating = review.rating;
+	const comment = review.comment;
+
+	if (!rating) {
+		throw new Error("Faltan datos");
+	}
+	try {
+		let location = await solid.getLocationById(session, id, session.info.webId);
+		const review = new Review(rating, comment, session.info.webId);
+		await solid.addReview(session, review, location.id, session.info.webId);
+	} catch (err) {
+		throw new Error(err);
+	}
+}
+
+async function deleteReview(session, idLocation, idReview) {
+	try {
+		await solid.deleteReviewById(session, idLocation, idReview);
+	} catch (err) {
+		throw new Error(err);
+	}
+}
+
+//  Categories
+async function getCategories() {
+	try {
+		let categories = await solid.getCategories();
+		return categories;
+	} catch (err) {
+		throw new Error(err);
+	}
+}
+
+async function getLocationsByCategory(session, category) {
+	try {
+		let locations = await solid.getAllLocations(session, session.info.webId);
+		locations = locations.filter((location) => location.category === category);
+		return locations;
+	} catch (err) {
+		throw new Error(err);
+	}
+}
+
 module.exports = {
 	createLocation,
 	getAllLocations,
 	getLocation,
 	getCategories,
-	/*deleteLocation,
+	deleteLocation,
 	updateLocation,
+	getLocationsByCategory,
 	addReview,
 	addPhoto,
-	addComment,
-	getLocationsByCategory,
 	deletePhoto,
 	deleteReview,
-	deleteComment,
-	*/
 };

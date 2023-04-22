@@ -17,29 +17,11 @@ export default function CreateModal({
 	setMarkers,
 	setStateButton,
 	setCanCick,
+	API_location_calls,
+	categorias
 }) {
 	const [t] = useTranslation("global");
-	const [categorias, setCategorias] = React.useState([]);
 	const [loading, setLoading] = React.useState(false);
-
-	function getData() {
-		axios
-			.get("http://localhost:8080/location/category", {
-				withCredentials: true,
-			})
-			.then((response) => {
-				setCategorias(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	}
-
-	useEffect(() => {
-		if (categorias.length === 0) {
-			getData();
-		}
-	});
 
 	const nivelesPrivacidad = ["Publico", "Solo Amigos"];
 
@@ -168,10 +150,7 @@ export default function CreateModal({
 			privacy: privacyP,
 		};
 
-		const config = {
-			withCredentials: true,
-		};
-		const response = await axios.post(url, data, config);
+		const response = await API_location_calls.API_createLocation(data)
 		setLoading(false)
 		return response
 	}

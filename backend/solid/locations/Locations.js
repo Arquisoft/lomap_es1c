@@ -10,81 +10,51 @@ const {
 const parser = require("../util/Parser.js");
 const serializer = require("../util/Serializer.js");
 
-const Comments = require("./Comments.js");
 const Reviews = require("./Reviews.js");
 const Photos = require("./Photos.js");
 
 const { SCHEMA_INRUPT } = require("@inrupt/vocab-common-rdf");
 
 async function addLocation(Session, ubicacion, myBaseUrl) {
-	let file = await serializer.serializeLocation(Session, myBaseUrl, ubicacion);
-
-	await overwriteFile(
-		myBaseUrl + "LoMap/locations/locations/" + ubicacion.id + ".json",
-		file,
-		{
-			contentType: file.type,
-			fetch: Session.fetch,
-		}
-	);
+	let jsonLDLocation = await serializer.serializeLocation(ubicacion);
+	await serializer.serializeContenedor(Session, myBaseUrl + "LoMap/locations/locations.jsonld", jsonLDLocation);
 
 	//Añado a comentarios, reviews y fotos a sus respectivas carpetas
-	ubicacion.comments.forEach((c) => Comments.addComment(Session, c));
 	ubicacion.reviews.forEach((r) => Reviews.addReview(Session, r));
 	ubicacion.photos.forEach((p) => Photos.addPhoto(Session, p));
 }
 
+
 async function obtenerLocalizaciones(Session, myBaseUrl) {
 	//Obtener url de todas las ubicaciones
-	let ubicacionDataset = await getSolidDataset(
-		myBaseUrl + "LoMap/locations/locations/",
-		{
-			fetch: Session.fetch,
-		}
-	);
-	let ubicaciones = getContainedResourceUrlAll(ubicacionDataset);
-	let modelsUbi = new Array(ubicaciones.length);
-	for (let i = 0; i < ubicaciones.length; i++) {
-		let urlSplit = ubicaciones[i].split("/");
-		modelsUbi[i] = await obtenerLocalizacion(
-			Session,
-			urlSplit[urlSplit.length - 1].split(".")[0],
-			myBaseUrl,
-			false
-		);
-	}
-
-	return modelsUbi;
+	let locationsJson = await parser.parseContainer(Session, myBaseUrl + "LoMap/locations/locations.jsonld");
+	locationsJson.itemListElement = locationsJson.itemListElement.map((l) => parser.parseLocation(l));
+	return locationsJson.itemListElement;
 }
 
 async function obtenerLocalizacion(Session, idUbi, myBaseUrl, returnAllReviews) {
 	try {
-		let file = await getFile(
-			myBaseUrl + "LoMap/locations/locations/" + idUbi + ".json",
-			{
-				fetch: Session.fetch,
-			}
-		);
+		let locations = await obtenerLocalizaciones(Session, myBaseUrl);
 
-		let location = await parser.parseLocation(file);
+		let location = locations.find((l) => l.id == idUbi);
 
 		if(returnAllReviews){
-			location.reviews = await Reviews.getAllReviews(
+			location.reviews = Reviews.getAllReviews(
 				Session,
-				location.reviews,
-				myBaseUrl
+				location.reviews
 			);
-			location.photos = await Photos.getAllPhotos(
+			location.photos = Photos.getAllPhotos(
 				Session,
-				location.photos,
-				myBaseUrl
-			);
-			location.comments = await Comments.getAllComments(
-				Session,
-				location.comments,
-				myBaseUrl
+				location.photos
 			);
 		}
+		else{
+			location.reviews = [];
+			location.photos = [];
+		}
+
+		location.reviews = await location.reviews;
+		location.photos = await location.photos;
 
 		return location;
 	} catch (err) {
@@ -93,12 +63,7 @@ async function obtenerLocalizacion(Session, idUbi, myBaseUrl, returnAllReviews) 
 }
 
 async function deleteLocationById(Session, idLocation, myBaseUrl) {
-	await deleteFile(
-		myBaseUrl + "LoMap/locations/locations/" + idLocation + ".json",
-		{
-			fetch: Session.fetch,
-		}
-	);
+	await serializer.deleteThing(Session, myBaseUrl + "LoMap/locations/locations.jsonld", idLocation);
 }
 
 module.exports = {

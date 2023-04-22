@@ -11,7 +11,7 @@ export default function Login({ logInFunction }) {
 	};
 
 	const handleSolid = () => {
-		setText("https://solidcommunity.net/login");
+		setText("https://solidcommunity.net");
 	};
 
 	return (
@@ -39,7 +39,7 @@ export default function Login({ logInFunction }) {
 					<Button className="btnLogin" onClick={handleSolid}>
 						Solid
 					</Button>
-					<Button className="btnLogin" onClick={logInFunction}>
+					<Button className="btnLogin" onClick={() => logInFunction(text)}>
 						Iniciar Sesión
 					</Button>
 				</Box>

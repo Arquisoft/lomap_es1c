@@ -21,6 +21,8 @@ const availableLanguages = ["es", "en"];
 const preferredLanguage = navigator.language.toLowerCase().substring(0, 2);
 const defaultAlternativeLanguage = "es";
 
+const PodController = require("./backend/controllers/PodController");
+
 i18next.init({
 	interpolation: { escapeValue: false },
 	lng: availableLanguages.includes(preferredLanguage)
@@ -38,7 +40,6 @@ i18next.init({
 
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-
 	useEffect(() => {
 		// 2. When loading the component, call `handleIncomingRedirect` to authenticate
 		//    the user if appropriate, or to restore a previous session.
@@ -46,35 +47,25 @@ function MyComponent() {
 			restorePreviousSession: true,
 		}).then((info) => {
 			console.log(`Logged in with WebID [${info.webId}]`);
+			console.log(PodController);
 			if (getDefaultSession().info.isLoggedIn) {
-				console.log("yuuujuu");
 				setIsLoggedIn(true);
+				PodController.checkStruct(getDefaultSession());
 			}
 		});
 	}, []);
 
-	async function loginWeb(provider) {
-		// 1. Call `handleIncomingRedirect()` to complete the authentication process.
-		//    If called after the user has logged in with the Solid Identity Provider,
-		//      the user's credentials are stored in-memory, and
-		//      the login process is complete.
-		//   Otherwise, no-op.
+	async function loginWeb(providerURL) {
 		if (getDefaultSession().info.isLoggedIn) {
 			setIsLoggedIn(true);
+			PodController.checkStruct(getDefaultSession());
 		}
 
-		//"https://login.inrupt.com"
-		//let solidProvider= provider? provider :"https://solidcommunity.net";
-		// 2. Start the Login Process if not already logged in.
+		let provider = providerURL ? providerURL : "https://login.inrupt.com";
 		if (!getDefaultSession().info.isLoggedIn) {
 			await login({
-				// Specify the URL of the user's Solid Identity Provider;
-				// e.g., "https://login.inrupt.com".
-				oidcIssuer: "https://solidcommunity.net",
-				// Specify the URL the Solid Identity Provider should redirect the user once logged in,
-				// e.g., the current page for a single-page app.
+				oidcIssuer: provider,
 				redirectUrl: window.location.href,
-				// Provide a name for the application when sending to the Solid Identity Provider
 				clientName: "My application",
 			});
 		}
