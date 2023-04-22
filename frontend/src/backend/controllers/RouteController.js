@@ -4,7 +4,6 @@ const Route = require("../models/Route");
 async function getAllRoutes(session) {
 	try {
 		const routes = await solid.getAllRoutes(session, session.info.webId);
-		console.log(routes);
 		return routes;
 	} catch (err) {
 		throw new Error(err);
@@ -19,8 +18,24 @@ async function getAllRoutesAllInfo(session) {
 		);
 		return routes;
 	} catch (err) {
-		console.log(err);
-		throw new Error("Ha obtener las rutas");
+		throw new Error("Problema al obtener las rutas");
+	}
+}
+
+async function getAllLocationsByRouteId(session, idRoute) {
+	try {
+		const route = await solid.getRouteById(
+			session,
+			idRoute,
+			session.info.webId
+		);
+		if (route != null) {
+			return route.locations;
+		} else {
+			throw new Error("No se han encontrado rutas con esa id");
+		}
+	} catch (err) {
+		throw new Error(err);
 	}
 }
 
@@ -183,4 +198,5 @@ module.exports = {
 	addLocationToRoute,
 	deleteLocationFromRoute,
 	changeOrderOfLocationInRoute,
+	getAllLocationsByRouteId,
 };

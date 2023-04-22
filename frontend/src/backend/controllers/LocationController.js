@@ -81,9 +81,6 @@ async function createLocation(session, location) {
 
 async function updateLocation(session, id, location) {
 	let name = location.name;
-	let latitude = location.latitude;
-	let longitude = location.longitude;
-	let privacy = location.privacy;
 	let category = location.category;
 
 	try {
@@ -94,9 +91,6 @@ async function updateLocation(session, id, location) {
 		let location = await solid.getLocationById(session, id, session.info.webId);
 
 		location.name = name || location.name;
-		location.latitude = latitude || location.latitude;
-		location.longitude = longitude || location.longitude;
-		location.privacy = privacy || location.privacy;
 		location.category = category || location.category;
 
 		await solid.saveLocation(session, location, session.info.webId);

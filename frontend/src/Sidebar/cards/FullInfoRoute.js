@@ -44,62 +44,58 @@ export default function FullRouteInfo(props) {
 		);
 	}
 
-    return (
-        <>
-        <Tooltip
-            title={t("sidebar.back-arrow-text")}
-            placement="bottom"
-        >
-            <IconButton
-                onClick={returnFunction}
-                disabled={loading}
-                data-testid="return-button"
-            >
-                <ArrowBackIcon/>
-            </IconButton>
-        </Tooltip>
-        <h1 data-testid="full_info_route_name">{route.name}</h1>
-        <h3 data-testid="full_info_route_description">{route.description}</h3>
+	return (
+		<>
+			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
+				<IconButton
+					onClick={returnFunction}
+					disabled={loading}
+					data-testid="return-button"
+				>
+					<ArrowBackIcon />
+				</IconButton>
+			</Tooltip>
+			<h1 data-testid="full_info_route_name">{route.name}</h1>
+			<h3 data-testid="full_info_route_description">{route.description}</h3>
 
-        <div className="card--line1">
-            <h3 data-testid="list-title">{t("sidebar.route.places-in-route")}</h3>
-            <p data-testid="number-of-places-text">{route.locations.length}</p>
-        </div>
-        <ul data-testid={"full_info_route_places_list"}>
-        {
-            route.locations.map(
-                location => (
-                    <li key={location.id+"_li"} data-testid={"full_info_route_place_"+location.id}>
-                        {location.name}
-                    </li>
-                )
-            )
-        }
-        </ul>
+			<div className="card--line1">
+				<h3 data-testid="list-title">{t("sidebar.route.places-in-route")}</h3>
+				<p data-testid="number-of-places-text">{route.locations.length}</p>
+			</div>
+			<ul data-testid={"full_info_route_places_list"}>
+				{route.locations.map((location) => (
+					<li
+						key={location.id + "_li"}
+						data-testid={"full_info_route_place_" + location.id}
+					>
+						{location.name}
+					</li>
+				))}
+			</ul>
 
-        <br></br>
-        <div className="card--line1">
-            <Button
-                onClick={allowEdit}
-                disabled={loading}
-                startIcon={<EditIcon/>}
-                variant="contained"
-                data-testid="edit-button"
-            >
-                <span>{t("sidebar.edit-button")}</span>
-            </Button>
+			<br></br>
+			<div className="card--line1">
+				<Button
+					onClick={allowEdit}
+					disabled={loading}
+					startIcon={<EditIcon />}
+					variant="contained"
+					data-testid="edit-button"
+				>
+					<span>{t("sidebar.edit-button")}</span>
+				</Button>
 
-            <LoadingButton
-                onClick={deleteRoute}
-                loading={loading}
-                loadingPosition="start"
-                startIcon={<DeleteIcon />}
-                variant="contained"
-                data-testid="delete-button"
-            >
-                <span>{t("sidebar.delete-button")}</span>
-            </LoadingButton>
-        </div>
-        </>
-    )
+				<LoadingButton
+					onClick={deleteRoute}
+					loading={loading}
+					loadingPosition="start"
+					startIcon={<DeleteIcon />}
+					variant="contained"
+					data-testid="delete-button"
+				>
+					<span>{t("sidebar.delete-button")}</span>
+				</LoadingButton>
+			</div>
+		</>
+	);
 }
