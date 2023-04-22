@@ -6,6 +6,7 @@ const solid = require("../solid/Solid.js");
 const SessionController = require("../controllers/util/SessionController.js");
 
 const { getSessionFromStorage } = require("@inrupt/solid-client-authn-node");
+const session = require("express-session");
 
 //CRUD
 async function getLocation(req, res) {
@@ -41,9 +42,6 @@ async function getAllLocations(req, res, next) {
 
 
 
-
-
-
 async function createLocation(req, res, next) {
 	const {
 		name,
@@ -60,6 +58,18 @@ async function createLocation(req, res, next) {
 		return;
 	}
 	try {
+		let objectComment = [];
+		let objectReview = [];
+		let objectPhoto = [];
+		if(comment){
+			objectComment = [new Comment(session.info.webId, comment)];
+		}
+		if(review){
+			objectReview = [new Review(review, session.info.webId)];
+		}
+		if(photo){
+			objectPhoto = [new Photo(session.info.webId, "", photo)];
+		}
 		const session = await SessionController.getSession(req, next);
 		const location = new Location(
 			name,
@@ -70,9 +80,9 @@ async function createLocation(req, res, next) {
 			category,
 			null,
 			null,
-			comment,
-			review,
-			photo
+			objectComment,
+			objectReview,
+			objectPhoto
 		);
 		await solid.saveLocation(session, location, session.info.webId);
 
