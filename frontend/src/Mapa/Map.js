@@ -232,7 +232,10 @@ function Map({
 			</GoogleMap>
 
 
-			<FilterButtons setCategortFiltered={setCategortFiltered} />
+			<FilterButtons
+				setCategortFiltered={setCategortFiltered}
+				categorias={categorias}
+			/>
 		</div>
 	);
 }

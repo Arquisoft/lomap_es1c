@@ -1,13 +1,11 @@
 import {  Fab, Menu, MenuItem } from "@mui/material";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {useTranslation} from "react-i18next"
 
-export default function FilterButtons({setCategortFiltered}) {
+export default function FilterButtons({setCategortFiltered, categorias}) {
     const [t] = useTranslation("global");
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    var [categorias,setCategorias] = useState([]);
 
     const resetFilters = () => {
         setCategortFiltered({
@@ -39,27 +37,6 @@ export default function FilterButtons({setCategortFiltered}) {
             category: ""
         })
     };
-
-
-    useEffect( () => {
-        if(categorias.length === 0){
-            getData();
-        }
-    });
-
-    async function getData() {
-        await axios
-            .get("http://localhost:8080/location/category", {
-                withCredentials: true,
-            })
-            .then((response) => {
-                setCategorias(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-	}
-
 
     return(
         <div className="filtros">
