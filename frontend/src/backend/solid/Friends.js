@@ -150,6 +150,7 @@ async function isFriend(Session, friend) {
 	let myBaseUrl = await getPodUrlAll(friend.webid, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	try {
+		await getFile(myBaseUrl + "LoMap/friends.jsonld", { fetch: Session.fetch });
 		return friend;
 	} catch (err) {
 		return null;
