@@ -18,13 +18,16 @@ const modifications = {
 
 export default function EditRouteInfo({
 	route,
-	returnFunction,
+	changeDrawerContent,
+	returnTo,
 	userPlaces,
 	API_route_calls,
 }) {
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState(route == null ? "" : route.name);
-	const [description, setDescription] = useState(route == null ? "" : route.description);
+	const [description, setDescription] = useState(
+		route == null ? "" : route.description
+	);
 	const [locations, setLocations] = useState(
 		route == null ? [] : route.locations
 	);
@@ -43,18 +46,26 @@ export default function EditRouteInfo({
 	const [locationsModifications, setLocationsModifications] = useState([]);
 
 	async function save() {
-		let modification
-		if (name.trim().length>0  &&  description.trim().length>0) {
+		let modification;
+		if (name.trim().length > 0 && description.trim().length > 0) {
 			setLoading(true);
 			if (route == null) {
-				const newId = (await API_route_calls.API_addRoute(name, description)).data.id
+				const addedRoute = await API_route_calls.API_addRoute(
+					name,
+					description
+				);
+				const newId = addedRoute.id;
+
 				for (modification of locationsModifications) {
 					await modification.execute(newId);
 				}
 			} else {
 				if (name !== route.name || description !== route.description) {
-					await API_route_calls.API_updateRouteInfo(route.id, name, description);
-
+					await API_route_calls.API_updateRouteInfo(
+						route.id,
+						name,
+						description
+					);
 				}
 				for (modification of locationsModifications) {
 					await modification.execute(route.id);
@@ -62,7 +73,7 @@ export default function EditRouteInfo({
 			}
 			setLoading(false);
 		}
-		returnFunction();
+		changeDrawerContent(null);
 	}
 
 	function clickOnNewLocation(locationId) {
@@ -83,34 +94,42 @@ export default function EditRouteInfo({
 	}
 
 	function removeLocation(locationId) {
-        setLocations((current) => (current.filter(location => location.id !== locationId)))
+		setLocations((current) =>
+			current.filter((location) => location.id !== locationId)
+		);
 
-        const hasBeenAddedInThisModification = locationsModifications
-            .filter(modification => (modification.type===modifications.ADD  &&  modification.locationID===locationId))
-            .length>0
+		const hasBeenAddedInThisModification =
+			locationsModifications.filter(
+				(modification) =>
+					modification.type === modifications.ADD &&
+					modification.locationID === locationId
+			).length > 0;
 
-        // Remove the unnecessary locations
-        setLocationsModifications((current) => current.filter(modification => modification.locationID!==locationId))
+		// Remove the unnecessary locations
+		setLocationsModifications((current) =>
+			current.filter((modification) => modification.locationID !== locationId)
+		);
 
-        // Only add the DELETE modification if that location was already stored
-        if (!hasBeenAddedInThisModification) {
-            setLocationsModifications(current => [...current, {
-                type: modifications.DELETE,
-                locationID: locationId,
-                execute: (routeID) => API_route_calls.API_deleteLocationFromRoute(routeID, locationId)
-            }])
-        }
-    }
+		// Only add the DELETE modification if that location was already stored
+		if (!hasBeenAddedInThisModification) {
+			setLocationsModifications((current) => [
+				...current,
+				{
+					type: modifications.DELETE,
+					locationID: locationId,
+					execute: (routeID) =>
+						API_route_calls.API_deleteLocationFromRoute(routeID, locationId),
+				},
+			]);
+		}
+	}
 
 	return (
 		<>
-			<Tooltip
-				title={t("sidebar.back-arrow-text")}
-				placement="bottom"
-			>
+			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
 				<IconButton
 					data-testid="back-button"
-					onClick={returnFunction}
+					onClick={() => changeDrawerContent(null)}
 					disabled={loading}
 				>
 					<ArrowBackIcon />
@@ -118,7 +137,7 @@ export default function EditRouteInfo({
 			</Tooltip>
 			<br></br>
 			<TextField
-				inputProps={{"data-testid":"text-field-title"}}
+				inputProps={{ "data-testid": "text-field-title" }}
 				label={t("sidebar.route.route-name")}
 				defaultValue={name}
 				onChange={handleNameChange}
@@ -126,14 +145,16 @@ export default function EditRouteInfo({
 			/>
 			<br></br>
 			<TextField
-				inputProps={{"data-testid":"text-field-description"}}
+				inputProps={{ "data-testid": "text-field-description" }}
 				label={t("sidebar.route.route-description")}
 				defaultValue={description}
 				onChange={handleDescriptionChange}
 				disabled={loading}
 			/>
 			<div className="card--line1">
-				<h3 data-testid="your-locations-title">{t("sidebar.route.places-in-route")}</h3>
+				<h3 data-testid="your-locations-title">
+					{t("sidebar.route.places-in-route")}
+				</h3>
 				<Tooltip
 					title={t("sidebar.route.add-location-button")}
 					placement="bottom"
@@ -159,7 +180,10 @@ export default function EditRouteInfo({
 					.map((location) => (
 						<MenuItem
 							key={location.id + "mnitem"}
-							onClick={() => {clickOnNewLocation(location.id); setAnchorMenu(null);}}
+							onClick={() => {
+								clickOnNewLocation(location.id);
+								setAnchorMenu(null);
+							}}
 							data-testid={location.id + "_mnitem"}
 							disabled={loading}
 						>
@@ -169,26 +193,31 @@ export default function EditRouteInfo({
 			</Menu>
 
 			<ul>
-			{locations.map((location) => (
-				<li key={location.id+"_li"} data-testid={location.id+"_li"}>
-				<div key={location.id + "div"} className="card--line1">
-					<p key={location.id+"_p"} data-testid={"location_list_name_"+location.id}>{location.name}</p>
-					<Tooltip
-						title={t("sidebar.route.remove-location-button")}
-						placement="bottom"
-					>
-						<IconButton
-							key={location.id + "_db"}
-							onClick={() => removeLocation(location.id)}
-							data-testid={"location_detetebutton_"+location.id}
-							disabled={loading}
-						>
-							<DeleteIcon />
-						</IconButton>
-					</Tooltip>
-				</div>
-				</li>
-			))}
+				{locations.map((location) => (
+					<li key={location.id + "_li"} data-testid={location.id + "_li"}>
+						<div key={location.id + "div"} className="card--line1">
+							<p
+								key={location.id + "_p"}
+								data-testid={"location_list_name_" + location.id}
+							>
+								{location.name}
+							</p>
+							<Tooltip
+								title={t("sidebar.route.remove-location-button")}
+								placement="bottom"
+							>
+								<IconButton
+									key={location.id + "_db"}
+									onClick={() => removeLocation(location.id)}
+									data-testid={"location_detetebutton_" + location.id}
+									disabled={loading}
+								>
+									<DeleteIcon />
+								</IconButton>
+							</Tooltip>
+						</div>
+					</li>
+				))}
 			</ul>
 
 			<br></br>

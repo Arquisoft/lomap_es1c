@@ -1,72 +1,92 @@
+import { getDefaultSession } from "@inrupt/solid-client-authn-browser";
+import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./App.css";
 import CreateMap from "./Mapa/Map";
 import CreateModal from "./Mapa/PlacesForm";
-import addPlace from "./Places/Places";
 import DrawerSidebar from "./Sidebar/Drawer";
 import "./Sidebar/Sidebar.css";
 import SettingsSpeedDial from "./buttons/SettingsSpeedDial";
 import { ThemeContext, Themes } from "./contexts/ThemeContext";
 
-var a = [];
+const LocationController = require("./backend/controllers/LocationController");
+const RoutesController = require("./backend/controllers/RouteController");
+const FriendsController = require("./backend/controllers/FriendController");
 
 export default function App({ logOutFunction }) {
 	//Todos los lugares de la aplicacion
-	const [places, setPlaces] = React.useState(a);
-
-	const [data, setData] = useState("");
-	const [t, i18n] = useTranslation("global");	// La t sí se usa y hace falta, no borrar
+	const [places, setPlaces] = React.useState([]);
+	const [t, i18n] = useTranslation("global"); // La t sí se usa y hace falta, no borrar
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
 	const [amigos, setAmigos] = useState([]);
+	const [loading, setLoading] = useState(0);
 
-	function updateCategorias() {
-		axios
-			.get("http://localhost:8080/location/category", { withCredentials: true })
-			.then((response) => {
-				setCategorias(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+	async function checkLoggedIn() {
+		let session = getDefaultSession();
+
+		if (!session.info.isLoggedIn) {
+			console.log("NO ESTA LOGEADO");
+			session.login();
+		}
+	}
+
+	async function updateCategorias() {
+		setLoading((current) => current + 1);
+		checkLoggedIn();
+		try {
+			const response = await LocationController.getCategories();
+			setCategorias(response);
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	async function updateAmigos() {
-		await axios
-			.get("http://localhost:8080/friend", { withCredentials: true })
-			.then((response) => {
-				setAmigos(response.data);
-				console.log(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		setLoading((current) => current + 1);
+		var friends;
+		try {
+			friends = await FriendsController.getAllFriends(getDefaultSession());
+			console.log(friends);
+			setAmigos(friends);
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	async function updateRutas() {
-		const url = "http://localhost:8080/route";
-		return await axios
-			.get(url, { withCredentials: true })
-			.then((response) => setRutas(response.data))
-			.catch((error) => console.log(error));
+		setLoading((current) => current + 1);
+		checkLoggedIn();
+		try {
+			const response = await RoutesController.getAllRoutes(getDefaultSession());
+			setRutas(response);
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	async function updateLocations() {
-		await axios
-			.get("http://localhost:8080/location", { withCredentials: true })
-			.then((response) => {
-				setPlaces(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		setLoading((current) => current + 1);
+		checkLoggedIn();
+		try {
+			const response = await LocationController.getAllLocations(
+				getDefaultSession()
+			);
+			setPlaces(response);
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	useEffect(() => {
 		updateLocations();
-	},[]);
+	}, []);
 
 	useEffect(() => {
 		updateCategorias();
@@ -81,57 +101,115 @@ export default function App({ logOutFunction }) {
 	}, []);
 
 	async function API_getRouteByID(routeID) {
-		const url = "http://localhost:8080/route/" + routeID;
-		const response = await axios.get(url, { withCredentials: true });
-		return response;
+		checkLoggedIn();
+		try {
+			const response = await RoutesController.getAllLocationsByRouteId(
+				getDefaultSession(),
+				routeID
+			);
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
 	async function API_addRoute(routeName, routeDescription) {
-		const url = "http://localhost:8080/route";
 		const data = {
 			name: routeName,
 			description: routeDescription,
 		};
-		const response = await axios.post(url, data, { withCredentials: true });
-		updateRutas()
-		return response
+		try {
+			const response = await RoutesController.addRoute(
+				getDefaultSession(),
+				data
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
 	async function API_deleteRoute(routeID) {
-		const url = "http://localhost:8080/route/" + routeID;
-		const response = await axios.delete(url, { withCredentials: true });
-		updateRutas()
-		return response;
+		try {
+			const response = await RoutesController.deleteRoute(
+				getDefaultSession(),
+				routeID
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_updateRouteInfo(routeID, newRouteName, newRouteDescription) {
-		const url = "http://localhost:8080/route/" + routeID;
+	async function API_updateRouteInfo(
+		routeID,
+		newRouteName,
+		newRouteDescription
+	) {
 		const data = {
 			name: newRouteName,
 			description: newRouteDescription,
 		};
-		return axios.put(url, data, { withCredentials: true }).then(updateRutas);
+		try {
+			const response = await RoutesController.updateRoute(
+				getDefaultSession(),
+				routeID,
+				data
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_addLocationToRoute(routeID, locationID) {
-		const url =
-			"http://localhost:8080/route/" + routeID + "/location/" + locationID;
-		return axios.get(url, { withCredentials: true }).then(updateRutas);
+	async function API_addLocationToRoute(routeID, locationID) {
+		try {
+			const response = await RoutesController.addLocationToRoute(
+				getDefaultSession(),
+				routeID,
+				locationID
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_deleteLocationFromRoute(routeID, locationID) {
-		const url =
-			"http://localhost:8080/route/" + routeID + "/location/" + locationID;
-		return axios.delete(url, { withCredentials: true }).then(updateRutas);
+	async function API_deleteLocationFromRoute(routeID, locationID) {
+		try {
+			const response = await RoutesController.deleteLocationFromRoute(
+				getDefaultSession(),
+				routeID,
+				locationID
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_changeOrderOfLocationInRoute(routeID, locationID, newPosition) {
-		const url =
-			"http://localhost:8080/route/" + routeID + "/location/" + locationID;
-		const data = {
-			index: newPosition,
-		};
-		return axios.post(url, data, { withCredentials: true }).then(updateRutas);
+	async function API_changeOrderOfLocationInRoute(
+		routeID,
+		locationID,
+		newPosition
+	) {
+		try {
+			const response = await RoutesController.changeOrderOfLocationInRoute(
+				getDefaultSession(),
+				routeID,
+				locationID,
+				newPosition
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
 	const API_route_calls = {
@@ -145,42 +223,103 @@ export default function App({ logOutFunction }) {
 		API_changeOrderOfLocationInRoute: API_changeOrderOfLocationInRoute,
 	};
 
-	function API_deleteLocation(locationID) {
-		const url = "http://localhost:8080/location/" + locationID;
-		return axios.delete(url, { withCredentials: true });
-		// TODO actualizar lugares
+	async function API_createLocation(location) {
+		try {
+			const response = await LocationController.createLocation(
+				getDefaultSession(),
+				location
+			);
+			updateLocations();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_updateLocation(placeID, newName, newCategory, newPrivacy) {
-		const url = "http://localhost:8080/location/" + placeID;
-		const data = {
-			name: newName,
-			category: newCategory,
-			privacy: newPrivacy,
-		};
-		return axios.put(url, data, { withCredentials: true });
-		//TODO actualizar lugares
+	async function API_deleteLocation(locationID) {
+		try {
+			const response = await LocationController.deleteLocation(
+				getDefaultSession(),
+				locationID
+			);
+			updateLocations();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
+
+	async function API_updateLocation(placeID, location) {
+		try {
+			const response = await LocationController.updateLocation(
+				getDefaultSession(),
+				placeID,
+				location
+			);
+			updateLocations();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
+	}
+
+	async function API_addReview() {
+		// TODO: implementar
+		console.log("PENDIENTE");
+	}
+
+	async function API_removeReview() {
+		// TODO: implement
+		console.log("PENDIENTE");
+	}
+
+	async function API_updateReview() {
+		// TODO: implement
+		console.log("PENDIENTE");
+	}
+
+	async function getWebID() {
+		return getDefaultSession().info.webId;
+	}
+
+	async function API_addPhoto() {}
+	async function API_removePhoto() {}
 
 	async function API_addFriend(friendName, friendWebId) {
-		const url = "http://localhost:8080/friend";
-		const data = {
-			name: friendName,
-			webId: friendWebId,
-		};
-		await axios.post(url, data, { withCredentials: true });
-		updateAmigos();
+		setLoading((current) => current + 1);
+		try {
+			const friend = {
+				name: friendName,
+				webId: friendWebId,
+			};
+			await FriendsController.addFriend(getDefaultSession(), friend);
+			updateAmigos();
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	async function API_deleteFriend(friendID) {
-		const url = "http://localhost:8080/friend/" + friendID;
-		const response = await axios.delete(url, { withCredentials: true });
-		updateAmigos();
+		setLoading((current) => current + 1);
+		try {
+			await FriendsController.deleteFriend(getDefaultSession(), friendID);
+			updateAmigos();
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	const API_location_calls = {
+		API_createLocation: API_createLocation,
 		API_deleteLocation: API_deleteLocation,
 		API_updateLocation: API_updateLocation,
+		API_addReview: API_addReview,
+		API_removeReview: API_removeReview,
+		API_updateReview: API_updateReview,
+		API_addPhoto: API_addPhoto,
+		API_removePhoto: API_removePhoto,
 	};
 	const API_friend_calls = {
 		API_addFriend: API_addFriend,
@@ -235,8 +374,17 @@ export default function App({ logOutFunction }) {
 		lat: 0,
 		lng: 0,
 	});
-
-	return (
+	return Boolean(loading) ? (
+		<CircularProgress
+			size={45}
+			style={{
+				position: "absolute",
+				top: "50%",
+				left: "50%",
+				transform: "translate(-50%, -50%)",
+			}}
+		/>
+	) : (
 		<div id={currentTheme}>
 			<CreateModal
 				isOpen={modalIsOpen}
@@ -248,6 +396,8 @@ export default function App({ logOutFunction }) {
 				setMarkers={setMarkers}
 				setStateButton={setDisabledB}
 				setCanCick={setCanCick}
+				API_location_calls={API_location_calls}
+				categorias={categorias}
 			/>
 
 			<CreateMap

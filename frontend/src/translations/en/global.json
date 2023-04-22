@@ -28,7 +28,8 @@
         },"place":{
             "edit":"Edit",
             "locate":"Locate",
-            "delete":"Delete"
+            "delete":"Delete",
+            "name":"Name"
         }, "route": {
             "route-name": "Route name",
             "route-description": "Route description",

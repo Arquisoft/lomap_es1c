@@ -8,7 +8,6 @@ class Location {
 		category = null,
 		id = null,
 		timestamp = null,
-		comments = [],
 		reviews = [],
 		photos = []
 	) {
@@ -32,7 +31,6 @@ class Location {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.privacy = privacy;
-		this.comments = comments || [];
 		this.reviews = reviews || [];
 		this.photos = photos || [];
 		this.timestamp = timestamp ? timestamp : this.generateTimestamp();

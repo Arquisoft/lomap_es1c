@@ -6,6 +6,7 @@ const solid = require("../solid/Solid.js");
 const SessionController = require("../controllers/util/SessionController.js");
 
 const { getSessionFromStorage } = require("@inrupt/solid-client-authn-node");
+const session = require("express-session");
 
 //CRUD
 async function getLocation(req, res) {
@@ -57,6 +58,18 @@ async function createLocation(req, res, next) {
 		return;
 	}
 	try {
+		let objectComment = [];
+		let objectReview = [];
+		let objectPhoto = [];
+		if(comment){
+			objectComment = [new Comment(session.info.webId, comment)];
+		}
+		if(review){
+			objectReview = [new Review(review, session.info.webId)];
+		}
+		if(photo){
+			objectPhoto = [new Photo(session.info.webId, "", photo)];
+		}
 		const session = await SessionController.getSession(req, next);
 		const location = new Location(
 			name,
@@ -64,28 +77,16 @@ async function createLocation(req, res, next) {
 			longitude,
 			privacy,
 			session.info.webId,
-			category
+			category,
+			null,
+			null,
+			objectComment,
+			objectReview,
+			objectPhoto
 		);
 		await solid.saveLocation(session, location, session.info.webId);
 
-		if (comment) {
-			const comment1 = new Comment(session.info.webId, comment);
-			await solid.addComment(
-				session,
-				comment1,
-				location.id,
-				session.info.webId
-			);
-		}
 
-		if (review) {
-			const review1 = new Review(review, session.info.webId);
-			await solid.addReview(session, review1, location.id, session.info.webId);
-		}
-		if (photo) {
-			const photo1 = new Photo(photo, session.info.webId);
-			await solid.addPhoto(session, photo1, location.id, session.info.webId);
-		}
 
 		res.status(201).json(location);
 	} catch (err) {

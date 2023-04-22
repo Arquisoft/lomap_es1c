@@ -11,7 +11,7 @@ export default function Login({ logInFunction }) {
 	};
 
 	const handleSolid = () => {
-		setText("https://solidcommunity.net/login");
+		setText("https://solidcommunity.net");
 	};
 
 	return (

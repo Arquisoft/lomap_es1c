@@ -1,4 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { IconButton } from "@mui/material";
@@ -9,45 +10,6 @@ import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigation, Pagination } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Swiper, SwiperSlide } from "swiper/react";
-
-// TODO eliminar datos hardcodeados
-const images = [
-	{
-		label: "San Francisco – Oakland Bay Bridge, United States",
-		imgPath:
-			"https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
-	},
-	{
-		label: "Bird",
-		imgPath:
-			"https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
-	},
-	{
-		label: "Bali, Indonesia",
-		imgPath:
-			"https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
-	},
-	{
-		label: "Goč, Serbia",
-		imgPath:
-			"https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
-	},
-	{
-		label: "Goč, Serbia",
-		imgPath:
-			"https://external-preview.redd.it/s6GPQfLEwj9-i-EQcfuQb8JBqRV3E8h1iJ0hCTzYOzE.jpg?auto=webp&v=enabled&s=46f24037b6c6c992cb02f15f8a5e607da97b06e2",
-	},
-	{
-		label: "Goč, Serbia",
-		imgPath:
-			"https://blog.foto24.com/wp-content/uploads/2019/02/6-fotografia-de-Alejandro-Rodriguez-683x1024.jpg",
-	},
-];
 
 export default function FullInfoPlace({
 	place,
@@ -55,29 +17,69 @@ export default function FullInfoPlace({
 	categorias,
 	API_location_calls,
 }) {
+	// TODO: settear correctamente la variable
+	const isUserPlace = true;
+
 	const [loading, setLoading] = useState(false);
-	const [name, setName] = useState(place.name);
-	const [category, setCategory] = useState(place.category);
-	const [privacy, setPrivacy] = useState(place.privacy);
+	const [name, setName] = useState(place === null ? "" : place.name);
+	const [isNameTextFieldErrored, setIsNameTextFieldErrored] = useState(false);
+
+	// TODO: default category
+	const [category, setCategory] = useState(
+		place === null ? "" : place.category
+	);
+
+	// TODO: coger la review adecuada
+	const [rating, setRating] = useState(
+		place?.review?.rating ? place.review?.rating / 2 : null
+	);
+	// TODO: coger la review adecuada
+	const [comment, setComment] = useState(
+		place?.review?.comment ? place.review?.comment : ""
+	);
+	const [review, setReview] = useState(
+		rating || comment ? { rating: rating, comment: comment } : null
+	);
+
+	// TODO: seleccionar las imágenes adecuadas
+	const [photosURLs, setPhotosURLs] = useState(
+		place?.images ? place?.images.filter((photo) => photo.webID === "aaa") : []
+	);
 
 	const [t] = useTranslation("global");
-	const nivelesPrivacidad = ["Publico", "Solo Amigos", "Privado"];
+
+	const [imageCommands, setImageCommands] = useState([]);
+	const [reviewCommand, setReviewCommand] = useState(null);
 
 	async function save() {
 		setLoading(true);
-		if (
-			place.name != name ||
-			place.category != category ||
-			place.privacy != privacy
-		) {
-			await API_location_calls.API_updateLocation(
-				place.id,
-				name,
-				category,
-				privacy
-			);
-			setLoading(false);
+
+		var thePlaceID;
+
+		if (place === null) {
+			thePlaceID = await API_location_calls.API_createLocation();
+			// TODO: actualizar el ID del lugar
+		} else {
+			if (isUserPlace) {
+				if (name !== place.name || category !== place.category) {
+					const location = {
+						name: name,
+						category: category,
+					};
+					await API_location_calls.API_updateLocation(place.id, location);
+				}
+			}
 		}
+
+		// Ejecutar el comando adecuado para la review
+		if (reviewCommand) reviewCommand();
+
+		// Si se añaden/borran fotos, hacer
+		for (var command of imageCommands) {
+			command.f(thePlaceID);
+		}
+
+		setLoading(false);
 		returnFunction();
 	}
 
@@ -86,96 +88,213 @@ export default function FullInfoPlace({
 		categoriesToList.push(place.category);
 	}
 
-	function addImage() {
-		// TODO: implementar y conectar a la API
-		console.log("añadir imagen: pendiente");
+	function addImage(event) {
+		const file = event.target.files[0];
+		console.log(file);
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+
+		reader.onloadend = () => {
+			if (!photosURLs.includes(reader.result)) {
+				setPhotosURLs((current) => [...current, reader.result]);
+			}
+		};
+		setImageCommands((current) => [
+			...current,
+			{
+				url: reader.result,
+				f: (placeID) => {
+					console.log("añadir API PENDIENTE ");
+				},
+			},
+		]);
 	}
 
-	function deleteImage() {}
+	function deleteImage(url) {
+		const isNewImage = imageCommands.some(
+			(imageCommand) => imageCommand.url === url
+		);
+		if (isNewImage) {
+			setImageCommands((current) =>
+				current.filter((imageCommand) => imageCommand.url !== url)
+			);
+		} else {
+			setImageCommands((current) => [
+				...current,
+				{
+					f: (placeID) => {
+						console.log("BORRAR API PENDIENTE");
+					},
+				},
+			]);
+		}
+		setPhotosURLs((current) => current.filter((photoURL) => photoURL !== url));
+	}
 
 	function handleNameChange(event) {
 		setName(event.target.value);
+		setIsNameTextFieldErrored(event.target.value.trim().length <= 0);
 	}
 
 	function handleCategoryChange(event) {
 		setCategory(event.target.value);
 	}
 
-	function handlePrivacyChange(event) {
-		setPrivacy(event.target.value);
+	function createNewReview() {
+		setReview({ rating: rating, comment: comment });
+		// TODO cambiar condicion
+		if (true) {
+			console.log("CAMBIAR CONDICION");
+			// Create a new review
+			const newReviewCommand = (placeID) => API_location_calls.API_addReview();
+			setReviewCommand(newReviewCommand);
+		} else {
+		}
+	}
+
+	function deleteReview() {
+		// TODO cambiar condicion
+		if (true) {
+			console.log("CAMBIAR CONDICION");
+			// Delete already existing review
+			const newReviewCommand = (placeID) =>
+				API_location_calls.API_removeReview();
+			setReviewCommand(newReviewCommand);
+		} else {
+		}
+		setRating(null);
+		setComment("");
+		setReview(null);
+	}
+
+	function handleRatingChange(event) {
+		setRating(parseFloat(event.target.value));
+	}
+
+	function handleCommentChange(event) {
+		setComment(event.target.value);
 	}
 
 	return (
 		<>
+			{/* Botón para volver atrás */}
 			<IconButton onClick={returnFunction}>
 				<ArrowBackIcon />
 			</IconButton>
 			<br></br>
-			<TextField
-				label="Nombre"
-				defaultValue={place.name}
-				onChange={handleNameChange}
-			/>
 
-			<Rating value={place.valoracion} />
+			{/* Nombre */}
+			{isUserPlace ? (
+				<TextField
+					disabled={loading}
+					required
+					error={isNameTextFieldErrored}
+					label={t("sidebar.place.name")}
+					defaultValue={name}
+					onChange={handleNameChange}
+					helperText={
+						isNameTextFieldErrored ? "El nombre no puede estar vacío" : ""
+					}
+					margin="normal"
+				/>
+			) : (
+				<h1>{name}</h1>
+			)}
 
 			<br></br>
 
-			<Select
-				defaultValue={
-					place.privacy
-						? place.privacy.toLowerCase()
-						: nivelesPrivacidad[0].toLowerCase()
-				}
-				onChange={handlePrivacyChange}
+			{/* Categoria */}
+			{isUserPlace ? (
+				<Select
+					disabled={loading}
+					defaultValue={place.category.toLowerCase()}
+					label="Categoria"
+					onChange={handleCategoryChange}
+				>
+					{categoriesToList.map((categoria) => (
+						<MenuItem
+							key={categoria.toLowerCase()}
+							sx={{ height: "35px" }}
+							value={categoria.toLowerCase()}
+						>
+							{categoria === "" ? <em>Sin categoria</em> : categoria}
+						</MenuItem>
+					))}
+				</Select>
+			) : (
+				<p>{place.category}</p>
+			)}
+			<br></br>
+
+			<hr></hr>
+			{/* Review */}
+			{review !== null && (
+				<div>
+					<Rating
+						value={rating}
+						precision={0.5}
+						onChange={handleRatingChange}
+					/>
+					<TextField
+						label="Comentario"
+						value={comment}
+						onChange={handleCommentChange}
+					/>
+				</div>
+			)}
+			<Button
+				variant="contained"
+				onClick={review === null ? createNewReview : deleteReview}
+				disabled={loading}
 			>
-				{nivelesPrivacidad.map(
-					(nivel) => (<MenuItem key={nivel.toLowerCase()} value={nivel.toLowerCase()}>{nivel}</MenuItem>))
-				}
-			</Select>
+				{/* TODO: internacionalizar */}
+				{review === null ? "Añadir review" : "Eliminar review"}
+			</Button>
+			<hr></hr>
 
-			<br></br>
-
-			<Select
-				defaultValue={place.category.toLowerCase()}
-				label="Categoria"
-				onChange={handleCategoryChange}
-			>
-				{categoriesToList.map((categoria) => (
-					<MenuItem
-						key={categoria.toLowerCase()}
-						sx={{ height: "35px" }}
-						value={categoria.toLowerCase()}
-					>
-						{categoria === "" ? <em>Sin categoria</em> : categoria}
-					</MenuItem>
-				))}
-			</Select>
-
-			<br></br>
-
-			<TextField label="Comentario" value={place.comments[0]} />
-
+			{/* Fotos */}
+			{/* TODO: internacionalizar */}
 			<h3>Fotos:</h3>
-			<Swiper
-				pagination={{ type: "fraction" }}
-				navigation={true}
-				modules={[Pagination, Navigation]}
-			>
-				{/* TODO: reemplazar por las imágenes del lugar */}
-				{images.map((i) => (
-					<SwiperSlide key={i.imgPath + "slide"}>
-						<img src={i.imgPath} />
-					</SwiperSlide>
-				))}
-				<SwiperSlide>
-					<Button onClick={addImage}>Añadir imagen</Button>
-				</SwiperSlide>
-			</Swiper>
+			{photosURLs.map((url) => (
+				<div key={"photo_div" + photosURLs.indexOf(url)}>
+					<img
+						src={url}
+						width="250"
+						height="100"
+						// TODO: poner el alto adecuado
+						key={"photo_url_" + photosURLs.indexOf(url)}
+					/>
+					<IconButton
+						onClick={() => deleteImage(url)}
+						key={"delete_photo_button" + photosURLs.indexOf(url)}
+					>
+						<DeleteIcon />
+					</IconButton>
+				</div>
+			))}
 
+			<>
+				<input
+					type="file"
+					name="photos"
+					id="photos"
+					accept="image/*"
+					onChange={addImage}
+					style={{ display: "none" }}
+				/>
+				<label htmlFor="photos">
+					<Button variant="contained" component="span">
+						{/*TODO: internacionalizar*/}
+						Añadir imagen
+					</Button>
+				</label>
+			</>
 			<br></br>
 
+			<hr></hr>
+			{/* Botón de guardar */}
 			<LoadingButton
+				disabled={isNameTextFieldErrored}
 				color="secondary"
 				onClick={save}
 				loading={loading}
@@ -183,6 +302,7 @@ export default function FullInfoPlace({
 				startIcon={<SaveIcon />}
 				variant="contained"
 			>
+				{/* TODO: cambiar el texto */}
 				<span>Save</span>
 			</LoadingButton>
 		</>
