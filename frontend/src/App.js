@@ -129,6 +129,7 @@ export default function App({ logOutFunction }) {
 				data
 			);
 			updateRutas();
+			console.log(response)
 			return response;
 		} catch (error) {
 			alert(error);

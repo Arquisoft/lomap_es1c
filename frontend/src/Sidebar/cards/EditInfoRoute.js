@@ -111,7 +111,7 @@ export default function EditRouteInfo({
 			>
 				<IconButton
 					data-testid="back-button"
-					onClick={() => changeDrawerContent(returnTo)}
+					onClick={() => changeDrawerContent(null)}
 					disabled={loading}
 				>
 					<ArrowBackIcon />

@@ -23,6 +23,13 @@ export default function FullRouteInfo(props) {
                 API_route_calls = {API_route_calls}
             />
         )
+
+        async function deleteRoute() {
+            setLoading(true)
+            await API_route_calls.API_deleteRoute(route.id)
+            setLoading(false)
+            returnFunction()
+        }
     }
 
 	function allowEdit() {
