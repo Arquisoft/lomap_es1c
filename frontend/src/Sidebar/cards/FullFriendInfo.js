@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import PlaceCard from "./PlaceCard";
+import DeleteIcon from '@mui/icons-material/Delete';
+import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 
 export default function FullFriendInfo({
     amigo,
@@ -8,15 +10,34 @@ export default function FullFriendInfo({
     API_location_calls,
     API_friend_calls
 }) {
+    const [loading, setLoading] = useState(false)
+    
+    async function deleteFriend() {
+        setLoading(true)
+
+        await API_friend_calls.API_deleteFriend(amigo.id)
+
+        setLoading(false)
+        changeDrawerContent(null)
+    }
+
     return (
         <>
-        {/* Info del amigo */}
-
         {/* Nombre */}
-
-        {/* Botón de editar */}
+        <h1>{amigo.name}</h1>
+        <p>({amigo.webid})</p>
 
         {/* Botón de eliminar */}
+        <LoadingButton
+            onClick = {deleteFriend}
+            loading = {loading}
+            loadingPosition = "start"
+            startIcon={<DeleteIcon />}
+            variant = "contained"
+        >
+            {/* TODO: internacionalizar */}
+            Eliminar amigo
+        </LoadingButton>
 
 
         {/* Listado con los places de ese amigo */}

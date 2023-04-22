@@ -30,10 +30,20 @@ export default function App({ logOutFunction }) {
 
 	async function updateAmigos() {
 		setLoading(current => current+1)
-		await axios
-			.get("http://localhost:8080/friend", { withCredentials: true })
-			.then((response) => setAmigos(response.data))
-			.catch((error) => console.log(error));
+		var friends
+		try {
+			// TODO: get the friends from the API
+			console.log("COGER AMIGOS DESDE LA API")
+			friends = []
+			
+			friends.forEach(friend => {friend.locations = []})
+			// TODO: add the locations from the API
+			console.log("COGER LOCATIONS DE CADA AMIGO DESDE LA API")
+		} catch (error) {
+			console.log(error)
+		}
+
+		setAmigos(friends)
 		setLoading(current => current-1)
 	}
 
