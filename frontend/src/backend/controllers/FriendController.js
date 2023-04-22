@@ -1,6 +1,5 @@
 const Friend = require("../models/Friend.js");
 const solid = require("../solid/Solid.js");
-const SessionController = require("../controllers/util/SessionController.js");
 
 async function getAllFriends(session) {
 	try {
@@ -12,12 +11,11 @@ async function getAllFriends(session) {
 	}
 }
 
-async function addFriend(session, friend) {
+async function addFriend(session, friendData) {
 	try {
-		const name = friend.name;
-		const webId = friend.webId;
+		const name = friendData.name;
+		const webId = friendData.webId;
 		const friend = new Friend(name, webId);
-
 		await solid.addFriend(session, friend);
 		return friend;
 	} catch (err) {
@@ -34,6 +32,7 @@ async function deleteFriend(session, idFriend) {
 		throw new Error("Ha ocurrido un error al eliminar el amigo");
 	}
 }
+
 //PROBAR
 async function getAllLocationsFromFriends(session) {
 	try {

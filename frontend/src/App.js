@@ -13,7 +13,7 @@ import { ThemeContext, Themes } from "./contexts/ThemeContext";
 
 const LocationController = require("./backend/controllers/LocationController");
 const RoutesController = require("./backend/controllers/RouteController");
-const FriendsController = require("./backend/controllers/FriendsController");
+const FriendsController = require("./backend/controllers/FriendController");
 
 export default function App({ logOutFunction }) {
 	//Todos los lugares de la aplicacion
@@ -287,21 +287,29 @@ export default function App({ logOutFunction }) {
 	async function API_removePhoto() {}
 
 	async function API_addFriend(friendName, friendWebId) {
-		const url = "http://localhost:8080/friend";
-		const data = {
-			name: friendName,
-			webId: friendWebId,
-		};
-		const response = await axios.post(url, data, { withCredentials: true });
-		updateAmigos();
-		return response;
+		setLoading((current) => current + 1);
+		try {
+			const friend = {
+				name: friendName,
+				webId: friendWebId,
+			};
+			await FriendsController.addFriend(getDefaultSession(), friend);
+			updateAmigos();
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	async function API_deleteFriend(friendID) {
-		const url = "http://localhost:8080/friend/" + friendID;
-		const response = await axios.delete(url, { withCredentials: true });
-		updateAmigos();
-		return response;
+		setLoading((current) => current + 1);
+		try {
+			await FriendsController.deleteFriend(getDefaultSession(), friendID);
+			updateAmigos();
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	const API_location_calls = {

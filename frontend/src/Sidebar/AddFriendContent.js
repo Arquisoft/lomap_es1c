@@ -1,43 +1,64 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SaveIcon from "@mui/icons-material/Save";
+import { IconButton } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { IconButton } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import SaveIcon from '@mui/icons-material/Save';
 
-export default function AddFriendContent({API_friend_calls, returnFunction}) {
-    const [name, setName] = useState("")
-    const [webID, setWebID] = useState("")
-    
-    function addFriend() {
-        if (name.trim()!=""  &&  webID.trim()!="") {
-            API_friend_calls.API_addFriend(name, webID)
-            returnFunction()
-        } else {
-            console.log("Los campos son obligatorios")
-        }
-    }
+export default function AddFriendContent({ API_friend_calls, returnFunction }) {
+	const [name, setName] = useState("");
+	const [webID, setWebID] = useState("");
 
-    return (
-        <>
-        <IconButton onClick={returnFunction}><ArrowBackIcon/></IconButton>
+	async function addFriend() {
+		if (name.trim() != "" && webID.trim() != "") {
+			await API_friend_calls.API_addFriend(name, webID);
 
-        <br></br>
+			returnFunction();
+		} else {
+			console.log("Los campos son obligatorios");
+		}
+	}
 
-        <TextField
-            label="Nombre"
-            onChange={(event) => setName(event.target.value)}
-        />
+	async function checkWebId(webidUrl) {
+		try {
+			const response = await fetch(webidUrl, { method: "HEAD", base: "" });
+			console.log(response);
+			if (response.ok) {
+				return true;
+			} else {
+				alert("El webid no existe");
+				return false;
+			}
+		} catch (error) {
+			alert("El webid no existe");
+			return false;
+		}
+	}
 
-        <br></br>
+	return (
+		<>
+			<IconButton onClick={returnFunction}>
+				<ArrowBackIcon />
+			</IconButton>
 
-        <TextField
-            label="WebID"
-            onChange={(event) => setWebID(event.target.value)}
-        />
+			<br></br>
 
-        <br></br>
+			<TextField
+				label="Nombre"
+				onChange={(event) => setName(event.target.value)}
+			/>
 
-        <IconButton onClick={addFriend}><SaveIcon/></IconButton>
-        </>
-    )
+			<br></br>
+
+			<TextField
+				label="WebID"
+				onChange={(event) => setWebID(event.target.value)}
+			/>
+
+			<br></br>
+
+			<IconButton onClick={addFriend}>
+				<SaveIcon />
+			</IconButton>
+		</>
+	);
 }
