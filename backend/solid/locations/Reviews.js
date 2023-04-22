@@ -11,7 +11,7 @@ const parser = require("../util/Parser.js");
 const serializer = require("../util/Serializer.js");
 
 // Añade una review a la carpeta review, no la añade a su location porque de eso ya se encarga addLocation
-async function addReview(Session, review, idUbicacion, friendUrl) {
+async function addReview(Session, review) {
 	let myUrl = await getPodUrlAll(Session.info.webId, { fetch: Session.fetch });
 	myUrl = myUrl[0];
 
@@ -25,8 +25,6 @@ async function addReview(Session, review, idUbicacion, friendUrl) {
 			fetch: Session.fetch,
 		}
 	);
-	//TODO
-	//SACAR OBJETO LOCATION DE LA FRIENDURL CON EL IDUBICACION Y AÑADIR LA URL DE LA REVIEW QQUEA ACABAS DE GUARDAR
 }
 
 async function getAllReviews(Session, jsonReviews) {

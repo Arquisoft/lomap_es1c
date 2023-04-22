@@ -5,7 +5,7 @@ const fs = require("fs");
 async function serializeLocation(Session, myBaseUrl, location) {
 	let reviews = location.reviews.map((r) => serializeReview(r));
 	let photos = location.photos.map((p) =>
-		serializePhoto(Session, myBaseUrl, p)
+		serializePhoto(p)
 	);
 	let comments = location.comments.map((c) => serializeComment(c));
 

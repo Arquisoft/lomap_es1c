@@ -41,6 +41,9 @@ async function getAllLocations(req, res, next) {
 
 
 
+
+
+
 async function createLocation(req, res, next) {
 	const {
 		name,
@@ -64,28 +67,16 @@ async function createLocation(req, res, next) {
 			longitude,
 			privacy,
 			session.info.webId,
-			category
+			category,
+			null,
+			null,
+			comment,
+			review,
+			photo
 		);
 		await solid.saveLocation(session, location, session.info.webId);
 
-		if (comment) {
-			const comment1 = new Comment(session.info.webId, comment);
-			await solid.addComment(
-				session,
-				comment1,
-				location.id,
-				session.info.webId
-			);
-		}
 
-		if (review) {
-			const review1 = new Review(review, session.info.webId);
-			await solid.addReview(session, review1, location.id, session.info.webId);
-		}
-		if (photo) {
-			const photo1 = new Photo(photo, session.info.webId);
-			await solid.addPhoto(session, photo1, location.id, session.info.webId);
-		}
 
 		res.status(201).json(location);
 	} catch (err) {

@@ -12,10 +12,6 @@ async function getAllRoutes(req, res,next) {
 	}
 }
 
-
-
-
-
 async function getRouteById(req, res, next) {
 	try {
 		const { id } = req.params;
