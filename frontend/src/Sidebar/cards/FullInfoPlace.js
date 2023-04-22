@@ -14,40 +14,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import EditInfoPlace from './EditInfoPlace';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-// TODO eliminar datos hardcodeados
-const images = [
-{
-    label: 'San Francisco – Oakland Bay Bridge, United States',
-    imgPath:
-    'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-},
-{
-    label: 'Bird',
-    imgPath:
-    'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
-},
-{
-    label: 'Bali, Indonesia',
-    imgPath:
-    'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
-},
-{
-    label: 'Goč, Serbia',
-    imgPath:
-    'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-},
-{
-    label: 'Goč, Serbia',
-    imgPath:
-    'https://external-preview.redd.it/s6GPQfLEwj9-i-EQcfuQb8JBqRV3E8h1iJ0hCTzYOzE.jpg?auto=webp&v=enabled&s=46f24037b6c6c992cb02f15f8a5e607da97b06e2',
-},
-{
-    label: 'Goč, Serbia',
-    imgPath:
-    'https://blog.foto24.com/wp-content/uploads/2019/02/6-fotografia-de-Alejandro-Rodriguez-683x1024.jpg',
-},
-];
-
 export default function FullInfoPlace({place, returnFunction,setPosition, changeDrawerContent, categorias, API_location_calls}) {
     const [t] = useTranslation("global");
     const [loading, setLoading] = useState(false)
@@ -61,6 +27,7 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
                 returnFunction = {() => changeDrawerContent(this)}
                 categorias={categorias}
                 API_location_calls = {API_location_calls}
+                isUserPlace={true}
             />
         )
     }

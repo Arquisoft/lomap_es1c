@@ -137,7 +137,15 @@ export default function App({ logOutFunction }) {
 		API_changeOrderOfLocationInRoute: API_changeOrderOfLocationInRoute,
 	};
 
+	async function API_createLocation() {
+		// TODO implement
+		console.log("create location pendiente")
+		return 0
+		// TODO change
+	}
+
 	async function API_deleteLocation(locationID) {
+		// TODO: implement
 		const url = "http://localhost:8080/location/" + locationID;
 		const response = await axios.delete(url, { withCredentials: true });
 		updateLocations()
@@ -145,6 +153,7 @@ export default function App({ logOutFunction }) {
 	}
 
 	async function API_updateLocation(placeID, newName, newCategory, newPrivacy) {
+		// TODO: implement
 		const url = "http://localhost:8080/location/" + placeID;
 		const data = {
 			name: newName,
@@ -155,6 +164,24 @@ export default function App({ logOutFunction }) {
 		updateLocations()
 		return response
 	}
+
+	async function API_addReview() {
+		// TODO: implementar
+		console.log("PENDIENTE")
+	}
+
+	async function API_removeReview() {
+		// TODO: implement
+		console.log("PENDIENTE")
+	}
+
+	async function API_updateReview() {
+		// TODO: implement
+		console.log("PENDIENTE")
+	}
+	
+	async function API_addPhoto() {}
+	async function API_removePhoto() {}
 
 	async function API_addFriend(friendName, friendWebId) {
 		const url = "http://localhost:8080/friend";
@@ -175,8 +202,14 @@ export default function App({ logOutFunction }) {
 	}
 
 	const API_location_calls = {
+		API_createLocation: API_createLocation,
 		API_deleteLocation: API_deleteLocation,
 		API_updateLocation: API_updateLocation,
+		API_addReview : API_addReview,
+		API_removeReview: API_removeReview,
+		API_updateReview: API_updateReview,
+		API_addPhoto: API_addPhoto,
+		API_removePhoto: API_removePhoto
 	};
 	const API_friend_calls = {
 		API_addFriend: API_addFriend,
