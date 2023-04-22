@@ -7,7 +7,7 @@ import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
 import global_es from '../../translations/es/global.json';
 
-const returnFunctionMock = jest.fn()
+const changeDrawerContentMock = jest.fn()
 const routeCalls = {
     API_addRoute: jest.fn(),
     API_updateRouteInfo: jest.fn(),
@@ -58,7 +58,8 @@ describe('EditRouteInfo', () => {
             <I18nextProvider i18n={i18next}>
             <EditRouteInfo
                 route = {null}
-                returnFunction = {returnFunctionMock}
+                returnTo={null}
+                changeDrawerContent= {changeDrawerContentMock}
                 userPlaces = {userPlaces}
                 API_route_calls = {routeCalls}
             />
@@ -82,7 +83,7 @@ describe('EditRouteInfo', () => {
         expect(titleTextField).toHaveValue('');
         expect(descriptionTextField).toHaveValue('');
 
-        expect(returnFunctionMock).toHaveBeenCalledTimes(0)
+        expect(changeDrawerContentMock).toHaveBeenCalledTimes(0)
         expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(0)
         expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0)
         expect(routeCalls.API_addLocationToRoute).toHaveBeenCalledTimes(0)
@@ -111,9 +112,10 @@ describe('EditRouteInfo', () => {
                             name: "Name3Location"
                         }]
                     }}
-                    returnFunction = {returnFunctionMock}
+                    changeDrawerContent= {changeDrawerContentMock}
                     userPlaces = {userPlaces}
                     API_route_calls = {routeCalls}
+                    returnTo={null}
                 />
             </I18nextProvider>
         );
@@ -161,7 +163,7 @@ describe('EditRouteInfo', () => {
         expect(p1.textContent).toBe('NombreLugar1');
         expect(p3.textContent).toBe('Name3Location');
 
-        expect(returnFunctionMock).toHaveBeenCalledTimes(0)
+        expect(changeDrawerContentMock).toHaveBeenCalledTimes(0)
         expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(0)
         expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0)
         expect(routeCalls.API_addLocationToRoute).toHaveBeenCalledTimes(0)
@@ -175,9 +177,10 @@ describe('EditRouteInfo', () => {
             <I18nextProvider i18n={i18next}>
                 <EditRouteInfo
                     route = {null}
-                    returnFunction = {returnFunctionMock}
+                    changeDrawerContent= {changeDrawerContentMock}
                     userPlaces = {userPlaces}
                     API_route_calls = {routeCalls}
+                    returnTo={null}
                 />
             </I18nextProvider>
         );
@@ -196,7 +199,7 @@ describe('EditRouteInfo', () => {
 
         act(() => {userEvent.click(saveButton)})
         
-        await waitFor(() => expect(returnFunctionMock).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(changeDrawerContentMock).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledWith("Título de la ruta", "Descripcion de la ruta"));
         await waitFor(() => expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0));
@@ -211,9 +214,10 @@ describe('EditRouteInfo', () => {
             <I18nextProvider i18n={i18next}>
                 <EditRouteInfo
                     route = {null}
-                    returnFunction = {returnFunctionMock}
+                    changeDrawerContent= {changeDrawerContentMock}
                     userPlaces = {userPlaces}
                     API_route_calls = {routeCalls}
+                    returnTo={null}
                 />
             </I18nextProvider>
         );
@@ -315,7 +319,7 @@ describe('EditRouteInfo', () => {
 
         act(() => userEvent.click(saveButton))
         
-        await waitFor(() => expect(returnFunctionMock).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(changeDrawerContentMock).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledWith("Título de la ruta", "Descripcion de la ruta"));
         await waitFor(() => expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0));
@@ -330,16 +334,17 @@ describe('EditRouteInfo', () => {
             <I18nextProvider i18n={i18next}>
                 <EditRouteInfo
                     route = {null}
-                    returnFunction = {returnFunctionMock}
+                    changeDrawerContent= {changeDrawerContentMock}
                     userPlaces = {userPlaces}
                     API_route_calls = {routeCalls}
+                    returnTo={null}
                 />
             </I18nextProvider>
         );
 
         const saveButton = screen.getByTestId('save-button');
         act(() => userEvent.click(saveButton))
-        await waitFor(() => expect(returnFunctionMock).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(changeDrawerContentMock).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_addLocationToRoute).toHaveBeenCalledTimes(0));
@@ -368,9 +373,10 @@ describe('EditRouteInfo', () => {
                             name: "Name3Location"
                         }]
                     }}
-                    returnFunction = {returnFunctionMock}
+                    changeDrawerContent= {changeDrawerContentMock}
                     userPlaces = {userPlaces}
                     API_route_calls = {routeCalls}
+                    returnTo={null}
                 />
             </I18nextProvider>
         );
@@ -389,7 +395,7 @@ describe('EditRouteInfo', () => {
         expect(descriptionTextField).toHaveValue('');
 
         act(() => userEvent.click(saveButton))
-        await waitFor(() => expect(returnFunctionMock).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(changeDrawerContentMock).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_addLocationToRoute).toHaveBeenCalledTimes(0));
@@ -418,9 +424,10 @@ describe('EditRouteInfo', () => {
                             name: "Name3Location"
                         }]
                     }}
-                    returnFunction = {returnFunctionMock}
+                    changeDrawerContent= {changeDrawerContentMock}
                     userPlaces = {userPlaces}
                     API_route_calls = {routeCalls}
+                    returnTo={null}
                 />
             </I18nextProvider>
         );
@@ -439,7 +446,7 @@ describe('EditRouteInfo', () => {
         expect(descriptionTextField).toHaveValue('newDescription');
 
         act(() => userEvent.click(saveButton))
-        await waitFor(() => expect(returnFunctionMock).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(changeDrawerContentMock).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledWith(111, "newName", "newDescription"))
@@ -469,9 +476,10 @@ describe('EditRouteInfo', () => {
                             name: "Name3Location"
                         }]
                     }}
-                    returnFunction = {returnFunctionMock}
+                    changeDrawerContent= {changeDrawerContentMock}
                     userPlaces = {userPlaces}
                     API_route_calls = {routeCalls}
+                    returnTo={null}
                 />
             </I18nextProvider>
         );
@@ -535,7 +543,7 @@ describe('EditRouteInfo', () => {
 
         act(() => userEvent.click(saveButton))
         
-        await waitFor(() => expect(returnFunctionMock).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(changeDrawerContentMock).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_addLocationToRoute).toHaveBeenCalledTimes(1));
@@ -565,9 +573,10 @@ describe('EditRouteInfo', () => {
                             name: "Name3Location"
                         }]
                     }}
-                    returnFunction = {returnFunctionMock}
+                    changeDrawerContent= {changeDrawerContentMock}
                     userPlaces = {userPlaces}
                     API_route_calls = {routeCalls}
+                    returnTo={null}
                 />
             </I18nextProvider>
         );
@@ -604,7 +613,7 @@ describe('EditRouteInfo', () => {
         expect(screen.queryByTestId('location_list_name_4')).toBeNull();
     
         act(() => userEvent.click(saveButton));
-        await waitFor(() => expect(returnFunctionMock).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(changeDrawerContentMock).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_addLocationToRoute).toHaveBeenCalledTimes(0));
@@ -619,9 +628,10 @@ describe('EditRouteInfo', () => {
             <I18nextProvider i18n={i18next}>
                 <EditRouteInfo
                     route = {null}
-                    returnFunction = {returnFunctionMock}
+                    changeDrawerContent= {changeDrawerContentMock}
                     userPlaces = {userPlaces}
                     API_route_calls = {routeCalls}
+                    returnTo={null}
                 />
             </I18nextProvider>
         );
@@ -653,7 +663,7 @@ describe('EditRouteInfo', () => {
 
         act(() => userEvent.click(screen.getByTestId('save-button')))
 
-        await waitFor(() => expect(returnFunctionMock).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(changeDrawerContentMock).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledWith("Título de la ruta", "Descripcion de la ruta"));
         await waitFor(() => expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0));
@@ -671,9 +681,10 @@ describe('EditRouteInfo', () => {
                         description: "routeDescription",
                         locations: []
                     }}
-                    returnFunction = {returnFunctionMock}
+                    changeDrawerContent= {changeDrawerContentMock}
                     userPlaces = {userPlaces}
                     API_route_calls = {routeCalls}
+                    returnTo={null}
                 />
             </I18nextProvider>
         );
@@ -765,7 +776,7 @@ describe('EditRouteInfo', () => {
         expect(screen.queryByTestId('location_list_name_4')).toBeNull();
 
         act(() => userEvent.click(screen.getByTestId('save-button')));
-        await waitFor(() => expect(returnFunctionMock).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(changeDrawerContentMock).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_addLocationToRoute).toHaveBeenCalledTimes(1));
@@ -795,9 +806,10 @@ describe('EditRouteInfo', () => {
                             name: "Name3Location"
                         }]
                     }}
-                    returnFunction = {returnFunctionMock}
+                    changeDrawerContent= {changeDrawerContentMock}
                     userPlaces = {userPlaces}
                     API_route_calls = {routeCalls}
+                    returnTo={null}
                 />
             </I18nextProvider>
         );
@@ -815,10 +827,61 @@ describe('EditRouteInfo', () => {
         expect(mnitem2).not.toBeVisible();
 
         act(() => userEvent.click(screen.getByTestId('save-button')));
-        await waitFor(() => expect(returnFunctionMock).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(changeDrawerContentMock).toHaveBeenCalledTimes(1));
         await waitFor(() => expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_addLocationToRoute).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(routeCalls.API_deleteLocationFromRoute).toHaveBeenCalledTimes(0));
+    })
+
+    it ("Click on return saves nothing", () => {
+        render(
+            <I18nextProvider i18n={i18next}>
+                <EditRouteInfo
+                    route = {{
+                        id: 111,
+                        name: "routeName",
+                        description: "routeDescription",
+                        locations: [{
+                            id: "1",
+                            categoria: "",
+                            lat: 43.50441045903223,
+                            lng: -5.840656204113697,
+                            name: "NombreLugar1"
+                        },{
+                            id: "3",
+                            categoria: "Parque",
+                            lat: 43.56078698814968,
+                            lng: -5.88975135792229,
+                            name: "Name3Location"
+                        }]
+                    }}
+                    changeDrawerContent= {changeDrawerContentMock}
+                    userPlaces = {userPlaces}
+                    API_route_calls = {routeCalls}
+                    returnTo={null}
+                />
+            </I18nextProvider>
+        );
+
+        const returnButton = screen.getByTestId('back-button');
+        const titleTextField = screen.getByTestId('text-field-title');
+        const descriptionTextField = screen.getByTestId('text-field-description');
+
+        fireEvent.change(titleTextField, {target: {value: "newName"}});
+        expect(titleTextField).toHaveValue('newName');
+        expect(descriptionTextField).toHaveValue('routeDescription');
+        
+
+        fireEvent.change(descriptionTextField, {target: {value: "newDescription"}});
+        expect(titleTextField).toHaveValue('newName');
+        expect(descriptionTextField).toHaveValue('newDescription');
+
+        act(() => userEvent.click(returnButton))
+        expect(changeDrawerContentMock).toHaveBeenCalledTimes(1);
+        expect(routeCalls.API_addRoute).toHaveBeenCalledTimes(0);
+        expect(routeCalls.API_updateRouteInfo).toHaveBeenCalledTimes(0);
+        expect(routeCalls.API_addLocationToRoute).toHaveBeenCalledTimes(0);
+        expect(routeCalls.API_deleteLocationFromRoute).toHaveBeenCalledTimes(0);
     })
 })
