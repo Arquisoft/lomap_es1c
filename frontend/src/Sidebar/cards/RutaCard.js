@@ -8,8 +8,7 @@ export default function RutaCard(props) {
         props.changeDrawerContent(
             <FullRouteInfo
                 key={props.route.id}
-                // TODO: obtener información completa de la ruta
-                route={props.route}
+                route={props.API_route_calls.API_getRouteByID(props.route.id)}
                 returnFunction={() => props.changeDrawerContent(null)}
                 changeDrawerContent={props.changeDrawerContent}
                 userPlaces = {props.userPlaces}

@@ -1,11 +1,11 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import React, { useState } from "react";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Button, IconButton, Tooltip } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditInfoRoute from './EditInfoRoute';
-import LoadingButton from '@mui/lab/LoadingButton';
 import { useTranslation } from "react-i18next";
+import EditInfoRoute from "./EditInfoRoute";
 
 export default function FullRouteInfo(props) {
     const {route, returnFunction, changeDrawerContent, userPlaces, API_route_calls} = props
@@ -25,12 +25,17 @@ export default function FullRouteInfo(props) {
         )
     }
 
-    async function deleteRoute() {
-        setLoading(true)
-        await API_route_calls.API_deleteRoute(route.id)
-        setLoading(false)
-        returnFunction()
-    }
+	function allowEdit() {
+		changeDrawerContent(
+			<EditInfoRoute
+				route={route}
+				changeDrawerContent={changeDrawerContent}
+				returnFunction={() => changeDrawerContent(this)}
+				userPlaces={userPlaces}
+				API_route_calls={API_route_calls}
+			/>
+		);
+	}
 
     return (
         <>

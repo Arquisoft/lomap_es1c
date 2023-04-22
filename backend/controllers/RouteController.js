@@ -2,7 +2,7 @@ const solid = require("../solid/Solid.js");
 const Route = require("../models/Route");
 const SessionController = require("../controllers/util/SessionController.js");
 
-async function getAllRoutes(req, res,next) {
+/*async function getAllRoutes(req, res,next) {
 	try {
 		const session = await SessionController.getSession(req, next);
 		const routes = await solid.getAllRoutes(session, session.info.webId);
@@ -10,8 +10,51 @@ async function getAllRoutes(req, res,next) {
 	} catch (err) {
 		next(err);
 	}
-}
+}*/
 
+
+/*async function getAllRoutes(req, res,next) {
+	try {
+		const session = await SessionController.getSession(req, next);
+		const route = new Route("name", "description", session.info.webId);
+		route.locations = await solid.getAllLocations(session, session.info.webId);
+		await solid.addRoute(session, route, session.info.webId);
+		res.status(200).json(route);
+	} catch (err) {
+		next(err);
+	}
+}*/
+
+/*async function getAllRoutes(req, res,next) {
+	try {
+		const session = await SessionController.getSession(req, next);
+		const routes = await solid.getAllRoutes(session, session.info.webId);
+		res.status(200).json(routes);
+	} catch (err) {
+		next(err);
+	}
+}*/
+
+
+/*async function getAllRoutes(req, res,next) {
+	try {
+		const session = await SessionController.getSession(req, next);
+		const route = await solid.getRouteById(session, "1681911394610_sv4o1y", session.info.webId);
+		res.status(200).json(route);
+	} catch (err) {
+		next(err);
+	}
+}*/
+
+async function getAllRoutes(req, res,next) {
+	try {
+		const session = await SessionController.getSession(req, next);
+		await solid.deleteRouteById(session, "1681911394610_sv4o1y", session.info.webId);
+		res.status(204).json({ message: "Route deleted successfully" });
+	} catch (err) {
+		next(err);
+	}
+}
 
 
 

@@ -1,6 +1,12 @@
+import {
+	fetch,
+	getDefaultSession,
+	handleIncomingRedirect,
+	login,
+	onSessionRestore,
+} from "@inrupt/solid-client-authn-browser";
 import axios from "axios";
 import i18next from "i18next";
-
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
@@ -11,10 +17,11 @@ import Login from "./login";
 import reportWebVitals from "./reportWebVitals";
 import global_en from "./translations/en/global.json";
 import global_es from "./translations/es/global.json";
-
 const availableLanguages = ["es", "en"];
 const preferredLanguage = navigator.language.toLowerCase().substring(0, 2);
 const defaultAlternativeLanguage = "es";
+
+const PodController = require("./backend/controllers/PodController");
 
 i18next.init({
 	interpolation: { escapeValue: false },
@@ -33,47 +40,40 @@ i18next.init({
 
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-
 	useEffect(() => {
-		isLogged();
-	});
-
-	async function isLogged() {
-		try {
-			const response = await axios.get("http://localhost:8080/isLoggedIn", {
-				withCredentials: true,
-			});
-			if (response.status === 200) {
-				if (isLoggedIn === false) {
-					setIsLoggedIn(true);
-				}
+		// 2. When loading the component, call `handleIncomingRedirect` to authenticate
+		//    the user if appropriate, or to restore a previous session.
+		handleIncomingRedirect({
+			restorePreviousSession: true,
+		}).then((info) => {
+			console.log(`Logged in with WebID [${info.webId}]`);
+			console.log(PodController);
+			if (getDefaultSession().info.isLoggedIn) {
+				setIsLoggedIn(true);
+				PodController.checkStruct(getDefaultSession());
 			}
-		} catch (error) {
-			console.log(error);
+		});
+	}, []);
+
+	async function loginWeb(providerURL) {
+		if (getDefaultSession().info.isLoggedIn) {
+			setIsLoggedIn(true);
+			PodController.checkStruct(getDefaultSession());
+		}
+
+		let provider = providerURL ? providerURL : "https://login.inrupt.com";
+		if (!getDefaultSession().info.isLoggedIn) {
+			await login({
+				oidcIssuer: provider,
+				redirectUrl: window.location.href,
+				clientName: "My application",
+			});
 		}
 	}
 
-	async function logOutAPI() {
-		try {
-			const response = await axios.get("http://localhost:8080/logout", {
-				withCredentials: true,
-			});
-			if (response.status === 200) {
-				if (isLoggedIn === true) {
-					setIsLoggedIn(false);
-				}
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	}
-
-	function loginWeb() {
-		window.location.href = "http://localhost:8080/login";
-	}
-
-	function logOut() {
-		logOutAPI();
+	async function logOut() {
+		await getDefaultSession().logout();
+		setIsLoggedIn(false);
 	}
 
 	return (
