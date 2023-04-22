@@ -1,13 +1,13 @@
 const overwriteFile = require("@inrupt/solid-client");
-const { Blob } = require("buffer");
 
 async function serializeLocation(Session, myBaseUrl, location) {
+	/*
 	let reviews = location.reviews.map((r) => serializeReview(r));
 	let photos = location.photos.map((p) =>
 		serializePhoto(Session, myBaseUrl, p)
 	);
 	let comments = location.comments.map((c) => serializeComment(c));
-
+	*/
 	let locationJson = {
 		name: location.name,
 		latitude: location.latitude,
@@ -17,18 +17,18 @@ async function serializeLocation(Session, myBaseUrl, location) {
 		category: location.category,
 		id: location.id,
 		timestamp: location.timestamp,
-		reviews: reviews,
-		photos: photos,
-		comments: comments,
+		reviews: [],
+		photos: [],
 	};
 
 	let blob = new Blob([JSON.stringify(locationJson)], {
 		type: "application/json",
 	});
 
-	let buffer = Buffer.from(await blob.arrayBuffer());
+	const arrayBuffer = await blob.arrayBuffer();
+	const uint8Array = new Uint8Array(arrayBuffer);
 
-	return buffer;
+	return uint8Array;
 }
 
 // Se utilizan para serializar la informacion que va en locations, no la que va en las carpetas reviews, comments y photos
@@ -73,9 +73,10 @@ async function serializeReviewComplet(review) {
 		type: "application/json",
 	});
 
-	let buffer = Buffer.from(await blob.arrayBuffer());
+	const arrayBuffer = await blob.arrayBuffer();
+	const uint8Array = new Uint8Array(arrayBuffer);
 
-	return buffer;
+	return uint8Array;
 }
 
 async function serializeCommentComplet(comment) {
@@ -91,9 +92,10 @@ async function serializeCommentComplet(comment) {
 		type: "application/json",
 	});
 
-	let buffer = Buffer.from(await blob.arrayBuffer());
+	const arrayBuffer = await blob.arrayBuffer();
+	const uint8Array = new Uint8Array(arrayBuffer);
 
-	return buffer;
+	return uint8Array;
 }
 async function serializePhotoComplet(photo) {
 	// Se utiliza para serializar la informacion de las photos que va en la carpeta photos
@@ -109,9 +111,10 @@ async function serializePhotoComplet(photo) {
 		type: "application/json",
 	});
 
-	let buffer = Buffer.from(await blob.arrayBuffer());
+	const arrayBuffer = await blob.arrayBuffer();
+	const uint8Array = new Uint8Array(arrayBuffer);
 
-	return buffer;
+	return uint8Array;
 }
 
 async function serializeRoute(route) {
@@ -126,9 +129,10 @@ async function serializeRoute(route) {
 	let blob = new Blob([JSON.stringify(routeJson)], {
 		type: "application/json",
 	});
-	let buffer = Buffer.from(await blob.arrayBuffer());
+	const arrayBuffer = await blob.arrayBuffer();
+	const uint8Array = new Uint8Array(arrayBuffer);
 
-	return buffer;
+	return uint8Array;
 }
 
 async function serializeFriend(friend) {
@@ -142,9 +146,10 @@ async function serializeFriend(friend) {
 		type: "application/json",
 	});
 
-	let buffer = Buffer.from(await blob.arrayBuffer());
+	const arrayBuffer = await blob.arrayBuffer();
+	const uint8Array = new Uint8Array(arrayBuffer);
 
-	return buffer;
+	return uint8Array;
 }
 
 /*
