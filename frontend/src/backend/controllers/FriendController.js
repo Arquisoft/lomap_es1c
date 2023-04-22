@@ -1,97 +1,90 @@
-/*
 const Friend = require("../models/Friend.js");
 const solid = require("../solid/Solid.js");
 const SessionController = require("../controllers/util/SessionController.js");
 
-async function getAllFriends(req, res, next) {
+async function getAllFriends(session) {
 	try {
-		const session = await SessionController.getSession(req, next);
 		const friends = await solid.getAllFriends(session);
-		res.status(200).json(friends);
+		console.log(friends);
+		return friends;
 	} catch (err) {
-		next(err);
+		console.log("error en getAllFriends");
+		throw new Error("Ha ocurrido un error al obtener los amigos");
 	}
 }
 
-async function addFriend(req, res, next) {
+async function addFriend(session, friend) {
 	try {
-		const { name, webId } = req.body;
-		if (!name || !webId) {
-			res.status(400).json({ error: "Faltan datos" });
-			return;
-		}
-		const session = await SessionController.getSession(req, next);
+		const name = friend.name;
+		const webId = friend.webId;
 		const friend = new Friend(name, webId);
 
 		await solid.addFriend(session, friend);
-		res.status(201).json(friend);
+		return friend;
 	} catch (err) {
-		next(err);
+		console.log("Error en addFriend");
+		throw new Error("Ha ocurrido un error al añadir el amigo");
 	}
 }
 
-async function deleteFriend(req, res, next) {
+async function deleteFriend(session, idFriend) {
 	try {
-		const { id } = req.params;
-
-		const session = await SessionController.getSession(req, next);
-		await solid.deleteFriendById(session, id);
-		res.status(200).json(id);
+		await solid.deleteFriendById(session, idFriend);
 	} catch (err) {
-		next(err);
+		console.log("Error en deleteFriend");
+		throw new Error("Ha ocurrido un error al eliminar el amigo");
 	}
 }
 //PROBAR
-async function getAllLocationsFromFriends(req, res, next) {
+async function getAllLocationsFromFriends(session) {
 	try {
-		const session = await SessionController.getSession(req, next);
 		const locations = await solid.getAllLocationsFromFriends(session);
-		res.status(200).json(JSON.stringify(locations));
+		return locations;
 	} catch (err) {
-		next(err);
+		console.log("Error en getAllLocationsFromFriends");
+		throw new Error("Ha ocurrido un error al obtener las localizaciones");
 	}
 }
 
 //PROBAR
-async function getFriendLocations(req, res, next) {
+async function getFriendLocations(session, idFriend) {
 	try {
-		const { id } = req.params;
-		const session = await SessionController.getSession(req, next);
-		const locations = await solid.getAllLocations(session, id);
-		res.status(200).send(JSON.stringify(locations));
+		const locations = await solid.getAllLocations(session, idFriend);
+		return locations;
 	} catch (err) {
-		next(err);
+		console.log("Error en getFriendLocations");
+		throw new Error("Ha ocurrido un error al obtener las localizaciones");
 	}
 }
 
-async function getAllLocationsByCategory(req, res, next) {
+async function getAllLocationsByCategory(session, name) {
 	try {
-		const { name } = req.params;
-		const session = await SessionController.getSession(req, next);
 		const locations = await solid.getAllLocationsFromFriends(session);
 		const locationsByCategory = locations.filter(
 			(location) => location.category === name
 		);
-		res.status(200).send(JSON.stringify(locationsByCategory));
+		return locations;
 	} catch (err) {
-		next(err);
+		console.log("Error en getAllLocationsByCategory");
+		throw new Error("Ha ocurrido un error al obtener las localizaciones");
 	}
 }
-/*
-async function givePermissions(req, res, next) {
+
+async function givePermissions(session, friendId) {
 	try {
-		const { friendId } = req.params;
-		await SolidFriends.givePermissions(Session, friendId);
+		await solid.givePermissions(session, friendId);
 	} catch (err) {
-		next(err);
+		console.log("Error en givePermissions");
+		throw new Error("Ha ocurrido un error al dar permisos");
 	}
 }
-async function removePermissions(req, res, next) {
+
+async function removePermissions(session, friendId) {
 	try {
-		const { friendId } = req.params;
-		await SolidFriends.removePermissions(Session, friendId);
+		await solid.removePermissions(session, friendId);
 	} catch (err) {
-		next(err);
+		console.log("Error en removePermissions");
+		throw new Error("Ha ocurrido un error al quitar permisos");
 	}
 }
 
@@ -103,4 +96,3 @@ module.exports = {
 	getFriendLocations,
 	getAllLocationsByCategory,
 };
-*/
