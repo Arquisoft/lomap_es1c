@@ -1,6 +1,5 @@
 import { getDefaultSession } from "@inrupt/solid-client-authn-browser";
 import CircularProgress from "@mui/material/CircularProgress";
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./App.css";
@@ -278,7 +277,7 @@ export default function App({ logOutFunction }) {
 		console.log("PENDIENTE");
 	}
 
-	async function getWebID() {
+	function getWebID() {
 		return getDefaultSession().info.webId;
 	}
 
@@ -418,6 +417,7 @@ export default function App({ logOutFunction }) {
 				categorias={categorias}
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
+				getWebID = {getWebID}
 			/>
 
 			<SettingsSpeedDial

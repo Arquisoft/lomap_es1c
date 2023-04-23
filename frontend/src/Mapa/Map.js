@@ -29,6 +29,7 @@ export default function CreateMap({
 	categorias,
 	API_route_calls,
 	API_location_calls,
+	getWebID
 }) {
 	const { isLoaded } = useLoadScript({
 		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -54,6 +55,7 @@ export default function CreateMap({
 				categorias={categorias}
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
+				getWebID={getWebID}
 			/>
 		</div>
 	);
@@ -77,18 +79,24 @@ function Map({
 	setPosition,
 	API_route_calls,
 	API_location_calls,
+	getWebID
 }) {
 	//Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
 
-  //DIferentes estados necesarios para el mapa.
-  const [openInfo, setOpenInfo] = React.useState(false);
+	//DIferentes estados necesarios para el mapa.
+	const [openInfo, setOpenInfo] = React.useState(false);
 	const [categortFiltered, setCategortFiltered] = useState({
 		activated: false,
 		category: "",
 	});
+	const [friendsFilter, setFriendsFilter] = useState(false);
+	const [onlyMineFilter, setOnlyMineFilter] = useState(false);
 
 	function Filter() {
 		var temp = places;
+		var actualUser;
+		var aux = [];
+
 		if (categortFiltered.activated) {
 			temp = [];
 			for (let i = 0; i < places.length; i++) {
@@ -103,6 +111,27 @@ function Map({
 				}
 			}
 		}
+
+		if(friendsFilter){
+			aux = [];
+			actualUser = getWebID();
+			for (let i = 0; i < temp.length; i++) {
+				if (temp[i].author.toLowerCase() !== actualUser.toLowerCase()) {
+					aux[aux.length] = temp[i];
+				}
+			}
+			temp = aux;
+		}else if(onlyMineFilter){
+			aux = [];
+			actualUser = getWebID();
+			for (let i = 0; i < temp.length; i++) {
+				if (temp[i].author.toLowerCase() === actualUser.toLowerCase()) {
+					aux[aux.length] = temp[i];
+				}
+			}
+			temp = aux;
+		}
+		
 		return temp;
 	}
 
@@ -235,6 +264,8 @@ function Map({
 			<FilterButtons
 				setCategortFiltered={setCategortFiltered}
 				categorias={categorias}
+				setFriendsFilter = {setFriendsFilter}
+				setOnlyMineFilter = {setOnlyMineFilter}
 			/>
 		</div>
 	);

@@ -34,7 +34,7 @@ export default function Login({ logInFunction }) {
 								type="text"
 								onChange={(e) => setText(e.target.value)}
 							/>
-							<Button className="btnLogin" variant="outlined" onClick={logInFunction}>
+							<Button className="btnLogin" variant="outlined" onClick={() => logInFunction(text)}>
 								Iniciar Sesión
 							</Button>
 						</div>
