@@ -20,6 +20,7 @@ export default function TabButtons(props) {
         changeDrawerContent = {props.changeDrawerContent}
         API_location_calls = {props.API_location_calls}
         setPosition = {props.setPosition}
+        solicitudes = {props.solicitudes}
     />
     const rutasTabContent = <RutasTabContent
         userPlaces = {props.userPlaces}

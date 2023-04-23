@@ -20,6 +20,7 @@ export default function DrawerSidebar(props) {
           API_location_calls = {props.API_location_calls}
           amigos = {props.amigos}
           API_friend_calls = {props.API_friend_calls}
+          solicitudes = {props.solicitudes}
         />
       )
 

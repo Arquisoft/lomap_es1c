@@ -17,20 +17,19 @@ export default function FullRouteInfo(props) {
             <EditInfoRoute
                 route = {route}
                 changeDrawerContent={changeDrawerContent}
-                // returnTo = {<FullRouteInfo>{{...props}}</FullRouteInfo>}
-                returnTo = {null}
+                returnTo = {<FullRouteInfo {...props} />}
                 userPlaces = {userPlaces}
                 API_route_calls = {API_route_calls}
             />
         )
-
-        async function deleteRoute() {
-            setLoading(true)
-            await API_route_calls.API_deleteRoute(route.id)
-            setLoading(false)
-            returnFunction()
-        }
     }
+	
+	async function deleteRoute() {
+		setLoading(true)
+		await API_route_calls.API_deleteRoute(route.id)
+		setLoading(false)
+		returnFunction()
+	}
 
 	function allowEdit() {
 		changeDrawerContent(
