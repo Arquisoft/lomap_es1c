@@ -8,33 +8,27 @@ import { useTranslation } from "react-i18next";
 import EditInfoRoute from "./EditInfoRoute";
 
 export default function FullRouteInfo(props) {
-	const {
-		route,
-		returnFunction,
-		changeDrawerContent,
-		userPlaces,
-		API_route_calls,
-	} = props;
-	const [loading, setLoading] = useState(false);
-	const [t] = useTranslation("global");
-
+    const {route, returnFunction, changeDrawerContent, userPlaces, API_route_calls} = props
+    const [loading, setLoading] = useState(false)
+    const [t] = useTranslation("global");
+    
+    function allowEdit() {
+        changeDrawerContent(
+            <EditInfoRoute
+                route = {route}
+                changeDrawerContent={changeDrawerContent}
+                returnTo = {<FullRouteInfo {...props} />}
+                userPlaces = {userPlaces}
+                API_route_calls = {API_route_calls}
+            />
+        )
+    }
+	
 	async function deleteRoute() {
-		setLoading(true);
-		await API_route_calls.API_deleteRoute(route.id);
-		setLoading(false);
-		returnFunction();
-	}
-	function allowEdit() {
-		changeDrawerContent(
-			<EditInfoRoute
-				route={route}
-				changeDrawerContent={changeDrawerContent}
-				// returnTo = {<FullRouteInfo>{{...props}}</FullRouteInfo>}
-				returnTo={null}
-				userPlaces={userPlaces}
-				API_route_calls={API_route_calls}
-			/>
-		);
+		setLoading(true)
+		await API_route_calls.API_deleteRoute(route.id)
+		setLoading(false)
+		returnFunction()
 	}
 
 	function allowEdit() {
