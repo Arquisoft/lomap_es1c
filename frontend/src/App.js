@@ -367,7 +367,15 @@ export default function App({ logOutFunction }) {
 		console.log("Coget todos los amigos pendiente")
 	}
 	async function API_getPlacesOfFriend(friendWebId) {
-		const places = await FriendsController.getFriendLocations(friendWebId);
+		//const places = await FriendsController.getFriendLocations(friendWebId);
+		const places = [{
+			id: "2222",
+			longitude: -5.840656204113697,
+			latitude: 43.50441045903223,
+			author: "1",
+			name: "Amigo Prueba",
+			category: "restaurante"
+		}]
 		return places;
 	}
 

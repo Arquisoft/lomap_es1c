@@ -8,25 +8,25 @@ import FullFriendInfo from "../../cards/FullFriendInfo";
 export default function FriendCard(props) {
     const [isVisible, setIsVisible] = useState(false)
 
-    function toggleVisibility() {
+    async function toggleVisibility() {
         if(!isVisible){
-            var s = ["Hola"];
-            props.setFriendsPlaces([...props.friendsPlaces,s]);
+            var friendPlaces = await props.API_friend_calls.API_getPlacesOfFriend(props.friend.webId);
+            props.setFriendsPlaces( current => current.concat(friendPlaces));
         }else{
-            const filtered = props.friendsPlaces.filter(place => place.author !== props.friend.webId)
-            props.setFriendsPlaces(filtered);
+            console.log(props.friendsPlaces)
+            props.setFriendsPlaces( current => current.filter(place => place.author !== props.friend.webId));
         }
         setIsVisible(current => !current)
     }
 
-    function showFullAmigoInfo() {
+    async function showFullAmigoInfo() {
         // TODO: comprobar si ya tenemos sus lugares
         // TODO: cogerlos si no los tenemos
-            
+        var friendPlaces = await props.API_friend_calls.API_getPlacesOfFriend(props.friend.webId);
         props.changeDrawerContent(
             <FullFriendInfo
                 amigo = {props.friend}
-                places = {[]}
+                places = {friendPlaces}
                 setPosition = {props.setPosition}
                 changeDrawerContent = {props.changeDrawerContent}
                 returnTo = {props.returnTo}

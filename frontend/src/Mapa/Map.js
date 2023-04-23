@@ -101,18 +101,13 @@ function Map({
 		var aux = [];
 
 		if (categortFiltered.activated) {
-			temp = [];
-			for (let i = 0; i < places.length; i++) {
-				if (
-					places.some(
-						() =>
-							places[i].category.toLowerCase() ===
-							categortFiltered.category.toLowerCase()
-					)
-				) {
-					temp[temp.length] = places[i];
+			aux = [];
+			for (let i = 0; i < temp.length; i++) {
+				if (temp[i].category.toLowerCase() ===categortFiltered.category.toLowerCase()) {
+					aux[aux.length] = temp[i];
 				}
 			}
+			temp = aux;
 		}
 
 		if(friendsFilter){
@@ -199,9 +194,10 @@ function Map({
 
 	function details(marker) {
 		var isUser = marker.author === getWebID();
+		var allPlaces = places.concat(friendPlaces);
 		changeDrawerContent(
 			<FullInfoPlace
-				place={places.find((place) => place.id === marker.id)}
+				place={allPlaces.find((place) => place.id === marker.id)}
 				returnFunction={restoreDefautlDrawerContent}
 				changeDrawerContent={changeDrawerContent}
 				categorias={categorias}
