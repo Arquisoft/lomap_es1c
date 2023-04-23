@@ -1,5 +1,5 @@
 import React from "react";
-import SeguidoCard from './cards/SeguidoCard';
+import SeguidoCard from './cards/FriendCard';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { IconButton, Tooltip } from "@mui/material";
 import { useTranslation } from "react-i18next";

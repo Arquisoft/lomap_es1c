@@ -5,7 +5,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullFriendInfo from "../../cards/FullFriendInfo";
 
-export default function SeguidoCard(props) {
+export default function FriendCard(props) {
     const [isVisible, setIsVisible] = useState(false)
 
     function toggleVisibility() {
