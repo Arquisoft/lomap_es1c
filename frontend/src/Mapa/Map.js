@@ -195,6 +195,7 @@ function Map({
 	}, [currentTheme]);
 
 	function details(marker) {
+		var isUser = marker.author === getWebID();
 		changeDrawerContent(
 			<FullInfoPlace
 				place={places.find((place) => place.id === marker.id)}
@@ -203,6 +204,7 @@ function Map({
 				categorias={categorias}
 				setPosition={setPosition}
 				API_location_calls={API_location_calls}
+				isUserPlace={isUser}
 			/>
 		);
 	}
