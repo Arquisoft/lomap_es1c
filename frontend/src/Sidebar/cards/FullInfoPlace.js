@@ -15,6 +15,7 @@ import EditInfoPlace from './EditInfoPlace';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function FullInfoPlace(props) {
+    console.log(props)
     const {
         place, 
         returnFunction,

@@ -1,6 +1,5 @@
 import { getDefaultSession } from "@inrupt/solid-client-authn-browser";
 import CircularProgress from "@mui/material/CircularProgress";
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./App.css";
@@ -16,8 +15,11 @@ const RoutesController = require("./backend/controllers/RouteController");
 const FriendsController = require("./backend/controllers/FriendController");
 
 export default function App({ logOutFunction }) {
-	//Todos los lugares de la aplicacion
+	//Todos los lugares del usuario
 	const [places, setPlaces] = React.useState([]);
+	//Todos los lugares de los amigos
+	const [friendPlaces, setFriendPlaces] = useState([]);
+
 	const [t, i18n] = useTranslation("global"); // La t sí se usa y hace falta, no borrar
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
@@ -300,7 +302,7 @@ export default function App({ logOutFunction }) {
 		console.log("PENDIENTE");
 	}
 
-	async function getWebID() {
+	function getWebID() {
 		return getDefaultSession().info.webId;
 	}
 
@@ -365,7 +367,15 @@ export default function App({ logOutFunction }) {
 		console.log("Coget todos los amigos pendiente")
 	}
 	async function API_getPlacesOfFriend(friendWebId) {
-		const places = await FriendsController.getFriendLocations(friendWebId);
+		//const places = await FriendsController.getFriendLocations(friendWebId);
+		const places = [{
+			id: "2222",
+			longitude: -5.840656204113697,
+			latitude: 43.50441045903223,
+			author: "1",
+			name: "Amigo Prueba",
+			category: "restaurante"
+		}]
 		return places;
 	}
 
@@ -472,6 +482,8 @@ export default function App({ logOutFunction }) {
 				categorias={categorias}
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
+				getWebID = {getWebID}
+				friendPlaces = {friendPlaces}
 			/>
 
 			<SettingsSpeedDial
@@ -495,6 +507,8 @@ export default function App({ logOutFunction }) {
 				amigos={amigos}
 				API_friend_calls={API_friend_calls}
 				solicitudes = {solicitudes}
+				setFriendsPlaces = {setFriendPlaces}
+				friendsPlaces = {friendPlaces}
 			/>
 		</div>
 	);

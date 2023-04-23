@@ -23,6 +23,8 @@ export default function DrawerDefaultContent(props) {
             amigos = {props.amigos}
             API_friend_calls = {props.API_friend_calls}
             solicitudes = {props.solicitudes}
+            setFriendsPlaces = {props.setFriendsPlaces}
+            friendsPlaces = {props.friendsPlaces}
         />
 
         {contenidoAMostrar}

@@ -32,6 +32,8 @@ export default function SeguidosContent(props) {
                 returnTo = {<SeguidosContent {...props} />}
                 API_location_calls = {props.API_location_calls}
                 setPosition = {props.setPosition}
+                setFriendsPlaces = {props.setFriendsPlaces}
+                friendsPlaces = {props.friendsPlaces}
             />
         )}
         </>
