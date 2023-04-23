@@ -9,6 +9,13 @@ export default function FriendCard(props) {
     const [isVisible, setIsVisible] = useState(false)
 
     function toggleVisibility() {
+        if(!isVisible){
+            var s = ["Hola"];
+            props.setFriendsPlaces([...props.friendsPlaces,s]);
+        }else{
+            const filtered = props.friendsPlaces.filter(place => place.author !== props.friend.webId)
+            props.setFriendsPlaces(filtered);
+        }
         setIsVisible(current => !current)
     }
 

@@ -36,6 +36,8 @@ export default function AmigosTabContent(props) {
                 changeDrawerContent = {changeDrawerContent}
                 API_location_calls = {API_location_calls}
                 setPosition = {setPosition}
+                setFriendsPlaces = {props.setFriendsPlaces}
+                friendsPlaces = {props.friendsPlaces}
             />
         )
     }

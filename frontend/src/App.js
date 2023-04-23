@@ -15,8 +15,11 @@ const RoutesController = require("./backend/controllers/RouteController");
 const FriendsController = require("./backend/controllers/FriendController");
 
 export default function App({ logOutFunction }) {
-	//Todos los lugares de la aplicacion
+	//Todos los lugares del usuario
 	const [places, setPlaces] = React.useState([]);
+	//Todos los lugares de los amigos
+	const [friendPlaces, setFriendPlaces] = useState([]);
+
 	const [t, i18n] = useTranslation("global"); // La t sí se usa y hace falta, no borrar
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
@@ -472,6 +475,7 @@ export default function App({ logOutFunction }) {
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
 				getWebID = {getWebID}
+				friendPlaces = {friendPlaces}
 			/>
 
 			<SettingsSpeedDial
@@ -495,6 +499,8 @@ export default function App({ logOutFunction }) {
 				amigos={amigos}
 				API_friend_calls={API_friend_calls}
 				solicitudes = {solicitudes}
+				setFriendsPlaces = {setFriendPlaces}
+				friendsPlaces = {friendPlaces}
 			/>
 		</div>
 	);

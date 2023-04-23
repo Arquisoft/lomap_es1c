@@ -29,7 +29,8 @@ export default function CreateMap({
 	categorias,
 	API_route_calls,
 	API_location_calls,
-	getWebID
+	getWebID,
+	friendPlaces
 }) {
 	const { isLoaded } = useLoadScript({
 		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -56,6 +57,7 @@ export default function CreateMap({
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
 				getWebID={getWebID}
+				friendPlaces = {friendPlaces}
 			/>
 		</div>
 	);
@@ -79,7 +81,8 @@ function Map({
 	setPosition,
 	API_route_calls,
 	API_location_calls,
-	getWebID
+	getWebID,
+	friendPlaces
 }) {
 	//Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
 
@@ -93,7 +96,7 @@ function Map({
 	const [onlyMineFilter, setOnlyMineFilter] = useState(false);
 
 	function Filter() {
-		var temp = places;
+		var temp = places.concat(friendPlaces);
 		var actualUser;
 		var aux = [];
 
