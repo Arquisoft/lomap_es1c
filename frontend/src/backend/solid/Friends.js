@@ -31,7 +31,7 @@ async function aceptarSolicitud(Session, myBaseUrl, friend) {
 	//Se eliminan la solicitud
 	let solicitudes = await getAllSolicitudes(Session, myBaseUrl);
 	solicitudes
-		.filter((s) => s.sender == friend.webid)
+		.filter((s) => s.sender === friend.webid)
 		.map((s) => denegarSolicitud(Session, myBaseUrl, s.sender));
 
 	//Se añade a amigos
