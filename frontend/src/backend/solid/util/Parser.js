@@ -14,7 +14,6 @@ const {
 		locationJson.name,
 		parseFloat(locationJson.latitude),
 		parseFloat(locationJson.longitude),
-		locationJson.privacy,
 		locationJson.author,
 		locationJson.category,
 		locationJson.id,
