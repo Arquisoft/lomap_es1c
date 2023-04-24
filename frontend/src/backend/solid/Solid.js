@@ -153,12 +153,12 @@ async function aceptarSolicitud(Session, friend) {
 	await friends.aceptarSolicitud(Session, myBaseUrl, friend);
 }
 
-async function denegarSolicitud(Session, idSolicitud) {
+async function denegarSolicitud(Session, friendWebID) {
 	const webID = Session.info.webId;
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
-	await friends.denegarSolicitud(Session, myBaseUrl, idSolicitud);
+	await friends.denegarSolicitud(Session, myBaseUrl, friendWebID);
 }
 
 async function mandarSolicitud(Session, solicitud, nameFriend) {

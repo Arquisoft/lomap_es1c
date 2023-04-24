@@ -16,7 +16,7 @@ async function mandarSolicitud(Session, myBaseUrl, solicitud, nameFriend){
 
 	let jsonSolicitud = await serializer.serializeSolicitud(solicitud);
 
-	await serializer.serializeContenedor(Session, friendUrl + "LoMap/solicitudes.jsonld", jsonSolicitud);
+	await serializer.serializeContenedor(Session, friendUrl + "public/solicitudes.jsonld", jsonSolicitud);
 
 	let modelFriend = new Friend(nameFriend, solicitud.receiver);
 	await addFriend(Session, myBaseUrl, modelFriend);
@@ -25,17 +25,32 @@ async function mandarSolicitud(Session, myBaseUrl, solicitud, nameFriend){
 async function aceptarSolicitud(Session, myBaseUrl, friend){
 	//Se eliminan la solicitud
 	let solicitudes = await getAllSolicitudes(Session, myBaseUrl);
-	solicitudes.filter(s => s.sender == friend.webid).map(s => denegarSolicitud(Session, myBaseUrl, s.id));
+	solicitudes.filter(s => s.sender == friend.webid).map(s => denegarSolicitud(Session, myBaseUrl, s.sender));
 
 	//Se añade a amigos
 	await addFriend(Session, myBaseUrl, friend);
 }
 
-async function denegarSolicitud(Session, myBaseUrl, idSolicitud){
-	await serializer.deleteThing(Session, myBaseUrl + "LoMap/solicitudes.jsonld", idSolicitud);
+async function denegarSolicitud(Session, myBaseUrl, friendWebID){
+	let jsonContainer = await parser.parseContainer(Session, url);
+
+	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
+		(t) => t.sender != friendWebID
+	);
+
+	await serializer.saveJsonLD(Session,  myBaseUrl + "public/solicitudes.jsonld", jsonContainer);
 }
 
 async function addFriend(Session, myBaseUrl, friend) {
+	darPermisos(
+		Session,
+		friend.webid,
+		myBaseUrl + "LoMap/locations",
+		{
+			read: true,
+			write: true,
+		}
+	);
 	darPermisos(
 		Session,
 		friend.webid,
@@ -82,7 +97,7 @@ async function addFriend(Session, myBaseUrl, friend) {
 async function getAllSolicitudes(Session, myBaseUrl){
 	let solicitudesJson = await parser.parseContainer(
 		Session,
-		myBaseUrl + "LoMap/solicitudes.jsonld"
+		myBaseUrl + "public/solicitudes.jsonld"
 	);
 
 	solicitudesJson.itemListElement = solicitudesJson.itemListElement.map((l) => parser.parseSolicitud(l));

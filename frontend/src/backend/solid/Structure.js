@@ -11,6 +11,28 @@ const friends = require("./Friends.js");
 async function construirEstructura(Session, myBaseUrl) {
 	try {
 		try {
+			await getSolidDataset(myBaseUrl + "public/", { fetch: Session.fetch });
+		} catch (e) {
+			await createContainerAt(
+				myBaseUrl + "public/",
+				{ fetch: Session.fetch } // fetch from authenticated Session
+			);
+			await friends.darPermisosPublicos(Session, myBaseUrl + "public/", {read: true, write: true,});
+		}
+		try {
+			await getFile(myBaseUrl + "public/solicitudes.jsonld", {
+				fetch: Session.fetch,
+			});
+		} catch (e) {
+			let file = await estructuraJsonLD();
+			await overwriteFile(
+				myBaseUrl + "public/solicitudes.jsonld",
+				file,
+				{ fetch: Session.fetch } // fetch from authenticated Session
+			);
+			await friends.darPermisosPublicos(Session, myBaseUrl + "public/solicitudes.jsonld", {read: true, write: true,});
+		}
+		try {
 			await getSolidDataset(myBaseUrl + "LoMap/", { fetch: Session.fetch });
 		} catch (e) {
 			await createContainerAt(
@@ -50,7 +72,6 @@ async function construirEstructura(Session, myBaseUrl) {
 				myBaseUrl + "LoMap/locations",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
-			await friends.darPermisosPublicos(Session, myBaseUrl + "LoMap/locations", {read: true, write: true,});
 		}
 
 		try {
@@ -102,19 +123,6 @@ async function construirEstructura(Session, myBaseUrl) {
 				file,
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
-		}
-		try {
-			await getFile(myBaseUrl + "LoMap/solicitudes.jsonld", {
-				fetch: Session.fetch,
-			});
-		} catch (e) {
-			let file = await estructuraJsonLD();
-			await overwriteFile(
-				myBaseUrl + "LoMap/solicitudes.jsonld",
-				file,
-				{ fetch: Session.fetch } // fetch from authenticated Session
-			);
-			await friends.darPermisosPublicos(Session, myBaseUrl + "LoMap/solicitudes.jsonld", {read: true, write: true,});
 		}
 	} catch (error) {
 		console.log(error);
