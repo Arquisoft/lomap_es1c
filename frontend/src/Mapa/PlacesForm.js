@@ -1,11 +1,9 @@
 import { Button, MenuItem, Rating, Select, TextField } from "@mui/material";
-import axios from "axios";
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import "./muiComps.css";
 import LoadingButton from "@mui/lab/LoadingButton";
-import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';
 
 export default function CreateModal({
@@ -105,9 +103,7 @@ export default function CreateModal({
 		setMarkers([]);
 		if (nombre.trim().length <= 0) {
 			alert("El nombre no puede estar vacio");
-		} else if (valoracion.trim().length <= 0) {
-			alert("La puntuación tiene que ser mayor de 0 y menor de 5");
-		} else {
+		}else {
 			setStateButton(true);
 			await addPlaceApi(
 				nombre,
@@ -138,7 +134,6 @@ export default function CreateModal({
 		privacyP
 	) {
 		setLoading(true)
-		const url = "http://localhost:8080/location/";
 		const data = {
 			name: nombreP,
 			latitude: latitudeMarkP,

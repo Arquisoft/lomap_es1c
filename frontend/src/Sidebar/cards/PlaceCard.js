@@ -11,14 +11,19 @@ export default function LugarCard(props) {
         props.changeDrawerContent(
             <FullInfoPlace
                 place={place}
-                setPosition={props.setPosition} returnFunction={() => props.changeDrawerContent(null)}
+                setPosition={props.setPosition}
+                returnFunction={() => props.changeDrawerContent(null)}
                 changeDrawerContent = {props.changeDrawerContent}
+                returnTo = {props.returnTo}
                 categorias = {props.categorias}
                 API_location_calls = {props.API_location_calls}
-            />)
+                isUserPlace = {props.isUserPlace}
+            />
+        )
     }
 
     const maxTextLength = 20
+
     return (
         <div className="card">
             <hr />
@@ -26,8 +31,8 @@ export default function LugarCard(props) {
                 <h3>{place.name.substring(0, maxTextLength)} {place.name.length>maxTextLength && " ..."}</h3>
                 {place.category  &&  <p>{place.category}</p>}
             </div>
-            {place.valoracion ? <Rating value={place.valoracion} readOnly/> : <Rating value={place.valoracion} disabled/>}
-            <br></br>
+
+            {/* TODO: añadir tooltip */}
             <IconButton onClick={showFullInfo}><FullscreenIcon/></IconButton>
         </div>
     )

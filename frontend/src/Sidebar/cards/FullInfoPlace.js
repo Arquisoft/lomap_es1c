@@ -3,7 +3,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-import { IconButton, Button } from '@mui/material';
+import { IconButton, Button, useThemeProps } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import { useTranslation } from "react-i18next";
 import { Navigation, Pagination } from "swiper";
@@ -14,18 +14,29 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import EditInfoPlace from './EditInfoPlace';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-export default function FullInfoPlace({place, returnFunction,setPosition, changeDrawerContent, categorias, API_location_calls}) {
+export default function FullInfoPlace(props) {
+    console.log(props)
+    const {
+        place, 
+        returnFunction,
+        setPosition, 
+        changeDrawerContent, 
+        categorias, 
+        API_location_calls, 
+        isUserPlace, 
+    } = props
+
     const [t] = useTranslation("global");
-    // TODO: asignar correcto valor a la variable
-    const isUserPlace = place.author
-    const [loading, setLoading] = useState(false)
+    const [deleteLoading, setDeleteLoading] = useState(false)
+    const [addImageLoading, setAddImageLoading] = useState(false)
+    const [commentLoading, setCommentLoading] = useState(false)
 
     function allowEdit() {
         changeDrawerContent(
             <EditInfoPlace
                 place = {place}
                 changeDrawerContent = {changeDrawerContent}
-                returnFunction = {() => changeDrawerContent(this)}
+                returnTo = {<FullInfoPlace {...props} />}
                 categorias={categorias}
                 API_location_calls = {API_location_calls}
             />
@@ -40,21 +51,46 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
     }
 
     async function deletePlace() {
-        setLoading(true)
+        setDeleteLoading(true)
         const response = await API_location_calls.API_deleteLocation(place.id)
-        setLoading(false)
-        returnFunction()
+        setDeleteLoading(false)
+        changeDrawerContent(props.returnTo)
+    }
+
+    async function processComment() {
+
+    }
+
+    async function saveImages() {
+        setAddImageLoading(true)
+
+        // TODO: implement
+        console.log("Pendiente")
+
+        setAddImageLoading(false)
     }
 
     return (
         <>
-        <IconButton onClick={returnFunction}><ArrowBackIcon/></IconButton>
+        {/* Botón de retorno */}
+        {
+            props.returnTo
+                &&  
+            <IconButton onClick={returnFunction}>
+                <ArrowBackIcon/>
+            </IconButton>
+        }
+
+        {/* Nombre del lugar */}
         <h1>{place.name}</h1>
         
+        {/* Categoría del lugar */}
+        {/* TODO: internacionalizar */}
         <h3>Categoria:</h3>
         <p>{place.category}</p>
 
-        {place.reviews  &&  place.reviews.length>0  &&  
+        {/* Reviews */}
+        {/* {place.reviews  &&  place.reviews.length>0  &&  
             <>
                 <h3>Reviews: </h3>
                 <Swiper
@@ -72,9 +108,10 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
                     )}
                 </Swiper>
             </>
-        }
+        } */}
         
-        {place.comments  &&  place.comments.length>0  &&
+        {/* Comments */}
+        {/* {place.comments  &&  place.comments.length>0  &&
             <>
                 <h3>Comentarios:</h3>
                 <Swiper
@@ -91,9 +128,10 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
                 </Swiper>
 
             </>
-        }
+        } */}
 
-        {place.photos  &&  place.photos.length>0  &&
+        {/* Photos */}
+        {/* {place.photos  &&  place.photos.length>0  &&
             <>
                 <h3>Fotos:</h3>
                 <Swiper
@@ -104,41 +142,47 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
                     {place.photos.map(
                         photo =>
                         (<SwiperSlide>
-                            {/* TODO: añadir un SwiperSlide por cada imagen */}
+                           //TODO: hacer bien
                             <img src=""/>
                         </SwiperSlide>)
                     )}
                 </Swiper>
             </>
-        }
+        } */}
 
         <br></br>
+            {/* Botón de editar */}
+            {
+                isUserPlace
+                    &&     
+                <Button
+                    onClick={allowEdit}
+                    disabled={deleteLoading  ||  addImageLoading  ||  commentLoading}
+                    startIcon={<EditIcon/>}
+                    variant="contained"
+                >
+                    {t("sidebar.place.edit")}
+                </Button>
+            }
 
-            <Button
-                onClick={allowEdit}
-				disabled={loading}
-				startIcon={<EditIcon/>}
-				variant="contained"
-			>
-				{t("sidebar.place.edit")}
-			</Button>
-
+            {/* Botón de localizar */}
             <Button
                 onClick={centerMapToPlace}
-				disabled={loading}
+				disabled={deleteLoading  ||  addImageLoading  ||  commentLoading}
 				startIcon={<TravelExploreIcon/>}
 				variant="contained"
 			>
 				{t("sidebar.place.locate")}
 			</Button>
 
+            {/* Botón de borrar */}
             {
                 isUserPlace
                     &&  
                 <LoadingButton
                     color="secondary"
                     onClick={deletePlace}
-                    loading={loading}
+                    loading={deleteLoading}
                     loadingPosition="start"
                     startIcon={<DeleteIcon />}
                     variant="contained"
@@ -146,6 +190,9 @@ export default function FullInfoPlace({place, returnFunction,setPosition, change
                     {t("sidebar.place.delete")}
                 </LoadingButton>
             }
+
+			<hr></hr>
+
         </>
     )
 }
