@@ -6,30 +6,30 @@ import React, { useState } from "react";
 
 export default function AddFriendContent({ API_friend_calls, returnFunction }) {
 	const [name, setName] = useState("");
-	const [webID, setWebID] = useState("");
+	const [webId, setwebId] = useState("");
 
 	async function addFriend() {
-		if (name.trim() != "" && webID.trim() != "") {
-			await API_friend_calls.API_generateNewFriendRequest(webID, name);
+		if (name.trim() != "" && webId.trim() != "") {
+			await API_friend_calls.API_generateNewFriendRequest(webId, name);
 
 			returnFunction();
 		} else {
-			console.log("Los campos son obligatorios");
+			alert("Rellena todos los campos");
 		}
 	}
 
-	async function checkWebId(webidUrl) {
+	async function checkwebId(webIdUrl) {
 		try {
-			const response = await fetch(webidUrl, { method: "HEAD", base: "" });
-			console.log(response);
+			const response = await fetch(webIdUrl, { method: "HEAD", base: "" });
+
 			if (response.ok) {
 				return true;
 			} else {
-				alert("El webid no existe");
+				alert("El webId no existe");
 				return false;
 			}
 		} catch (error) {
-			alert("El webid no existe");
+			alert("El webId no existe");
 			return false;
 		}
 	}
@@ -50,8 +50,8 @@ export default function AddFriendContent({ API_friend_calls, returnFunction }) {
 			<br></br>
 
 			<TextField
-				label="WebID"
-				onChange={(event) => setWebID(event.target.value)}
+				label="webId"
+				onChange={(event) => setwebId(event.target.value)}
 			/>
 
 			<br></br>

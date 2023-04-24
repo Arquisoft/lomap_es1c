@@ -12,7 +12,6 @@ const SessionController = require("../controllers/util/SessionController.js");
 	}
 }*/
 
-
 /*async function getAllRoutes(req, res,next) {
 	try {
 		const session = await SessionController.getSession(req, next);
@@ -35,7 +34,6 @@ const SessionController = require("../controllers/util/SessionController.js");
 	}
 }*/
 
-
 /*async function getAllRoutes(req, res,next) {
 	try {
 		const session = await SessionController.getSession(req, next);
@@ -46,18 +44,19 @@ const SessionController = require("../controllers/util/SessionController.js");
 	}
 }*/
 
-async function getAllRoutes(req, res,next) {
+async function getAllRoutes(req, res, next) {
 	try {
 		const session = await SessionController.getSession(req, next);
-		await solid.deleteRouteById(session, "1681911394610_sv4o1y", session.info.webId);
+		await solid.deleteRouteById(
+			session,
+			"1681911394610_sv4o1y",
+			session.info.webId
+		);
 		res.status(204).json({ message: "Route deleted successfully" });
 	} catch (err) {
 		next(err);
 	}
 }
-
-
-
 
 async function getRouteById(req, res, next) {
 	try {

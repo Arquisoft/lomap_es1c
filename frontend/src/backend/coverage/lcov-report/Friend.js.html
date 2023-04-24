@@ -106,12 +106,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">class Friend {
-	constructor(name, webid, id = null) {
+	constructor(name, webId, id = null) {
 		this.name = name;
-		if (!webid || webid.trim().length === 0) {
+		if (!webId || webId.trim().length === 0) {
 			throw new Error("Web ID cannot be null or empty");
 		}
-		this.webid = webid;
+		this.webId = webId;
 		this.id = id ? <span class="branch-0 cbranch-no" title="branch not covered" >id </span>: this.generateRandomId();
 	}
 &nbsp;

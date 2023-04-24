@@ -85,6 +85,7 @@ async function updateRoute(session, id, route1) {
 		await solid.addRoute(session, route, session.info.webId);
 		return route;
 	} catch (err) {
+		console.log(err);
 		throw new Error(err);
 	}
 }

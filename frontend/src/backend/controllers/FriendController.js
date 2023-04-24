@@ -16,12 +16,14 @@ async function getAllFriends(session) {
 
 async function deleteFriend(session, idFriend) {
 	try {
+		console.log(idFriend);
 		await solid.deleteFriendById(session, idFriend);
 	} catch (err) {
 		console.log("Error en deleteFriend");
 		throw new Error("Ha ocurrido un error al eliminar el amigo");
 	}
 }
+
 //TODO
 async function getAllLocationsFromFriends(session) {
 	try {

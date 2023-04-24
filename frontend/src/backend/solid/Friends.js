@@ -31,21 +31,21 @@ async function aceptarSolicitud(Session, myBaseUrl, friend) {
 	//Se eliminan la solicitud
 	let solicitudes = await getAllSolicitudes(Session, myBaseUrl);
 	solicitudes
-		.filter((s) => s.sender === friend.webid)
+		.filter((s) => s.sender === friend.webId)
 		.map((s) => denegarSolicitud(Session, myBaseUrl, s.sender));
 
 	//Se añade a amigos
 	await addFriend(Session, myBaseUrl, friend);
 }
 
-async function denegarSolicitud(Session, myBaseUrl, friendWebID) {
+async function denegarSolicitud(Session, myBaseUrl, friendwebId) {
 	let jsonContainer = await parser.parseContainer(
 		Session,
 		myBaseUrl + "public/solicitudes.jsonld"
 	);
 
 	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
-		(t) => t.sender != friendWebID
+		(t) => t.sender != friendwebId
 	);
 
 	await serializer.saveJsonLD(
@@ -56,13 +56,13 @@ async function denegarSolicitud(Session, myBaseUrl, friendWebID) {
 }
 
 async function addFriend(Session, myBaseUrl, friend) {
-	darPermisos(Session, friend.webid, myBaseUrl + "LoMap/locations", {
+	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/locations", {
 		read: true,
 		write: true,
 	});
 	darPermisos(
 		Session,
-		friend.webid,
+		friend.webId,
 		myBaseUrl + "LoMap/locations/locations.jsonld",
 		{
 			read: true,
@@ -71,7 +71,7 @@ async function addFriend(Session, myBaseUrl, friend) {
 	);
 	darPermisos(
 		Session,
-		friend.webid,
+		friend.webId,
 		myBaseUrl + "LoMap/locations/reviews.jsonld",
 		{
 			read: true,
@@ -79,16 +79,16 @@ async function addFriend(Session, myBaseUrl, friend) {
 	);
 	darPermisos(
 		Session,
-		friend.webid,
+		friend.webId,
 		myBaseUrl + "LoMap/locations/photos.jsonld",
 		{
 			read: true,
 		}
 	);
-	darPermisos(Session, friend.webid, myBaseUrl + "LoMap/routes.jsonld", {
+	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/routes.jsonld", {
 		read: true,
 	});
-	darPermisos(Session, friend.webid, myBaseUrl + "LoMap/friends.jsonld", {
+	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/friends.jsonld", {
 		read: true,
 	});
 
@@ -144,7 +144,7 @@ async function deleteFriendById(Session, idFriend, myBaseUrl) {
 	);
 	darPermisos(
 		Session,
-		friend.webid,
+		friend.webId,
 		myBaseUrl + "LoMap/locations/locations.jsonld",
 		{
 			read: false,
@@ -156,7 +156,7 @@ async function deleteFriendById(Session, idFriend, myBaseUrl) {
 	);
 	darPermisos(
 		Session,
-		friend.webid,
+		friend.webId,
 		myBaseUrl + "LoMap/locations/reviews.jsonld",
 		{
 			read: false,
@@ -168,7 +168,7 @@ async function deleteFriendById(Session, idFriend, myBaseUrl) {
 	);
 	darPermisos(
 		Session,
-		friend.webid,
+		friend.webId,
 		myBaseUrl + "LoMap/locations/photos.jsonld",
 		{
 			read: false,
@@ -178,14 +178,14 @@ async function deleteFriendById(Session, idFriend, myBaseUrl) {
 			controlWrite: false,
 		}
 	);
-	darPermisos(Session, friend.webid, myBaseUrl + "LoMap/routes.jsonld", {
+	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/routes.jsonld", {
 		read: false,
 		write: false,
 		append: false,
 		controlRead: false,
 		controlWrite: false,
 	});
-	darPermisos(Session, friend.webid, myBaseUrl + "LoMap/friends.jsonld", {
+	darPermisos(Session, friend.webId, myBaseUrl + "LoMap/friends.jsonld", {
 		read: false,
 		write: false,
 		append: false,
@@ -195,7 +195,7 @@ async function deleteFriendById(Session, idFriend, myBaseUrl) {
 }
 
 async function isFriend(Session, friend) {
-	let myBaseUrl = await getPodUrlAll(friend.webid, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(friend.webId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	try {
 		await getFile(myBaseUrl + "LoMap/friends.jsonld", { fetch: Session.fetch });
@@ -216,23 +216,6 @@ async function darPermisosPublicos(Session, carpetaUrl, permisos) {
 	await universalAccess.setPublicAccess(carpetaUrl, permisos, {
 		fetch: Session.fetch,
 	});
-}
-
-async function obtenerPermisos(Session, webId, carpetaUrl) {
-	await universalAccess
-		.getAgentAccess(carpetaUrl, webId, { fetch: Session.fetch })
-		.then((agentAccess) => {
-			logAccessInfo(webId, agentAccess, carpetaUrl);
-		});
-}
-
-function logAccessInfo(agent, agentAccess, resource) {
-	console.log(`For resource::: ${resource}`);
-	if (agentAccess === null) {
-		console.log(`Could not load ${agent}'s access details.`);
-	} else {
-		console.log(`${agent}'s Access:: ${JSON.stringify(agentAccess)}`);
-	}
 }
 
 module.exports = {

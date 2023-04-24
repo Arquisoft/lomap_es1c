@@ -13,9 +13,9 @@ const friends = require("./Friends.js");
 //ESTRUCTURA
 
 async function createStruct(Session) {
-	const webID = Session.info.webId;
+	const webId = Session.info.webId;
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(webId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
 	await estructura.construirEstructura(Session, myBaseUrl);
@@ -35,17 +35,17 @@ async function saveLocation(Session, location, webId) {
 	await locations.addLocation(Session, location, myBaseUrl);
 }
 
-async function getAllLocations(Session, friendWebID) {
+async function getAllLocations(Session, friendwebId) {
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	const result = await locations.obtenerLocalizaciones(Session, myBaseUrl);
 	return result;
 }
 
-async function getLocationById(Session, idUbi, friendWebID) {
+async function getLocationById(Session, idUbi, friendwebId) {
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
 	const result = await locations.obtenerLocalizacion(
@@ -57,9 +57,9 @@ async function getLocationById(Session, idUbi, friendWebID) {
 	return result;
 }
 
-async function deleteLocationById(Session, idLocation, friendWebID) {
+async function deleteLocationById(Session, idLocation, friendwebId) {
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
 	await locations.deleteLocationById(Session, idLocation, myBaseUrl);
@@ -82,9 +82,9 @@ async function getCategories() {
 //Review
 //Review
 
-async function deleteReviewById(Session, idRating, friendWebID) {
+async function deleteReviewById(Session, idRating, friendwebId) {
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
 	await ratings.deleteReviewById(Session, idRating, myBaseUrl);
@@ -96,9 +96,9 @@ async function deleteReviewById(Session, idRating, friendWebID) {
 //FOTOS
 //FOTOS
 
-async function deletePhotoById(Session, idFoto, friendWebID) {
+async function deletePhotoById(Session, idFoto, friendwebId) {
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
 	await fotos.deletePhotoById(Session, idFoto, myBaseUrl);
@@ -110,30 +110,30 @@ async function deletePhotoById(Session, idFoto, friendWebID) {
 //ROUTES
 //ROUTES
 
-async function addRoute(Session, route, friendWebID) {
+async function addRoute(Session, route, friendwebId) {
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
 	await routes.addRoute(Session, route, myBaseUrl);
 }
 
-async function getAllRoutes(Session, friendWebID) {
+async function getAllRoutes(Session, friendwebId) {
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	return await routes.getAllRoutes(Session, myBaseUrl, false);
 }
 
-async function getRouteById(Session, idRoute, friendWebID) {
-	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
+async function getRouteById(Session, idRoute, friendwebId) {
+	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	return await routes.getRouteById(Session, idRoute, myBaseUrl, true);
 }
 
-async function deleteRouteById(Session, idRoute, friendWebID) {
+async function deleteRouteById(Session, idRoute, friendwebId) {
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(friendWebID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
 	await routes.deleteRouteById(Session, idRoute, myBaseUrl);
@@ -146,65 +146,61 @@ async function deleteRouteById(Session, idRoute, friendWebID) {
 //FRIENDS
 
 async function aceptarSolicitud(Session, friend) {
-	const webID = Session.info.webId;
+	const webId = Session.info.webId;
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(webId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	await friends.aceptarSolicitud(Session, myBaseUrl, friend);
 }
 
 async function denegarSolicitud(Session, idSolicitud) {
-	const webID = Session.info.webId;
+	const webId = Session.info.webId;
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(webId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	await friends.denegarSolicitud(Session, myBaseUrl, idSolicitud);
 }
 
 async function mandarSolicitud(Session, solicitud, nameFriend) {
-	const webID = Session.info.webId;
+	const webId = Session.info.webId;
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(webId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	await friends.mandarSolicitud(Session, myBaseUrl, solicitud, nameFriend);
 }
 
-
 async function getAllSolicitudes(Session) {
-	const webID = Session.info.webId;
+	const webId = Session.info.webId;
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(webId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	return await friends.getAllSolicitudes(Session, myBaseUrl);
 }
 
 async function getAllFriends(Session) {
-	const webID = Session.info.webId;
+	const webId = Session.info.webId;
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(webId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	return await friends.getAllFriends(Session, myBaseUrl);
 }
 
 async function getAllFriendsMinimalInfo(Session) {
-	const webID = Session.info.webId;
+	const webId = Session.info.webId;
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(webId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 	return await friends.getAllFriendsMinimalInfo(Session, myBaseUrl);
 }
 
 async function deleteFriendById(Session, idFriend) {
-	const webID = Session.info.webId;
+	const webId = Session.info.webId;
 	//Obtencion de url del pod
-	let myBaseUrl = await getPodUrlAll(webID, { fetch: Session.fetch });
+	let myBaseUrl = await getPodUrlAll(webId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
 	await friends.deleteFriendById(Session, idFriend, myBaseUrl);
 }
-
-
-
 
 module.exports = {
 	createStruct,
@@ -224,5 +220,5 @@ module.exports = {
 	getCategories,
 	denegarSolicitud,
 	mandarSolicitud,
-	getAllSolicitudes
+	getAllSolicitudes,
 };

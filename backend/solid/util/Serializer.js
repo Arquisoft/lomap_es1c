@@ -93,13 +93,12 @@ async function serializeFriend(friend) {
 		"@context": "https://schema.org",
 		"@type": "Person",
 		name: friend.name,
-		webid: friend.webid,
+		webId: friend.webId,
 		id: friend.id,
 	};
 
 	return friendJson;
 }
-
 
 async function serializeSolicitud(solicitud) {
 	let solicitudJson = {
@@ -159,5 +158,5 @@ module.exports = {
 	serializeContenedor,
 	deleteThing,
 	saveJsonLD,
-	serializeSolicitud
+	serializeSolicitud,
 };

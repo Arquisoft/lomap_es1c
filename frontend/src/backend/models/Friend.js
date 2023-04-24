@@ -1,10 +1,10 @@
 class Friend {
-	constructor(name, webid, id = null) {
+	constructor(name, webId, id = null) {
 		this.name = name;
-		if (!webid || webid.trim().length === 0) {
+		if (!webId || webId.trim().length === 0) {
 			throw new Error("Web ID cannot be null or empty");
 		}
-		this.webid = webid;
+		this.webId = webId;
 		this.id = id ? id : this.generateRandomId();
 	}
 

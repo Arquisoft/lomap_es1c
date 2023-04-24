@@ -13,8 +13,6 @@ async function getAllFriends(req, res, next) {
 	}
 }
 
-
-
 async function addFriend(req, res, next) {
 	try {
 		const { name, webId } = req.body;

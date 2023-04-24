@@ -5,7 +5,7 @@ describe("Friend", () => {
 	it("should create a new Friend object", () => {
 		const friend = new Friend("John Doe", "john.doe@example.com");
 		expect(friend.name).toEqual("John Doe");
-		expect(friend.webid).toEqual("john.doe@example.com");
+		expect(friend.webId).toEqual("john.doe@example.com");
 	});
 
 	// Test case for updating the name of a Friend object
@@ -21,8 +21,8 @@ describe("Friend", () => {
 		expect(friend.id).toBeTruthy();
 	});
 
-	// Test case for throwing an error when the webid is null or empty
-	it("should throw an error when the webid is null or empty", () => {
+	// Test case for throwing an error when the webId is null or empty
+	it("should throw an error when the webId is null or empty", () => {
 		expect(() => new Friend("John Doe", "")).toThrow(Error);
 		expect(() => new Friend("John Doe", null)).toThrow(Error);
 	});

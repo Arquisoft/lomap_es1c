@@ -44,7 +44,7 @@ export default function FullInfoPlace({
 
 	// TODO: seleccionar las imágenes adecuadas
 	const [photosURLs, setPhotosURLs] = useState(
-		place?.images ? place?.images.filter((photo) => photo.webID === "aaa") : []
+		place?.images ? place?.images.filter((photo) => photo.webId === "aaa") : []
 	);
 
 	const [t] = useTranslation("global");
@@ -53,7 +53,7 @@ export default function FullInfoPlace({
 	const [reviewCommand, setReviewCommand] = useState(null);
 
 	function returnFunction() {
-		changeDrawerContent(returnTo)
+		changeDrawerContent(returnTo);
 	}
 
 	async function save() {
@@ -85,7 +85,7 @@ export default function FullInfoPlace({
 		}
 
 		setLoading(false);
-		returnFunction()
+		returnFunction();
 	}
 
 	const categoriesToList = ["", ...categorias];
@@ -95,7 +95,7 @@ export default function FullInfoPlace({
 
 	function addImage(event) {
 		const file = event.target.files[0];
-		console.log(file);
+
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
 
@@ -103,14 +103,13 @@ export default function FullInfoPlace({
 			if (!photosURLs.includes(reader.result)) {
 				setPhotosURLs((current) => [...current, reader.result]);
 			}
-			console.log(reader.result)
 		};
 		setImageCommands((current) => [
 			...current,
 			{
 				url: reader.result,
 				f: (placeID) => {
-					console.log("añadir API PENDIENTE ");
+					//TODO
 				},
 			},
 		]);
@@ -129,7 +128,7 @@ export default function FullInfoPlace({
 				...current,
 				{
 					f: (placeID) => {
-						console.log("BORRAR API PENDIENTE");
+						//TODO
 					},
 				},
 			]);
@@ -150,7 +149,6 @@ export default function FullInfoPlace({
 		setReview({ rating: rating, comment: comment });
 		// TODO cambiar condicion
 		if (true) {
-			console.log("CAMBIAR CONDICION");
 			// Create a new review
 			const newReviewCommand = (placeID) => API_location_calls.API_addReview();
 			setReviewCommand(newReviewCommand);
@@ -161,7 +159,6 @@ export default function FullInfoPlace({
 	function deleteReview() {
 		// TODO cambiar condicion
 		if (true) {
-			console.log("CAMBIAR CONDICION");
 			// Delete already existing review
 			const newReviewCommand = (placeID) =>
 				API_location_calls.API_removeReview();

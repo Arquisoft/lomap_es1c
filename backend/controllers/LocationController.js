@@ -30,17 +30,13 @@ async function getLocation(req, res) {
 
 async function getAllLocations(req, res, next) {
 	try {
-		
 		const session = await SessionController.getSession(req, next);
 		const locations = await solid.getAllLocations(session, session.info.webId);
 		res.send(JSON.stringify(locations));
-
 	} catch (err) {
 		next(err);
 	}
 }
-
-
 
 async function createLocation(req, res, next) {
 	const {
@@ -61,13 +57,13 @@ async function createLocation(req, res, next) {
 		let objectComment = [];
 		let objectReview = [];
 		let objectPhoto = [];
-		if(comment){
+		if (comment) {
 			objectComment = [new Comment(session.info.webId, comment)];
 		}
-		if(review){
+		if (review) {
 			objectReview = [new Review(review, session.info.webId)];
 		}
-		if(photo){
+		if (photo) {
 			objectPhoto = [new Photo(session.info.webId, "", photo)];
 		}
 		const session = await SessionController.getSession(req, next);
@@ -85,8 +81,6 @@ async function createLocation(req, res, next) {
 			objectPhoto
 		);
 		await solid.saveLocation(session, location, session.info.webId);
-
-
 
 		res.status(201).json(location);
 	} catch (err) {
