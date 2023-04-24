@@ -101,6 +101,19 @@ async function construirEstructura(Session, myBaseUrl) {
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
 		}
+		try {
+			await getFile(myBaseUrl + "LoMap/solicitudes.jsonld", {
+				fetch: Session.fetch,
+			});
+		} catch (e) {
+			let file = await estructuraJsonLD();
+			await overwriteFile(
+				myBaseUrl + "LoMap/solicitudes.jsonld",
+				file,
+				{ fetch: Session.fetch } // fetch from authenticated Session
+			);
+			await friends.darPermisosPublicos(Session, myBaseUrl + "LoMap/solicitudes.jsonld", {read: true, write: true,})
+		}
 	} catch (error) {
 		console.log(error);
 	}

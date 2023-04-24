@@ -1,4 +1,5 @@
 const Friend = require("../models/Friend.js");
+const Request = require("../models/Request.js");
 const solid = require("../solid/Solid.js");
 const SessionController = require("../controllers/util/SessionController.js");
 

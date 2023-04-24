@@ -1,4 +1,10 @@
-const { getSolidDataset, createContainerAt, overwriteFile, getFile, deleteSolidDataset } = require("@inrupt/solid-client");
+const {
+	getSolidDataset,
+	createContainerAt,
+	overwriteFile,
+	getFile,
+	deleteSolidDataset,
+} = require("@inrupt/solid-client");
 
 const friends = require("./Friends.js");
 
@@ -12,18 +18,15 @@ async function construirEstructura(Session, myBaseUrl) {
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
 		}
-
 		try {
 			await getFile(myBaseUrl + "LoMap/routes.jsonld", {
 				fetch: Session.fetch,
 			});
 		} catch (e) {
 			let file = await estructuraJsonLD();
-			await overwriteFile(
-				myBaseUrl + "LoMap/routes.jsonld",
-				file,
-				{ fetch: Session.fetch }
-			)
+			await overwriteFile(myBaseUrl + "LoMap/routes.jsonld", file, {
+				fetch: Session.fetch,
+			});
 		}
 
 		try {
@@ -47,7 +50,6 @@ async function construirEstructura(Session, myBaseUrl) {
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
 		}
-
 
 		try {
 			await getFile(myBaseUrl + "LoMap/locations/photos.jsonld", {
@@ -99,25 +101,37 @@ async function construirEstructura(Session, myBaseUrl) {
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
 		}
+		try {
+			await getFile(myBaseUrl + "LoMap/solicitudes.jsonld", {
+				fetch: Session.fetch,
+			});
+		} catch (e) {
+			let file = await estructuraJsonLD();
+			await overwriteFile(
+				myBaseUrl + "LoMap/solicitudes.jsonld",
+				file,
+				{ fetch: Session.fetch } // fetch from authenticated Session
+			);
+			await friends.darPermisosPublicos(Session, myBaseUrl + "LoMap/solicitudes.jsonld", {read: true, write: true,})
+		}
 	} catch (error) {
 		console.log(error);
 	}
 }
 
-
-async function estructuraJsonLD(){
-
+async function estructuraJsonLD() {
 	let JsonLD_File = {
 		"@context": "https://schema.org",
-    	"@type": "ItemList",
-    	"itemListElement": []
-	}
+		"@type": "ItemList",
+		itemListElement: [],
+	};
 
 	let blob = new Blob([JSON.stringify(JsonLD_File)], {
 		type: "application/jsonld",
 	});
 
-	let buffer = Buffer.from(await blob.arrayBuffer());
+	const arrayBuffer = await blob.arrayBuffer();
+	const buffer = new Uint8Array(arrayBuffer);
 
 	return buffer;
 }
