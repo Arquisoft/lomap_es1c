@@ -131,11 +131,12 @@ async function getFriendById(Session, idFriend, myBaseUrl) {
 	let friends = (
 		await parser.parseContainer(Session, myBaseUrl + "LoMap/friends.jsonld")
 	).itemListElement;
-	return parser.parseFriend(friends.find((f) => f.id == idFriend));
+	return parser.parseFriend(friends.find((f) => f.webid === idFriend));
 }
 
 async function deleteFriendById(Session, idFriend, myBaseUrl) {
 	let friend = await getFriendById(Session, idFriend, myBaseUrl);
+	idFriend = friend.id;
 
 	await serializer.deleteThing(
 		Session,
@@ -216,23 +217,6 @@ async function darPermisosPublicos(Session, carpetaUrl, permisos) {
 	await universalAccess.setPublicAccess(carpetaUrl, permisos, {
 		fetch: Session.fetch,
 	});
-}
-
-async function obtenerPermisos(Session, webId, carpetaUrl) {
-	await universalAccess
-		.getAgentAccess(carpetaUrl, webId, { fetch: Session.fetch })
-		.then((agentAccess) => {
-			logAccessInfo(webId, agentAccess, carpetaUrl);
-		});
-}
-
-function logAccessInfo(agent, agentAccess, resource) {
-	console.log(`For resource::: ${resource}`);
-	if (agentAccess === null) {
-		console.log(`Could not load ${agent}'s access details.`);
-	} else {
-		console.log(`${agent}'s Access:: ${JSON.stringify(agentAccess)}`);
-	}
 }
 
 module.exports = {

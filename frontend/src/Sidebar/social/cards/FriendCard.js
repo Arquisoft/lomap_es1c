@@ -15,7 +15,6 @@ export default function FriendCard(props) {
 			);
 			props.setFriendsPlaces((current) => current.concat(friendPlaces));
 		} else {
-			console.log(props.friendsPlaces);
 			props.setFriendsPlaces((current) =>
 				current.filter((place) => place.author !== props.friend.webid)
 			);
@@ -26,7 +25,6 @@ export default function FriendCard(props) {
 	async function showFullAmigoInfo() {
 		// TODO: comprobar si ya tenemos sus lugares
 		// TODO: cogerlos si no los tenemos
-		console.log(props.friend);
 		var friendPlaces = await props.API_friend_calls.API_getPlacesOfFriend(
 			props.friend.webid
 		);
@@ -41,7 +39,6 @@ export default function FriendCard(props) {
 				API_location_calls={props.API_location_calls}
 			/>
 		);
-		console.log("Pendiente");
 	}
 
 	return (

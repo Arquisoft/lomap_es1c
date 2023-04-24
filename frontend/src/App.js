@@ -31,7 +31,6 @@ export default function App({ logOutFunction }) {
 		let session = getDefaultSession();
 
 		if (!session.info.isLoggedIn) {
-			console.log("NO ESTA LOGEADO");
 			session.login();
 		}
 	}
@@ -49,12 +48,10 @@ export default function App({ logOutFunction }) {
 	}
 
 	async function updateAmigos() {
-		console.log("Update amigos pendiente");
 		setLoading((current) => current + 1);
 		var friends;
 		try {
 			friends = await FriendsController.getAllFriends(getDefaultSession());
-			console.log(friends);
 			setAmigos(friends);
 		} catch (error) {
 			alert(error);
@@ -143,7 +140,6 @@ export default function App({ logOutFunction }) {
 				data
 			);
 			updateRutas();
-			console.log(response);
 			return response;
 		} catch (error) {
 			alert(error);
@@ -285,17 +281,14 @@ export default function App({ logOutFunction }) {
 
 	async function API_addReview() {
 		// TODO: implementar
-		console.log("PENDIENTE");
 	}
 	//eh
 	async function API_removeReview() {
 		// TODO: implement
-		console.log("PENDIENTE");
 	}
 
 	async function API_updateReview() {
 		// TODO: implement
-		console.log("PENDIENTE");
 	}
 
 	function getWebID() {
@@ -339,7 +332,6 @@ export default function App({ logOutFunction }) {
 		} catch (error) {
 			alert(error);
 		}
-		console.log("Todas las request");
 	}
 
 	async function API_acceptIncomingFriendRequest(webIdToAccept) {
@@ -349,7 +341,6 @@ export default function App({ logOutFunction }) {
 				webIdToAccept
 			);
 			updateSolicitudes();
-			console.log("ENTRA");
 			return res;
 		} catch (error) {
 			alert(error);
@@ -370,10 +361,11 @@ export default function App({ logOutFunction }) {
 	}
 	async function API_removeFriend(friendWebId) {
 		try {
-			const res = await FriendsController.rejectRequest(
+			const res = await FriendsController.deleteFriend(
 				getDefaultSession(),
 				friendWebId
 			);
+			updateAmigos();
 			return res;
 		} catch (error) {
 			alert(error);

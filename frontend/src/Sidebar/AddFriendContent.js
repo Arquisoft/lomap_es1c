@@ -14,14 +14,14 @@ export default function AddFriendContent({ API_friend_calls, returnFunction }) {
 
 			returnFunction();
 		} else {
-			console.log("Los campos son obligatorios");
+			alert("Rellena todos los campos");
 		}
 	}
 
 	async function checkWebId(webidUrl) {
 		try {
 			const response = await fetch(webidUrl, { method: "HEAD", base: "" });
-			console.log(response);
+
 			if (response.ok) {
 				return true;
 			} else {
