@@ -17,6 +17,7 @@ async function construirEstructura(Session, myBaseUrl) {
 				myBaseUrl + "LoMap/",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
+			await friends.darPermisosPublicos(Session, myBaseUrl + "LoMap/", {read: true, write: true,});
 		}
 		try {
 			await getFile(myBaseUrl + "LoMap/routes.jsonld", {
@@ -49,6 +50,7 @@ async function construirEstructura(Session, myBaseUrl) {
 				myBaseUrl + "LoMap/locations",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
+			await friends.darPermisosPublicos(Session, myBaseUrl + "LoMap/locations", {read: true, write: true,});
 		}
 
 		try {
@@ -112,7 +114,7 @@ async function construirEstructura(Session, myBaseUrl) {
 				file,
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
-			await friends.darPermisosPublicos(Session, myBaseUrl + "LoMap/solicitudes.jsonld", {read: true, write: true,})
+			await friends.darPermisosPublicos(Session, myBaseUrl + "LoMap/solicitudes.jsonld", {read: true, write: true,});
 		}
 	} catch (error) {
 		console.log(error);
