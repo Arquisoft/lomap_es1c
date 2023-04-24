@@ -30,30 +30,10 @@ export default function FullInfoPlace({
 		place === null ? "" : place.category
 	);
 
-	// TODO: coger la review adecuada
-	const [rating, setRating] = useState(
-		place?.review?.rating ? place.review?.rating / 2 : null
-	);
-	// TODO: coger la review adecuada
-	const [comment, setComment] = useState(
-		place?.review?.comment ? place.review?.comment : ""
-	);
-	const [review, setReview] = useState(
-		rating || comment ? { rating: rating, comment: comment } : null
-	);
-
-	// TODO: seleccionar las imágenes adecuadas
-	const [photosURLs, setPhotosURLs] = useState(
-		place?.images ? place?.images.filter((photo) => photo.webID === "aaa") : []
-	);
-
 	const [t] = useTranslation("global");
 
-	const [imageCommands, setImageCommands] = useState([]);
-	const [reviewCommand, setReviewCommand] = useState(null);
-
 	function returnFunction() {
-		changeDrawerContent(returnTo)
+		changeDrawerContent(returnTo);
 	}
 
 	async function save() {
@@ -76,65 +56,13 @@ export default function FullInfoPlace({
 			}
 		}
 
-		// Ejecutar el comando adecuado para la review
-		if (reviewCommand) reviewCommand();
-
-		// Si se añaden/borran fotos, hacer
-		for (var command of imageCommands) {
-			command.f(thePlaceID);
-		}
-
 		setLoading(false);
-		returnFunction()
+		returnFunction();
 	}
 
 	const categoriesToList = ["", ...categorias];
 	if (!categoriesToList.includes(place.category)) {
 		categoriesToList.push(place.category);
-	}
-
-	function addImage(event) {
-		const file = event.target.files[0];
-		console.log(file);
-		const reader = new FileReader();
-		reader.readAsDataURL(file);
-
-		reader.onloadend = () => {
-			if (!photosURLs.includes(reader.result)) {
-				setPhotosURLs((current) => [...current, reader.result]);
-			}
-			console.log(reader.result)
-		};
-		setImageCommands((current) => [
-			...current,
-			{
-				url: reader.result,
-				f: (placeID) => {
-					console.log("añadir API PENDIENTE ");
-				},
-			},
-		]);
-	}
-
-	function deleteImage(url) {
-		const isNewImage = imageCommands.some(
-			(imageCommand) => imageCommand.url === url
-		);
-		if (isNewImage) {
-			setImageCommands((current) =>
-				current.filter((imageCommand) => imageCommand.url !== url)
-			);
-		} else {
-			setImageCommands((current) => [
-				...current,
-				{
-					f: (placeID) => {
-						console.log("BORRAR API PENDIENTE");
-					},
-				},
-			]);
-		}
-		setPhotosURLs((current) => current.filter((photoURL) => photoURL !== url));
 	}
 
 	function handleNameChange(event) {
@@ -144,41 +72,6 @@ export default function FullInfoPlace({
 
 	function handleCategoryChange(event) {
 		setCategory(event.target.value);
-	}
-
-	function createNewReview() {
-		setReview({ rating: rating, comment: comment });
-		// TODO cambiar condicion
-		if (true) {
-			console.log("CAMBIAR CONDICION");
-			// Create a new review
-			const newReviewCommand = (placeID) => API_location_calls.API_addReview();
-			setReviewCommand(newReviewCommand);
-		} else {
-		}
-	}
-
-	function deleteReview() {
-		// TODO cambiar condicion
-		if (true) {
-			console.log("CAMBIAR CONDICION");
-			// Delete already existing review
-			const newReviewCommand = (placeID) =>
-				API_location_calls.API_removeReview();
-			setReviewCommand(newReviewCommand);
-		} else {
-		}
-		setRating(null);
-		setComment("");
-		setReview(null);
-	}
-
-	function handleRatingChange(event) {
-		setRating(parseFloat(event.target.value));
-	}
-
-	function handleCommentChange(event) {
-		setComment(event.target.value);
 	}
 
 	return (
@@ -230,71 +123,6 @@ export default function FullInfoPlace({
 			) : (
 				<p>{place.category}</p>
 			)}
-			<br></br>
-
-			<hr></hr>
-			{/* Review */}
-			{review !== null && (
-				<div>
-					<Rating
-						value={rating}
-						precision={0.5}
-						onChange={handleRatingChange}
-					/>
-					<TextField
-						label="Comentario"
-						value={comment}
-						onChange={handleCommentChange}
-					/>
-				</div>
-			)}
-			<Button
-				variant="contained"
-				onClick={review === null ? createNewReview : deleteReview}
-				disabled={loading}
-			>
-				{/* TODO: internacionalizar */}
-				{review === null ? "Añadir review" : "Eliminar review"}
-			</Button>
-			<hr></hr>
-
-			{/* Fotos */}
-			{/* TODO: internacionalizar */}
-			<h3>Fotos:</h3>
-			{photosURLs.map((url) => (
-				<div key={"photo_div" + photosURLs.indexOf(url)}>
-					<img
-						src={url}
-						width="250"
-						height="100"
-						// TODO: poner el alto adecuado
-						key={"photo_url_" + photosURLs.indexOf(url)}
-					/>
-					<IconButton
-						onClick={() => deleteImage(url)}
-						key={"delete_photo_button" + photosURLs.indexOf(url)}
-					>
-						<DeleteIcon />
-					</IconButton>
-				</div>
-			))}
-
-			<>
-				<input
-					type="file"
-					name="photos"
-					id="photos"
-					accept="image/*"
-					onChange={addImage}
-					style={{ display: "none" }}
-				/>
-				<label htmlFor="photos">
-					<Button variant="contained" component="span">
-						{/*TODO: internacionalizar*/}
-						Añadir imagen
-					</Button>
-				</label>
-			</>
 			<br></br>
 
 			<hr></hr>
