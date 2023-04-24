@@ -14,19 +14,6 @@ async function getAllFriends(session) {
 	}
 }
 
-async function addFriend(session, friendData) {
-	try {
-		const name = friendData.name;
-		const webId = friendData.webId;
-		const friend = new Friend(name, webId);
-		await solid.addFriend(session, friend);
-		return friend;
-	} catch (err) {
-		console.log("Error en addFriend");
-		throw new Error("Ha ocurrido un error al añadir el amigo");
-	}
-}
-
 async function deleteFriend(session, idFriend) {
 	try {
 		await solid.deleteFriendById(session, idFriend);
@@ -35,7 +22,7 @@ async function deleteFriend(session, idFriend) {
 		throw new Error("Ha ocurrido un error al eliminar el amigo");
 	}
 }
-
+//TODO
 async function getAllLocationsFromFriends(session) {
 	try {
 		const locations = await solid.getAllLocationsFromFriends(session);
@@ -75,9 +62,10 @@ async function sendFriendRequest(session, newFriend) {
 	const webIdAmigo = newFriend.webId;
 	try {
 		const friendRequest = new FriendRequest(session.info.webId, webIdAmigo);
-		await solid.sendFriendRequest(session, friendRequest, name);
+		await solid.mandarSolicitud(session, friendRequest, name);
 		return true;
 	} catch (err) {
+		console.log(err);
 		console.log("Error en sendFriendRequest");
 		throw new Error("Ha ocurrido un error al enviar la solicitud");
 	}
@@ -95,7 +83,7 @@ async function getAllRequests(session) {
 
 async function acceptRequest(session, webId) {
 	try {
-		await solid.acceptRequest(session, webId);
+		await solid.aceptarSolicitud(session, webId);
 		return true;
 	} catch (err) {
 		console.log("Error en acceptRequest");
@@ -105,7 +93,7 @@ async function acceptRequest(session, webId) {
 
 async function rejectRequest(session, webId) {
 	try {
-		await solid.rejectRequest(session, webId);
+		await solid.denegarSolicitud(session, webId);
 		return true;
 	} catch (err) {
 		console.log("Error en rejectRequest");
@@ -116,7 +104,6 @@ async function rejectRequest(session, webId) {
 module.exports = {
 	getAllFriends,
 	deleteFriend,
-	addFriend,
 	getAllLocationsFromFriends,
 	getFriendLocations,
 	getAllLocationsByCategory,

@@ -49,17 +49,16 @@ export default function App({ logOutFunction }) {
 	}
 
 	async function updateAmigos() {
-		console.log("Update amigos pendiente")
-		// setLoading((current) => current + 1);
-		// var friends;
-		// try {
-		// 	friends = await FriendsController.getAllFriends(getDefaultSession());
-		// 	console.log(friends);
-		// 	setAmigos(friends);
-		// } catch (error) {
-		// 	alert(error);
-		// }
-		// setLoading((current) => current - 1);
+		console.log("Update amigos pendiente");
+		setLoading((current) => current + 1);
+		var friends;
+		try {
+			friends = await FriendsController.getAllFriends(getDefaultSession());
+			setAmigos(friends);
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	async function updateRutas() {
@@ -93,12 +92,12 @@ export default function App({ logOutFunction }) {
 		try {
 			// const response = await API_getAllRequests()
 			const response = [
-				{id: 12345, sender: "aaa", receiver: "yomismo", timestamp: 16000},
-				{id: 12346, sender: "bbbb", receiver: "yomismo", timestamp: 16500}
-			]
-			setSolicitudes(response)
+				{ id: 12345, sender: "aaa", receiver: "yomismo", timestamp: 16000 },
+				{ id: 12346, sender: "bbbb", receiver: "yomismo", timestamp: 16500 },
+			];
+			setSolicitudes(response);
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 		setLoading((current) => current - 1);
 	}
@@ -120,8 +119,8 @@ export default function App({ logOutFunction }) {
 	}, []);
 
 	useEffect(() => {
-		updateSolicitudes()
-	}, [])
+		updateSolicitudes();
+	}, []);
 
 	async function API_getRouteByID(routeID) {
 		checkLoggedIn();
@@ -147,7 +146,7 @@ export default function App({ logOutFunction }) {
 				data
 			);
 			updateRutas();
-			console.log(response)
+			console.log(response);
 			return response;
 		} catch (error) {
 			alert(error);
@@ -320,63 +319,85 @@ export default function App({ logOutFunction }) {
 		API_removePhoto: API_removePhoto,
 	};
 
-	async function API_generateNewFriendRequest(senderWebId, newFriendName) {
-		const newRequest = {webId: senderWebId, name: newFriendName}
-		await FriendsController.sendFriendRequest(getDefaultSession)
-		return true
+	async function API_generateNewFriendRequest(receiverWebId, newFriendName) {
+		const friend = {
+			name: newFriendName,
+			webId: receiverWebId,
+		};
+		try {
+			const response = await FriendsController.sendFriendRequest(
+				getDefaultSession(),
+				friend
+			);
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
 	async function API_getAllRequests() {
 		try {
-			const res =  await FriendsController.getAllRequests(getDefaultSession())
-			return res
+			const res = await FriendsController.getAllRequests(getDefaultSession());
+			return res;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
-		console.log("Todas las request")
+		console.log("Todas las request");
 	}
 
 	async function API_acceptIncomingFriendRequest(webIdToAccept) {
-		console.log("Descomentar aceptar" + webIdToAccept)
-		// await FriendsController.acceptRequest(getDefaultSession(), webIdToAccept)
-		// updateSolicitudes()
-		// updateAmigos()
-		return true
+		try {
+			const res = await FriendsController.acceptRequest(
+				getDefaultSession(),
+				webIdToAccept
+			);
+			return res;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
 	async function API_rejectIncomingFriendRequest(webIdToReject) {
-		console.log("Decomentar denegar" + webIdToReject)
-		// await FriendsController.rejectRequest(getDefaultSession(), webIdToReject)
-		// updateSolicitudes()
-		return true
+		try {
+			const res = await FriendsController.rejectRequest(
+				getDefaultSession(),
+				webIdToReject
+			);
+			return res;
+		} catch (error) {
+			alert(error);
+		}
 	}
 	async function API_removeFriend(friendWebId) {
-		// TODO
-		console.log("Amigo eliminado pendiente, falta conectar al controller")
-
-		return true
+		try {
+			const res = await FriendsController.rejectRequest(
+				getDefaultSession(),
+				friendWebId
+			);
+			return res;
+		} catch (error) {
+			alert(error);
+		}
 	}
+
 	async function API_getAllFriends() {
-		/*
-		->
-			[
-				name
-				webId
-			]
-		*/		
-		console.log("Coget todos los amigos pendiente")
+		try {
+			const res = await FriendsController.getAllFriends(getDefaultSession());
+			return res;
+		} catch (error) {
+			alert(error);
+		}
 	}
 	async function API_getPlacesOfFriend(friendWebId) {
-		//const places = await FriendsController.getFriendLocations(friendWebId);
-		const places = [{
-			id: "2222",
-			longitude: -5.840656204113697,
-			latitude: 43.50441045903223,
-			author: "1",
-			name: "Amigo Prueba",
-			category: "restaurante"
-		}]
-		return places;
+		try {
+			const res = await FriendsController.getFriendLocations(
+				getDefaultSession(),
+				friendWebId
+			);
+			return res;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
 	const API_friend_calls = {
@@ -386,7 +407,7 @@ export default function App({ logOutFunction }) {
 		API_rejectIncomingFriendRequest: API_rejectIncomingFriendRequest,
 		API_removeFriend: API_removeFriend,
 		API_getAllFriends: API_getAllFriends,
-		API_getPlacesOfFriend: API_getPlacesOfFriend
+		API_getPlacesOfFriend: API_getPlacesOfFriend,
 	};
 
 	//Estados de la aplicacion
@@ -482,8 +503,8 @@ export default function App({ logOutFunction }) {
 				categorias={categorias}
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
-				getWebID = {getWebID}
-				friendPlaces = {friendPlaces}
+				getWebID={getWebID}
+				friendPlaces={friendPlaces}
 			/>
 
 			<SettingsSpeedDial
@@ -506,9 +527,9 @@ export default function App({ logOutFunction }) {
 				setPosition={setPosition}
 				amigos={amigos}
 				API_friend_calls={API_friend_calls}
-				solicitudes = {solicitudes}
-				setFriendsPlaces = {setFriendPlaces}
-				friendsPlaces = {friendPlaces}
+				solicitudes={solicitudes}
+				setFriendsPlaces={setFriendPlaces}
+				friendsPlaces={friendPlaces}
 			/>
 		</div>
 	);

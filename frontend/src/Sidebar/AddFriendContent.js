@@ -10,7 +10,7 @@ export default function AddFriendContent({ API_friend_calls, returnFunction }) {
 
 	async function addFriend() {
 		if (name.trim() != "" && webID.trim() != "") {
-			await API_friend_calls.API_addFriend(name, webID);
+			await API_friend_calls.API_generateNewFriendRequest(webID, name);
 
 			returnFunction();
 		} else {

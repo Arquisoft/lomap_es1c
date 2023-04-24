@@ -169,7 +169,6 @@ async function mandarSolicitud(Session, solicitud, nameFriend) {
 	await friends.mandarSolicitud(Session, myBaseUrl, solicitud, nameFriend);
 }
 
-
 async function getAllSolicitudes(Session) {
 	const webID = Session.info.webId;
 	//Obtencion de url del pod
@@ -195,9 +194,6 @@ async function deleteFriendById(Session, idFriend) {
 	await friends.deleteFriendById(Session, idFriend, myBaseUrl);
 }
 
-
-
-
 module.exports = {
 	createStruct,
 	saveLocation,
@@ -216,5 +212,5 @@ module.exports = {
 	getCategories,
 	denegarSolicitud,
 	mandarSolicitud,
-	getAllSolicitudes
+	getAllSolicitudes,
 };
