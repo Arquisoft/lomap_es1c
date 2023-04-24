@@ -21,8 +21,6 @@ export default function CreateModal({
 	const [t] = useTranslation("global");
 	const [loading, setLoading] = React.useState(false);
 
-	const nivelesPrivacidad = ["Publico", "Solo Amigos"];
-
 	Modal.setAppElement(document.getElementsByClassName("map-conteiner")[0]);
 	//Constantes para abrir y cerrar el modal.
 	const modalIsOpen = isOpen;
@@ -60,7 +58,6 @@ export default function CreateModal({
 	const [nombre, setNombre] = React.useState("");
 	const [valoracion, setValoracion] = React.useState(0);
 	const [categoria, setCategoria] = React.useState("Sin categoria");
-	const [privacidad, setPrivacidad] = React.useState("Publico");
 	const [fotos, setFotos] = React.useState("");
 	const [comentario, setComentario] = React.useState("");
 
@@ -74,10 +71,6 @@ export default function CreateModal({
 
 	function handleCategoryChange(e) {
 		setCategoria(e.target.value);
-	}
-
-	function handlePrivacyChange(e) {
-		setPrivacidad(e.target.value);
 	}
 
 	function handleFotoChange(e) {
@@ -113,7 +106,6 @@ export default function CreateModal({
 				valoracion * 2,
 				comentario,
 				fotos,
-				privacidad
 			);
 			setNombre("");
 			setValoracion("");
@@ -197,22 +189,6 @@ export default function CreateModal({
 					<MenuItem value={"sin categoria"} defaultValue={true}>Sin Categoria</MenuItem>
 					{categorias.map((categoria) => (
 						<MenuItem value={categoria} disabled={loading}>{categoria}</MenuItem>
-					))}
-				</Select>
-
-				<label htmlFor="nivelPrivacidad">{t("locations.form.privacy")}</label>
-
-				<Select
-					id="nivelPrivacidad"
-					className="privacidad"
-					defaultValue="privado"
-					name="nivelPrivacidad"
-					onChange={handlePrivacyChange}
-					disabled={loading}
-				>
-					<MenuItem value={"privado"} defaultValue={"privado"} disabled={loading}>Privado</MenuItem>
-					{nivelesPrivacidad.map((nivel) => (
-						<MenuItem value={nivel.toLowerCase()} disabled={loading}>{nivel}</MenuItem>
 					))}
 				</Select>
 

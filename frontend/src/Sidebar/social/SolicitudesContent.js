@@ -7,6 +7,8 @@ import { useTranslation } from "react-i18next";
 export default function SolicitudesContent(props) {
     const [t] = useTranslation("global");
 
+    console.log(props.solicitudes)
+
     return (
         <>
             {/* Return button */}
