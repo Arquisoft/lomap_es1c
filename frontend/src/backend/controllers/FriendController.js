@@ -83,7 +83,8 @@ async function getAllRequests(session) {
 
 async function acceptRequest(session, webId) {
 	try {
-		await solid.aceptarSolicitud(session, webId);
+		const friendRequest = new FriendRequest(session.info.webId, webId);
+		await solid.aceptarSolicitud(session, friendRequest);
 		return true;
 	} catch (err) {
 		console.log("Error en acceptRequest");

@@ -47,7 +47,6 @@ function MyComponent() {
 			restorePreviousSession: true,
 		}).then((info) => {
 			console.log(`Logged in with WebID [${info.webId}]`);
-			console.log(PodController);
 			if (getDefaultSession().info.isLoggedIn) {
 				setIsLoggedIn(true);
 				PodController.checkStruct(getDefaultSession());
