@@ -12,7 +12,6 @@ async function serializeLocation(location) {
 		name: location.name,
 		latitude: location.latitude,
 		longitude: location.longitude,
-		privacy: location.privacy,
 		author: location.author,
 		category: location.category,
 		id: location.id,

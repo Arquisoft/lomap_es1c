@@ -3,7 +3,6 @@ class Location {
 		name,
 		latitude,
 		longitude,
-		privacy = "private",
 		author,
 		category = null,
 		id = null,
@@ -13,9 +12,6 @@ class Location {
 	) {
 		if (!name || name.trim().length === 0) {
 			throw new Error("Location name cannot be null or empty");
-		}
-		if (!privacy || privacy.trim().length === 0) {
-			throw new Error("Location privacy cannot be null or empty");
 		}
 
 		if (isNaN(latitude) || isNaN(longitude)) {
@@ -30,7 +26,6 @@ class Location {
 		this.category = category;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.privacy = privacy;
 		this.reviews = reviews || [];
 		this.photos = photos || [];
 		this.timestamp = timestamp ? timestamp : this.generateTimestamp();

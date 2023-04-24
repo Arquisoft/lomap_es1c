@@ -34,12 +34,11 @@ async function createLocation(session, location) {
 	const name = location.name;
 	const latitude = location.latitude;
 	const longitude = location.longitude;
-	const privacy = location.privacy;
 	const category = location.category;
 	const comment = location.comment;
 	const review = location.review;
 	const photo = location.photo;
-	if (!name || !latitude || !longitude || !privacy) {
+	if (!name || !latitude || !longitude) {
 		throw new Error("Faltan datos");
 	}
 	try {
@@ -47,7 +46,6 @@ async function createLocation(session, location) {
 			name,
 			latitude,
 			longitude,
-			privacy,
 			session.info.webId,
 			category
 		);
