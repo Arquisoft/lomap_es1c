@@ -90,11 +90,7 @@ export default function App({ logOutFunction }) {
 	async function updateSolicitudes() {
 		setLoading((current) => current + 1);
 		try {
-			// const response = await API_getAllRequests()
-			const response = [
-				{ id: 12345, sender: "aaa", receiver: "yomismo", timestamp: 16000 },
-				{ id: 12346, sender: "bbbb", receiver: "yomismo", timestamp: 16500 },
-			];
+			const response = await API_getAllRequests()
 			setSolicitudes(response);
 		} catch (error) {
 			alert(error);
@@ -350,7 +346,9 @@ export default function App({ logOutFunction }) {
 			const res = await FriendsController.acceptRequest(
 				getDefaultSession(),
 				webIdToAccept
-			);
+				);
+			updateSolicitudes()
+			console.log("ENTRA")
 			return res;
 		} catch (error) {
 			alert(error);
@@ -363,6 +361,7 @@ export default function App({ logOutFunction }) {
 				getDefaultSession(),
 				webIdToReject
 			);
+			updateSolicitudes()
 			return res;
 		} catch (error) {
 			alert(error);

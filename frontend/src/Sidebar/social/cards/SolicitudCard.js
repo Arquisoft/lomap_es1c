@@ -10,6 +10,7 @@ export default function SolicitudCard(props) {
     async function acceptRequest() {
         setLoading(true)
         await props.API_friend_calls.API_acceptIncomingFriendRequest(props.solicitud.sender)
+        console.log("FIN")
         setLoading(false)
     }
 
