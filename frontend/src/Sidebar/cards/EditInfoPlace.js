@@ -13,9 +13,10 @@ import { useTranslation } from "react-i18next";
 
 export default function FullInfoPlace({
 	place,
-	returnFunction,
 	categorias,
 	API_location_calls,
+	returnTo,
+	changeDrawerContent,
 }) {
 	// TODO: settear correctamente la variable
 	const isUserPlace = true;
@@ -51,6 +52,10 @@ export default function FullInfoPlace({
 	const [imageCommands, setImageCommands] = useState([]);
 	const [reviewCommand, setReviewCommand] = useState(null);
 
+	function returnFunction() {
+		changeDrawerContent(returnTo)
+	}
+
 	async function save() {
 		setLoading(true);
 
@@ -80,7 +85,7 @@ export default function FullInfoPlace({
 		}
 
 		setLoading(false);
-		returnFunction();
+		returnFunction()
 	}
 
 	const categoriesToList = ["", ...categorias];
@@ -98,6 +103,7 @@ export default function FullInfoPlace({
 			if (!photosURLs.includes(reader.result)) {
 				setPhotosURLs((current) => [...current, reader.result]);
 			}
+			console.log(reader.result)
 		};
 		setImageCommands((current) => [
 			...current,

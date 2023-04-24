@@ -2,6 +2,7 @@ const Location = require("../../models/locationModels/Location.js");
 const Rating = require("../../models/locationModels/Review.js");
 const Foto = require("../../models/locationModels/Photo.js");
 const Friend = require("../../models/Friend.js");
+const Request = require("../../models/Request.js")
 
 const {
 	getFile
@@ -41,6 +42,10 @@ const {
 	return new Friend(friendJson.name, friendJson.webid, friendJson.id);
 }
 
+function parseSolicitud(solicitudJson){
+	return new Request(solicitudJson.sender, solicitudJson.receiver, solicitudJson.id);
+}
+
 async function parseContainer(Session, url){
 	let file = await getFile(url, {fetch: Session.fetch,});
 	return JSON.parse(await file.text());
@@ -55,5 +60,6 @@ module.exports = {
 	parsePhoto,
 	parseReview,
 	parseFriend,
-	parseContainer
+	parseContainer,
+	parseSolicitud
 };

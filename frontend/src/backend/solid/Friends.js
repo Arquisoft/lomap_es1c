@@ -1,27 +1,39 @@
 const {
-	getSolidDataset,
-	overwriteFile,
 	getFile,
-	getContainedResourceUrlAll,
-	deleteFile,
-	FOAF,
-	VCARD,
-	AccessControlList,
 	universalAccess,
 	getPodUrlAll,
-	getSolidDatasetWithAcl,
-	hasResourceAcl,
-	hasFallbackAcl,
-	hasAccessibleAcl,
-	createAcl,
-	createAclFromFallbackAcl,
-	getResourceAcl,
-	setAgentResourceAccess,
-	saveAclFor,
 } = require("@inrupt/solid-client");
 
 const parser = require("./util/Parser.js");
 const serializer = require("./util/Serializer.js");
+
+const Friend = require("../models/Friend.js");
+
+
+async function mandarSolicitud(Session, myBaseUrl, solicitud, nameFriend){
+	let friendUrl = await getPodUrlAll(solicitud.receiver, { fetch: Session.fetch });
+	friendUrl = friendUrl[0];
+
+	let jsonSolicitud = await serializer.serializeSolicitud(solicitud);
+
+	await serializer.serializeContenedor(Session, friendUrl + "LoMap/solicitudes.jsonld", jsonSolicitud);
+
+	let modelFriend = new Friend(nameFriend, solicitud.receiver);
+	await addFriend(Session, myBaseUrl, modelFriend);
+}
+
+async function aceptarSolicitud(Session, myBaseUrl, friend){
+	//Se eliminan la solicitud
+	let solicitudes = await getAllSolicitudes(Session, myBaseUrl);
+	solicitudes.filter(s => s.sender == friend.webid).map(s => denegarSolicitud(Session, myBaseUrl, s.id));
+
+	//Se añade a amigos
+	await addFriend(Session, myBaseUrl, friend);
+}
+
+async function denegarSolicitud(Session, myBaseUrl, idSolicitud){
+	await serializer.deleteThing(Session, myBaseUrl + "LoMap/solicitudes.jsonld", idSolicitud);
+}
 
 async function addFriend(Session, myBaseUrl, friend) {
 	darPermisos(
@@ -62,7 +74,22 @@ async function addFriend(Session, myBaseUrl, friend) {
 		myBaseUrl + "LoMap/friends.jsonld",
 		jsonLDFriend
 	);
+
+
 }
+
+
+async function getAllSolicitudes(Session, myBaseUrl){
+	let solicitudesJson = await parser.parseContainer(
+		Session,
+		myBaseUrl + "LoMap/solicitudes.jsonld"
+	);
+
+	solicitudesJson.itemListElement = solicitudesJson.itemListElement.map((l) => parser.parseSolicitud(l));
+	return solicitudesJson.itemListElement;
+}
+
+
 
 async function getAllFriends(Session, myBaseUrl) {
 	let friendsJson = await parser.parseContainer(
@@ -146,6 +173,22 @@ async function deleteFriendById(Session, idFriend, myBaseUrl) {
 	});
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 async function isFriend(Session, friend) {
 	let myBaseUrl = await getPodUrlAll(friend.webid, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
@@ -160,6 +203,13 @@ async function isFriend(Session, friend) {
 //Solo da permiso a la carpetaUrl pero no a las carpetas o recursos hijos
 async function darPermisos(Session, webId, carpetaUrl, permisos) {
 	await universalAccess.setAgentAccess(carpetaUrl, webId, permisos, {
+		fetch: Session.fetch,
+	});
+}
+
+
+async function darPermisosPublicos(Session, carpetaUrl, permisos) {
+	await universalAccess.setPublicAccess(carpetaUrl, permisos, {
 		fetch: Session.fetch,
 	});
 }
@@ -186,4 +236,9 @@ module.exports = {
 	getAllFriends,
 	deleteFriendById,
 	getFriendById,
+	darPermisosPublicos,
+	getAllSolicitudes,
+	mandarSolicitud,
+	aceptarSolicitud,
+	denegarSolicitud
 };

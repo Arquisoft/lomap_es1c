@@ -100,6 +100,19 @@ async function serializeFriend(friend) {
 	return friendJson;
 }
 
+
+async function serializeSolicitud(solicitud) {
+	let solicitudJson = {
+		"@context": "https://schema.org",
+		"@type": "Message",
+		sender: solicitud.sender,
+		receiver: solicitud.receiver,
+		id: solicitud.id,
+	};
+
+	return solicitudJson;
+}
+
 async function serializeContenedor(Session, url, jsonLDToAdd) {
 	let jsonContainer = await parser.parseContainer(Session, url);
 	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
@@ -146,4 +159,5 @@ module.exports = {
 	serializeContenedor,
 	deleteThing,
 	saveJsonLD,
+	serializeSolicitud
 };
