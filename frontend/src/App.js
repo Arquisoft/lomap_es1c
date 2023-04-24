@@ -54,7 +54,7 @@ export default function App({ logOutFunction }) {
 		var friends;
 		try {
 			friends = await FriendsController.getAllFriends(getDefaultSession());
-			console.log(friends)
+			console.log(friends);
 			setAmigos(friends);
 		} catch (error) {
 			alert(error);
@@ -91,7 +91,7 @@ export default function App({ logOutFunction }) {
 	async function updateSolicitudes() {
 		setLoading((current) => current + 1);
 		try {
-			const response = await API_getAllRequests()
+			const response = await API_getAllRequests();
 			setSolicitudes(response);
 		} catch (error) {
 			alert(error);
@@ -287,7 +287,7 @@ export default function App({ logOutFunction }) {
 		// TODO: implementar
 		console.log("PENDIENTE");
 	}
-
+	//eh
 	async function API_removeReview() {
 		// TODO: implement
 		console.log("PENDIENTE");
@@ -347,9 +347,9 @@ export default function App({ logOutFunction }) {
 			const res = await FriendsController.acceptRequest(
 				getDefaultSession(),
 				webIdToAccept
-				);
-			updateSolicitudes()
-			console.log("ENTRA")
+			);
+			updateSolicitudes();
+			console.log("ENTRA");
 			return res;
 		} catch (error) {
 			alert(error);
@@ -362,7 +362,7 @@ export default function App({ logOutFunction }) {
 				getDefaultSession(),
 				webIdToReject
 			);
-			updateSolicitudes()
+			updateSolicitudes();
 			return res;
 		} catch (error) {
 			alert(error);
