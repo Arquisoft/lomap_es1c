@@ -22,7 +22,7 @@ export default function SeguidosContent(props) {
 			{/* Friend cards */}
 			{props.amigos.map((friend) => (
 				<SeguidoCard
-					key={"friend_card_" + friend.webId}
+					key={"friend_card_" + friend.webid}
 					API_friend_calls={props.API_friend_calls}
 					friend={friend}
 					changeDrawerContent={props.changeDrawerContent}

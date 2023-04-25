@@ -1,10 +1,10 @@
+import SaveIcon from "@mui/icons-material/Save";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Button, MenuItem, Rating, Select, TextField } from "@mui/material";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import "./muiComps.css";
-import LoadingButton from "@mui/lab/LoadingButton";
-import SaveIcon from '@mui/icons-material/Save';
 
 export default function CreateModal({
 	isOpen,
@@ -16,7 +16,7 @@ export default function CreateModal({
 	setStateButton,
 	setCanCick,
 	API_location_calls,
-	categorias
+	categorias,
 }) {
 	const [t] = useTranslation("global");
 	const [loading, setLoading] = React.useState(false);
@@ -96,7 +96,7 @@ export default function CreateModal({
 		setMarkers([]);
 		if (nombre.trim().length <= 0) {
 			alert("El nombre no puede estar vacio");
-		}else {
+		} else {
 			setStateButton(true);
 			await addPlaceApi(
 				nombre,
@@ -105,7 +105,7 @@ export default function CreateModal({
 				categoria,
 				valoracion * 2,
 				comentario,
-				fotos,
+				fotos
 			);
 			setNombre("");
 			setValoracion("");
@@ -125,7 +125,7 @@ export default function CreateModal({
 		photoP,
 		privacyP
 	) {
-		setLoading(true)
+		setLoading(true);
 		const data = {
 			name: nombreP,
 			latitude: latitudeMarkP,
@@ -137,9 +137,9 @@ export default function CreateModal({
 			privacy: privacyP,
 		};
 
-		const response = await API_location_calls.API_createLocation(data)
-		setLoading(false)
-		return response
+		const response = await API_location_calls.API_createLocation(data);
+		setLoading(false);
+		return response;
 	}
 
 	return (
@@ -186,9 +186,13 @@ export default function CreateModal({
 					onChange={handleCategoryChange}
 					disabled={loading}
 				>
-					<MenuItem value={"sin categoria"} defaultValue={true}>Sin Categoria</MenuItem>
+					<MenuItem value={"sin categoria"} defaultValue={true}>
+						Sin Categoria
+					</MenuItem>
 					{categorias.map((categoria) => (
-						<MenuItem value={categoria} disabled={loading}>{categoria}</MenuItem>
+						<MenuItem key={categoria} value={categoria} disabled={loading}>
+							{categoria}
+						</MenuItem>
 					))}
 				</Select>
 
@@ -221,15 +225,11 @@ export default function CreateModal({
 					disabled={loading}
 					loading={loading}
 					loadingPosition="start"
-					startIcon={<SaveIcon/>}
+					startIcon={<SaveIcon />}
 				>
 					{t("locations.form.add")}
 				</LoadingButton>
-				<Button
-					className="btnCancel"
-					onClick={closeModal}
-					disabled={loading}
-				>
+				<Button className="btnCancel" onClick={closeModal} disabled={loading}>
 					{t("locations.form.cancel")}
 				</Button>
 			</div>

@@ -20,7 +20,7 @@ export default function AddFriendContent({ API_friend_calls, returnFunction }) {
 
 	async function checkwebId(webIdUrl) {
 		try {
-			const response = await fetch(webIdUrl, { method: "HEAD", base: "" });
+			const response = await fetch(webidUrl, { method: "HEAD", base: "" });
 
 			if (response.ok) {
 				return true;

@@ -25,7 +25,6 @@ export default function FriendCard(props) {
 	async function showFullAmigoInfo() {
 		// TODO: comprobar si ya tenemos sus lugares
 		// TODO: cogerlos si no los tenemos
-
 		var friendPlaces = await props.API_friend_calls.API_getPlacesOfFriend(
 			props.friend.webId
 		);

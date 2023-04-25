@@ -16,7 +16,9 @@ export default function FullFriendInfo({
 
 	async function deleteFriend() {
 		setLoading(true);
-		const response = await API_friend_calls.API_removeFriend(amigo.webId);
+
+		await API_friend_calls.API_removeFriend(amigo.webid);
+
 		setLoading(false);
 		changeDrawerContent(returnTo);
 	}
@@ -29,8 +31,8 @@ export default function FullFriendInfo({
 				{/* Nombre */}
 				<h1>{amigo.name}</h1>
 
-				{/* webId del amigo */}
-				<p>({amigo.webId})</p>
+				{/* WebID del amigo */}
+				<p>({amigo.webid})</p>
 			</div>
 
 			{/* Botón de eliminar */}
@@ -50,7 +52,7 @@ export default function FullFriendInfo({
 			<h3>Lugares de ese amigo: </h3>
 			{places.map((place) => (
 				<PlaceCard
-					key={amigo.webId + "_placeCard_" + place.id}
+					key={amigo.webid + "_placeCard_" + place.id}
 					place={place}
 					changeDrawerContent={changeDrawerContent}
 					setPosition={setPosition}
