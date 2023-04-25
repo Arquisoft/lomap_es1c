@@ -23,7 +23,7 @@ automatically.
 
 ## The Team
 
-The group is composed of four members that are the following
+The group is composed of the following four members: 
 
 ### Group members:
 |Developers | Emails |
