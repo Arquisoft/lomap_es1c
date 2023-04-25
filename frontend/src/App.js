@@ -52,10 +52,6 @@ export default function App({ logOutFunction }) {
 		var friends;
 		try {
 			friends = await FriendsController.getAllFriends(getDefaultSession());
-<<<<<<< HEAD
-=======
-			console.log(friends);
->>>>>>> 4a9d4128088c75f07decb446623555fc18eb3260
 			setAmigos(friends);
 		} catch (error) {
 			alert(error);
