@@ -6,6 +6,7 @@ import { Button, IconButton, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import EditInfoRoute from "./EditInfoRoute";
+import PlaceCard from "./PlaceCard";
 
 export default function FullRouteInfo(props) {
     const {route, returnFunction, changeDrawerContent, userPlaces, API_route_calls} = props
@@ -57,20 +58,28 @@ export default function FullRouteInfo(props) {
 			<h1 data-testid="full_info_route_name">{route.name}</h1>
 			<h3 data-testid="full_info_route_description">{route.description}</h3>
 
-			<div className="card--line1">
-				<h3 data-testid="list-title">{t("sidebar.route.places-in-route")}</h3>
-				<p data-testid="number-of-places-text">{route.locations.length}</p>
-			</div>
-			<ul data-testid={"full_info_route_places_list"}>
-				{route.locations.map((location) => (
-					<li
-						key={location.id + "_li"}
-						data-testid={"full_info_route_place_" + location.id}
-					>
-						{location.name}
-					</li>
-				))}
-			</ul>
+			<br></br>
+
+			<h3 data-testid="list-title">{t("sidebar.route.places-in-route")}</h3>
+			{route.locations.map((location) => (
+				<PlaceCard
+					key = {location.id}
+					place = {location}
+					changeDrawerContent = {changeDrawerContent}
+					categorias = {[]}	// TODO
+					setPosition = {() => null} 	// TODO
+					API_location_calls = {[]} // TODO
+					isUserPlace = {true}
+					returnTo = {<FullRouteInfo {...props} />}
+					userPlaces = {userPlaces}
+				/>
+				// <li
+				// 	key={location.id + "_li"}
+				// 	data-testid={"full_info_route_place_" + location.id}
+				// >
+				// 	{location.name}
+				// </li>
+			))}
 
 			<br></br>
 			<div className="card--line1">
