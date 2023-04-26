@@ -12,8 +12,6 @@ export default function SocialTabContent(props) {
 	const {
 		API_friend_calls,
 		changeDrawerContent,
-		API_location_calls,
-		setPosition,
 		solicitudes,
 	} = props;
 	const [t] = useTranslation("global");

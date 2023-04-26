@@ -2,17 +2,20 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import React, { useState } from "react";
 import PlaceCard from "../lugares/PlaceCard";
+import { useTranslation } from "react-i18next";
+import { IconButton, Tooltip } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-export default function FullFriendInfo({
-	amigo,
-	places,
-	setPosition,
-	changeDrawerContent,
-	returnTo,
-	API_location_calls,
-	API_friend_calls,
-}) {
+export default function FullFriendInfo(props) {
+	const {amigo,
+		places,
+		setPosition,
+		changeDrawerContent,
+		returnTo,
+		API_location_calls,
+		API_friend_calls} = props
 	const [loading, setLoading] = useState(false);
+	const [t] = useTranslation("global");
 
 	async function deleteFriend() {
 		setLoading(true);
@@ -26,6 +29,11 @@ export default function FullFriendInfo({
 	return (
 		<>
 			{/* TODO: botón de atrás */}
+			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
+                <IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
+                    <ArrowBackIcon />
+                </IconButton>
+            </Tooltip>
 
 			{/* Nombre */}
 			<h1>{amigo.name}</h1>
