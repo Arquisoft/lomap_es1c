@@ -93,10 +93,21 @@ async function addFriend(Session, myBaseUrl, friend) {
 	});
 
 	let jsonLDFriend = await serializer.serializeFriend(friend);
-	await serializer.serializeContenedor(
+
+
+	let jsonContainer = await parser.parseContainer(Session, myBaseUrl + "LoMap/friends.jsonld");
+
+
+	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
+		(t) => t.webid != friend.webid
+	);
+
+	jsonContainer.itemListElement.push(jsonLDFriend);
+
+	await serializer.saveJsonLD(
 		Session,
 		myBaseUrl + "LoMap/friends.jsonld",
-		jsonLDFriend
+		jsonContainer
 	);
 }
 
