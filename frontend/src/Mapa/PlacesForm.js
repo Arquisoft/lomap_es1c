@@ -57,7 +57,7 @@ export default function CreateModal({
 	//Constantes para los campos del form
 	const [nombre, setNombre] = React.useState("");
 	const [valoracion, setValoracion] = React.useState(0);
-	const [categoria, setCategoria] = React.useState("Sin categoria");
+	const [categoria, setCategoria] = React.useState("");
 	const [fotos, setFotos] = React.useState("");
 	const [comentario, setComentario] = React.useState("");
 
@@ -181,13 +181,13 @@ export default function CreateModal({
 				<Select
 					id="categoria"
 					className="categoria"
-					defaultValue="sin categoria"
+					defaultValue=""
 					name="categoria"
 					onChange={handleCategoryChange}
 					disabled={loading}
 				>
-					<MenuItem value={"sin categoria"} defaultValue={true}>
-						Sin Categoria
+					<MenuItem value={""} defaultValue={true}>
+						<em>Sin Categoria</em>
 					</MenuItem>
 					{categorias.map((categoria) => (
 						<MenuItem key={categoria} value={categoria} disabled={loading}>

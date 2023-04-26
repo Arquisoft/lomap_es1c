@@ -146,7 +146,7 @@ async function updateReview(session, idReview, review1) {
 		const rating = review1.rating;
 		const comment = review1.comment;
 		let review = new Review(rating, comment, session.info.webId, idReview);
-		solid.updateReview(session, review, session.info.webId);
+		await solid.updateReview(session, review, session.info.webId);
 	} catch (error) {
 		throw new Error("Error en el update review");
 	}
