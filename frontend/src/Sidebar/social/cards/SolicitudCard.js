@@ -2,16 +2,22 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { IconButton, Tooltip } from "@mui/material";
 import React, { useState } from "react";
+import AddFriendContent from "../AddFriendContent";
 
 // solicitud = {id, sender, receiver, timestamp}
 export default function SolicitudCard(props) {
 	const [loading, setLoading] = useState(false);
 
 	async function acceptRequest() {
-		setLoading(true);
-		await props.API_friend_calls.API_acceptIncomingFriendRequest(
-			props.solicitud.sender
-		);
+		props.changeDrawerContent(
+			<AddFriendContent
+				API_friend_calls = {props.API_friend_calls}
+				returnTo = {props.returnTo}
+				changeDrawerContent = {props.changeDrawerContent}
+				solicitud = {props.solicitud}
+
+			/>
+		)
 		setLoading(false);
 	}
 
@@ -27,7 +33,9 @@ export default function SolicitudCard(props) {
 		<div>
 			<hr></hr>
 			<div className="card--line1">
-				<p>{props.solicitud.sender}</p>
+				<div id="long_text">
+					<p >{props.solicitud.sender}</p>
+				</div>
 
 				{/* TODO internacionalizar */}
 				<Tooltip title="Aceptar" placement="bottom">

@@ -392,7 +392,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				webIdToAccept,
 				nameForTheNewFriend
 			);
-			updateSolicitudes();
+			setSolicitudes(current => current.filter(s => s.sender!==webIdToAccept))
 			return res;
 		} catch (error) {
 			alert(error);
@@ -405,12 +405,13 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				getDefaultSession(),
 				webIdToReject
 			);
-			updateSolicitudes();
+			setSolicitudes(current => current.filter(s => s.sender!==webIdToReject))
 			return res;
 		} catch (error) {
 			alert(error);
 		}
 	}
+
 	async function API_removeFriend(friendwebId) {
 		try {
 			const res = await FriendsController.deleteFriend(
