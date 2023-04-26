@@ -47,6 +47,20 @@ async function getFriendLocations(session, webIdAmigo) {
 	}
 }
 
+async function getFriendLocationById(session, webidAmigo, idLocation) {
+	try {
+		const location = await solid.getLocationById(
+			session,
+			idLocation,
+			webidAmigo
+		);
+		return location;
+	} catch (err) {
+		console.log("Error en getFriendLocationById");
+		throw new Error("Ha ocurrido un error al obtener la localizacion");
+	}
+}
+
 async function getAllLocationsByCategory(session, name) {
 	try {
 		const locations = await solid.getAllLocationsFromFriends(session);
@@ -115,4 +129,5 @@ module.exports = {
 	getAllRequests,
 	acceptRequest,
 	rejectRequest,
+	getFriendLocationById,
 };
