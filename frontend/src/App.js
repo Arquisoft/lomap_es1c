@@ -44,6 +44,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		checkLoggedIn();
 		try {
 			const response = await LocationController.getCategories();
+			console.log(response)
 			setCategorias(response);
 		} catch (error) {
 			alert(error);
@@ -295,22 +296,48 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		}
 	}
 
-	async function API_addReview() {
-		// session, idLocation, webidAuthorLocation, {rating:int, comment:string}
-		// TODO: delete from memoizataion
-		// TODO: implementar
+	async function API_addReview(locationID, webidAuthorLocation, review) {
+		// TODO: devolver de verdad la review
+
+		try {
+			const response = await LocationController.addReview(
+				getDefaultSession(),
+				locationID,
+				webidAuthorLocation,
+				review
+			)
+			// TODO: delete from memoizataion
+			return response
+		} catch (error) {
+			alert(error)
+		}
 	}
 
-	async function API_removeReview() {
-		// session, idReview, {rating:int, comment:string}
-		// TODO: delete from memoizataion
-		// TODO: implement
+	async function API_removeReview(reviewID) {
+		try {
+			const response = await LocationController.deleteReview(
+				getDefaultSession(),
+				reviewID
+			)
+			// TODO: delete from memoizataion
+			return response
+		} catch (error) {
+			alert(error)
+		}
 	}
 
-	async function API_updateReview() {
-		// session, idReview
-		// TODO: delete from memoizataion
-		// TODO: implement
+	async function API_updateReview(reviewID, theNewReview) {
+		try {
+			const response = await LocationController.updateReview(
+				getDefaultSession(),
+				reviewID,
+				theNewReview
+			)
+			// TODO: delete from memoizataion
+			return response
+		} catch (error) {
+			alert(error)
+		}
 	}
 
 	function getwebId() {
@@ -348,6 +375,15 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		}
 	}
 
+	async function getAnyPlaceById(webId,placeId){
+		const creatorWebId = getwebId();
+		if(webId === creatorWebId){
+			return await API_getPlaceById(placeId);
+		}else{
+			return await API_friend_calls.getPlaceOfFriendById(webId,placeId)
+		}
+	}
+
 	const API_location_calls = {
 		API_createLocation: API_createLocation,
 		API_deleteLocation: API_deleteLocation,
@@ -357,7 +393,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		API_updateReview: API_updateReview,
 		API_addPhoto: API_addPhoto,
 		API_removePhoto: API_removePhoto,
-		API_getPlaceById: API_getPlaceById,
+		API_getPlaceById:getAnyPlaceById
 	};
 
 	async function API_generateNewFriendRequest(receiverwebId, newFriendName) {
@@ -466,6 +502,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		}	catch(error){
 			alert(error);
 		}
+	}
 
 	const API_friend_calls = {
 		API_generateNewFriendRequest: API_generateNewFriendRequest,
@@ -477,6 +514,8 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		getPlacesOfFriend: getPlacesOfFriend,
 		getPlaceOfFriendById: getPlaceOfFriendById,
 	};
+
+
 
 	//Estados de la aplicacion
 	//Latitud y longitud del marcador actual que tu pongas en el mapa.
