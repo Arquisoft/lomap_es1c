@@ -129,4 +129,5 @@ module.exports = {
 	getAllRequests,
 	acceptRequest,
 	rejectRequest,
+	getFriendLocationById,
 };
