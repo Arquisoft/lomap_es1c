@@ -27,6 +27,7 @@ export default function InicioTabContent(props) {
                     data-testid= "search-bar-3"
                 />
             </div>
+            <hr/>
 
             {props.userPlaces
                 .filter(place => place.name.toLowerCase().includes(searchBarText))
@@ -39,6 +40,7 @@ export default function InicioTabContent(props) {
                     API_location_calls = {props.API_location_calls}
                     isUserPlace = {true}
                     returnTo = {<InicioTabContent {...props} />}
+                    userPlaces = {props.userPlaces}
                 />)
             }
         </div>

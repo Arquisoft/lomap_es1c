@@ -10,7 +10,7 @@ export default function FriendCard(props) {
 
 	async function toggleVisibility() {
 		if (!isVisible) {
-			var friendPlaces = await props.API_friend_calls.API_getPlacesOfFriend(
+			var friendPlaces = await props.API_friend_calls.getPlacesOfFriend(
 				props.friend.webId
 			);
 			props.setFriendsPlaces((current) => current.concat(friendPlaces));
@@ -25,7 +25,7 @@ export default function FriendCard(props) {
 	async function showFullAmigoInfo() {
 		// TODO: comprobar si ya tenemos sus lugares
 		// TODO: cogerlos si no los tenemos
-		var friendPlaces = await props.API_friend_calls.API_getPlacesOfFriend(
+		var friendPlaces = await props.API_friend_calls.getPlacesOfFriend(
 			props.friend.webId
 		);
 

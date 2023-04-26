@@ -29,7 +29,7 @@ export default function CreateMap({
 	categorias,
 	API_route_calls,
 	API_location_calls,
-	getWebID,
+	getwebId,
 	friendPlaces
 }) {
 	const { isLoaded } = useLoadScript({
@@ -56,7 +56,7 @@ export default function CreateMap({
 				categorias={categorias}
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
-				getWebID={getWebID}
+				getwebId={getwebId}
 				friendPlaces = {friendPlaces}
 			/>
 		</div>
@@ -81,7 +81,7 @@ function Map({
 	setPosition,
 	API_route_calls,
 	API_location_calls,
-	getWebID,
+	getwebId,
 	friendPlaces
 }) {
 	//Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
@@ -112,7 +112,7 @@ function Map({
 
 		if(friendsFilter){
 			aux = [];
-			actualUser = getWebID();
+			actualUser = getwebId();
 			for (let i = 0; i < temp.length; i++) {
 				if (temp[i].author.toLowerCase() !== actualUser.toLowerCase()) {
 					aux[aux.length] = temp[i];
@@ -121,7 +121,7 @@ function Map({
 			temp = aux;
 		}else if(onlyMineFilter){
 			aux = [];
-			actualUser = getWebID();
+			actualUser = getwebId();
 			for (let i = 0; i < temp.length; i++) {
 				if (temp[i].author.toLowerCase() === actualUser.toLowerCase()) {
 					aux[aux.length] = temp[i];
@@ -193,7 +193,7 @@ function Map({
 	}, [currentTheme]);
 
 	function details(marker) {
-		var isUser = marker.author === getWebID();
+		var isUser = marker.author === getwebId();
 		var allPlaces = places.concat(friendPlaces);
 		changeDrawerContent(
 			<FullInfoPlace

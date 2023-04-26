@@ -25,7 +25,6 @@ import EditInfoPlace from "./EditInfoPlace";
 export default function FullInfoPlace(props) {
 	const {
 		place,
-		returnFunction,
 		setPosition,
 		changeDrawerContent,
 		categorias,
@@ -161,7 +160,7 @@ export default function FullInfoPlace(props) {
 
 	async function deletePlace() {
 		setDeleteLoading(true);
-		const response = await API_location_calls.API_deleteLocation(place.id);
+		await API_location_calls.API_deleteLocation(place.id);
 		setDeleteLoading(false);
 		changeDrawerContent(props.returnTo);
 	}
@@ -190,7 +189,7 @@ export default function FullInfoPlace(props) {
 		<>
 			{/* Botón de retorno */}
 			{props.returnTo && (
-				<IconButton onClick={returnFunction}>
+				<IconButton onClick={() => {changeDrawerContent(props.returnTo)}}>
 					<ArrowBackIcon />
 				</IconButton>
 			)}

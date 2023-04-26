@@ -1,11 +1,8 @@
 import {
-	fetch,
 	getDefaultSession,
 	handleIncomingRedirect,
 	login,
-	onSessionRestore,
 } from "@inrupt/solid-client-authn-browser";
-import axios from "axios";
 import i18next from "i18next";
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
@@ -15,6 +12,8 @@ import { ThemeContextProvider } from "./contexts/ThemeContext";
 import "./index.css";
 import Login from "./login";
 import reportWebVitals from "./reportWebVitals";
+
+// Internationalization
 import global_en from "./translations/en/global.json";
 import global_es from "./translations/es/global.json";
 const availableLanguages = ["es", "en"];
@@ -22,7 +21,6 @@ const preferredLanguage = navigator.language.toLowerCase().substring(0, 2);
 const defaultAlternativeLanguage = "es";
 
 const PodController = require("./backend/controllers/PodController");
-
 i18next.init({
 	interpolation: { escapeValue: false },
 	lng: availableLanguages.includes(preferredLanguage)
@@ -45,10 +43,10 @@ function MyComponent() {
 		//    the user if appropriate, or to restore a previous session.
 		handleIncomingRedirect({
 			restorePreviousSession: true,
-		}).then((info) => {
+		}).then(async (info) => {
 			if (getDefaultSession().info.isLoggedIn) {
+				await PodController.checkStruct(getDefaultSession());
 				setIsLoggedIn(true);
-				PodController.checkStruct(getDefaultSession());
 			}
 		});
 	}, []);
@@ -76,13 +74,13 @@ function MyComponent() {
 
 	return (
 		<>
-			{isLoggedIn ? (
-				<I18nextProvider i18n={i18next}>
-					<ThemeContextProvider children={<App logOutFunction={logOut} />} />
-				</I18nextProvider>
-			) : (
-				<Login logInFunction={loginWeb} />
-			)}
+			<I18nextProvider i18n={i18next}>
+				{isLoggedIn ? (
+					<ThemeContextProvider children={<App logOutFunction={logOut} isLoggedIn={isLoggedIn} />} />
+				) : (
+					<ThemeContextProvider children={<Login logInFunction={loginWeb} isLoggedIn={isLoggedIn} />} />
+				)}
+			</I18nextProvider>
 		</>
 	);
 }

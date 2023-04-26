@@ -2,9 +2,12 @@ import { Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import "./login.css";
+import SettingsSpeedDial from "./buttons/SettingsSpeedDial";
+import { useTranslation } from "react-i18next";
 
-export default function Login({ logInFunction }) {
+export default function Login({ logInFunction, isLoggedIn, toggleLanguage }) {
 	const [text, setText] = useState("");
+	const [t, i18n] = useTranslation("global");
 
 	const handleInrupt = () => {
 		setText("https://login.inrupt.com/");
@@ -14,7 +17,17 @@ export default function Login({ logInFunction }) {
 		setText("https://solidcommunity.net");
 	};
 
+	function toggleLanguage() {
+		i18n.changeLanguage(i18n.language === "es" ? "en" : "es");
+	}
+
 	return (
+		<>
+			<SettingsSpeedDial
+				isLoggedIn = {isLoggedIn}
+				changeLanguage = {toggleLanguage}
+			/>
+
 			<Box className="mainDiv" component="div">
 				{/* <div className="logoYParrafo"> */}
 					<img src="/logoLoMap.png" className="logo" alt="Logo de LoMap"></img>
@@ -49,5 +62,6 @@ export default function Login({ logInFunction }) {
 					</Box>
 				</div>
 			</Box>
+		</>
 	);
 }

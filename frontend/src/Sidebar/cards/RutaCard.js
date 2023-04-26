@@ -1,11 +1,9 @@
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import { IconButton } from "@mui/material";
 import React from "react";
 import FullRouteInfo from "./FullInfoRoute";
 
 export default function RutaCard(props) {
 	async function showFullRouteInfo() {
-		const routeLocations = await props.API_route_calls.API_getRouteByID(
+		const routeLocations = await props.API_route_calls.getRouteByID(
 			props.route.id
 		);
 		props.route.locations = routeLocations;
@@ -17,25 +15,20 @@ export default function RutaCard(props) {
 				changeDrawerContent={props.changeDrawerContent}
 				userPlaces={props.userPlaces}
 				API_route_calls={props.API_route_calls}
+				API_location_calls={props.API_location_calls}
+				setPosition = {props.setPosition}
 			/>
 		);
 	}
 
 	return (
-		<div className="card" data-testid={"route_card_" + props.route.id}>
-			<hr />
+		<div onClick={showFullRouteInfo} className="card" data-testid={"route_card_" + props.route.id}>
 			<h3 data-testid={"route_card_title_text_" + props.route.id}>
 				{props.route.name}
 			</h3>
 			<p data-testid={"route_card_description_text_" + props.route.id}>
 				{props.route.description}
 			</p>
-			<IconButton
-				data-testid={"full_screen_button_" + props.route.id}
-				onClick={showFullRouteInfo}
-			>
-				<FullscreenIcon />
-			</IconButton>
 		</div>
 	);
 }

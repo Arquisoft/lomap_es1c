@@ -19,11 +19,18 @@ export default function SettingsSpeedDial(props) {
             icon = {<SettingsIcon data-testid="speed-dial-button" sx={{ m: 0 }}/>}
             direction = 'down'
         >
+            {props.changeLanguage
+                &&
             <SpeedDialAction
                 icon={<TranslateIcon data-testid="change-language-button"/>}
                 tooltipTitle={t("settings-speed-dial.change-language-text")}
                 onClick = {props.changeLanguage}
             />
+            }
+
+
+            {props.toggleTheme
+                &&
             <SpeedDialAction
                 icon={currentTheme===Themes.LIGHT ?
                     <LightModeIcon data-testid="change-theme-button-current-light"/> :
@@ -33,12 +40,17 @@ export default function SettingsSpeedDial(props) {
                 onClick = {props.toggleTheme}
                 
             />
-            <SpeedDialAction
-                icon={<LogoutIcon data-testid="log-out-button"/>}
-                tooltipTitle={t("sidebar.log-out")}
-                onClick = {props.logOutFunction}
-            />
+            }
 
+            {
+                props.isLoggedIn
+                    &&
+                <SpeedDialAction
+                    icon={<LogoutIcon data-testid="log-out-button"/>}
+                    tooltipTitle={t("sidebar.log-out")}
+                    onClick = {props.logOutFunction}
+                />
+            }
         </SpeedDial>
     )
 }

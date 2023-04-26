@@ -1,6 +1,6 @@
 import { getDefaultSession } from "@inrupt/solid-client-authn-browser";
 import CircularProgress from "@mui/material/CircularProgress";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./App.css";
 import CreateMap from "./Mapa/Map";
@@ -14,7 +14,7 @@ const LocationController = require("./backend/controllers/LocationController");
 const RoutesController = require("./backend/controllers/RouteController");
 const FriendsController = require("./backend/controllers/FriendController");
 
-export default function App({ logOutFunction }) {
+export default function App({ logOutFunction, isLoggedIn }) {
 	//Todos los lugares del usuario
 	const [places, setPlaces] = React.useState([]);
 	//Todos los lugares de los amigos
@@ -26,6 +26,10 @@ export default function App({ logOutFunction }) {
 	const [amigos, setAmigos] = useState([]);
 	const [loading, setLoading] = useState(0);
 	const [solicitudes, setSolicitudes] = useState([]);
+
+	const routesMemoization = useRef({})
+	const friendPlacesMemoization = useRef({})
+	const fullPlacesInfoMemoization = useRef({})
 
 	async function checkLoggedIn() {
 		let session = getDefaultSession();
@@ -116,13 +120,20 @@ export default function App({ logOutFunction }) {
 		updateSolicitudes();
 	}, []);
 
-	async function API_getRouteByID(routeID) {
+	async function getRouteByID(routeID) {
 		checkLoggedIn();
+
+		const routeFromMemoization = routesMemoization[routeID]
+		if (routeFromMemoization) {
+			return routeFromMemoization;
+		}
+
 		try {
 			const response = await RoutesController.getAllLocationsByRouteId(
 				getDefaultSession(),
 				routeID
 			);
+			routesMemoization[routeID] = response
 			return response;
 		} catch (error) {
 			alert(error);
@@ -229,8 +240,7 @@ export default function App({ logOutFunction }) {
 	}
 
 	const API_route_calls = {
-		// "API_getAllRoutes": API_getAllRoutes,
-		API_getRouteByID: API_getRouteByID,
+		getRouteByID: getRouteByID,
 		API_addRoute: API_addRoute,
 		API_updateRouteInfo: API_updateRouteInfo,
 		API_deleteRoute: API_deleteRoute,
@@ -298,6 +308,29 @@ export default function App({ logOutFunction }) {
 	async function API_addPhoto() {}
 	async function API_removePhoto() {}
 
+	async function API_getPlaceById(placeID) {
+		console.log(placeID)
+		checkLoggedIn();
+
+		const infoFromMemoization = fullPlacesInfoMemoization[placeID]
+		if (infoFromMemoization) {
+			return infoFromMemoization;
+		}
+
+		try {
+			const response = await LocationController.getLocation(
+				getDefaultSession(),
+				placeID
+			);
+			if (response){
+				fullPlacesInfoMemoization[placeID] = response
+			}
+			return response
+		} catch (error) {
+			alert(error)
+		}
+	}
+
 	const API_location_calls = {
 		API_createLocation: API_createLocation,
 		API_deleteLocation: API_deleteLocation,
@@ -307,6 +340,7 @@ export default function App({ logOutFunction }) {
 		API_updateReview: API_updateReview,
 		API_addPhoto: API_addPhoto,
 		API_removePhoto: API_removePhoto,
+		API_getPlaceById: API_getPlaceById
 	};
 
 	async function API_generateNewFriendRequest(receiverwebId, newFriendName) {
@@ -380,13 +414,22 @@ export default function App({ logOutFunction }) {
 			alert(error);
 		}
 	}
-	async function API_getPlacesOfFriend(friendwebId) {
+
+	async function getPlacesOfFriend(friendwebId) {
+		checkLoggedIn();
+
+		const placesFromMemoization = friendPlacesMemoization[friendwebId];
+		if (placesFromMemoization) {
+			return placesFromMemoization
+		}
+
 		try {
-			const res = await FriendsController.getFriendLocations(
+			const response = await FriendsController.getFriendLocations(
 				getDefaultSession(),
 				friendwebId
 			);
-			return res;
+			friendPlacesMemoization[friendwebId] = response
+			return response;
 		} catch (error) {
 			alert(error);
 		}
@@ -399,7 +442,7 @@ export default function App({ logOutFunction }) {
 		API_rejectIncomingFriendRequest: API_rejectIncomingFriendRequest,
 		API_removeFriend: API_removeFriend,
 		API_getAllFriends: API_getAllFriends,
-		API_getPlacesOfFriend: API_getPlacesOfFriend,
+		getPlacesOfFriend: getPlacesOfFriend,
 	};
 
 	//Estados de la aplicacion
@@ -503,6 +546,7 @@ export default function App({ logOutFunction }) {
 				changeLanguage={toggleLanguage}
 				toggleTheme={toggleTheme}
 				logOutFunction={logOutFunction}
+				isLoggedIn={isLoggedIn}
 			/>
 
 			<DrawerSidebar
