@@ -9,14 +9,17 @@ async function getLocation(session, id) {
 		const location1 = await solid.getLocationById(
 			session,
 			id,
-			session.info.user
+			session.info.webId
 		);
+
 		if (location1 != null) {
 			return location1;
 		} else {
 			return null;
 		}
 	} catch (err) {
+		console.log(err);
+		console.log("Error en getLocation");
 		throw new Error(err);
 	}
 }
@@ -35,9 +38,7 @@ async function createLocation(session, location) {
 	const latitude = location.latitude;
 	const longitude = location.longitude;
 	const category = location.category;
-	const comment = location.comment;
-	const review = location.review;
-	const photo = location.photo;
+
 	if (!name || !latitude || !longitude) {
 		throw new Error("Faltan datos");
 	}
@@ -50,26 +51,6 @@ async function createLocation(session, location) {
 			category
 		);
 		await solid.saveLocation(session, location, session.info.webId);
-		/*
-		if (comment) {
-			const comment1 = new Comment(session.info.webId, comment);
-			await solid.addComment(
-				session,
-				comment1,
-				location.id,
-				session.info.webId
-			);
-		}
-
-		if (review) {
-			const review1 = new Review(review, session.info.webId);
-			await solid.addReview(session, review1, location.id, session.info.webId);
-		}
-		if (photo) {
-			const photo1 = new Photo(photo, session.info.webId);
-			await solid.addPhoto(session, photo1, location.id, session.info.webId);
-		}
-		*/
 		return location;
 	} catch (err) {
 		console.log(err);
@@ -117,7 +98,7 @@ async function deleteLocation(session, id) {
 	}
 }
 
-//PHOTOS REVIEWS COMMENTS
+//PHOTOS REVIEWS
 async function addPhoto(session, id, photo) {
 	const name = photo.name;
 	const photoImage = photo.photoImage;
@@ -143,7 +124,7 @@ async function deletePhoto(session, id, idPhoto) {
 	}
 }
 
-async function addReview(session, id, review) {
+async function addReview(session, id, webIdAuthor, review) {
 	const rating = review.rating;
 	const comment = review.comment;
 
@@ -153,17 +134,29 @@ async function addReview(session, id, review) {
 	try {
 		let location = await solid.getLocationById(session, id, session.info.webId);
 		const review = new Review(rating, comment, session.info.webId);
-		await solid.addReview(session, review, location.id, session.info.webId);
+		location.addReview(review);
+		await solid.saveLocation(session, location, webIdAuthor);
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Error en el add review");
 	}
 }
 
-async function deleteReview(session, idLocation, idReview) {
+async function updateReview(session, idReview, review1) {
 	try {
-		await solid.deleteReviewById(session, idLocation, idReview);
+		const rating = review1.rating;
+		const comment = review1.comment;
+		let review = new Review(rating, comment, session.info.webId, idReview);
+		solid.updateReview(session, review, session.info.webId);
+	} catch (error) {
+		throw new Error("Error en el update review");
+	}
+}
+
+async function deleteReview(session, idReview) {
+	try {
+		await solid.deleteReviewById(session, idReview, session.info.webId);
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Error en el deleteReview");
 	}
 }
 

@@ -2,35 +2,38 @@ import React from "react";
 import FullInfoPlace from "./FullInfoPlace";
 
 export default function LugarCard(props) {
-    const place = props.place
+	const place = props.place;
 
-    async function showFullInfo() {
-        // TODO: OBTENER TODA LA INFO DE UN LUGAR
-        const fullPlace = place //await props.API_location_calls.API_getPlaceById(place.id)
+	async function showFullInfo() {
+		// TODO: OBTENER TODA LA INFO DE UN LUGAR
+		const fullPlace = await props.API_location_calls.API_getPlaceById(place.id);
 
-        props.changeDrawerContent(
-            <FullInfoPlace
-                place={fullPlace}
-                setPosition={props.setPosition}
-                returnFunction={() => props.changeDrawerContent(null)}
-                changeDrawerContent = {props.changeDrawerContent}
-                returnTo = {props.returnTo}
-                categorias = {props.categorias}
-                API_location_calls = {props.API_location_calls}
-                isUserPlace = {props.isUserPlace}
-                userPlaces = {props.userPlaces}
-            />
-        )
-    }
+		props.changeDrawerContent(
+			<FullInfoPlace
+				place={fullPlace}
+				setPosition={props.setPosition}
+				returnFunction={() => props.changeDrawerContent(null)}
+				changeDrawerContent={props.changeDrawerContent}
+				returnTo={props.returnTo}
+				categorias={props.categorias}
+				API_location_calls={props.API_location_calls}
+				isUserPlace={props.isUserPlace}
+				userPlaces={props.userPlaces}
+			/>
+		);
+	}
 
-    const maxTextLength = 20
+	const maxTextLength = 20;
 
-    return (
-        <div className="card" onClick={showFullInfo}>
-            <div className="card--line1">
-                <h3>{place.name.substring(0, maxTextLength)} {place.name.length>maxTextLength && " ..."}</h3>
-                {place.category  &&  <p>{place.category}</p>}
-            </div>
-        </div>
-    )
+	return (
+		<div className="card" onClick={showFullInfo}>
+			<div className="card--line1">
+				<h3>
+					{place.name.substring(0, maxTextLength)}{" "}
+					{place.name.length > maxTextLength && " ..."}
+				</h3>
+				{place.category && <p>{place.category}</p>}
+			</div>
+		</div>
+	);
 }

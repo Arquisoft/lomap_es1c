@@ -82,6 +82,11 @@ async function getCategories() {
 //Review
 //Review
 
+
+async function updateReview(Session, review, friendwebId){
+	await ratings.addReview(Session, review);
+}
+
 async function deleteReviewById(Session, idRating, friendwebId) {
 	//Obtencion de url del pod
 	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
@@ -102,6 +107,10 @@ async function deletePhotoById(Session, idFoto, friendwebId) {
 	myBaseUrl = myBaseUrl[0];
 
 	await fotos.deletePhotoById(Session, idFoto, myBaseUrl);
+}
+
+async function updatePhoto(Session, photo, friendwebId){
+	await fotos.addPhoto(Session, photo);
 }
 
 //ROUTES
@@ -213,4 +222,6 @@ module.exports = {
 	denegarSolicitud,
 	mandarSolicitud,
 	getAllSolicitudes,
+	updateReview,
+	updatePhoto
 };

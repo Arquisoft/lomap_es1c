@@ -196,9 +196,9 @@ async function deleteFriendById(Session, idFriend, myBaseUrl) {
 }
 
 async function isFriend(Session, friend) {
-	let myBaseUrl = await getPodUrlAll(friend.webId, { fetch: Session.fetch });
-	myBaseUrl = myBaseUrl[0];
 	try {
+		let myBaseUrl = await getPodUrlAll(friend.webId, { fetch: Session.fetch });
+		myBaseUrl = myBaseUrl[0];
 		await getFile(myBaseUrl + "LoMap/friends.jsonld", { fetch: Session.fetch });
 		return friend;
 	} catch (err) {
