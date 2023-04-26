@@ -262,7 +262,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		}
 	}
 
-	async function API_deleteLocation(locationID) {4
+	async function API_deleteLocation(locationID) {
 		// Delete from memoization
 		fullPlacesInfoMemoization[locationID] = null
 
@@ -296,16 +296,19 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	}
 
 	async function API_addReview() {
+		// session, idLocation, webidAuthorLocation, {rating:int, comment:string}
 		// TODO: delete from memoizataion
 		// TODO: implementar
 	}
 
 	async function API_removeReview() {
+		// session, idReview, {rating:int, comment:string}
 		// TODO: delete from memoizataion
 		// TODO: implement
 	}
 
 	async function API_updateReview() {
+		// session, idReview
 		// TODO: delete from memoizataion
 		// TODO: implement
 	}
@@ -383,11 +386,12 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		}
 	}
 
-	async function API_acceptIncomingFriendRequest(webIdToAccept) {
+	async function API_acceptIncomingFriendRequest(webIdToAccept, nameForTheNewFriend) {
 		try {
 			const res = await FriendsController.acceptRequest(
 				getDefaultSession(),
-				webIdToAccept
+				webIdToAccept,
+				nameForTheNewFriend
 			);
 			updateSolicitudes();
 			return res;
