@@ -69,7 +69,6 @@ async function sendFriendRequest(session, newFriend) {
 		await solid.mandarSolicitud(session, friendRequest, name);
 		return true;
 	} catch (err) {
-		console.log(err);
 		console.log("Error en sendFriendRequest");
 		throw new Error("Ha ocurrido un error al enviar la solicitud");
 	}
@@ -85,9 +84,9 @@ async function getAllRequests(session) {
 	}
 }
 
-async function acceptRequest(session, webId) {
+async function acceptRequest(session, webId, name) {
 	try {
-		const friend = new Friend("Nombre:" + webId, webId);
+		const friend = new Friend(name, webId);
 		await solid.aceptarSolicitud(session, friend);
 		return true;
 	} catch (err) {
