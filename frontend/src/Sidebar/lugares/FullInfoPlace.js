@@ -4,20 +4,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Button, IconButton, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import EditInfoPlace from "./EditInfoPlace.js";
 import Rating from '@mui/material/Rating';
-/*
-// Ejecutar el comando adecuado para la review
-		if (reviewCommand) reviewCommand();
 
-		// Si se añaden/borran fotos, hacer
-		for (var command of imageCommands) {
-			command.f(thePlaceID);
-		}
-*/
-
+// TODO: eliminar hardcoded
 const reviews = [
 	{
 		rating: 5,
@@ -57,6 +49,8 @@ export default function FullInfoPlace(props) {
 
 	const isUserPlace = props.place.author === loggedInUserwebId;
 
+	console.log(props.place)
+
 	const [t] = useTranslation("global");
 	const [deleteLoading, setDeleteLoading] = useState(false);
 	const [addImageLoading, setAddImageLoading] = useState(false);
@@ -68,59 +62,91 @@ export default function FullInfoPlace(props) {
 
 	// TODO: coger la review adecuada
 	const [rating, setRating] = useState(
-		place?.review?.find(r => r.author===loggedInUserwebId) ? place?.review?.find(r => r.author===loggedInUserwebId)?.rating / 2 : null
+		place?.reviews?.find(r => r.author===loggedInUserwebId) ? place?.reviews?.find(r => r.author===loggedInUserwebId)?.rating / 2 : null
 	);
 	// TODO: coger la review adecuada
 	const [comment, setComment] = useState(
-		place?.review?.find(r => r.author===loggedInUserwebId) ? place?.review?.find(r => r.author===loggedInUserwebId)?.comment : ""
+		place?.reviews?.find(r => r.author===loggedInUserwebId) ? place?.reviews?.find(r => r.author===loggedInUserwebId)?.comment : ""
 	);
-	const [review, setReview] = useState(
-		(rating  &&  rating>=0) || comment ? { rating: rating, comment: comment } : null
-	);
+	const [review, setReview] = useState(null);
 
 	// TODO: seleccionar las imágenes adecuadas
 	const [photosURLs, setPhotosURLs] = useState(
 		place?.images ? place?.images.filter((photo) => photo.webID === "aaa") : []
 	);
 	const [imageCommands, setImageCommands] = useState([]);
-	const [reviewCommand, setReviewCommand] = useState(null);
 
 	function createNewReview() {
 		setReview({ rating: rating, comment: comment });
 	}
 
-	function saveReview() {
-		// if nueva
+	// var originalReview = useRef({comment: comment, rating: rating})
 
-		// if updating
+	async function saveReview() {
+		if (place?.reviews?.find(r => r.author===loggedInUserwebId)) {
+			// updating
+			const theReview = place.reviews.find(r => r.author===loggedInUserwebId)
+			await API_location_calls.API_updateReview(
+				theReview.id,
+				review
+			)
+
+			place[reviews] = place.reviews
+				.filter(r => r.author!==loggedInUserwebId)
+				.concat({...review, id:theReview.id, author: theReview.author})
+		} else {
+			// creating
+			const response = await API_location_calls.API_addReview(
+				place.id,
+				place.author,
+				review
+			)
+			place[reviews] = place.reviews
+			.filter(r => r.author!==loggedInUserwebId)
+			.concat({...review, author: response.author, id: response.id})
+		}
+
+		
 	}
 
 	function cancelReview() {
-
+		const originalReview = place?.reviews.find(r => r.author===loggedInUserwebId)
+		if (Boolean(originalReview)) {
+			setRating(originalReview.rating)
+			setComment(originalReview.comment)
+		} else {
+			setRating(null)
+			setComment("")
+		}
+		setReview(null)
 	}
 
-	function deleteReview() {
-		// TODO cambiar condicion
-		if (true) {
-			console.log("CAMBIAR CONDICION");
-			// Delete already existing review
-			const newReviewCommand = (placeID) =>
-				API_location_calls.API_removeReview();
-			setReviewCommand(newReviewCommand);
-		} else {
+	async function deleteReview() {
+		if (place?.review?.find(r => r.author===loggedInUserwebId)) {
+			await API_location_calls.API_removeReview(
+				place.review.find(r => r.author===loggedInUserwebId).id
+			);
+
+			place.reviews = place.reviews.filter(
+				r =>
+				r.author !== loggedInUserwebId
+			)
+
 		}
+
 		setRating(null);
 		setComment("");
 		setReview(null);
 	}
 
 	function handleRatingChange(event) {
-		setRating(parseFloat(event.target.value));
+		setRating(parseFloat(event.target.value)*2);
 	}
 
 	function handleCommentChange(event) {
 		setComment(event.target.value);
 	}
+
 	function addImage(event) {
 		const file = event.target.files[0];
 		console.log(file);
@@ -201,15 +227,6 @@ export default function FullInfoPlace(props) {
 		setAddImageLoading(false);
 	}
 
-	async function showSaveReviewButton() {
-		setIsReviewOpen(!isReviewOpen);
-		if (!isReviewOpen) {
-			createNewReview();
-		} else {
-			deleteReview();
-		}
-	}
-
 	return (
 		<>
 			{/* Botón de retorno */}
@@ -286,20 +303,82 @@ export default function FullInfoPlace(props) {
 			<h3>Reviews:</h3>
 			{/* Mi review */}
 			{review ?
-			<p>Si</p>
-				:
-				<Button
-					variant="contained"
-					onClick={showSaveReviewButton}
-					disabled={loading}
-				> 
-					{/* TODO: internacionalizar */}
-					{"Añadir review"}
-				</Button>
+			// Se está editando
+			(
+			<div className="card">
+				<Rating
+					defaultValue={rating/2}
+					precision={0.5}
+					onChange={handleRatingChange}
+				/>
+				<TextField
+						label="Comentario"
+						defaultValue = ""
+						onChange={handleCommentChange}
+					/>
+				<div className="card--line1">
+					<Button
+						variant="contained"
+						onClick={saveReview}
+						disabled={loading}
+						margin="normal"
+					> 
+						{/* TODO: internacionalizar */}
+						{"Guardar"}
+					</Button>
+
+					<Button
+						variant="contained"
+						onClick={cancelReview}
+						disabled={loading}
+						margin="normal"
+					> 
+						{/* TODO: internacionalizar */}
+						{"Cancelar"}
+					</Button>
+				</div>
+
+			</div>)
+			
+			:
+			((comment||(rating  &&  rating>0)) ?
+			// Existe, se pinta
+			<>
+			<div className="card">
+				<Rating
+					defaultValue={rating/2}
+					precision={0.5}
+					onChange={handleRatingChange}
+					readOnly
+				/>
+				<p>{comment}</p>
+			</div>
+			
+
+			<Button
+				variant="contained"
+				onClick={createNewReview}
+				disabled={loading}
+			> 
+				{/* TODO: internacionalizar */}
+				{"Editar"}
+			</Button>
+			</>
+
+			// No existe, botón de crear
+			:
+			<Button
+				variant="contained"
+				onClick={createNewReview}
+				disabled={loading}
+			> 
+				{/* TODO: internacionalizar */}
+				{"Añadir review"}
+			</Button>)
 			}
 
 			{/* Reviews de otros */}
-			{reviews.filter(r => r.author!==loggedInUserwebId).map(
+			{place?.reviews.filter(r => r.author!==loggedInUserwebId).map(
 				r =>
 				<div className="card">
 					Author: {r.author}
@@ -324,32 +403,6 @@ export default function FullInfoPlace(props) {
 					}
 				</div>
 			)}
-			
-			{/* Mi review */}
-			{/* {review !== null && (
-				<div>
-					<Rating
-						value={rating}
-						precision={0.5}
-						onChange={handleRatingChange}
-					/>
-					<TextField
-						label="Comentario"
-						value={comment}
-						onChange={handleCommentChange}
-					/>
-				</div>
-			)} */}
-
-			{/* {isReviewOpen ? (
-				<Button
-					variant="contained"
-					onClick={review === null ? createNewReview : deleteReview}
-					disabled={loading}
-				>
-					Save
-				</Button>
-			) : null} */}
 
 			</div> 
 			

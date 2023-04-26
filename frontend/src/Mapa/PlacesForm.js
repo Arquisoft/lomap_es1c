@@ -146,8 +146,8 @@ export default function CreateModal({
 			await API_location_calls.API_addReview(response.id,response.author,review);
 		}
 		if(data.photo.trim().length > 0){
-			//TODO: Mirar la llamada.
-			await API_location_calls.API_addPhoto(data.review,data.comment.trim());
+			//TODO: Mirar la llamada a la API.
+			await API_location_calls.API_addPhoto(response.id,response.author,data.photo);
 		}
 		setLoading(false);
 		return response;
@@ -192,13 +192,13 @@ export default function CreateModal({
 				<Select
 					id="categoria"
 					className="categoria"
-					defaultValue="sin categoria"
+					defaultValue=""
 					name="categoria"
 					onChange={handleCategoryChange}
 					disabled={loading}
 				>
-					<MenuItem value={"sin categoria"} defaultValue={true}>
-						Sin Categoria
+					<MenuItem value={""} defaultValue={true}>
+						<em>Sin Categoria</em>
 					</MenuItem>
 					{categorias.map((categoria) => (
 						<MenuItem key={categoria} value={categoria} disabled={loading}>

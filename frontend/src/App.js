@@ -44,6 +44,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		checkLoggedIn();
 		try {
 			const response = await LocationController.getCategories();
+			console.log(response)
 			setCategorias(response);
 		} catch (error) {
 			alert(error);
@@ -295,22 +296,48 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		}
 	}
 
-	async function API_addReview() {
-		// session, idLocation, webidAuthorLocation, {rating:int, comment:string}
-		// TODO: delete from memoizataion
-		// TODO: implementar
+	async function API_addReview(locationID, webidAuthorLocation, review) {
+		// TODO: devolver de verdad la review
+
+		try {
+			const response = await LocationController.addReview(
+				getDefaultSession(),
+				locationID,
+				webidAuthorLocation,
+				review
+			)
+			// TODO: delete from memoizataion
+			return response
+		} catch (error) {
+			alert(error)
+		}
 	}
 
-	async function API_removeReview() {
-		// session, idReview, {rating:int, comment:string}
-		// TODO: delete from memoizataion
-		// TODO: implement
+	async function API_removeReview(reviewID) {
+		try {
+			const response = await LocationController.deleteReview(
+				getDefaultSession(),
+				reviewID
+			)
+			// TODO: delete from memoizataion
+			return response
+		} catch (error) {
+			alert(error)
+		}
 	}
 
-	async function API_updateReview() {
-		// session, idReview
-		// TODO: delete from memoizataion
-		// TODO: implement
+	async function API_updateReview(reviewID, theNewReview) {
+		try {
+			const response = await LocationController.updateReview(
+				getDefaultSession(),
+				reviewID,
+				theNewReview
+			)
+			// TODO: delete from memoizataion
+			return response
+		} catch (error) {
+			alert(error)
+		}
 	}
 
 	function getwebId() {
