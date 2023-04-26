@@ -56,8 +56,8 @@ export default function CreateModal({
 
 	//Constantes para los campos del form
 	const [nombre, setNombre] = React.useState("");
-	const [valoracion, setValoracion] = React.useState(0);
-	const [categoria, setCategoria] = React.useState("Sin categoria");
+	const [valoracion, setValoracion] = React.useState(-1);
+	const [categoria, setCategoria] = React.useState("");
 	const [fotos, setFotos] = React.useState("");
 	const [comentario, setComentario] = React.useState("");
 
@@ -138,6 +138,17 @@ export default function CreateModal({
 		};
 
 		const response = await API_location_calls.API_createLocation(data);
+		if(data.comment.trim().length > 0 || data.review >= 0){
+			const review = {
+				rating : data.review,
+				comment : data.comment.trim()
+			}
+			await API_location_calls.API_addReview(response.id,response.author,review);
+		}
+		if(data.photo.trim().length > 0){
+			//TODO: Mirar la llamada.
+			await API_location_calls.API_addPhoto(data.review,data.comment.trim());
+		}
 		setLoading(false);
 		return response;
 	}

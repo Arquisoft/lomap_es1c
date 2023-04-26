@@ -348,6 +348,15 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		}
 	}
 
+	async function getAnyPlaceById(webId,placeId){
+		const creatorWebId = getwebId();
+		if(webId === creatorWebId){
+			return await API_getPlaceById(placeId);
+		}else{
+			return await API_friend_calls.getPlaceOfFriendById(webId,placeId)
+		}
+	}
+
 	const API_location_calls = {
 		API_createLocation: API_createLocation,
 		API_deleteLocation: API_deleteLocation,
@@ -357,7 +366,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		API_updateReview: API_updateReview,
 		API_addPhoto: API_addPhoto,
 		API_removePhoto: API_removePhoto,
-		API_getPlaceById: API_getPlaceById,
+		API_getPlaceById:getAnyPlaceById
 	};
 
 	async function API_generateNewFriendRequest(receiverwebId, newFriendName) {
@@ -466,6 +475,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		}	catch(error){
 			alert(error);
 		}
+	}
 
 	const API_friend_calls = {
 		API_generateNewFriendRequest: API_generateNewFriendRequest,
@@ -477,6 +487,8 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		getPlacesOfFriend: getPlacesOfFriend,
 		getPlaceOfFriendById: getPlaceOfFriendById,
 	};
+
+
 
 	//Estados de la aplicacion
 	//Latitud y longitud del marcador actual que tu pongas en el mapa.
