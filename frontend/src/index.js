@@ -4,7 +4,7 @@ import {
 	login,
 } from "@inrupt/solid-client-authn-browser";
 import i18next from "i18next";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import App from "./App";
@@ -38,18 +38,19 @@ i18next.init({
 
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	useEffect(() => {
-		// 2. When loading the component, call `handleIncomingRedirect` to authenticate
-		//    the user if appropriate, or to restore a previous session.
+	const loggedInOnce = useRef(false);
 
-		handleIncomingRedirect({
-			restorePreviousSession: true,
-		}).then(async (info) => {
-			if (getDefaultSession().info.isLoggedIn) {
-				await PodController.checkStruct(getDefaultSession());
-				setIsLoggedIn(true);
-			}
-		});
+	useEffect(() => {
+		if (loggedInOnce) {
+			handleIncomingRedirect({
+				restorePreviousSession: true,
+			}).then(async (info) => {
+				if (getDefaultSession().info.isLoggedIn) {
+					await PodController.checkStruct(getDefaultSession());
+					setIsLoggedIn(true);
+				}
+			});
+		}
 	}, []);
 
 	async function loginWeb(providerURL) {
@@ -57,6 +58,7 @@ function MyComponent() {
 			if (getDefaultSession().info.isLoggedIn) {
 				await PodController.checkStruct(getDefaultSession());
 				setIsLoggedIn(true);
+				loggedInOnce = true;
 			}
 		});
 
