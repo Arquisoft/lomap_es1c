@@ -4,15 +4,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Button, IconButton, TextField } from "@mui/material";
-import Rating from "@mui/material/Rating";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigation, Pagination } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Swiper, SwiperSlide } from "swiper/react";
 import EditInfoPlace from "./EditInfoPlace.js";
+import Rating from '@mui/material/Rating';
 /*
 // Ejecutar el comando adecuado para la review
 		if (reviewCommand) reviewCommand();
@@ -22,6 +17,34 @@ import EditInfoPlace from "./EditInfoPlace.js";
 			command.f(thePlaceID);
 		}
 */
+
+const reviews = [
+	{
+		rating: 5,
+		comment: "",
+		author: "Other",
+		id: 111111
+	},
+	{
+		rating: 8,
+		comment: "Super comentario existente",
+		author: "Other",
+		id: 123123123
+	},
+	{
+		rating: -1,
+		comment: "Solo texto",
+		author: "Other",
+		id: 333333
+	},
+	{
+		rating: 6,
+		comment: "Mi comentarios",
+		author: "https://id.inrupt.com/uo276818",
+		id: 999999
+	}
+]
+
 export default function FullInfoPlace(props) {
 	const {
 		place,
@@ -29,10 +52,10 @@ export default function FullInfoPlace(props) {
 		changeDrawerContent,
 		categorias,
 		API_location_calls,
-		isUserPlace,
+		loggedInUserwebId
 	} = props;
 
-	//ESTADOS COMO EL ESPAÑOL
+	const isUserPlace = props.place.author === loggedInUserwebId;
 
 	const [t] = useTranslation("global");
 	const [deleteLoading, setDeleteLoading] = useState(false);
@@ -45,14 +68,14 @@ export default function FullInfoPlace(props) {
 
 	// TODO: coger la review adecuada
 	const [rating, setRating] = useState(
-		place?.review?.rating ? place.review?.rating / 2 : null
+		place?.review?.find(r => r.author===loggedInUserwebId) ? place?.review?.find(r => r.author===loggedInUserwebId)?.rating / 2 : null
 	);
 	// TODO: coger la review adecuada
 	const [comment, setComment] = useState(
-		place?.review?.comment ? place.review?.comment : ""
+		place?.review?.find(r => r.author===loggedInUserwebId) ? place?.review?.find(r => r.author===loggedInUserwebId)?.comment : ""
 	);
 	const [review, setReview] = useState(
-		rating || comment ? { rating: rating, comment: comment } : null
+		(rating  &&  rating>=0) || comment ? { rating: rating, comment: comment } : null
 	);
 
 	// TODO: seleccionar las imágenes adecuadas
@@ -64,14 +87,16 @@ export default function FullInfoPlace(props) {
 
 	function createNewReview() {
 		setReview({ rating: rating, comment: comment });
-		// TODO cambiar condicion
-		if (true) {
-			console.log("CAMBIAR CONDICION");
-			// Create a new review
-			const newReviewCommand = (placeID) => API_location_calls.API_addReview();
-			setReviewCommand(newReviewCommand);
-		} else {
-		}
+	}
+
+	function saveReview() {
+		// if nueva
+
+		// if updating
+	}
+
+	function cancelReview() {
+
 	}
 
 	function deleteReview() {
@@ -194,76 +219,39 @@ export default function FullInfoPlace(props) {
 				</IconButton>
 			)}
 
-			{/* Nombre del lugar */}
-			<h1>{place.name}</h1>
+			<div className="card--line1">
+				{/* Nombre del lugar */}
+				<h1>{place.name}</h1>
+
+				{/* Botón de localizar */}
+				<Button
+					onClick={centerMapToPlace}
+					disabled={deleteLoading || addImageLoading || commentLoading}
+					startIcon={<TravelExploreIcon />}
+					variant="contained"
+				>
+					{t("sidebar.place.locate")}
+				</Button>
+			</div>
 
 			{/* Categoría del lugar */}
 			{/* TODO: internacionalizar */}
-			<h3>Categoria:</h3>
-			<p>{place.category}</p>
+			<div className="card--line1">
+				<h3>Categoria:</h3>
+				<p>{place.category}</p>
+			</div>
 
-			{/* Reviews */}
-			{/* {place.reviews  &&  place.reviews.length>0  &&  
-            <>
-                <h3>Reviews: </h3>
-                <Swiper
-                    pagination={{ type: "fraction", }}
-                    navigation={true}
-                    modules={[Pagination, Navigation]}
-                >
-                    {place.reviews.map(
-                        review => (
-                            <SwiperSlide>
-                                <p>{review.author}</p>
-                                <Rating value={(review.rating)/2.0} readOnly/>
-                            </SwiperSlide>
-                        )
-                    )}
-                </Swiper>
-            </>
-        } */}
-
-			{/* Comments */}
-			{/* {place.comments  &&  place.comments.length>0  &&
-            <>
-                <h3>Comentarios:</h3>
-                <Swiper
-                    pagination={{ type: "fraction", }}
-                    navigation={true}
-                    modules={[Pagination, Navigation]}
-                >
-                    {place.comments.map(
-                        comment => 
-                        (<SwiperSlide key={comment.id}>
-                            <p>"{comment.text}"({comment.author})</p>
-                        </SwiperSlide>)
-                    )}
-                </Swiper>
-
-            </>
-        } */}
-
-			{/* Photos */}
-			{/* {place.photos  &&  place.photos.length>0  &&
-            <>
-                <h3>Fotos:</h3>
-                <Swiper
-                    pagination={{ type: "fraction", }}
-                    navigation={true}
-                    modules={[Pagination, Navigation]}
-                >
-                    {place.photos.map(
-                        photo =>
-                        (<SwiperSlide>
-                           //TODO: hacer bien
-                            <img src=""/>
-                        </SwiperSlide>)
-                    )}
-                </Swiper>
-            </>
-        } */}
+			{/* Autor */}
+			<div className="card--line1">
+				{/* TODO: internacionalizar */}
+				<h3>Autor:</h3>
+				{loggedInUserwebId}
+				{/* TODO: hacer */}
+			</div>
 
 			<br></br>
+			<div className="card--line1">
+
 			{/* Botón de editar */}
 			{isUserPlace && (
 				<Button
@@ -275,16 +263,6 @@ export default function FullInfoPlace(props) {
 					{t("sidebar.place.edit")}
 				</Button>
 			)}
-
-			{/* Botón de localizar */}
-			<Button
-				onClick={centerMapToPlace}
-				disabled={deleteLoading || addImageLoading || commentLoading}
-				startIcon={<TravelExploreIcon />}
-				variant="contained"
-			>
-				{t("sidebar.place.locate")}
-			</Button>
 
 			{/* Botón de borrar */}
 			{isUserPlace && (
@@ -299,11 +277,56 @@ export default function FullInfoPlace(props) {
 					{t("sidebar.place.delete")}
 				</LoadingButton>
 			)}
+			</div>
 
-			<hr></hr>
-			{/* Review */}
-			<h3>Review</h3>
-			{review !== null && (
+			<br></br><hr></hr>
+
+			<div>
+			{/* Reviews */}
+			<h3>Reviews:</h3>
+			{/* Mi review */}
+			{review ?
+			<p>Si</p>
+				:
+				<Button
+					variant="contained"
+					onClick={showSaveReviewButton}
+					disabled={loading}
+				> 
+					{/* TODO: internacionalizar */}
+					{"Añadir review"}
+				</Button>
+			}
+
+			{/* Reviews de otros */}
+			{reviews.filter(r => r.author!==loggedInUserwebId).map(
+				r =>
+				<div className="card">
+					Author: {r.author}
+					check: {loggedInUserwebId}
+					< br/>
+					{
+						r.rating  &&  r.rating>0
+						&&
+						<>
+							<Rating
+								defaultValue={r.rating/2}
+								readOnly
+								precision={0.5}
+							/>
+						<br/>
+						</>
+					}
+					{
+					r.comment  &&  r.comment.length!==0
+						&&
+					'“'+r.comment+'”'
+					}
+				</div>
+			)}
+			
+			{/* Mi review */}
+			{/* {review !== null && (
 				<div>
 					<Rating
 						value={rating}
@@ -316,9 +339,9 @@ export default function FullInfoPlace(props) {
 						onChange={handleCommentChange}
 					/>
 				</div>
-			)}
+			)} */}
 
-			{isReviewOpen ? (
+			{/* {isReviewOpen ? (
 				<Button
 					variant="contained"
 					onClick={review === null ? createNewReview : deleteReview}
@@ -326,17 +349,11 @@ export default function FullInfoPlace(props) {
 				>
 					Save
 				</Button>
-			) : null}
+			) : null} */}
 
-			<Button
-				variant="contained"
-				onClick={showSaveReviewButton}
-				disabled={loading}
-			>
-				{/* TODO: internacionalizar */}
-				{!isReviewOpen ? "Añadir" : "Cancelar"}
-			</Button>
-			<hr></hr>
+			</div> 
+			
+			<br></br><hr></hr>
 
 			{/* Fotos */}
 			{/* TODO: internacionalizar */}

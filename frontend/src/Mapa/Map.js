@@ -193,7 +193,7 @@ function Map({
 	}, [currentTheme]);
 
 	function details(marker) {
-		var isUser = marker.author === getwebId();
+		var userWebId = getwebId();
 		var allPlaces = places.concat(friendPlaces);
 		changeDrawerContent(
 			<FullInfoPlace
@@ -203,7 +203,7 @@ function Map({
 				categorias={categorias}
 				setPosition={setPosition}
 				API_location_calls={API_location_calls}
-				isUserPlace={isUser}
+				loggedInUserwebId={userWebId}
 			/>
 		);
 	}

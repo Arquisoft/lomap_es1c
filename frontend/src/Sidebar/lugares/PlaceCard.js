@@ -6,7 +6,12 @@ export default function LugarCard(props) {
 
 	async function showFullInfo() {
 		// TODO: es diferente si es un lugar de un amigo o del usuario
-		const fullPlace = await props.API_location_calls.API_getPlaceById(place.id);
+		var fullPlace
+		if (true) {
+			fullPlace = await props.API_location_calls.API_getPlaceById(place.id);
+		} else {
+			// fullPlace = await props.
+		}
 
 		props.changeDrawerContent(
 			<FullInfoPlace
@@ -19,6 +24,7 @@ export default function LugarCard(props) {
 				API_location_calls={props.API_location_calls}
 				isUserPlace={props.isUserPlace}
 				userPlaces={props.userPlaces}
+				loggedInUserwebId = {props.loggedInUserwebId}
 			/>
 		);
 	}

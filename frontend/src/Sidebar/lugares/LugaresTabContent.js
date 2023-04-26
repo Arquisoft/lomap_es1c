@@ -50,6 +50,7 @@ export default function InicioTabContent(props) {
                     isUserPlace = {true}
                     returnTo = {<InicioTabContent {...props} />}
                     userPlaces = {props.userPlaces}
+                    loggedInUserwebId = {props.loggedInUserwebId}
                 />)
             }
         </div>

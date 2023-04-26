@@ -5,31 +5,7 @@ import SocialTabContent from './social/SocialTabContent.js';
 import RutasTabContent from './rutas/RutasTabContent.js';
 
 export default function DrawerDefaultContent(props) {
-    const lugaresTabContent = <InicioTabContent
-        userPlaces = {props.userPlaces}
-        changeDrawerContent = {props.changeDrawerContent}
-        setPosition={props.setPosition}
-        categorias = {props.categorias}
-        API_location_calls = {props.API_location_calls}
-    />
-    const socialTabContent = <SocialTabContent
-        amigos = {props.amigos}
-        API_friend_calls = {props.API_friend_calls}
-        changeDrawerContent = {props.changeDrawerContent}
-        API_location_calls = {props.API_location_calls}
-        setPosition = {props.setPosition}
-        solicitudes = {props.solicitudes}
-        setFriendsPlaces = {props.setFriendsPlaces}
-        friendsPlaces = {props.friendsPlaces}
-    />
-    const rutasTabContent = <RutasTabContent
-        userPlaces = {props.userPlaces}
-        changeDrawerContent = {props.changeDrawerContent}
-        rutas = {props.rutas}
-        API_route_calls = {props.API_route_calls}
-        API_location_calls = {props.API_location_calls}
-        setPosition = {props.setPosition}
-    />
+    
 
     return (
         <>
@@ -38,7 +14,19 @@ export default function DrawerDefaultContent(props) {
 
             {/* Botón de lugares */}
             {/* TODO: internacionalizar */}
-            <Button variant="contained" onClick={() => props.changeDrawerContent(lugaresTabContent)}>
+            <Button variant="contained" onClick={async() => {
+                const theWebId = await props.getwebId() 
+                props.changeDrawerContent(
+                    <InicioTabContent
+                        userPlaces = {props.userPlaces}
+                        changeDrawerContent = {props.changeDrawerContent}
+                        setPosition={props.setPosition}
+                        categorias = {props.categorias}
+                        API_location_calls = {props.API_location_calls}
+                        loggedInUserwebId = {theWebId}
+                    />
+                )
+            }}>
                 Tus lugares
             </Button>
 
@@ -47,7 +35,18 @@ export default function DrawerDefaultContent(props) {
 
             {/* Botón de social */}
             {/* TODO: internacionalizar */}
-            <Button variant="contained" onClick={() => props.changeDrawerContent(socialTabContent)}>
+            <Button variant="contained" onClick={() => props.changeDrawerContent(
+                <SocialTabContent
+                    amigos = {props.amigos}
+                    API_friend_calls = {props.API_friend_calls}
+                    changeDrawerContent = {props.changeDrawerContent}
+                    API_location_calls = {props.API_location_calls}
+                    setPosition = {props.setPosition}
+                    solicitudes = {props.solicitudes}
+                    setFriendsPlaces = {props.setFriendsPlaces}
+                    friendsPlaces = {props.friendsPlaces}
+                />
+            )}>
                 Social
             </Button>
 
@@ -56,7 +55,16 @@ export default function DrawerDefaultContent(props) {
 
             {/* Botón de rutas */}
             {/* TODO: internacionalizar */}
-            <Button variant="contained" onClick={() => props.changeDrawerContent(rutasTabContent)}>
+            <Button variant="contained" onClick={() => props.changeDrawerContent(
+                <RutasTabContent
+                    userPlaces = {props.userPlaces}
+                    changeDrawerContent = {props.changeDrawerContent}
+                    rutas = {props.rutas}
+                    API_route_calls = {props.API_route_calls}
+                    API_location_calls = {props.API_location_calls}
+                    setPosition = {props.setPosition}
+                />
+            )}>
                 Rutas
             </Button>
         </>

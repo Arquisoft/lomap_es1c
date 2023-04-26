@@ -585,6 +585,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				solicitudes={solicitudes}
 				setFriendsPlaces={setFriendPlaces}
 				friendsPlaces={friendPlaces}
+				getwebId={getwebId}
 			/>
 		</div>
 	);
