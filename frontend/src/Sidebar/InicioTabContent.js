@@ -39,6 +39,7 @@ export default function InicioTabContent(props) {
                     API_location_calls = {props.API_location_calls}
                     isUserPlace = {true}
                     returnTo = {<InicioTabContent {...props} />}
+                    userPlaces = {props.userPlaces}
                 />)
             }
         </div>

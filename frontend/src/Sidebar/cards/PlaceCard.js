@@ -18,6 +18,7 @@ export default function LugarCard(props) {
                 categorias = {props.categorias}
                 API_location_calls = {props.API_location_calls}
                 isUserPlace = {props.isUserPlace}
+                userPlaces = {props.userPlaces}
             />
         )
     }
