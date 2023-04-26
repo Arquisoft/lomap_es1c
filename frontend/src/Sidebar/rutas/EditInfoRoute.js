@@ -31,12 +31,14 @@ export default function EditRouteInfo({
 	const [locations, setLocations] = useState(
 		route == null ? [] : route.locations
 	);
+	const [isNameErrored, setIsNameErrored] = useState(name.length<=0)
 	const [t] = useTranslation("global");
 
 	const [anchorMenu, setAnchorMenu] = useState(false);
 
 	function handleNameChange(event) {
 		setName(event.target.value);
+		setIsNameErrored(event.target.value.trim().length <= 0)
 	}
 
 	function handleDescriptionChange(event) {
@@ -73,7 +75,7 @@ export default function EditRouteInfo({
 			}
 			setLoading(false);
 		}
-		changeDrawerContent(null);
+		changeDrawerContent(returnTo ? returnTo : null);
 	}
 
 	function clickOnNewLocation(locationId) {
@@ -126,31 +128,46 @@ export default function EditRouteInfo({
 
 	return (
 		<>
+			{/* Botón para volver */}
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
 				<IconButton
 					data-testid="back-button"
-					onClick={() => changeDrawerContent(null)}
+					onClick={() => changeDrawerContent(returnTo ? returnTo : null)}
 					disabled={loading}
 				>
 					<ArrowBackIcon />
 				</IconButton>
 			</Tooltip>
 			<br></br>
+
+			{/* Título */}
 			<TextField
 				inputProps={{ "data-testid": "text-field-title" }}
 				label={t("sidebar.route.route-name")}
 				defaultValue={name}
 				onChange={handleNameChange}
 				disabled={loading}
+				required
+				margin="normal"
+				error={isNameErrored}
+				helperText = {
+					// TODO: traducit
+					isNameErrored ? "EL nombre no puede estar vacío" : ""
+				}
 			/>
 			<br></br>
+
+			{/* Descripción */}
 			<TextField
 				inputProps={{ "data-testid": "text-field-description" }}
 				label={t("sidebar.route.route-description")}
 				defaultValue={description}
 				onChange={handleDescriptionChange}
 				disabled={loading}
+				margin="normal"
 			/>
+
+			{/* Lugares */}
 			<div className="card--line1">
 				<h3 data-testid="your-locations-title">
 					{t("sidebar.route.places-in-route")}
@@ -169,6 +186,7 @@ export default function EditRouteInfo({
 				</Tooltip>
 			</div>
 
+			{/* Menú con los lugares que se pueden añadir */}
 			<Menu
 				anchorEl={anchorMenu}
 				open={Boolean(anchorMenu)}
@@ -192,6 +210,7 @@ export default function EditRouteInfo({
 					))}
 			</Menu>
 
+			{/* Listado de lugares */}
 			<ul>
 				{locations.map((location) => (
 					<li key={location.id + "_li"} data-testid={location.id + "_li"}>
@@ -219,9 +238,9 @@ export default function EditRouteInfo({
 					</li>
 				))}
 			</ul>
-
 			<br></br>
 
+			{/* Botón de guardar */}
 			<LoadingButton
 				data-testid="save-button"
 				color="secondary"
@@ -230,6 +249,7 @@ export default function EditRouteInfo({
 				loadingPosition="start"
 				startIcon={<SaveIcon />}
 				variant="contained"
+				disabled = {isNameErrored}
 			>
 				<span>{t("sidebar.route.save-route-button")}</span>
 			</LoadingButton>

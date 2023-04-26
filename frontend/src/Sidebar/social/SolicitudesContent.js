@@ -7,6 +7,8 @@ import SolicitudCard from "./cards/SolicitudCard";
 export default function SolicitudesContent(props) {
 	const [t] = useTranslation("global");
 
+	console.log(props.solicitudes)
+
 	return (
 		<>
 			{/* Return button */}
@@ -25,6 +27,8 @@ export default function SolicitudesContent(props) {
 					key={"solicitud_card" + solicitud.id}
 					API_friend_calls={props.API_friend_calls}
 					solicitud={solicitud}
+					returnTo={<SolicitudesContent {...props} />}
+					changeDrawerContent = {props.changeDrawerContent}
 				/>
 			))}
 		</>

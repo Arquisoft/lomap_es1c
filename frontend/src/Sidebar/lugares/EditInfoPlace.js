@@ -89,6 +89,7 @@ export default function FullInfoPlace({
 					defaultValue={name}
 					onChange={handleNameChange}
 					helperText={
+						// TODO: traducit
 						isNameTextFieldErrored ? "El nombre no puede estar vacío" : ""
 					}
 					margin="normal"

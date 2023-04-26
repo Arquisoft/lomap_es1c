@@ -22,7 +22,11 @@ export default function RutaCard(props) {
 	}
 
 	return (
-		<div onClick={showFullRouteInfo} className="card" data-testid={"route_card_" + props.route.id}>
+		<div
+			onClick={showFullRouteInfo}
+			className="card"
+			data-testid={"route_card_" + props.route.id}
+		>
 			<h3 data-testid={"route_card_title_text_" + props.route.id}>
 				{props.route.name}
 			</h3>

@@ -6,7 +6,7 @@ import { Button, IconButton, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import EditInfoRoute from "./EditInfoRoute";
-import PlaceCard from "./PlaceCard";
+import PlaceCard from "../lugares/PlaceCard";
 
 export default function FullRouteInfo(props) {
     const {route, returnFunction, changeDrawerContent, userPlaces, API_route_calls} = props
@@ -30,18 +30,6 @@ export default function FullRouteInfo(props) {
 		await API_route_calls.API_deleteRoute(route.id)
 		setLoading(false)
 		returnFunction()
-	}
-
-	function allowEdit() {
-		changeDrawerContent(
-			<EditInfoRoute
-				route={route}
-				changeDrawerContent={changeDrawerContent}
-				returnFunction={() => changeDrawerContent(this)}
-				userPlaces={userPlaces}
-				API_route_calls={API_route_calls}
-			/>
-		);
 	}
 
 	return (

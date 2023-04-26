@@ -7,7 +7,7 @@ import {
 } from "@react-google-maps/api";
 import Geolocation from "@react-native-community/geolocation";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import FullInfoPlace from "../Sidebar/cards/FullInfoPlace";
+import FullInfoPlace from "../Sidebar/lugares/FullInfoPlace.js";
 import { ThemeContext, Themes } from "../contexts/ThemeContext";
 import OpenIconSpeedDial from "./bottonMarkers";
 import FilterButtons from "./filterButtons";
@@ -193,7 +193,7 @@ function Map({
 	}, [currentTheme]);
 
 	function details(marker) {
-		var isUser = marker.author === getwebId();
+		var userWebId = getwebId();
 		var allPlaces = places.concat(friendPlaces);
 		changeDrawerContent(
 			<FullInfoPlace
@@ -203,7 +203,7 @@ function Map({
 				categorias={categorias}
 				setPosition={setPosition}
 				API_location_calls={API_location_calls}
-				isUserPlace={isUser}
+				loggedInUserwebId={userWebId}
 			/>
 		);
 	}

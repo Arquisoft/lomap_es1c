@@ -263,6 +263,9 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	}
 
 	async function API_deleteLocation(locationID) {
+		// Delete from memoization
+		fullPlacesInfoMemoization[locationID] = null
+
 		try {
 			const response = await LocationController.deleteLocation(
 				getDefaultSession(),
@@ -276,6 +279,9 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	}
 
 	async function API_updateLocation(placeID, location) {
+		// Delete from memoization
+		fullPlacesInfoMemoization[placeID] = null
+
 		try {
 			const response = await LocationController.updateLocation(
 				getDefaultSession(),
@@ -290,14 +296,20 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	}
 
 	async function API_addReview() {
+		// session, idLocation, webidAuthorLocation, {rating:int, comment:string}
+		// TODO: delete from memoizataion
 		// TODO: implementar
 	}
-	//eh
+
 	async function API_removeReview() {
+		// session, idReview, {rating:int, comment:string}
+		// TODO: delete from memoizataion
 		// TODO: implement
 	}
 
 	async function API_updateReview() {
+		// session, idReview
+		// TODO: delete from memoizataion
 		// TODO: implement
 	}
 
@@ -305,11 +317,16 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		return getDefaultSession().info.webId;
 	}
 
-	async function API_addPhoto() {}
-	async function API_removePhoto() {}
+	async function API_addPhoto() {
+		// TODO: delete from memoizataion
+		// TODO: implement
+	}
+	async function API_removePhoto() {
+		// TODO: delete from memoizataion
+		// TODO: implement
+	}
 
 	async function API_getPlaceById(placeID) {
-		console.log(placeID);
 		checkLoggedIn();
 
 		const infoFromMemoization = fullPlacesInfoMemoization[placeID];
@@ -368,13 +385,14 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		}
 	}
 
-	async function API_acceptIncomingFriendRequest(webIdToAccept) {
+	async function API_acceptIncomingFriendRequest(webIdToAccept, nameForTheNewFriend) {
 		try {
 			const res = await FriendsController.acceptRequest(
 				getDefaultSession(),
-				webIdToAccept
+				webIdToAccept,
+				nameForTheNewFriend
 			);
-			updateSolicitudes();
+			setSolicitudes(current => current.filter(s => s.sender!==webIdToAccept))
 			return res;
 		} catch (error) {
 			alert(error);
@@ -387,12 +405,13 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				getDefaultSession(),
 				webIdToReject
 			);
-			updateSolicitudes();
+			setSolicitudes(current => current.filter(s => s.sender!==webIdToReject))
 			return res;
 		} catch (error) {
 			alert(error);
 		}
 	}
+
 	async function API_removeFriend(friendwebId) {
 		try {
 			const res = await FriendsController.deleteFriend(
@@ -580,6 +599,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				solicitudes={solicitudes}
 				setFriendsPlaces={setFriendPlaces}
 				friendsPlaces={friendPlaces}
+				getwebId={getwebId}
 			/>
 		</div>
 	);

@@ -1,12 +1,16 @@
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { IconButton, Tooltip } from "@mui/material";
 import React, { useState } from "react";
-import FullFriendInfo from "../../cards/FullFriendInfo";
+import FullFriendInfo from "../FullFriendInfo";
 
 export default function FriendCard(props) {
 	const [isVisible, setIsVisible] = useState(false);
+
+	function handleButtonClick(event) {
+		event.stopPropagation()
+		toggleVisibility();
+	}
 
 	async function toggleVisibility() {
 		if (!isVisible) {
@@ -23,8 +27,6 @@ export default function FriendCard(props) {
 	}
 
 	async function showFullAmigoInfo() {
-		// TODO: comprobar si ya tenemos sus lugares
-		// TODO: cogerlos si no los tenemos
 		var friendPlaces = await props.API_friend_calls.getPlacesOfFriend(
 			props.friend.webId
 		);
@@ -43,31 +45,24 @@ export default function FriendCard(props) {
 	}
 
 	return (
-		<>
-			{/* Separador */}
-			<hr></hr>
-
+		<div
+			onClick = {showFullAmigoInfo}
+			className="card"
+		>
 			<div className="card--line1">
 				{/* Nombre del amigo */}
 				<p>{props.friend.name}</p>
-
-				{/* Botón toda la info */}
-				<Tooltip title="Ver amigo" placement="bottom">
-					<IconButton onClick={showFullAmigoInfo}>
-						<FullscreenIcon />
-					</IconButton>
-				</Tooltip>
 
 				{/* Checkbox para mostrar los puntos en el mapa */}
 				<Tooltip
 					title={isVisible ? "Ocultar del mapa" : "Mostrar en el mapa"}
 					placement="bottom"
 				>
-					<IconButton onClick={toggleVisibility}>
+					<IconButton onClick={handleButtonClick}>
 						{isVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
 					</IconButton>
 				</Tooltip>
 			</div>
-		</>
+		</div>
 	);
 }

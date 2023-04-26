@@ -23,6 +23,7 @@ export default function DrawerSidebar(props) {
           solicitudes = {props.solicitudes}
           setFriendsPlaces = {props.setFriendsPlaces}
           friendsPlaces = {props.friendsPlaces}
+          getwebId = {props.getwebId}
         />
       )
 
