@@ -41,6 +41,7 @@ function MyComponent() {
 	useEffect(() => {
 		// 2. When loading the component, call `handleIncomingRedirect` to authenticate
 		//    the user if appropriate, or to restore a previous session.
+
 		handleIncomingRedirect({
 			restorePreviousSession: true,
 		}).then(async (info) => {
@@ -52,10 +53,12 @@ function MyComponent() {
 	}, []);
 
 	async function loginWeb(providerURL) {
-		if (getDefaultSession().info.isLoggedIn) {
-			setIsLoggedIn(true);
-			PodController.checkStruct(getDefaultSession());
-		}
+		await handleIncomingRedirect().then(async (info) => {
+			if (getDefaultSession().info.isLoggedIn) {
+				await PodController.checkStruct(getDefaultSession());
+				setIsLoggedIn(true);
+			}
+		});
 
 		let provider = providerURL ? providerURL : "https://login.inrupt.com";
 		if (!getDefaultSession().info.isLoggedIn) {
@@ -76,9 +79,15 @@ function MyComponent() {
 		<>
 			<I18nextProvider i18n={i18next}>
 				{isLoggedIn ? (
-					<ThemeContextProvider children={<App logOutFunction={logOut} isLoggedIn={isLoggedIn} />} />
+					<ThemeContextProvider
+						children={<App logOutFunction={logOut} isLoggedIn={isLoggedIn} />}
+					/>
 				) : (
-					<ThemeContextProvider children={<Login logInFunction={loginWeb} isLoggedIn={isLoggedIn} />} />
+					<ThemeContextProvider
+						children={
+							<Login logInFunction={loginWeb} isLoggedIn={isLoggedIn} />
+						}
+					/>
 				)}
 			</I18nextProvider>
 		</>
