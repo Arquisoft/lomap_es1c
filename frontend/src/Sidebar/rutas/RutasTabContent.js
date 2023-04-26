@@ -3,9 +3,23 @@ import RutaCard from "./RutaCard";
 import { useTranslation } from "react-i18next";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { IconButton, Tooltip } from "@mui/material";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import EditRouteInfo from "./EditInfoRoute";
 
 export default function RutasTabContent(props) {
     const [t, i18n] = useTranslation("global")
+
+    function handleClickOnNewRoute() {
+        props.changeDrawerContent(
+            <EditRouteInfo
+                route = {null}
+                changeDrawerContent = {props.changeDrawerContent}
+                returnTo = {<RutasTabContent {...props} />}
+                userPlaces = {props.userPlaces}
+                API_route_calls = {props.API_route_calls}
+            />
+        )
+    }
 
     return (
         <div className="tabcontent">
@@ -17,14 +31,22 @@ export default function RutasTabContent(props) {
 
             </Tooltip>
 
-            <h1
-                id="centered"
-                data-testid="routes_title"
-            >
-                {t("sidebar.tabs.route-content.title")}
-            </h1>
+            <div className="card--line1">
+                <h1
+                    id="centered"
+                    data-testid="routes_title"
+                >
+                    {t("sidebar.tabs.route-content.title")}
+                </h1>
 
-            <IconButton></IconButton>
+                {/* TODO: internacionalizar */}
+                <Tooltip title="Añadir ruta">
+                    <IconButton onClick={handleClickOnNewRoute}>
+                        <AddCircleOutlineIcon />
+                    </IconButton>
+                </Tooltip>
+            </div>
+
             
             {props.rutas.map(
                 route =>

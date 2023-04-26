@@ -32,18 +32,6 @@ export default function FullRouteInfo(props) {
 		returnFunction()
 	}
 
-	function allowEdit() {
-		changeDrawerContent(
-			<EditInfoRoute
-				route={route}
-				changeDrawerContent={changeDrawerContent}
-				returnFunction={() => changeDrawerContent(this)}
-				userPlaces={userPlaces}
-				API_route_calls={API_route_calls}
-			/>
-		);
-	}
-
 	return (
 		<>
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">

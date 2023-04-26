@@ -73,7 +73,7 @@ export default function EditRouteInfo({
 			}
 			setLoading(false);
 		}
-		changeDrawerContent(null);
+		changeDrawerContent(returnTo ? returnTo : null);
 	}
 
 	function clickOnNewLocation(locationId) {
@@ -129,7 +129,7 @@ export default function EditRouteInfo({
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
 				<IconButton
 					data-testid="back-button"
-					onClick={() => changeDrawerContent(null)}
+					onClick={() => changeDrawerContent(returnTo ? returnTo : null)}
 					disabled={loading}
 				>
 					<ArrowBackIcon />
