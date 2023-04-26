@@ -262,7 +262,10 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		}
 	}
 
-	async function API_deleteLocation(locationID) {
+	async function API_deleteLocation(locationID) {4
+		// Delete from memoization
+		fullPlacesInfoMemoization[locationID] = null
+
 		try {
 			const response = await LocationController.deleteLocation(
 				getDefaultSession(),
@@ -276,6 +279,9 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	}
 
 	async function API_updateLocation(placeID, location) {
+		// Delete from memoization
+		fullPlacesInfoMemoization[placeID] = null
+
 		try {
 			const response = await LocationController.updateLocation(
 				getDefaultSession(),
@@ -290,14 +296,17 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	}
 
 	async function API_addReview() {
+		// TODO: delete from memoizataion
 		// TODO: implementar
 	}
-	//eh
+
 	async function API_removeReview() {
+		// TODO: delete from memoizataion
 		// TODO: implement
 	}
 
 	async function API_updateReview() {
+		// TODO: delete from memoizataion
 		// TODO: implement
 	}
 
@@ -305,8 +314,14 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		return getDefaultSession().info.webId;
 	}
 
-	async function API_addPhoto() {}
-	async function API_removePhoto() {}
+	async function API_addPhoto() {
+		// TODO: delete from memoizataion
+		// TODO: implement
+	}
+	async function API_removePhoto() {
+		// TODO: delete from memoizataion
+		// TODO: implement
+	}
 
 	async function API_getPlaceById(placeID) {
 		console.log(placeID)
