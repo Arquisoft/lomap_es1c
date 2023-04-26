@@ -1,8 +1,5 @@
 import React from "react";
-import { IconButton } from '@mui/material';
 import FullInfoPlace from "./FullInfoPlace";
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import Button from "@mui/material/Button";
 
 export default function LugarCard(props) {
     const place = props.place

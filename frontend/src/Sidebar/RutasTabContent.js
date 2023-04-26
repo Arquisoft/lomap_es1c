@@ -22,6 +22,8 @@ export default function RutasTabContent(props) {
                     changeDrawerContent = {props.changeDrawerContent}
                     userPlaces = {props.userPlaces}
                     API_route_calls = {props.API_route_calls}
+                    API_location_calls = {props.API_location_calls}
+                    setPosition = {props.setPosition}
                 />
             )}
         </div>

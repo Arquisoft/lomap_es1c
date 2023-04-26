@@ -15,6 +15,8 @@ export default function RutaCard(props) {
 				changeDrawerContent={props.changeDrawerContent}
 				userPlaces={props.userPlaces}
 				API_route_calls={props.API_route_calls}
+				API_location_calls={props.API_location_calls}
+				setPosition = {props.setPosition}
 			/>
 		);
 	}

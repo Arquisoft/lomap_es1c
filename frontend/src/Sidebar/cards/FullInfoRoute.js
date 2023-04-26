@@ -67,18 +67,12 @@ export default function FullRouteInfo(props) {
 					place = {location}
 					changeDrawerContent = {changeDrawerContent}
 					categorias = {[]}	// TODO
-					setPosition = {() => null} 	// TODO
-					API_location_calls = {[]} // TODO
+					setPosition = {props.setPosition}
+					API_location_calls = {props.API_location_calls}
 					isUserPlace = {true}
 					returnTo = {<FullRouteInfo {...props} />}
 					userPlaces = {userPlaces}
 				/>
-				// <li
-				// 	key={location.id + "_li"}
-				// 	data-testid={"full_info_route_place_" + location.id}
-				// >
-				// 	{location.name}
-				// </li>
 			))}
 
 			<br></br>
