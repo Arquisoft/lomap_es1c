@@ -435,6 +435,19 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		}
 	}
 
+	async function getPlaceOfFriendById(friendwebId, placeId) {
+		checkLoggedIn();
+		try{
+			const response = await FriendsController.getFriendLocationById(
+				getDefaultSession(),
+				placeId,
+				friendwebId
+			);
+			return response;
+		}	catch(error){
+			alert(error);
+		}
+
 	const API_friend_calls = {
 		API_generateNewFriendRequest: API_generateNewFriendRequest,
 		API_getAllRequests: API_getAllRequests,
@@ -443,6 +456,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		API_removeFriend: API_removeFriend,
 		API_getAllFriends: API_getAllFriends,
 		getPlacesOfFriend: getPlacesOfFriend,
+		getPlaceOfFriendById: getPlaceOfFriendById,
 	};
 
 	//Estados de la aplicacion
