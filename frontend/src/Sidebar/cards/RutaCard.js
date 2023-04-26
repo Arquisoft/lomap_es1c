@@ -3,7 +3,7 @@ import FullRouteInfo from "./FullInfoRoute";
 
 export default function RutaCard(props) {
 	async function showFullRouteInfo() {
-		const routeLocations = await props.API_route_calls.API_getRouteByID(
+		const routeLocations = await props.API_route_calls.getRouteByID(
 			props.route.id
 		);
 		props.route.locations = routeLocations;

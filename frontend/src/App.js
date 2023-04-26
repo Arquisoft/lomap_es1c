@@ -1,6 +1,6 @@
 import { getDefaultSession } from "@inrupt/solid-client-authn-browser";
 import CircularProgress from "@mui/material/CircularProgress";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./App.css";
 import CreateMap from "./Mapa/Map";
@@ -26,6 +26,8 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	const [amigos, setAmigos] = useState([]);
 	const [loading, setLoading] = useState(0);
 	const [solicitudes, setSolicitudes] = useState([]);
+
+	const routesMemoization = useRef({})
 
 	async function checkLoggedIn() {
 		let session = getDefaultSession();
@@ -116,13 +118,19 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		updateSolicitudes();
 	}, []);
 
-	async function API_getRouteByID(routeID) {
+	async function getRouteByID(routeID) {
 		checkLoggedIn();
+		const routeFromMemoization = routesMemoization[routeID]
+		if (routeFromMemoization) {
+			return routeFromMemoization;
+		}
+
 		try {
 			const response = await RoutesController.getAllLocationsByRouteId(
 				getDefaultSession(),
 				routeID
 			);
+			routesMemoization[routeID] = response
 			return response;
 		} catch (error) {
 			alert(error);
@@ -230,7 +238,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 
 	const API_route_calls = {
 		// "API_getAllRoutes": API_getAllRoutes,
-		API_getRouteByID: API_getRouteByID,
+		getRouteByID: getRouteByID,
 		API_addRoute: API_addRoute,
 		API_updateRouteInfo: API_updateRouteInfo,
 		API_deleteRoute: API_deleteRoute,
