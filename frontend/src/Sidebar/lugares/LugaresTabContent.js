@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
-import PlaceCard from "./cards/PlaceCard";
+import PlaceCard from "../lugares/PlaceCard";
 import { useTranslation } from "react-i18next";
-import { TextField } from "@mui/material";
-import { getTextColor, ThemeContext } from "../contexts/ThemeContext";
+import { IconButton, TextField, Tooltip } from "@mui/material";
+import { getTextColor, ThemeContext } from "../../contexts/ThemeContext";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function InicioTabContent(props) {
     const {currentTheme} = useContext(ThemeContext);
@@ -11,6 +12,14 @@ export default function InicioTabContent(props) {
 
     return (
         <div className="tabcontent">
+            <Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
+                <IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
+                    <ArrowBackIcon />
+                </IconButton>
+
+            </Tooltip>
+
+
             <h1 id="centered">{t("sidebar.tabs.start-content.title")}</h1>
             <div id="centered-content">
                 <TextField

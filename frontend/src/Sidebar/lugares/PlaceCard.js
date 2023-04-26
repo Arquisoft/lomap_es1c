@@ -5,7 +5,7 @@ export default function LugarCard(props) {
 	const place = props.place;
 
 	async function showFullInfo() {
-		// TODO: OBTENER TODA LA INFO DE UN LUGAR
+		// TODO: es diferente si es un lugar de un amigo o del usuario
 		const fullPlace = await props.API_location_calls.API_getPlaceById(place.id);
 
 		props.changeDrawerContent(

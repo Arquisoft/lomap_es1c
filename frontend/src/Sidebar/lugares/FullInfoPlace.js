@@ -3,7 +3,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Button, IconButton, TextField, useThemeProps } from "@mui/material";
+import { Button, IconButton, TextField } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,7 +12,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
-import EditInfoPlace from "./EditInfoPlace";
+import EditInfoPlace from "./EditInfoPlace.js";
 /*
 // Ejecutar el comando adecuado para la review
 		if (reviewCommand) reviewCommand();

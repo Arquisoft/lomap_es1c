@@ -327,7 +327,6 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	}
 
 	async function API_getPlaceById(placeID) {
-		console.log(placeID);
 		checkLoggedIn();
 
 		const infoFromMemoization = fullPlacesInfoMemoization[placeID];

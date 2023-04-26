@@ -2,7 +2,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { IconButton, Tooltip } from "@mui/material";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import SeguidoCard from "./cards/FriendCard";
+import FriendCard from "./cards/FriendCard";
 
 export default function SeguidosContent(props) {
 	const [t] = useTranslation("global");
@@ -21,7 +21,7 @@ export default function SeguidosContent(props) {
 
 			{/* Friend cards */}
 			{props.amigos.map((friend) => (
-				<SeguidoCard
+				<FriendCard
 					key={"friend_card_" + friend.webid}
 					API_friend_calls={props.API_friend_calls}
 					friend={friend}

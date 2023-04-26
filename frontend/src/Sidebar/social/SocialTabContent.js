@@ -1,10 +1,11 @@
 import React from "react";
-// import AmigoCard from "./cards/AmigoCard";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import AddFriendContent from "./AddFriendContent";
-import SeguidosContent from "./social/SeguidosContent";
-import SolicitudesContent from "./social/SolicitudesContent";
+import SeguidosContent from "./SeguidosContent";
+import SolicitudesContent from "./SolicitudesContent";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { IconButton, Tooltip } from "@mui/material";
 
 export default function AmigosTabContent(props) {
 	const {
@@ -53,6 +54,14 @@ export default function AmigosTabContent(props) {
 
 	return (
 		<div className="tabcontent">
+
+			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
+                <IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
+                    <ArrowBackIcon />
+                </IconButton>
+
+            </Tooltip>
+
 			<h1 id="centered">Social</h1>
 
 			<Button variant="contained" onClick={handleClickOnAddFriend}>

@@ -7,7 +7,7 @@ import {
 } from "@react-google-maps/api";
 import Geolocation from "@react-native-community/geolocation";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import FullInfoPlace from "../Sidebar/cards/FullInfoPlace";
+import FullInfoPlace from "../Sidebar/lugares/FullInfoPlace.js";
 import { ThemeContext, Themes } from "../contexts/ThemeContext";
 import OpenIconSpeedDial from "./bottonMarkers";
 import FilterButtons from "./filterButtons";
