@@ -18,21 +18,21 @@ export default function AddFriendContent({ API_friend_calls, returnFunction }) {
 		}
 	}
 
-	async function checkwebId(webIdUrl) {
-		try {
-			const response = await fetch(webidUrl, { method: "HEAD", base: "" });
+	// async function checkwebId(webIdUrl) {
+	// 	try {
+	// 		const response = await fetch(webIdUrl, { method: "HEAD", base: "" });
 
-			if (response.ok) {
-				return true;
-			} else {
-				alert("El webId no existe");
-				return false;
-			}
-		} catch (error) {
-			alert("El webId no existe");
-			return false;
-		}
-	}
+	// 		if (response.ok) {
+	// 			return true;
+	// 		} else {
+	// 			alert("El webId no existe");
+	// 			return false;
+	// 		}
+	// 	} catch (error) {
+	// 		alert("El webId no existe");
+	// 		return false;
+	// 	}
+	// }
 
 	return (
 		<>
