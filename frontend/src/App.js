@@ -14,7 +14,7 @@ const LocationController = require("./backend/controllers/LocationController");
 const RoutesController = require("./backend/controllers/RouteController");
 const FriendsController = require("./backend/controllers/FriendController");
 
-export default function App({ logOutFunction }) {
+export default function App({ logOutFunction, isLoggedIn }) {
 	//Todos los lugares del usuario
 	const [places, setPlaces] = React.useState([]);
 	//Todos los lugares de los amigos
@@ -503,6 +503,7 @@ export default function App({ logOutFunction }) {
 				changeLanguage={toggleLanguage}
 				toggleTheme={toggleTheme}
 				logOutFunction={logOutFunction}
+				isLoggedIn={isLoggedIn}
 			/>
 
 			<DrawerSidebar

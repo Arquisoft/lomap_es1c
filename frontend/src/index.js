@@ -74,13 +74,13 @@ function MyComponent() {
 
 	return (
 		<>
-			{isLoggedIn ? (
-				<I18nextProvider i18n={i18next}>
-					<ThemeContextProvider children={<App logOutFunction={logOut} />} />
-				</I18nextProvider>
-			) : (
-				<Login logInFunction={loginWeb} />
-			)}
+			<I18nextProvider i18n={i18next}>
+				{isLoggedIn ? (
+					<ThemeContextProvider children={<App logOutFunction={logOut} isLoggedIn={isLoggedIn} />} />
+				) : (
+					<ThemeContextProvider children={<Login logInFunction={loginWeb} isLoggedIn={isLoggedIn} />} />
+				)}
+			</I18nextProvider>
 		</>
 	);
 }
