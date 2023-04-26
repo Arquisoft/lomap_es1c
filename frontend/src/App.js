@@ -27,9 +27,9 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	const [loading, setLoading] = useState(0);
 	const [solicitudes, setSolicitudes] = useState([]);
 
-	const routesMemoization = useRef({})
-	const friendPlacesMemoization = useRef({})
-	const fullPlacesInfoMemoization = useRef({})
+	const routesMemoization = useRef({});
+	const friendPlacesMemoization = useRef({});
+	const fullPlacesInfoMemoization = useRef({});
 
 	async function checkLoggedIn() {
 		let session = getDefaultSession();
@@ -123,7 +123,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	async function getRouteByID(routeID) {
 		checkLoggedIn();
 
-		const routeFromMemoization = routesMemoization[routeID]
+		const routeFromMemoization = routesMemoization[routeID];
 		if (routeFromMemoization) {
 			return routeFromMemoization;
 		}
@@ -133,7 +133,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				getDefaultSession(),
 				routeID
 			);
-			routesMemoization[routeID] = response
+			routesMemoization[routeID] = response;
 			return response;
 		} catch (error) {
 			alert(error);
@@ -309,10 +309,10 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	async function API_removePhoto() {}
 
 	async function API_getPlaceById(placeID) {
-		console.log(placeID)
+		console.log(placeID);
 		checkLoggedIn();
 
-		const infoFromMemoization = fullPlacesInfoMemoization[placeID]
+		const infoFromMemoization = fullPlacesInfoMemoization[placeID];
 		if (infoFromMemoization) {
 			return infoFromMemoization;
 		}
@@ -322,12 +322,12 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				getDefaultSession(),
 				placeID
 			);
-			if (response){
-				fullPlacesInfoMemoization[placeID] = response
+			if (response) {
+				fullPlacesInfoMemoization[placeID] = response;
 			}
-			return response
+			return response;
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 	}
 
@@ -340,7 +340,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		API_updateReview: API_updateReview,
 		API_addPhoto: API_addPhoto,
 		API_removePhoto: API_removePhoto,
-		API_getPlaceById: API_getPlaceById
+		API_getPlaceById: API_getPlaceById,
 	};
 
 	async function API_generateNewFriendRequest(receiverwebId, newFriendName) {
@@ -420,7 +420,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 
 		const placesFromMemoization = friendPlacesMemoization[friendwebId];
 		if (placesFromMemoization) {
-			return placesFromMemoization
+			return placesFromMemoization;
 		}
 
 		try {
@@ -428,7 +428,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				getDefaultSession(),
 				friendwebId
 			);
-			friendPlacesMemoization[friendwebId] = response
+			friendPlacesMemoization[friendwebId] = response;
 			return response;
 		} catch (error) {
 			alert(error);

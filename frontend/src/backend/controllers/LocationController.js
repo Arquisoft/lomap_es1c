@@ -9,14 +9,17 @@ async function getLocation(session, id) {
 		const location1 = await solid.getLocationById(
 			session,
 			id,
-			session.info.user
+			session.info.webId
 		);
+
 		if (location1 != null) {
 			return location1;
 		} else {
 			return null;
 		}
 	} catch (err) {
+		console.log(err);
+		console.log("Error en getLocation");
 		throw new Error(err);
 	}
 }
