@@ -28,6 +28,8 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	const [solicitudes, setSolicitudes] = useState([]);
 
 	const routesMemoization = useRef({})
+	const friendPlacesMemoization = useRef({})
+	const fullPlacesInfoMemoization = useRef({})
 
 	async function checkLoggedIn() {
 		let session = getDefaultSession();
@@ -120,6 +122,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 
 	async function getRouteByID(routeID) {
 		checkLoggedIn();
+
 		const routeFromMemoization = routesMemoization[routeID]
 		if (routeFromMemoization) {
 			return routeFromMemoization;
@@ -237,7 +240,6 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	}
 
 	const API_route_calls = {
-		// "API_getAllRoutes": API_getAllRoutes,
 		getRouteByID: getRouteByID,
 		API_addRoute: API_addRoute,
 		API_updateRouteInfo: API_updateRouteInfo,
@@ -306,6 +308,29 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	async function API_addPhoto() {}
 	async function API_removePhoto() {}
 
+	async function API_getPlaceById(placeID) {
+		console.log(placeID)
+		checkLoggedIn();
+
+		const infoFromMemoization = fullPlacesInfoMemoization[placeID]
+		if (infoFromMemoization) {
+			return infoFromMemoization;
+		}
+
+		try {
+			const response = await LocationController.getLocation(
+				getDefaultSession(),
+				placeID
+			);
+			if (response){
+				fullPlacesInfoMemoization[placeID] = response
+			}
+			return response
+		} catch (error) {
+			alert(error)
+		}
+	}
+
 	const API_location_calls = {
 		API_createLocation: API_createLocation,
 		API_deleteLocation: API_deleteLocation,
@@ -315,6 +340,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		API_updateReview: API_updateReview,
 		API_addPhoto: API_addPhoto,
 		API_removePhoto: API_removePhoto,
+		API_getPlaceById: API_getPlaceById
 	};
 
 	async function API_generateNewFriendRequest(receiverwebId, newFriendName) {
@@ -388,13 +414,22 @@ export default function App({ logOutFunction, isLoggedIn }) {
 			alert(error);
 		}
 	}
-	async function API_getPlacesOfFriend(friendwebId) {
+
+	async function getPlacesOfFriend(friendwebId) {
+		checkLoggedIn();
+
+		const placesFromMemoization = friendPlacesMemoization[friendwebId];
+		if (placesFromMemoization) {
+			return placesFromMemoization
+		}
+
 		try {
-			const res = await FriendsController.getFriendLocations(
+			const response = await FriendsController.getFriendLocations(
 				getDefaultSession(),
 				friendwebId
 			);
-			return res;
+			friendPlacesMemoization[friendwebId] = response
+			return response;
 		} catch (error) {
 			alert(error);
 		}
@@ -407,7 +442,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		API_rejectIncomingFriendRequest: API_rejectIncomingFriendRequest,
 		API_removeFriend: API_removeFriend,
 		API_getAllFriends: API_getAllFriends,
-		API_getPlacesOfFriend: API_getPlacesOfFriend,
+		getPlacesOfFriend: getPlacesOfFriend,
 	};
 
 	//Estados de la aplicacion
