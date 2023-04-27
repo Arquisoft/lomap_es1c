@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import SettingsSpeedDial from "./SettingsSpeedDial";
 import userEvent from '@testing-library/user-event';
 import { act } from "react-dom/test-utils";
@@ -48,7 +48,7 @@ describe('EditRouteInfo', () => {
         expect(logOutButton).toBeInTheDocument();
         expect(logOutButton).not.toBeVisible();
         
-        act(() => userEvent.click(speedDialButton))
+        fireEvent.click(speedDialButton)
 
         expect(speedDialButton).toBeInTheDocument();
         expect(languageButton).toBeInTheDocument();
@@ -59,7 +59,7 @@ describe('EditRouteInfo', () => {
         expect(logOutButton).toBeInTheDocument();
         expect(logOutButton).toBeVisible();
 
-        act(() => userEvent.keyboard('{esc}'));
+        fireEvent.keyboard('{esc}');
 
         expect(speedDialButton).toBeInTheDocument();
         expect(languageButton).toBeInTheDocument();
@@ -70,7 +70,7 @@ describe('EditRouteInfo', () => {
         expect(logOutButton).toBeInTheDocument();
         expect(logOutButton).not.toBeVisible();
 
-        act(() => userEvent.click(speedDialButton))
+        fireEvent.click(speedDialButton)
 
         expect(speedDialButton).toBeInTheDocument();
         expect(languageButton).toBeInTheDocument();
@@ -81,7 +81,7 @@ describe('EditRouteInfo', () => {
         expect(logOutButton).toBeInTheDocument();
         expect(logOutButton).toBeVisible();
 
-        act(() => userEvent.click(speedDialButton))
+        fireEvent.click(speedDialButton)
 
         expect(speedDialButton).toBeInTheDocument();
         expect(languageButton).toBeInTheDocument();
@@ -125,7 +125,7 @@ describe('EditRouteInfo', () => {
         expect(logOutButton).toBeInTheDocument();
         expect(logOutButton).not.toBeVisible();
         
-        act(() => userEvent.click(speedDialButton))
+        fireEvent.click(speedDialButton)
 
         expect(speedDialButton).toBeInTheDocument();
         expect(languageButton).toBeInTheDocument();
@@ -136,7 +136,7 @@ describe('EditRouteInfo', () => {
         expect(logOutButton).toBeInTheDocument();
         expect(logOutButton).toBeVisible();
 
-        act(() => userEvent.click(languageButton))
+        fireEvent.click(languageButton)
 
         expect(speedDialButton).toBeInTheDocument();
         expect(languageButton).toBeInTheDocument();
@@ -180,7 +180,7 @@ describe('EditRouteInfo', () => {
         expect(logOutButton).toBeInTheDocument();
         expect(logOutButton).not.toBeVisible();
 
-        act(() => userEvent.click(speedDialButton))
+        fireEvent.click(speedDialButton)
 
         expect(speedDialButton).toBeInTheDocument();
         expect(languageButton).toBeInTheDocument();
@@ -191,7 +191,7 @@ describe('EditRouteInfo', () => {
         expect(logOutButton).toBeInTheDocument();
         expect(logOutButton).toBeVisible();
 
-        act(() => userEvent.click(themeDarkButton))
+        fireEvent.click(themeDarkButton)
 
         expect(changeLanguageMock).toHaveBeenCalledTimes(0);
         expect(toggleThemeMock).toHaveBeenCalledTimes(1);
@@ -226,7 +226,7 @@ describe('EditRouteInfo', () => {
         expect(logOutButton).toBeInTheDocument();
         expect(logOutButton).not.toBeVisible();
         
-        act(() => userEvent.click(speedDialButton))
+        fireEvent.click(speedDialButton)
 
         expect(speedDialButton).toBeInTheDocument();
         expect(languageButton).toBeInTheDocument();
@@ -237,7 +237,7 @@ describe('EditRouteInfo', () => {
         expect(logOutButton).toBeInTheDocument();
         expect(logOutButton).toBeVisible();
 
-        act(() => userEvent.click(logOutButton))
+        fireEvent.click(logOutButton)
 
         expect(speedDialButton).toBeInTheDocument();
         expect(languageButton).toBeInTheDocument();

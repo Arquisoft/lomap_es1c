@@ -35,18 +35,22 @@ export default function DrawerDefaultContent(props) {
 
             {/* Botón de social */}
             {/* TODO: internacionalizar */}
-            <Button variant="contained" onClick={() => props.changeDrawerContent(
-                <SocialTabContent
-                    amigos = {props.amigos}
-                    API_friend_calls = {props.API_friend_calls}
-                    changeDrawerContent = {props.changeDrawerContent}
-                    API_location_calls = {props.API_location_calls}
-                    setPosition = {props.setPosition}
-                    solicitudes = {props.solicitudes}
-                    setFriendsPlaces = {props.setFriendsPlaces}
-                    friendsPlaces = {props.friendsPlaces}
-                />
-            )}>
+            <Button variant="contained" onClick={async() => {
+                const theWebId = await props.getwebId();
+                props.changeDrawerContent(
+                    <SocialTabContent
+                        amigos = {props.amigos}
+                        API_friend_calls = {props.API_friend_calls}
+                        changeDrawerContent = {props.changeDrawerContent}
+                        API_location_calls = {props.API_location_calls}
+                        setPosition = {props.setPosition}
+                        solicitudes = {props.solicitudes}
+                        setFriendsPlaces = {props.setFriendsPlaces}
+                        friendsPlaces = {props.friendsPlaces}
+                        loggedInUserwebId = {theWebId}
+                    />
+                )
+            }}>
                 Social
             </Button>
 
@@ -55,6 +59,7 @@ export default function DrawerDefaultContent(props) {
 
             {/* Botón de rutas */}
             {/* TODO: internacionalizar */}
+            {/* TODO: pasar el webid del loggedin */}
             <Button variant="contained" onClick={() => props.changeDrawerContent(
                 <RutasTabContent
                     userPlaces = {props.userPlaces}

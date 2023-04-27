@@ -64,8 +64,7 @@ async function serializePhotoComplet(photo) {
 		"@context": "https://schema.org",
 		"@type": "photo",
 		author: photo.author,
-		name: photo.name,
-		url: photo.url,
+		imageJPG: photo.imageJPG,
 		timestamp: photo.timestamp,
 		id: photo.id,
 	};

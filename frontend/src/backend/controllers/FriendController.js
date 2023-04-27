@@ -49,14 +49,17 @@ async function getFriendLocations(session, webIdAmigo) {
 
 async function getFriendLocationById(session, webidAmigo, idLocation) {
 	try {
+		console.log("ENTRA")
 		const location = await solid.getLocationById(
 			session,
 			idLocation,
 			webidAmigo
 		);
+		console.log("SALE")
 		return location;
 	} catch (err) {
 		console.log("Error en getFriendLocationById");
+		console.log(err)
 		throw new Error("Ha ocurrido un error al obtener la localizacion");
 	}
 }

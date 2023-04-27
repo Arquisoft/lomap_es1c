@@ -86,7 +86,7 @@ function Map({
 }) {
 	//Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
 
-	//DIferentes estados necesarios para el mapa.
+	//Diferentes estados necesarios para el mapa.
 	const [openInfo, setOpenInfo] = React.useState(false);
 	const [categortFiltered, setCategortFiltered] = useState({
 		activated: false,
@@ -197,7 +197,6 @@ function Map({
 		var allPlaces = places.concat(friendPlaces);
 		const place = allPlaces.find(place => place.id === marker.id)
 		var placeFull = await API_location_calls.API_getPlaceById(place.author,marker.id)
-		console.log(place)
 		changeDrawerContent(
 			<FullInfoPlace
 				place={placeFull}

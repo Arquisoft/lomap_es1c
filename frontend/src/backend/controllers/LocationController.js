@@ -99,26 +99,29 @@ async function deleteLocation(session, id) {
 }
 
 //PHOTOS REVIEWS
-async function addPhoto(session, id, photo) {
-	const name = photo.name;
-	const photoImage = photo.photoImage;
+async function addPhoto(session, id, photo, webIdAuthor) {
+	const photoImage = photo.imageJPG;
 
-	if (!photo || !name) {
+	if (!photo) {
 		throw new Error("Faltan datos");
 	}
 	try {
-		let location = await solid.getLocationById(session, id, session.info.webId);
-		const photo = new Photo(session.info.webId, name, photoImage);
-		await solid.addPhoto(session, photo, location.id, session.info.webId);
-		await solid.saveLocation(location);
+		let location = await solid.getLocationById(session, id, webIdAuthor);
+		const photo = new Photo(session.info.webId, photoImage);
+		location.addPhoto(photo);
+		await solid.saveLocation(session, location, webIdAuthor);
+		return photo
 	} catch (err) {
 		throw new Error(err);
 	}
+
+
+
 }
 
-async function deletePhoto(session, id, idPhoto) {
+async function deletePhoto(session, idPhoto) {
 	try {
-		await solid.deletePhoto(session, id, idPhoto);
+		await solid.deletePhotoById(session, idPhoto, session.info.webId);
 	} catch (err) {
 		throw new Error(err);
 	}
@@ -132,10 +135,16 @@ async function addReview(session, id, webIdAuthor, review) {
 		throw new Error("Faltan datos");
 	}
 	try {
-		let location = await solid.getLocationById(session, id, session.info.webId);
+		console.log("1")
+		let location = await solid.getLocationById(session, id, webIdAuthor);
+		console.log("2")
 		const review = new Review(rating, comment, session.info.webId);
+		console.log("3")
 		location.addReview(review);
+		console.log("4")
 		await solid.saveLocation(session, location, webIdAuthor);
+		console.log("5")
+		return review;
 	} catch (err) {
 		throw new Error("Error en el add review");
 	}
@@ -147,6 +156,7 @@ async function updateReview(session, idReview, review1) {
 		const comment = review1.comment;
 		let review = new Review(rating, comment, session.info.webId, idReview);
 		await solid.updateReview(session, review, session.info.webId);
+		return review;
 	} catch (error) {
 		throw new Error("Error en el update review");
 	}
@@ -192,4 +202,5 @@ module.exports = {
 	addPhoto,
 	deletePhoto,
 	deleteReview,
+	updateReview
 };
