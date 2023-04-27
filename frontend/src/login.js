@@ -28,16 +28,16 @@ export default function Login({ logInFunction, isLoggedIn, toggleLanguage }) {
 				changeLanguage = {toggleLanguage}
 			/>
 
-			<Box className="mainDiv" component="div">
+			<div className="mainDiv" data-testid="mainDiv">
 				{/* <div className="logoYParrafo"> */}
 					<img src="/logoLoMap.png" className="logo" alt="Logo de LoMap"></img>
-					<p className="descripción">
+					<p className="descripción" data-testid="presentación">
 						LoMap te permite cerar mapas personalizados de los lugares que te
 						interesan.
 					</p>
 				{/* </div> */}
-				<div className="formName">
-					<Box className="caja" component="div">
+				<div className="formName" data-testid="formName">
+					<Box className="caja" component="div" data-testid="caja">
 						<div className="login">
 							<TextField
 								className="url"
@@ -47,21 +47,21 @@ export default function Login({ logInFunction, isLoggedIn, toggleLanguage }) {
 								type="text"
 								onChange={(e) => setText(e.target.value)}
 							/>
-							<Button className="btnLogin" variant="outlined" onClick={() => logInFunction(text)}>
+							<Button className="btnLogin" variant="outlined" onClick={() => logInFunction(text)} data-testid="inicioSesion">
 								Iniciar Sesión
 							</Button>
 						</div>
-						<div className="providers">
-							<Button className="btnProvider1" variant="outlined" onClick={handleInrupt}>
+						<div className="providers" data-testid="providers">
+							<Button className="btnProvider1" variant="outlined" onClick={handleInrupt} data-testid="primero">
 								Inrupt
 							</Button>
-							<Button className="btnProvider2" variant="outlined" onClick={handleSolid}>
+							<Button className="btnProvider2" variant="outlined" onClick={handleSolid} data-testid="segundo">
 								Solid
 							</Button>
 						</div>
 					</Box>
 				</div>
-			</Box>
+			</div>
 		</>
 	);
 }
