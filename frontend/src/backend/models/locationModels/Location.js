@@ -32,6 +32,14 @@ class Location {
 		this.author = author;
 	}
 
+	addReview(review){
+		this.reviews.push(review);
+	}
+
+	addPhoto(photo){
+		this.photos.push(photo);
+	}
+
 	changePrivacy(privacy) {
 		if (!privacy || privacy.trim().length === 0) {
 			throw new Error("Location privacy cannot be null or empty");

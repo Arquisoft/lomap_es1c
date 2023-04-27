@@ -100,26 +100,28 @@ async function deleteLocation(session, id) {
 
 //PHOTOS REVIEWS
 async function addPhoto(session, id, photo, webIdAuthor) {
-	const photoImage = photo.photoImage;
+	const photoImage = photo.imageJPG;
 
-	if (!photo || !name) {
+	if (!photo) {
 		throw new Error("Faltan datos");
 	}
 	try {
 		let location = await solid.getLocationById(session, id, webIdAuthor);
 		const photo = new Photo(session.info.webId, photoImage);
-		// TODO cambiar
-		await solid.addPhoto(session, photo, location.id, session.info.webId);
-		await solid.saveLocation(location);
+		location.addPhoto(photo);
+		await solid.saveLocation(session, location, webIdAuthor);
 		return photo
 	} catch (err) {
 		throw new Error(err);
 	}
+
+
+
 }
 
 async function deletePhoto(session, idPhoto) {
 	try {
-		await solid.deletePhoto(session, idPhoto);
+		await solid.deletePhotoById(session, idPhoto, session.info.webId);
 	} catch (err) {
 		throw new Error(err);
 	}
@@ -135,7 +137,6 @@ async function addReview(session, id, webIdAuthor, review) {
 	try {
 		let location = await solid.getLocationById(session, id, webIdAuthor);
 		const review = new Review(rating, comment, session.info.webId);
-		// TODO: falla aquí
 		location.addReview(review);
 		await solid.saveLocation(session, location, webIdAuthor);
 		return review;
@@ -196,4 +197,5 @@ module.exports = {
 	addPhoto,
 	deletePhoto,
 	deleteReview,
+	updateReview
 };
