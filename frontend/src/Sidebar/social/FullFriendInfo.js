@@ -55,7 +55,7 @@ export default function FullFriendInfo(props) {
 					changeDrawerContent={changeDrawerContent}
 					setPosition={setPosition}
 					API_location_calls={API_location_calls}
-					isUserPlace={false}
+					loggedInUserwebId = {props.loggedInUserwebId}
 				/>
 			))}
 

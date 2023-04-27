@@ -80,6 +80,7 @@ export default function SocialTabContent(props) {
 					setPosition={props.setPosition}
 					setFriendsPlaces={props.setFriendsPlaces}
 					friendsPlaces={props.friendsPlaces}
+					loggedInUserwebId = {props.loggedInUserwebId}
 				/>
 			))}
 

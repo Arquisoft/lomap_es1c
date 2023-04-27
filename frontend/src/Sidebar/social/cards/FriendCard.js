@@ -40,6 +40,7 @@ export default function FriendCard(props) {
 				returnTo={props.returnTo}
 				API_friend_calls={props.API_friend_calls}
 				API_location_calls={props.API_location_calls}
+				loggedInUserwebId = {props.loggedInUserwebId}
 			/>
 		);
 	}

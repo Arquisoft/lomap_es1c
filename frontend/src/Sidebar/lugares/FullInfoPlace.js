@@ -51,7 +51,6 @@ export default function FullInfoPlace(props) {
 
 	console.log("---")
 	console.log(props.place)
-	console.log(loggedInUserwebId)
 
 	const [t] = useTranslation("global");
 	const [deleteLoading, setDeleteLoading] = useState(false);
@@ -71,7 +70,7 @@ export default function FullInfoPlace(props) {
 
 	// TODO: seleccionar las imágenes adecuadas
 	const [photosURLs, setPhotosURLs] = useState(
-		place?.photos ? place?.photos.filter((photo) => photo.author === loggedInUserwebId) : []
+		place?.photos ? place?.photos : []
 	);
 
 	function createNewReview() {
@@ -423,12 +422,16 @@ export default function FullInfoPlace(props) {
 						// TODO: poner el alto adecuado
 						key={"photo_url_" + photosURLs.indexOf(photo)}
 					/>
+					{
+					photo.author === loggedInUserwebId
+						&&
 					<IconButton
 						onClick={() => deleteImage(photo)}
 						key={"delete_photo_button" + photosURLs.indexOf(photo)}
 					>
 						<DeleteIcon />
 					</IconButton>
+					}
 				</div>
 			))}
 
