@@ -5,6 +5,7 @@ import {useTranslation} from "react-i18next"
 export default function FilterButtons({setCategortFiltered, categorias,setFriendsFilter,setOnlyMineFilter}) {
     const [t] = useTranslation("global");
     const [anchorEl, setAnchorEl] = useState(null);
+    const [categorySelected, setCategorySelected] = useState(0);
     const open = Boolean(anchorEl);
 
     const resetFilters = () => {
@@ -71,14 +72,14 @@ export default function FilterButtons({setCategortFiltered, categorias,setFriend
                 },
               }}
            >
-                <MenuItem key={"todas"} onClick={() => handleAllClose()}>
-                        Todas las Categorias
+                <MenuItem key={"todas"} onClick={() => {handleAllClose(); setCategorySelected(0)}} selected={categorySelected === 0}>
+                    {t("filters.allCategories")}
                 </MenuItem>
-                <MenuItem key={"sin categoria"} onClick={() =>handleClose("sin categoria")}>
+                <MenuItem key={"sin categoria"} onClick={() => {handleClose("sin categoria"); setCategorySelected(1)}} selected={categorySelected === 1}>
                         Sin Categoria
                 </MenuItem>
                 {categorias.map((option) => (
-                    <MenuItem key={option} onClick={() => handleClose(option)}>
+                    <MenuItem key={option} onClick={() => {handleClose(option); setCategorySelected(categorias.indexOf(option)+2)}} selected={categorySelected === categorias.indexOf(option)+2}>
                         {option}
                     </MenuItem>
                 ))}

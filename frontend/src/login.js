@@ -30,7 +30,7 @@ export default function Login({ logInFunction, isLoggedIn, toggleLanguage }) {
 
 			<div className="mainDiv" data-testid="mainDiv">
 				{/* <div className="logoYParrafo"> */}
-					<img src="/logoLoMap.png" className="logo" alt="Logo de LoMap"></img>
+					<img src="/logoLoMap.png" className="logo" alt="Logo de LoMap" data-testid="logo"></img>
 					<p className="descripción" data-testid="presentación">
 						LoMap te permite cerar mapas personalizados de los lugares que te
 						interesan.

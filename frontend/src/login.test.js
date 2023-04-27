@@ -39,7 +39,7 @@ describe('BasicLogin',() => {
 	})
 
 	//const mainDiv = screen.getByTestId("mainDiv");
-	const imagenLogo = screen.getByAltText("Logo de LoMap");
+	const imagenLogo = screen.getByTestId("logo");
 	const presentacion = screen.getByTestId("presentación");
 	const urlTextField = screen.getByPlaceholderText("URL de su provider");
 	const formName = screen.getByTestId("formName");
