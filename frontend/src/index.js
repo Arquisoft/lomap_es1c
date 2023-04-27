@@ -39,6 +39,7 @@ i18next.init({
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const loggedInOnce = useRef(false);
+	const [isStructBeingCreated, setIsStructBeingCreated] = useState(false);
 
 	useEffect(() => {
 		if (loggedInOnce) {
@@ -46,18 +47,22 @@ function MyComponent() {
 				restorePreviousSession: true,
 			}).then(async (info) => {
 				if (getDefaultSession().info.isLoggedIn) {
+					setIsStructBeingCreated(true)
 					await PodController.checkStruct(getDefaultSession());
 					setIsLoggedIn(true);
+					setIsStructBeingCreated(false)
 				}
 			});
 		}
 	}, []);
 
-	async function loginWeb(providerURL) {
+	async function loginWeb(providerURL, setIsStrucBeingCreated) {
 		await handleIncomingRedirect().then(async (info) => {
 			if (getDefaultSession().info.isLoggedIn) {
+				setIsStructBeingCreated(true)
 				await PodController.checkStruct(getDefaultSession());
 				setIsLoggedIn(true);
+				setIsStructBeingCreated(false)
 				loggedInOnce = true;
 			}
 		});
@@ -87,7 +92,7 @@ function MyComponent() {
 				) : (
 					<ThemeContextProvider
 						children={
-							<Login logInFunction={loginWeb} isLoggedIn={isLoggedIn} />
+							<Login logInFunction={loginWeb} isLoggedIn={isLoggedIn} isStructBeingCreated={isStructBeingCreated} />
 						}
 					/>
 				)}
