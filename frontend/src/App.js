@@ -516,8 +516,8 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		try{
 			const response = await FriendsController.getFriendLocationById(
 				getDefaultSession(),
-				placeId,
-				friendwebId
+				friendwebId,
+				placeId
 			);
 			return response;
 		}	catch(error){

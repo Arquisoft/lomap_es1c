@@ -51,6 +51,7 @@ export default function FullInfoPlace(props) {
 
 	console.log("---")
 	console.log(props.place)
+	console.log(loggedInUserwebId)
 
 	const [t] = useTranslation("global");
 	const [deleteLoading, setDeleteLoading] = useState(false);
@@ -255,7 +256,7 @@ export default function FullInfoPlace(props) {
 			<div className="card--line1">
 				{/* TODO: internacionalizar */}
 				<h3>Autor:</h3>
-				{loggedInUserwebId}
+				{props.place.author}
 				{/* TODO: hacer */}
 			</div>
 
