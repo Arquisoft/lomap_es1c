@@ -297,8 +297,6 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	}
 
 	async function API_addReview(locationID, webidAuthorLocation, review) {
-		// TODO: devolver de verdad la review
-
 		try {
 			const response = await LocationController.addReview(
 				getDefaultSession(),
@@ -306,34 +304,34 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				webidAuthorLocation,
 				review
 			)
-			// TODO: delete from memoizataion
+			fullPlacesInfoMemoization[locationID] = null
 			return response
 		} catch (error) {
 			alert(error)
 		}
 	}
 
-	async function API_removeReview(reviewID) {
+	async function API_removeReview(locationId, reviewID) {
 		try {
 			const response = await LocationController.deleteReview(
 				getDefaultSession(),
 				reviewID
 			)
-			// TODO: delete from memoizataion
+			fullPlacesInfoMemoization[locationId] = null
 			return response
 		} catch (error) {
 			alert(error)
 		}
 	}
 
-	async function API_updateReview(reviewID, theNewReview) {
+	async function API_updateReview(reviewID, theNewReview, locationID) {
 		try {
 			const response = await LocationController.updateReview(
 				getDefaultSession(),
 				reviewID,
 				theNewReview
 			)
-			// TODO: delete from memoizataion
+			fullPlacesInfoMemoization[locationID] = null
 			return response
 		} catch (error) {
 			alert(error)
@@ -344,13 +342,31 @@ export default function App({ logOutFunction, isLoggedIn }) {
 		return getDefaultSession().info.webId;
 	}
 
-	async function API_addPhoto() {
-		// TODO: delete from memoizataion
-		// TODO: implement
+	async function API_addPhoto(placeID, webIdAuthor, photo) {
+		try {
+			const response = await LocationController.addPhoto(
+				getDefaultSession(),
+				placeID,
+				{photoImage: photo},
+				webIdAuthor
+			)
+			fullPlacesInfoMemoization[placeID] = null
+			return response
+		} catch (error) {
+			alert (error)
+		}
 	}
-	async function API_removePhoto() {
-		// TODO: delete from memoizataion
-		// TODO: implement
+	async function API_removePhoto(placeId, idPhoto) {
+		try {
+			const response = await LocationController.deletePhoto(
+				getDefaultSession(),
+				idPhoto
+			);
+			fullPlacesInfoMemoization[placeId] = null
+			return response
+		} catch (error) {
+			alert(error)
+		}
 	}
 
 	async function API_getPlaceById(placeID) {

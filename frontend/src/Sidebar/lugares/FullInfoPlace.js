@@ -72,7 +72,7 @@ export default function FullInfoPlace(props) {
 
 	// TODO: seleccionar las imágenes adecuadas
 	const [photosURLs, setPhotosURLs] = useState(
-		place?.images ? place?.images.filter((photo) => photo.webID === "aaa") : []
+		place?.images ? place?.images.filter((photo) => photo.author === loggedInUserwebId) : []
 	);
 	const [imageCommands, setImageCommands] = useState([]);
 
@@ -96,10 +96,10 @@ export default function FullInfoPlace(props) {
 
 			place[reviews] = place.reviews
 				.filter(r => r.author!==loggedInUserwebId)
-				.concat({...review, id:theReview.id, author: theReview.author})
+				.concat({...theReview})
 		} else {
 			// creating
-			const response = await API_location_calls.API_addReview(
+			const theReview = await API_location_calls.API_addReview(
 				place.id,
 				place.author,
 				{
@@ -108,11 +108,9 @@ export default function FullInfoPlace(props) {
 				}
 			)
 			place[reviews] = place.reviews
-			.filter(r => r.author!==loggedInUserwebId)
-			.concat({...review, author: response.author, id: response.id})
+				.filter(r => r.author!==loggedInUserwebId)
+				.concat({...theReview})
 		}
-
-		
 	}
 
 	function cancelReview() {
@@ -130,6 +128,7 @@ export default function FullInfoPlace(props) {
 	async function deleteReview() {
 		if (place?.review?.find(r => r.author===loggedInUserwebId)) {
 			await API_location_calls.API_removeReview(
+				place.id,
 				place.review.find(r => r.author===loggedInUserwebId).id
 			);
 
@@ -155,51 +154,29 @@ export default function FullInfoPlace(props) {
 
 	function addImage(event) {
 		const file = event.target.files[0];
-		console.log(file);
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
 
-		reader.onloadend = () => {
-			const nuevo_resultado = "" + reader.result + ""
-			console.log(typeof nuevo_resultado)
-			console.log(nuevo_resultado)
-
-			if (!photosURLs.includes(reader.result)) {
-				setPhotosURLs((current) => [...current, nuevo_resultado]);
-			}
+		
+		reader.onloadend = async () => {
+			const response = await API_location_calls.API_addPhoto(
+				place.id,
+				place.author,
+				reader.result
+			)
+			setPhotosURLs(current => [...current, response])
 			
 		};
-		setImageCommands((current) => [
-			...current,
-			{
-				url: reader.result,
-				f: (placeID) => {
-					console.log("añadir API PENDIENTE ");
-				},
-			},
-		]);
 	}
 
-	function deleteImage(url) {
-		const isNewImage = imageCommands.some(
-			(imageCommand) => imageCommand.url === url
-		);
-		if (isNewImage) {
-			setImageCommands((current) =>
-				current.filter((imageCommand) => imageCommand.url !== url)
-			);
-		} else {
-			setImageCommands((current) => [
-				...current,
-				{
-					f: (placeID) => {
-						console.log("BORRAR API PENDIENTE");
-					},
-				},
-			]);
-		}
-		setPhotosURLs((current) => current.filter((photoURL) => photoURL !== url));
+	async function deleteImage(photo) {
+		const response = await API_location_calls.API_removePhoto(
+			place.id,
+			photo.id
+		)
+		setPhotosURLs((current) => current.filter((p) => p.id !== photo.id));
 	}
+
 	function allowEdit() {
 		changeDrawerContent(
 			<EditInfoPlace
@@ -421,18 +398,18 @@ export default function FullInfoPlace(props) {
 			{/* Fotos */}
 			{/* TODO: internacionalizar */}
 			<h3>Fotos</h3>
-			{photosURLs.map((url) => (
-				<div key={"photo_div" + photosURLs.indexOf(url)}>
+			{photosURLs.map((photo) => (
+				<div key={"photo_div" + photosURLs.indexOf(photo)}>
 					<img
-						src={url}
+						src={photo.url}	// TODO coger el param adecuado
 						width="250"
 						height="100"
 						// TODO: poner el alto adecuado
-						key={"photo_url_" + photosURLs.indexOf(url)}
+						key={"photo_url_" + photosURLs.indexOf(photo)}
 					/>
 					<IconButton
-						onClick={() => deleteImage(url)}
-						key={"delete_photo_button" + photosURLs.indexOf(url)}
+						onClick={() => deleteImage(photo)}
+						key={"delete_photo_button" + photosURLs.indexOf(photo)}
 					>
 						<DeleteIcon />
 					</IconButton>
