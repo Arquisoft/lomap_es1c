@@ -99,7 +99,7 @@ async function addFriend(Session, myBaseUrl, friend) {
 
 
 	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
-		(t) => t.webid != friend.webid
+		(t) => t.webId != friend.webId
 	);
 
 	jsonContainer.itemListElement.push(jsonLDFriend);
