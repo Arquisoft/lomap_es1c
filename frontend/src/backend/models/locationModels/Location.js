@@ -38,6 +38,7 @@ class Location {
 
 	addPhoto(photo){
 		this.photos.push(photo);
+		console.log(this.photos)
 	}
 
 	changePrivacy(privacy) {

@@ -384,7 +384,6 @@ export default function FullInfoPlace(props) {
 				r =>
 				<div className="card">
 					Author: {r.author}
-					check: {loggedInUserwebId}
 					< br/>
 					{
 						r.rating  &&  r.rating>0
