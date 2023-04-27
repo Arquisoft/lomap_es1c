@@ -65,7 +65,7 @@ async function serializePhotoComplet(photo) {
 		"@type": "photo",
 		author: photo.author,
 		name: photo.name,
-		url: photo.url,
+		imageJPG: photo.imageJPG,
 		timestamp: photo.timestamp,
 		id: photo.id,
 	};

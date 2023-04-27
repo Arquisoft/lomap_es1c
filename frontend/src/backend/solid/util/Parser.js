@@ -37,7 +37,7 @@ function parsePhoto(fotoJson) {
 	return new Foto(
 		fotoJson.author,
 		fotoJson.name,
-		fotoJson.url,
+		fotoJson.imageJPG,
 		fotoJson.timestamp,
 		fotoJson.id
 	);
