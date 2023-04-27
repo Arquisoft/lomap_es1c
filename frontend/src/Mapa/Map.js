@@ -197,7 +197,6 @@ function Map({
 		var allPlaces = places.concat(friendPlaces);
 		const place = allPlaces.find(place => place.id === marker.id)
 		var placeFull = await API_location_calls.API_getPlaceById(place.author,marker.id)
-		console.log(place)
 		changeDrawerContent(
 			<FullInfoPlace
 				place={placeFull}

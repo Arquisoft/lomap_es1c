@@ -135,10 +135,15 @@ async function addReview(session, id, webIdAuthor, review) {
 		throw new Error("Faltan datos");
 	}
 	try {
+		console.log("1")
 		let location = await solid.getLocationById(session, id, webIdAuthor);
+		console.log("2")
 		const review = new Review(rating, comment, session.info.webId);
+		console.log("3")
 		location.addReview(review);
+		console.log("4")
 		await solid.saveLocation(session, location, webIdAuthor);
+		console.log("5")
 		return review;
 	} catch (err) {
 		throw new Error("Error en el add review");

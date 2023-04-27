@@ -1,6 +1,6 @@
 const Location = require("../../models/locationModels/Location.js");
 const Rating = require("../../models/locationModels/Review.js");
-const Foto = require("../../models/locationModels/Photo.js");
+const Photo = require("../../models/locationModels/Photo.js");
 const Friend = require("../../models/Friend.js");
 const Request = require("../../models/Request.js");
 
@@ -34,9 +34,8 @@ function parseReview(reviewJson) {
 }
 
 function parsePhoto(fotoJson) {
-	return new Foto(
+	return new Photo(
 		fotoJson.author,
-		fotoJson.name,
 		fotoJson.imageJPG,
 		fotoJson.timestamp,
 		fotoJson.id

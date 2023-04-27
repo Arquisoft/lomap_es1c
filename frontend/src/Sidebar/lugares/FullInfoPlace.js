@@ -49,6 +49,7 @@ export default function FullInfoPlace(props) {
 
 	const isUserPlace = props.place.author === loggedInUserwebId;
 
+	console.log("---")
 	console.log(props.place)
 
 	const [t] = useTranslation("global");
@@ -57,12 +58,9 @@ export default function FullInfoPlace(props) {
 	const [commentLoading, setCommentLoading] = useState(false);
 	const [loading, setLoading] = useState(false);
 
-	const [isReviewOpen, setIsReviewOpen] = useState(false);
-	const [isPhotoAdded, setIsPhotoAdded] = useState(false);
-
 	// TODO: coger la review adecuada
 	const [rating, setRating] = useState(
-		place?.reviews?.find(r => r.author===loggedInUserwebId) ? place?.reviews?.find(r => r.author===loggedInUserwebId)?.rating / 2 : null
+		place?.reviews?.find(r => r.author===loggedInUserwebId) ? place?.reviews?.find(r => r.author===loggedInUserwebId)?.rating : null
 	);
 	// TODO: coger la review adecuada
 	const [comment, setComment] = useState(
@@ -72,44 +70,47 @@ export default function FullInfoPlace(props) {
 
 	// TODO: seleccionar las imágenes adecuadas
 	const [photosURLs, setPhotosURLs] = useState(
-		place?.images ? place?.images.filter((photo) => photo.author === loggedInUserwebId) : []
+		place?.photos ? place?.photos.filter((photo) => photo.author === loggedInUserwebId) : []
 	);
-	const [imageCommands, setImageCommands] = useState([]);
 
 	function createNewReview() {
 		setReview({ rating: rating, comment: comment });
 	}
 
-	// var originalReview = useRef({comment: comment, rating: rating})
-
 	async function saveReview() {
 		if (place?.reviews?.find(r => r.author===loggedInUserwebId)) {
 			// updating
 			const theReview = place.reviews.find(r => r.author===loggedInUserwebId)
-			await API_location_calls.API_updateReview(
+
+			console.log("UPDATE INICIO")
+			const result = await API_location_calls.API_updateReview(
 				theReview.id,
 				{
 					comment: comment, 
-					rating:(rating&&rating>0)?rating:-1
-				}
+					rating:(rating&&rating>0)?parseInt(rating):-1
+				},
+				place.id
 			)
+			console.log("UPDATE FIN")
 
 			place[reviews] = place.reviews
 				.filter(r => r.author!==loggedInUserwebId)
-				.concat({...theReview})
+				.concat({...result})
 		} else {
+			console.log("COMIENZA A CREAR")
 			// creating
 			const theReview = await API_location_calls.API_addReview(
 				place.id,
 				place.author,
 				{
 					comment: comment, 
-					rating:(rating&&rating>0)?rating:-1
+					rating:(rating&&rating>0)?parseInt(rating):-1
 				}
 			)
 			place[reviews] = place.reviews
 				.filter(r => r.author!==loggedInUserwebId)
 				.concat({...theReview})
+			console.log("FIN DE CREAR")
 		}
 	}
 
@@ -126,18 +127,19 @@ export default function FullInfoPlace(props) {
 	}
 
 	async function deleteReview() {
-		if (place?.review?.find(r => r.author===loggedInUserwebId)) {
-			await API_location_calls.API_removeReview(
-				place.id,
-				place.review.find(r => r.author===loggedInUserwebId).id
-			);
+		
+		console.log("Borrar review inicio")
+		await API_location_calls.API_removeReview(
+			place.id,
+			place.reviews.find(r => r.author===loggedInUserwebId).id
+		);
+		console.log("Borrar review final")
 
-			place.reviews = place.reviews.filter(
-				r =>
-				r.author !== loggedInUserwebId
-			)
+		place.reviews = place.reviews.filter(
+			r =>
+			r.author !== loggedInUserwebId
+		)
 
-		}
 
 		setRating(null);
 		setComment("");
@@ -159,21 +161,25 @@ export default function FullInfoPlace(props) {
 
 		
 		reader.onloadend = async () => {
+			console.log("INICIO front")
 			const response = await API_location_calls.API_addPhoto(
 				place.id,
 				place.author,
 				reader.result
 			)
+			console.log("FIN FRONT")
 			setPhotosURLs(current => [...current, response])
 			
 		};
 	}
 
 	async function deleteImage(photo) {
+		console.log("COMIENZO FRONT")
 		const response = await API_location_calls.API_removePhoto(
 			place.id,
 			photo.id
 		)
+		console.log("FIN FRONT")
 		setPhotosURLs((current) => current.filter((p) => p.id !== photo.id));
 	}
 
@@ -350,6 +356,15 @@ export default function FullInfoPlace(props) {
 				{/* TODO: internacionalizar */}
 				{"Editar"}
 			</Button>
+
+			<Button
+				variant="contained"
+				onClick={deleteReview}
+				disabled={loading}
+			> 
+				{/* TODO: internacionalizar */}
+				{"Borrar review"}
+			</Button>
 			</>
 
 			// No existe, botón de crear
@@ -376,7 +391,7 @@ export default function FullInfoPlace(props) {
 						&&
 						<>
 							<Rating
-								defaultValue={r.rating/2}
+								value={r.rating/2}
 								readOnly
 								precision={0.5}
 							/>
@@ -401,7 +416,7 @@ export default function FullInfoPlace(props) {
 			{photosURLs.map((photo) => (
 				<div key={"photo_div" + photosURLs.indexOf(photo)}>
 					<img
-						src={photo.url}	// TODO coger el param adecuado
+						src={photo.imageJPG}
 						width="250"
 						height="100"
 						// TODO: poner el alto adecuado
