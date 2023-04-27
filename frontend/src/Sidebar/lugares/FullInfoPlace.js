@@ -88,7 +88,10 @@ export default function FullInfoPlace(props) {
 			const theReview = place.reviews.find(r => r.author===loggedInUserwebId)
 			await API_location_calls.API_updateReview(
 				theReview.id,
-				review
+				{
+					comment: comment, 
+					rating:(rating&&rating>0)?rating:-1
+				}
 			)
 
 			place[reviews] = place.reviews
@@ -99,7 +102,10 @@ export default function FullInfoPlace(props) {
 			const response = await API_location_calls.API_addReview(
 				place.id,
 				place.author,
-				review
+				{
+					comment: comment, 
+					rating:(rating&&rating>0)?rating:-1
+				}
 			)
 			place[reviews] = place.reviews
 			.filter(r => r.author!==loggedInUserwebId)
@@ -154,10 +160,14 @@ export default function FullInfoPlace(props) {
 		reader.readAsDataURL(file);
 
 		reader.onloadend = () => {
+			const nuevo_resultado = "" + reader.result + ""
+			console.log(typeof nuevo_resultado)
+			console.log(nuevo_resultado)
+
 			if (!photosURLs.includes(reader.result)) {
-				setPhotosURLs((current) => [...current, reader.result]);
+				setPhotosURLs((current) => [...current, nuevo_resultado]);
 			}
-			console.log(reader.result);
+			
 		};
 		setImageCommands((current) => [
 			...current,
