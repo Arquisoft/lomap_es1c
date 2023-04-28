@@ -15,9 +15,9 @@ const RoutesController = require("./backend/controllers/RouteController");
 const FriendsController = require("./backend/controllers/FriendController");
 
 export default function App({ logOutFunction, isLoggedIn }) {
-	//Todos los lugares del usuario
+	// Los lugares del usuario
 	const [places, setPlaces] = React.useState([]);
-	//Todos los lugares de los amigos
+	// Los lugares de los amigos
 	const [friendPlaces, setFriendPlaces] = useState([]);
 
 	const [t, i18n] = useTranslation("global"); // La t sí se usa y hace falta, no borrar
@@ -325,13 +325,11 @@ export default function App({ logOutFunction, isLoggedIn }) {
 
 	async function API_updateReview(reviewID, theNewReview, locationID) {
 		try {
-			console.log("INICIO")
 			const response = await LocationController.updateReview(
 				getDefaultSession(),
 				reviewID,
 				theNewReview
 			)
-			console.log("FIN")
 			fullPlacesInfoMemoization[locationID] = null
 			return response
 		} catch (error) {
@@ -345,14 +343,12 @@ export default function App({ logOutFunction, isLoggedIn }) {
 
 	async function API_addPhoto(placeID, webIdAuthor, photo) {
 		try {
-			console.log("INICIO BACK")
 			const response = await LocationController.addPhoto(
 				getDefaultSession(),
 				placeID,
 				{imageJPG: photo},
 				webIdAuthor
 			)
-			console.log("FIN BACK")
 			fullPlacesInfoMemoization[placeID] = null
 			return response
 		} catch (error) {
@@ -361,12 +357,10 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	}
 	async function API_removePhoto(placeId, idPhoto) {
 		try {
-			console.log("start back")
 			const response = await LocationController.deletePhoto(
 				getDefaultSession(),
 				idPhoto
 				);
-			console.log("fin back")
 			fullPlacesInfoMemoization[placeId] = null
 			return response
 		} catch (error) {

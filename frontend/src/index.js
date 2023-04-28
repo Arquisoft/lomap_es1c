@@ -11,7 +11,6 @@ import App from "./App";
 import { ThemeContextProvider } from "./contexts/ThemeContext";
 import "./index.css";
 import Login from "./login";
-import reportWebVitals from "./reportWebVitals";
 
 // Internationalization
 import global_en from "./translations/en/global.json";
@@ -85,17 +84,15 @@ function MyComponent() {
 	return (
 		<>
 			<I18nextProvider i18n={i18next}>
-				{isLoggedIn ? (
-					<ThemeContextProvider
-						children={<App logOutFunction={logOut} isLoggedIn={isLoggedIn} />}
-					/>
-				) : (
-					<ThemeContextProvider
-						children={
-							<Login logInFunction={loginWeb} isLoggedIn={isLoggedIn} isStructBeingCreated={isStructBeingCreated} />
-						}
-					/>
-				)}
+				<ThemeContextProvider
+					children={
+						isLoggedIn
+							?
+						(<App logOutFunction={logOut} isLoggedIn={isLoggedIn} />)
+							:
+						(<Login logInFunction={loginWeb} isLoggedIn={isLoggedIn} isStructBeingCreated={isStructBeingCreated} />)
+					}
+				/>
 			</I18nextProvider>
 		</>
 	);
@@ -107,8 +104,3 @@ root.render(
 		<MyComponent />
 	</React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

@@ -7,8 +7,6 @@ import SolicitudCard from "./cards/SolicitudCard";
 export default function SolicitudesContent(props) {
 	const [t] = useTranslation("global");
 
-	console.log(props.solicitudes)
-
 	return (
 		<>
 			{/* Return button */}
@@ -18,8 +16,7 @@ export default function SolicitudesContent(props) {
 				</IconButton>
 			</Tooltip>
 
-			{/* TODO: internacionalizar */}
-			<h1>Solicitudes</h1>
+			<h1>{t("sidebar.friends.awaitingrequests")}</h1>
 
 			{/* Request cards */}
 			{props.solicitudes.map((solicitud) => (

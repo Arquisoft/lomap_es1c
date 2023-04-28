@@ -47,19 +47,16 @@ export default function SocialTabContent(props) {
             </Tooltip>
 
 			{/* Título */}
-			{/* TODO: traducir */}
-			<h1 id="centered">Social</h1>
+			<h1 id="centered">{t("sidebar.tab-buttons.friends")}</h1>
 
 			<div className="card--line1">
 				{/* Botón de solicitudes */}
 				<Button variant="contained" onClick={handleClickOnSolicitudes}>
-					{/* TODO internacionalizar */}
-					Solicitudes pendientes
+					{t("sidebar.friends.awaitingrequests")}
 				</Button>
 
 				{/* Botón para añadir solicitud */}
-				{/* TODO: internacionalizar */}
-				<Tooltip title="Añadir amigo">
+				<Tooltip title={t("sidebar.friends.addfriend")}>
 					<IconButton onClick={handleClickOnAddFriend}>
 						<AddCircleOutlineIcon />
 					</IconButton>

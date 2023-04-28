@@ -11,12 +11,14 @@ export default function RutaCard(props) {
 			<FullRouteInfo
 				key={props.route.id}
 				route={props.route}
-				returnFunction={() => props.changeDrawerContent(null)}
 				changeDrawerContent={props.changeDrawerContent}
 				userPlaces={props.userPlaces}
 				API_route_calls={props.API_route_calls}
 				API_location_calls={props.API_location_calls}
 				setPosition = {props.setPosition}
+				categorias = {props.categorias}
+				loggedInUserwebId = {props.loggedInUserwebId}
+				returnTo = {props.returnTo}
 			/>
 		);
 	}

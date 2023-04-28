@@ -15,14 +15,12 @@ export default function FullInfoPlace({
 	returnTo,
 	changeDrawerContent,
 }) {
-	// TODO: settear correctamente la variable
 	const isUserPlace = true;
 
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState(place === null ? "" : place.name);
 	const [isNameTextFieldErrored, setIsNameTextFieldErrored] = useState(false);
 
-	// TODO: default category
 	const [category, setCategory] = useState(
 		place === null ? "" : place.category
 	);
@@ -36,11 +34,8 @@ export default function FullInfoPlace({
 	async function save() {
 		setLoading(true);
 
-		var thePlaceID;
-
 		if (place === null) {
-			thePlaceID = await API_location_calls.API_createLocation();
-			// TODO: actualizar el ID del lugar
+			await API_location_calls.API_createLocation();
 		} else {
 			if (isUserPlace) {
 				if (name !== place.name || category !== place.category) {
@@ -54,7 +49,7 @@ export default function FullInfoPlace({
 		}
 
 		setLoading(false);
-		returnFunction();
+		changeDrawerContent(null);
 	}
 
 	const categoriesToList = ["", ...categorias];
@@ -89,8 +84,7 @@ export default function FullInfoPlace({
 					defaultValue={name}
 					onChange={handleNameChange}
 					helperText={
-						// TODO: traducit
-						isNameTextFieldErrored ? "El nombre no puede estar vacío" : ""
+						isNameTextFieldErrored ? t("sidebar.place.namecannotbeempty") : ""
 					}
 					margin="normal"
 				/>
@@ -105,7 +99,7 @@ export default function FullInfoPlace({
 				<Select
 					disabled={loading}
 					defaultValue={place.category.toLowerCase()}
-					label="Categoria"
+					label={t("sidebar.place.category")}
 					onChange={handleCategoryChange}
 				>
 					{categoriesToList.map((categoria) => (
@@ -134,8 +128,7 @@ export default function FullInfoPlace({
 				startIcon={<SaveIcon />}
 				variant="contained"
 			>
-				{/* TODO: cambiar el texto */}
-				<span>Save</span>
+				<span>{t("sidebar.place.save")}</span>
 			</LoadingButton>
 		</>
 	);

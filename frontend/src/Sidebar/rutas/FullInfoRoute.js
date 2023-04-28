@@ -9,15 +9,15 @@ import EditInfoRoute from "./EditInfoRoute";
 import PlaceCard from "../lugares/PlaceCard";
 
 export default function FullRouteInfo(props) {
-    const {route, returnFunction, changeDrawerContent, userPlaces, API_route_calls} = props
+    const {route, userPlaces, API_route_calls} = props
     const [loading, setLoading] = useState(false)
     const [t] = useTranslation("global");
     
     function allowEdit() {
-        changeDrawerContent(
+        props.changeDrawerContent(
             <EditInfoRoute
                 route = {route}
-                changeDrawerContent={changeDrawerContent}
+                changeDrawerContent={props.changeDrawerContent}
                 returnTo = {<FullRouteInfo {...props} />}
                 userPlaces = {userPlaces}
                 API_route_calls = {API_route_calls}
@@ -29,14 +29,14 @@ export default function FullRouteInfo(props) {
 		setLoading(true)
 		await API_route_calls.API_deleteRoute(route.id)
 		setLoading(false)
-		returnFunction()
+		props.changeDrawerContent(null)
 	}
 
 	return (
 		<>
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
 				<IconButton
-					onClick={returnFunction}
+					onClick={props.changeDrawerContent(props.returnTo ? props.returnTo : null)}
 					disabled={loading}
 					data-testid="return-button"
 				>
@@ -53,13 +53,14 @@ export default function FullRouteInfo(props) {
 				<PlaceCard
 					key = {location.id}
 					place = {location}
-					changeDrawerContent = {changeDrawerContent}
-					categorias = {[]}	// TODO
+					changeDrawerContent = {props.changeDrawerContent}
+					categorias = {props.categorias}
 					setPosition = {props.setPosition}
 					API_location_calls = {props.API_location_calls}
 					isUserPlace = {true}
 					returnTo = {<FullRouteInfo {...props} />}
 					userPlaces = {userPlaces}
+					loggedInUserwebId = {props.loggedInUserwebId}
 				/>
 			))}
 

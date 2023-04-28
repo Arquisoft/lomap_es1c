@@ -75,7 +75,7 @@ export default function EditRouteInfo({
 			}
 			setLoading(false);
 		}
-		changeDrawerContent(returnTo ? returnTo : null);
+		changeDrawerContent(null);
 	}
 
 	function clickOnNewLocation(locationId) {
@@ -151,8 +151,7 @@ export default function EditRouteInfo({
 				margin="normal"
 				error={isNameErrored}
 				helperText = {
-					// TODO: traducit
-					isNameErrored ? "EL nombre no puede estar vacío" : ""
+					isNameErrored ? t("sidebar.route.namecannotbeempty") : ""
 				}
 			/>
 			<br></br>

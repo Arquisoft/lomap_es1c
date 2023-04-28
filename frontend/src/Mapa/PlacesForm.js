@@ -191,6 +191,7 @@ export default function CreateModal({
 					value={Number(valoracion)}
 					onChange={handleValChange}
 					disabled={loading}
+					placeholder="rating"
 				/>
 
 				<label htmlFor="categoria">{t("locations.form.category")}</label>
@@ -201,6 +202,7 @@ export default function CreateModal({
 					name="categoria"
 					onChange={handleCategoryChange}
 					disabled={loading}
+					placeholder="category"
 				>
 					<MenuItem value={""} defaultValue={true}>
 						<em>Sin Categoria</em>
@@ -220,6 +222,7 @@ export default function CreateModal({
 					placeholder="Escoja las imagenes"
 					onChange={handleFotoChange}
 					disabled={loading}
+					data-testid="photo"
 				/>
 
 				<label htmlFor="comentarios">{t("locations.form.comment")}</label>
@@ -234,7 +237,7 @@ export default function CreateModal({
 					disabled={loading}
 				/>
 			</form>
-			<div className="submitFormLugares">
+			<div className="submitFormLugares" data-testId="botones">
 				<LoadingButton
 					className="btn"
 					onClick={addPlaceModal}
@@ -242,10 +245,11 @@ export default function CreateModal({
 					loading={loading}
 					loadingPosition="start"
 					startIcon={<SaveIcon />}
+					data-testId="save"
 				>
 					{t("locations.form.add")}
 				</LoadingButton>
-				<Button className="btnCancel" onClick={closeModal} disabled={loading}>
+				<Button className="btnCancel" onClick={closeModal} disabled={loading} data-testId="cancel">
 					{t("locations.form.cancel")}
 				</Button>
 			</div>

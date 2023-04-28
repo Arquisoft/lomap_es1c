@@ -125,7 +125,7 @@ async function construirEstructura(Session, myBaseUrl) {
 			);
 		}
 	} catch (error) {
-		console.log(error);
+		throw new Error("Ha ocurrido un error crear la estructura");
 	}
 }
 

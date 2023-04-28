@@ -237,6 +237,7 @@ function Map({
 				zoom={13}
 				center={position}
 				mapContainerClassName="map-conteiner"
+				data-testid="mapa"
 				onClick={(e) => onMapClick(e)}
 				onLoad={handleLoad}
 				onDragEnd={handleCenter}

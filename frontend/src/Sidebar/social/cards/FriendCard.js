@@ -3,9 +3,11 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { IconButton, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import FullFriendInfo from "../FullFriendInfo";
+import { useTranslation } from "react-i18next";
 
 export default function FriendCard(props) {
 	const [isVisible, setIsVisible] = useState(false);
+	const [t, i18n] = useTranslation("global")
 
 	function handleButtonClick(event) {
 		event.stopPropagation()
@@ -56,7 +58,7 @@ export default function FriendCard(props) {
 
 				{/* Checkbox para mostrar los puntos en el mapa */}
 				<Tooltip
-					title={isVisible ? "Ocultar del mapa" : "Mostrar en el mapa"}
+					title={isVisible ? t("sidebar.friends.hideinmap") : t("sidebar.friends.showinmap")}
 					placement="bottom"
 				>
 					<IconButton onClick={handleButtonClick}>

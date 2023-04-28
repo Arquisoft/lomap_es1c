@@ -26,6 +26,7 @@ describe('BasicLogin',() => {
                         logInFunction={logInFunctionMok}
 						isLoggedIn={false}
 						toggleLanguage={toggleLanguage}
+						
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>
@@ -39,9 +40,6 @@ describe('BasicLogin',() => {
 		const caja = screen.getByTestId("caja");
 		const inicioSesion = screen.getByTestId("inicioSesion");
 		const btnLogin = screen.getByTestId("btnLogin");
-		const btnProvider1 = screen.getByTestId("btnProvider1");
-		const btnProvider2 = screen.getByTestId("btnProvider2");
-		const providers = screen.getByTestId("providers");
 
 		expect(mainDiv).toBeInTheDocument();
 		expect(imagenLogo).toBeInTheDocument();
@@ -51,13 +49,8 @@ describe('BasicLogin',() => {
 		expect(caja).toBeInTheDocument();
 		expect(inicioSesion).toBeInTheDocument();
 		expect(btnLogin).toBeInTheDocument();
-		expect(btnProvider1).toBeInTheDocument();
-		expect(btnProvider2).toBeInTheDocument();
-		expect(providers).toBeInTheDocument();
 
-		fireEvent.click(btnProvider1);
-
-		const lastNameInput = screen.getByDisplayValue('https://login.inrupt.com/')
+		const lastNameInput = screen.getByDisplayValue('')
 
 		expect(lastNameInput).toBeInTheDocument();
 
@@ -69,12 +62,50 @@ describe('BasicLogin',() => {
 		expect(logInFunctionMok).toHaveBeenCalledTimes(1);
         expect(toggleLanguage).toHaveBeenCalledTimes(0);
 
-		lastNameInput.value = "Test";
+		lastNameInput.value = 'Test';
 
 		const lastNameInputChange = screen.getByDisplayValue('Test')
 
 		expect(lastNameInputChange).toBeInTheDocument();
 
+		fireEvent.click(btnLogin);
+
+		fireEvent.change(lastNameInputChange,{target: { value: "Changed Value" }});
+
+		expect(logInFunctionMok).toHaveBeenCalledTimes(2);
+        expect(toggleLanguage).toHaveBeenCalledTimes(0);
+
+		const speedDialButton = screen.getByTestId("speed-dial-button");
+		const languageButton = screen.queryByTestId("change-language-button");
+
+		expect(speedDialButton).toBeInTheDocument();
+    	expect(languageButton).toBeInTheDocument();
+		expect(languageButton).not.toBeVisible();
+
+		fireEvent.click(speedDialButton);
+
+		expect(speedDialButton).toBeInTheDocument();
+        expect(languageButton).toBeInTheDocument();
+        expect(languageButton).toBeVisible();
+
+		fireEvent.click(languageButton);
+
+		fireEvent.click(languageButton);
 	})
+
+	it("Charege",() => {
+		render(
+			<I18nextProvider i18n={i18next}>
+                <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
+                    <Login
+                        logInFunction={logInFunctionMok}
+						isLoggedIn={false}
+						toggleLanguage={toggleLanguage}
+						isStructBeingCreated={true}
+                    />
+                </ThemeContext.Provider>
+            </I18nextProvider>
+		)
+	});
 
 })
