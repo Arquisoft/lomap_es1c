@@ -9,30 +9,24 @@ async function getAllFriends(session) {
 		const friends = await solid.getAllFriends(session);
 		return friends;
 	} catch (err) {
-		console.log("error en getAllFriends");
 		throw new Error("Ha ocurrido un error al obtener los amigos");
 	}
 }
 
 async function deleteFriend(session, idFriend) {
 	try {
-		console.log("idFriend: " + idFriend);
 		await solid.deleteFriendById(session, idFriend);
 		return true;
 	} catch (err) {
-		console.log(err);
-		console.log("Error en deleteFriend");
 		throw new Error("Ha ocurrido un error al eliminar el amigo");
 	}
 }
 
-//TODO
 async function getAllLocationsFromFriends(session) {
 	try {
 		const locations = await solid.getAllLocationsFromFriends(session);
 		return locations;
 	} catch (err) {
-		console.log("Error en getAllLocationsFromFriends");
 		throw new Error("Ha ocurrido un error al obtener las localizaciones");
 	}
 }
@@ -42,24 +36,19 @@ async function getFriendLocations(session, webIdAmigo) {
 		const locations = await solid.getAllLocations(session, webIdAmigo);
 		return locations;
 	} catch (err) {
-		console.log("Error en getFriendLocations");
 		throw new Error("Ha ocurrido un error al obtener las localizaciones");
 	}
 }
 
 async function getFriendLocationById(session, webidAmigo, idLocation) {
 	try {
-		console.log("ENTRA")
 		const location = await solid.getLocationById(
 			session,
 			idLocation,
 			webidAmigo
 		);
-		console.log("SALE")
 		return location;
 	} catch (err) {
-		console.log("Error en getFriendLocationById");
-		console.log(err)
 		throw new Error("Ha ocurrido un error al obtener la localizacion");
 	}
 }
@@ -73,7 +62,6 @@ async function sendFriendRequest(session, newFriend) {
 		await solid.mandarSolicitud(session, friendRequest, name);
 		return true;
 	} catch (err) {
-		console.log("Error en sendFriendRequest");
 		throw new Error("Ha ocurrido un error al enviar la solicitud");
 	}
 }
@@ -83,7 +71,6 @@ async function getAllRequests(session) {
 		const solicitudes = await solid.getAllSolicitudes(session);
 		return solicitudes;
 	} catch (err) {
-		console.log("Error en getAllSolicitudes");
 		throw new Error("Ha ocurrido un error al obtener las solicitudes");
 	}
 }
@@ -94,7 +81,6 @@ async function acceptRequest(session, webId, name) {
 		await solid.aceptarSolicitud(session, friend);
 		return true;
 	} catch (err) {
-		console.log("Error en acceptRequest");
 		throw new Error("Ha ocurrido un error al aceptar la solicitud");
 	}
 }
@@ -104,7 +90,6 @@ async function rejectRequest(session, webId) {
 		await solid.denegarSolicitud(session, webId);
 		return true;
 	} catch (err) {
-		console.log("Error en rejectRequest");
 		throw new Error("Ha ocurrido un error al rechazar la solicitud");
 	}
 }

@@ -45,21 +45,15 @@ async function getAllLocations(Session, friendwebId) {
 
 async function getLocationById(Session, idUbi, friendwebId) {
 	//Obtencion de url del pod
-	console.log("url del amigo: ", friendwebId)
 	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
-	console.log("bien url")
 	myBaseUrl = myBaseUrl[0];
-	console.log(myBaseUrl)
 
-
-	console.log("1")
 	const result = await locations.obtenerLocalizacion(
 		Session,
 		idUbi,
 		myBaseUrl,
 		true
 	);
-	console.log("2")
 
 	return result;
 }

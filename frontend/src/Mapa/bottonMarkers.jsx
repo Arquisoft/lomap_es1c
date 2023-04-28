@@ -20,8 +20,6 @@ export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerConten
     canClick(false);
     openInfo(false);
 
-    console.log("--")
-
     changeDrawerContent(
       <EditRouteInfo
         returnFunction = {restoreDefautlDrawerContent}

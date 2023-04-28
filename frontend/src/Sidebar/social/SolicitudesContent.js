@@ -7,8 +7,6 @@ import SolicitudCard from "./cards/SolicitudCard";
 export default function SolicitudesContent(props) {
 	const [t] = useTranslation("global");
 
-	console.log(props.solicitudes)
-
 	return (
 		<>
 			{/* Return button */}
