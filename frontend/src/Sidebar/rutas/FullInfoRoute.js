@@ -29,7 +29,7 @@ export default function FullRouteInfo(props) {
 		setLoading(true)
 		await API_route_calls.API_deleteRoute(route.id)
 		setLoading(false)
-		returnFunction()
+		changeDrawerContent(null)
 	}
 
 	return (
@@ -54,12 +54,13 @@ export default function FullRouteInfo(props) {
 					key = {location.id}
 					place = {location}
 					changeDrawerContent = {changeDrawerContent}
-					categorias = {[]}	// TODO
+					categorias = {props.categorias}
 					setPosition = {props.setPosition}
 					API_location_calls = {props.API_location_calls}
 					isUserPlace = {true}
 					returnTo = {<FullRouteInfo {...props} />}
 					userPlaces = {userPlaces}
+					loggedInUserwebId = {props.loggedInUserwebId}
 				/>
 			))}
 

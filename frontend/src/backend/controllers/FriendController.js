@@ -64,19 +64,6 @@ async function getFriendLocationById(session, webidAmigo, idLocation) {
 	}
 }
 
-async function getAllLocationsByCategory(session, name) {
-	try {
-		const locations = await solid.getAllLocationsFromFriends(session);
-		const locationsByCategory = locations.filter(
-			(location) => location.category === name
-		);
-		return locations;
-	} catch (err) {
-		console.log("Error en getAllLocationsByCategory");
-		throw new Error("Ha ocurrido un error al obtener las localizaciones");
-	}
-}
-
 //Solicitudes
 async function sendFriendRequest(session, newFriend) {
 	const name = newFriend.name;
@@ -127,7 +114,6 @@ module.exports = {
 	deleteFriend,
 	getAllLocationsFromFriends,
 	getFriendLocations,
-	getAllLocationsByCategory,
 	sendFriendRequest,
 	getAllRequests,
 	acceptRequest,

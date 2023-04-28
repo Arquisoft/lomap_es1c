@@ -5,6 +5,8 @@ export default function LugarCard(props) {
 	const place = props.place;
 
 	async function showFullInfo() {
+		if (props.setDisableComponents)
+			{props.setDisableComponents(true)}
 		var fullPlace = await props.API_location_calls.API_getPlaceById(place.author,place.id);
 
 		props.changeDrawerContent(
@@ -19,13 +21,15 @@ export default function LugarCard(props) {
 				userPlaces={props.userPlaces}
 				loggedInUserwebId = {props.loggedInUserwebId}
 			/>
-		);
+			);
+		if (props.setDisableComponents)
+			{props.setDisableComponents(false)}
 	}
 
-	const maxTextLength = 20;
+	const maxTextLength = 15;
 
 	return (
-		<div className="card" onClick={showFullInfo}>
+		<div className="card" onClick={showFullInfo} disabled={props.disableComponents}>
 			<div className="card--line1">
 				<h3>
 					{place.name.substring(0, maxTextLength)}{" "}

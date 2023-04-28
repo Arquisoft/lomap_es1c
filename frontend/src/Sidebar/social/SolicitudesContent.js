@@ -18,8 +18,7 @@ export default function SolicitudesContent(props) {
 				</IconButton>
 			</Tooltip>
 
-			{/* TODO: internacionalizar */}
-			<h1>Solicitudes</h1>
+			<h1>{t("sidebar.friends.awaitingrequests")}</h1>
 
 			{/* Request cards */}
 			{props.solicitudes.map((solicitud) => (

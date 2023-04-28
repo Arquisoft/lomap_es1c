@@ -9,14 +9,14 @@ export default function InicioTabContent(props) {
     const {currentTheme} = useContext(ThemeContext);
     const [t] = useTranslation("global")
     const [searchBarText, setSearchBarText] = useState("")
+    const [disableComponents, setDisableComponents] = useState(false)
 
     return (
         <div className="tabcontent">
-            <Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
+            <Tooltip title={t("sidebar.back-arrow-text")} placement="bottom" disabled = {disableComponents}>
                 <IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
                     <ArrowBackIcon />
                 </IconButton>
-
             </Tooltip>
 
 
@@ -26,14 +26,8 @@ export default function InicioTabContent(props) {
                     variant="outlined"
                     placeholder={t("sidebar.tabs.start-content.search-bar-placeholder")}
                     onChange={(e) => (setSearchBarText(e.target.value.toLowerCase()))}
-                    InputProps={{
-                        style: {color: getTextColor(currentTheme)},
-                        "data-testid": "search-bar-1"
-                    }}
-                    inputProps={{
-                        "data-testid": "search-bar-2"
-                    }}
-                    data-testid= "search-bar-3"
+                    InputProps={{ style: {color: getTextColor(currentTheme)}, }}
+                    disabled = {disableComponents}
                 />
             </div>
             <hr/>
@@ -51,6 +45,8 @@ export default function InicioTabContent(props) {
                     returnTo = {<InicioTabContent {...props} />}
                     userPlaces = {props.userPlaces}
                     loggedInUserwebId = {props.loggedInUserwebId}
+                    disableComponents = {disableComponents}
+                    setDisableComponents = {setDisableComponents}
                 />)
             }
         </div>

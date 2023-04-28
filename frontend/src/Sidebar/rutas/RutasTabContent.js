@@ -23,7 +23,6 @@ export default function RutasTabContent(props) {
 
     return (
         <div className="tabcontent">
-
             <Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
                 <IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
                     <ArrowBackIcon />
@@ -39,14 +38,12 @@ export default function RutasTabContent(props) {
                     {t("sidebar.tabs.route-content.title")}
                 </h1>
 
-                {/* TODO: internacionalizar */}
-                <Tooltip title="Añadir ruta">
+                <Tooltip title={t("locations.createRoute")}>
                     <IconButton onClick={handleClickOnNewRoute}>
                         <AddCircleOutlineIcon />
                     </IconButton>
                 </Tooltip>
             </div>
-
             
             {props.rutas.map(
                 route =>
@@ -58,6 +55,8 @@ export default function RutasTabContent(props) {
                     API_route_calls = {props.API_route_calls}
                     API_location_calls = {props.API_location_calls}
                     setPosition = {props.setPosition}
+                    categorias = {props.categorias}
+                    loggedInUserwebId = {props.loggedInUserwebId}
                 />
             )}
         </div>

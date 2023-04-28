@@ -3,8 +3,8 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { IconButton, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import AddFriendContent from "../AddFriendContent";
+import { t } from "i18next";
 
-// solicitud = {id, sender, receiver, timestamp}
 export default function SolicitudCard(props) {
 	const [loading, setLoading] = useState(false);
 
@@ -27,6 +27,7 @@ export default function SolicitudCard(props) {
 			props.solicitud.sender
 		);
 		setLoading(false);
+		props.changeDrawerContent(null);
 	}
 
 	return (
@@ -37,15 +38,13 @@ export default function SolicitudCard(props) {
 					<p >{props.solicitud.sender}</p>
 				</div>
 
-				{/* TODO internacionalizar */}
-				<Tooltip title="Aceptar" placement="bottom">
+				<Tooltip title={t("sidebar.friends.accept")} placement="bottom">
 					<IconButton onClick={acceptRequest} disabled={loading}>
 						<CheckCircleOutlineIcon />
 					</IconButton>
 				</Tooltip>
 
-				{/* TODO internacionalizar */}
-				<Tooltip title="Rechazar" placement="bottom">
+				<Tooltip title={t("sidebar.friends.reject")} placement="bottom">
 					<IconButton onClick={rejectRequest} disabled={loading}>
 						<CancelIcon />
 					</IconButton>

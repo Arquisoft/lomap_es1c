@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
+import { t } from "i18next";
 
 export default function AddFriendContent(props) {
 	const { API_friend_calls, returnTo, changeDrawerContent } = props
@@ -26,7 +27,7 @@ export default function AddFriendContent(props) {
 		}
 		
 		setLoading(false);
-		returnFunction()
+		changeDrawerContent(null)
 	}
 
 	function returnFunction() {
@@ -59,7 +60,7 @@ export default function AddFriendContent(props) {
 				required
 				margin="normal"
 				error={isNameErrored}
-				helperText = {isNameErrored ? "El nombre no puede estar vacío" : ""}
+				helperText = {isNameErrored ? t("sidebar.friends.namecannotbeempty") : ""}
 				disabled={loading}
 				defaultValue={name}
 			/>
@@ -73,7 +74,7 @@ export default function AddFriendContent(props) {
 				required
 				margin="normal"
 				error={isWebIdErrored}
-				helperText = {isWebIdErrored ? "El WebID no puede estar vacío" : ""}
+				helperText = {isWebIdErrored ? t("sidebar.friends.webidcannotbeempty") : ""}
 				disabled = {Boolean(props.solicitud)  ||  loading}
 				defaultValue={webId}
 			/>
@@ -88,8 +89,7 @@ export default function AddFriendContent(props) {
 				variant="contained"
 				disabled = {isNameErrored  ||  isWebIdErrored}
 			>
-				{/* TODO: internacionalizar */}
-				{props.solicitud ? "Agregar amigo" : "Enviar solicitud"}
+				{props.solicitud ? t("sidebar.friends.addfriend") : t("sidebar.friends.sendrequest")}
 			</LoadingButton>
 		</>
 	);

@@ -4,38 +4,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Button, IconButton, TextField } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import EditInfoPlace from "./EditInfoPlace.js";
 import Rating from '@mui/material/Rating';
 
-// TODO: eliminar hardcoded
-const reviews = [
-	{
-		rating: 5,
-		comment: "",
-		author: "Other",
-		id: 111111
-	},
-	{
-		rating: 8,
-		comment: "Super comentario existente",
-		author: "Other",
-		id: 123123123
-	},
-	{
-		rating: -1,
-		comment: "Solo texto",
-		author: "Other",
-		id: 333333
-	},
-	{
-		rating: 6,
-		comment: "Mi comentarios",
-		author: "https://id.inrupt.com/uo276818",
-		id: 999999
-	}
-]
 
 export default function FullInfoPlace(props) {
 	const {
@@ -49,26 +22,19 @@ export default function FullInfoPlace(props) {
 
 	const isUserPlace = props.place.author === loggedInUserwebId;
 
-	console.log("---")
-	console.log(props.place)
-
 	const [t] = useTranslation("global");
 	const [deleteLoading, setDeleteLoading] = useState(false);
 	const [addImageLoading, setAddImageLoading] = useState(false);
 	const [commentLoading, setCommentLoading] = useState(false);
-	const [loading, setLoading] = useState(false);
 
-	// TODO: coger la review adecuada
 	const [rating, setRating] = useState(
 		place?.reviews?.find(r => r.author===loggedInUserwebId) ? place?.reviews?.find(r => r.author===loggedInUserwebId)?.rating : null
 	);
-	// TODO: coger la review adecuada
 	const [comment, setComment] = useState(
 		place?.reviews?.find(r => r.author===loggedInUserwebId) ? place?.reviews?.find(r => r.author===loggedInUserwebId)?.comment : ""
 	);
 	const [review, setReview] = useState(null);
 
-	// TODO: seleccionar las imágenes adecuadas
 	const [photosURLs, setPhotosURLs] = useState(
 		place?.photos ? place?.photos : []
 	);
@@ -78,11 +44,11 @@ export default function FullInfoPlace(props) {
 	}
 
 	async function saveReview() {
+		setCommentLoading(true)
 		if (place?.reviews?.find(r => r.author===loggedInUserwebId)) {
 			// updating
 			const theReview = place.reviews.find(r => r.author===loggedInUserwebId)
 
-			console.log("UPDATE INICIO")
 			const result = await API_location_calls.API_updateReview(
 				theReview.id,
 				{
@@ -91,13 +57,11 @@ export default function FullInfoPlace(props) {
 				},
 				place.id
 			)
-			console.log("UPDATE FIN")
 
-			place[reviews] = place.reviews
+			place.reviews = place.reviews
 				.filter(r => r.author!==loggedInUserwebId)
 				.concat({...result})
 		} else {
-			console.log("COMIENZA A CREAR")
 			// creating
 			const theReview = await API_location_calls.API_addReview(
 				place.id,
@@ -107,11 +71,11 @@ export default function FullInfoPlace(props) {
 					rating:(rating&&rating>0)?parseInt(rating):-1
 				}
 			)
-			place[reviews] = place.reviews
+			place.reviews = place.reviews
 				.filter(r => r.author!==loggedInUserwebId)
 				.concat({...theReview})
-			console.log("FIN DE CREAR")
 		}
+		setCommentLoading(false)
 	}
 
 	function cancelReview() {
@@ -127,23 +91,21 @@ export default function FullInfoPlace(props) {
 	}
 
 	async function deleteReview() {
-		
-		console.log("Borrar review inicio")
+		setCommentLoading(true)
 		await API_location_calls.API_removeReview(
 			place.id,
 			place.reviews.find(r => r.author===loggedInUserwebId).id
 		);
-		console.log("Borrar review final")
 
 		place.reviews = place.reviews.filter(
 			r =>
 			r.author !== loggedInUserwebId
 		)
 
-
 		setRating(null);
 		setComment("");
 		setReview(null);
+		setCommentLoading(false)
 	}
 
 	function handleRatingChange(event) {
@@ -155,31 +117,28 @@ export default function FullInfoPlace(props) {
 	}
 
 	function addImage(event) {
+		setAddImageLoading(true)
 		const file = event.target.files[0];
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
 
-		
 		reader.onloadend = async () => {
-			console.log("INICIO front")
 			const response = await API_location_calls.API_addPhoto(
 				place.id,
 				place.author,
 				reader.result
 			)
-			console.log("FIN FRONT")
 			setPhotosURLs(current => [...current, response])
 			
 		};
+		setAddImageLoading(false)
 	}
 
 	async function deleteImage(photo) {
-		console.log("COMIENZO FRONT")
 		const response = await API_location_calls.API_removePhoto(
 			place.id,
 			photo.id
 		)
-		console.log("FIN FRONT")
 		setPhotosURLs((current) => current.filter((p) => p.id !== photo.id));
 	}
 
@@ -209,25 +168,12 @@ export default function FullInfoPlace(props) {
 		changeDrawerContent(props.returnTo);
 	}
 
-	async function processComment() {}
-
-	async function saveImages() {
-		setAddImageLoading(true);
-
-		// TODO: implement
-		console.log("Pendiente");
-
-		setAddImageLoading(false);
-	}
-
 	return (
 		<>
 			{/* Botón de retorno */}
-			{props.returnTo && (
-				<IconButton onClick={() => {changeDrawerContent(props.returnTo)}}>
-					<ArrowBackIcon />
-				</IconButton>
-			)}
+			<IconButton onClick={() => {changeDrawerContent(props.returnTo ? props.returnTo : null)}}>
+				<ArrowBackIcon />
+			</IconButton>
 
 			<div className="card--line1">
 				{/* Nombre del lugar */}
@@ -245,18 +191,15 @@ export default function FullInfoPlace(props) {
 			</div>
 
 			{/* Categoría del lugar */}
-			{/* TODO: internacionalizar */}
 			<div className="card--line1">
-				<h3>Categoria:</h3>
+				<h3>{t("sidebar.place.category")}:</h3>
 				<p>{place.category}</p>
 			</div>
 
 			{/* Autor */}
 			<div className="card--line1">
-				{/* TODO: internacionalizar */}
-				<h3>Autor:</h3>
+				<h3>{t("sidebar.place.author")}:</h3>
 				{props.place.author}
-				{/* TODO: hacer */}
 			</div>
 
 			<br></br>
@@ -293,7 +236,7 @@ export default function FullInfoPlace(props) {
 
 			<div>
 			{/* Reviews */}
-			<h3>Reviews:</h3>
+			<h3>{t("sidebar.place.reviews")}:</h3>
 			{/* Mi review */}
 			{review ?
 			// Se está editando
@@ -306,28 +249,26 @@ export default function FullInfoPlace(props) {
 				/>
 				<TextField
 						label="Comentario"
-						defaultValue = ""
+						defaultValue = {comment}
 						onChange={handleCommentChange}
 					/>
 				<div className="card--line1">
 					<Button
 						variant="contained"
 						onClick={saveReview}
-						disabled={loading}
+						disabled={deleteLoading || addImageLoading || commentLoading}
 						margin="normal"
 					> 
-						{/* TODO: internacionalizar */}
-						{"Guardar"}
+						{t("sidebar.place.save")}
 					</Button>
 
 					<Button
 						variant="contained"
 						onClick={cancelReview}
-						disabled={loading}
+						disabled={deleteLoading || addImageLoading || commentLoading}
 						margin="normal"
 					> 
-						{/* TODO: internacionalizar */}
-						{"Cancelar"}
+						{t("sidebar.place.cancel")}
 					</Button>
 				</div>
 
@@ -351,20 +292,19 @@ export default function FullInfoPlace(props) {
 			<Button
 				variant="contained"
 				onClick={createNewReview}
-				disabled={loading}
+				disabled={deleteLoading || addImageLoading || commentLoading}
 			> 
-				{/* TODO: internacionalizar */}
-				{"Editar"}
+				{t("sidebar.place.edit")}
 			</Button>
 
-			<Button
+			<LoadingButton
 				variant="contained"
 				onClick={deleteReview}
-				disabled={loading}
+				disabled={deleteLoading || addImageLoading || commentLoading}
+				loading={commentLoading}
 			> 
-				{/* TODO: internacionalizar */}
-				{"Borrar review"}
-			</Button>
+				{t("sidebar.place.delete")}
+			</LoadingButton>
 			</>
 
 			// No existe, botón de crear
@@ -372,7 +312,7 @@ export default function FullInfoPlace(props) {
 			<Button
 				variant="contained"
 				onClick={createNewReview}
-				disabled={loading}
+				disabled={deleteLoading || addImageLoading || commentLoading}
 			> 
 				{/* TODO: internacionalizar */}
 				{"Añadir review"}
@@ -410,15 +350,13 @@ export default function FullInfoPlace(props) {
 			<br></br><hr></hr>
 
 			{/* Fotos */}
-			{/* TODO: internacionalizar */}
-			<h3>Fotos</h3>
+			<h3>{t("sidebar.place.photos")}:</h3>
 			{photosURLs.map((photo) => (
 				<div key={"photo_div" + photosURLs.indexOf(photo)}>
 					<img
 						src={photo.imageJPG}
 						width="250"
 						height="100"
-						// TODO: poner el alto adecuado
 						key={"photo_url_" + photosURLs.indexOf(photo)}
 					/>
 					{
@@ -445,8 +383,7 @@ export default function FullInfoPlace(props) {
 				/>
 				<label htmlFor="photos">
 					<Button variant="contained" component="span">
-						{/*TODO: internacionalizar*/}
-						Añadir imagen
+						{t("sidebar.place.addImage")}
 					</Button>
 				</label>
 			</>

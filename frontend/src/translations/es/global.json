@@ -9,7 +9,7 @@
         "delete-button": "Borrar",
         "log-out": "Cerrar sesión",
         "tab-buttons": {
-            "start": "Inicio",
+            "start": "Lugares",
             "friends": "Social",
             "routes": "Rutas",
             "discover": "Descubrir"
@@ -29,14 +29,33 @@
             "edit":"Editar",
             "locate":"Localizar",
             "delete":"Eliminar",
-            "name":"Nombre"
+            "name":"Nombre",
+            "category": "Categoría",
+            "author": "Autor",
+            "reviews": "Reseñas",
+            "save": "Guardar",
+            "cancel": "Cancelar",
+            "photos": "Fotos",
+            "addImage": "Añadir imagen",
+            "namecannotbeempty": "El nombre no puede estar vacío"
         }, "route": {
             "route-name": "Nombre de la ruta",
             "route-description": "Descripción de la ruta",
             "places-in-route": "Lugares en la ruta: ",
             "add-location-button": "Añade un lugar a esta ruta",
             "remove-location-button": "Elimina este lugar de esta ruta",
-            "save-route-button": "Guardar"
+            "save-route-button": "Guardar",
+            "namecannotbeempty": "Name cannot be left blank"
+        }, "friends": {
+            "awaitingrequests": "Solicitudes pendientes",
+            "addfriend": "Añadir nuevo amigo",
+            "showinmap": "Mostrar en el mapa",
+            "hideinmap": "Ocultar del mapa",
+            "accept": "Aceptar",
+            "reject": "Rechazar",
+            "sendrequest": "Enviar solicitud",
+            "namecannotbeempty": "El nombre no puede estar vacío",
+            "webidcannotbeempty": "El webid no puede estar vacío"
         }
     },"filters":{
         "all": "Todos",
@@ -59,5 +78,9 @@
             "add": "Añadir",
             "cancel": "Cancelar"
         }
+    },"login":{
+        "lomap_description": "LoMap te permite crear un mapa personalizado de los lugares que te interesan.",
+        "login-button": "Iniciar sesión",
+        "provider_url": "URL de su provider"
     }
 }
