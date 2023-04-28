@@ -1,0 +1,5 @@
+version: '1.1.0'
+services:
+  app:
+    image: uo276818/lomap_es1c:latest
+    ports: "3000-3000"
