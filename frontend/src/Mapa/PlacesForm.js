@@ -145,7 +145,7 @@ export default function CreateModal({
 			}
 			await API_location_calls.API_addReview(response.id,response.author,review);
 		}
-		if(data.photo){
+		if(data.photo !== ""){
 			const reader = new FileReader();
 			reader.readAsDataURL(data.photo);
 
@@ -180,6 +180,7 @@ export default function CreateModal({
 					value={nombre}
 					onChange={handleNameChange}
 					disabled={loading}
+					placeholder="name"
 				/>
 
 				<label htmlFor="puntuacion">{t("locations.form.score")}</label>
@@ -203,12 +204,13 @@ export default function CreateModal({
 					onChange={handleCategoryChange}
 					disabled={loading}
 					placeholder="category"
+					data-testid="categorySelect"
 				>
-					<MenuItem value={""} defaultValue={true}>
+					<MenuItem value={""} defaultValue={true} data-testid="sinCategoria">
 						<em>Sin Categoria</em>
 					</MenuItem>
 					{categorias.map((categoria) => (
-						<MenuItem key={categoria} value={categoria} disabled={loading}>
+						<MenuItem key={categoria} value={categoria} disabled={loading} data-testid={"category"+categorias.indexOf(categoria)}>
 							{categoria}
 						</MenuItem>
 					))}
