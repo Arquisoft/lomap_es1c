@@ -62,7 +62,7 @@ jobs:
         key: ${{ secrets.DEPLOY_KEY }}
         # TODO: mover YAML a master y coger el fichero de master
         command: |
-          wget https://github.com/Arquisoft/lomap_es1c/blob/DavidDockerize/frontend/docker-compose-deploy.yaml -O docker-compose.yml
+          wget https://raw.githubusercontent.com/Arquisoft/lomap_es1c/DavidDockerize/frontend/docker-compose-deploy.yaml -O docker-compose.yml
           docker-compose stop
           docker-compose rm -f
           docker-compose pull   
