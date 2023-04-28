@@ -43,4 +43,4 @@ jobs:
         name: asw/lomap_es1c
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        registry: ghcr.io
+        # registry: ghcr.io
