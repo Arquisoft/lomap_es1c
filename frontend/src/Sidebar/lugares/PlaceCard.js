@@ -13,12 +13,10 @@ export default function LugarCard(props) {
 			<FullInfoPlace
 				place={fullPlace}
 				setPosition={props.setPosition}
-				returnFunction={() => props.changeDrawerContent(null)}
 				changeDrawerContent={props.changeDrawerContent}
 				returnTo={props.returnTo}
 				categorias={props.categorias}
 				API_location_calls={props.API_location_calls}
-				userPlaces={props.userPlaces}
 				loggedInUserwebId = {props.loggedInUserwebId}
 			/>
 			);

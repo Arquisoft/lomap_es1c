@@ -165,7 +165,7 @@ export default function FullInfoPlace(props) {
 		setDeleteLoading(true);
 		await API_location_calls.API_deleteLocation(place.id);
 		setDeleteLoading(false);
-		changeDrawerContent(props.returnTo);
+		changeDrawerContent(null);
 	}
 
 	return (
@@ -314,8 +314,7 @@ export default function FullInfoPlace(props) {
 				onClick={createNewReview}
 				disabled={deleteLoading || addImageLoading || commentLoading}
 			> 
-				{/* TODO: internacionalizar */}
-				{"Añadir review"}
+				{t("sidebar.place.add-review")}
 			</Button>)
 			}
 

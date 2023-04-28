@@ -41,9 +41,7 @@ export default function InicioTabContent(props) {
                     categorias = {props.categorias}
                     setPosition={props.setPosition}
                     API_location_calls = {props.API_location_calls}
-                    isUserPlace = {true}
                     returnTo = {<InicioTabContent {...props} />}
-                    userPlaces = {props.userPlaces}
                     loggedInUserwebId = {props.loggedInUserwebId}
                     disableComponents = {disableComponents}
                     setDisableComponents = {setDisableComponents}

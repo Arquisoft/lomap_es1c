@@ -33,6 +33,7 @@
             "category": "Categoría",
             "author": "Autor",
             "reviews": "Reseñas",
+            "add-review": "Añadir reseña",
             "save": "Guardar",
             "cancel": "Cancelar",
             "photos": "Fotos",
@@ -55,7 +56,11 @@
             "reject": "Rechazar",
             "sendrequest": "Enviar solicitud",
             "namecannotbeempty": "El nombre no puede estar vacío",
-            "webidcannotbeempty": "El webid no puede estar vacío"
+            "webidcannotbeempty": "El webid no puede estar vacío",
+            "friend": {
+                "friend-places": "Lugares del amigo",
+                "delete-friend": "Eliminar como amigo"
+            }
         }
     },"filters":{
         "all": "Todos",

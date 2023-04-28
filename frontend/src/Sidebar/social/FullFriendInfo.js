@@ -23,12 +23,11 @@ export default function FullFriendInfo(props) {
 		await API_friend_calls.API_removeFriend(amigo.webid);
 
 		setLoading(false);
-		changeDrawerContent(returnTo);
+		changeDrawerContent(null);
 	}
 
 	return (
 		<>
-			{/* TODO: botón de atrás */}
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
                 <IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
                     <ArrowBackIcon />
@@ -44,17 +43,15 @@ export default function FullFriendInfo(props) {
 			<hr></hr>
 
 			{/* Listado con los places de ese amigo */}
-			{/* TODO: internacionalizar */}
-			<h3>Lugares de ese amigo: </h3>
+			<h3>{t("sidebar.friends.friend.friend-places")}:</h3>
 			{places.map((place) => (
-				// TODO: comprobar que recibe todos los parámetros necesarios
 				<PlaceCard
 					key={amigo.webid + "_placeCard_" + place.id}
-					// TODO: coger toda la info del lugar (no es la misma función)
 					place={place}
 					changeDrawerContent={changeDrawerContent}
 					setPosition={setPosition}
 					API_location_calls={API_location_calls}
+					returnTo = {<FullFriendInfo {...props} />}
 					loggedInUserwebId = {props.loggedInUserwebId}
 				/>
 			))}
@@ -68,8 +65,7 @@ export default function FullFriendInfo(props) {
 				startIcon={<DeleteIcon />}
 				variant="contained"
 			>
-				{/* TODO: internacionalizar */}
-				Eliminar amigo
+				{t("sidebar.friends.friend.delete-friend")}
 			</LoadingButton>
 		</>
 	);

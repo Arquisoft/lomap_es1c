@@ -24,7 +24,7 @@ export default function RutasTabContent(props) {
     return (
         <div className="tabcontent">
             <Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
-                <IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
+                <IconButton onClick={() => props.changeDrawerContent(props.returnTo ? props.returnTo : null)}>
                     <ArrowBackIcon />
                 </IconButton>
 
@@ -57,6 +57,7 @@ export default function RutasTabContent(props) {
                     setPosition = {props.setPosition}
                     categorias = {props.categorias}
                     loggedInUserwebId = {props.loggedInUserwebId}
+                    returnTo = {<RutasTabContent {...props} />}
                 />
             )}
         </div>

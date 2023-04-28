@@ -33,6 +33,7 @@
             "category": "Category",
             "author": "Author",
             "reviews": "Reviews",
+            "add-review": "Add new review",
             "save": "Save",
             "cancel": "Cancel",
             "photos": "Photos",
@@ -55,7 +56,11 @@
             "reject": "Reject",
             "sendrequest": "Send friend request",
             "namecannotbeempty": "Name cannot be left blank",
-            "webidcannotbeempty": "Webid cannot be left blank"
+            "webidcannotbeempty": "Webid cannot be left blank",
+            "friend": {
+                "friend-places": "Friend places",
+                "delete-friend": "Delete friend"
+            }
         }
     },"filters":{
         "all": "All",
