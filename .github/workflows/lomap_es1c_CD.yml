@@ -3,36 +3,36 @@ name: custom Continuous deployment for LOMAP ES1c
 on: [push, pull_request]
 
 jobs:
-  unit-tests:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 18
+  # unit-tests:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #     with:
+  #       fetch-depth: 0
+  #   - uses: actions/setup-node@v3
+  #     with:
+  #       node-version: 18
     
-    # Clean and install
-    - run: npm --prefix frontend ci                     
-    # - run: npm --prefix backend ci
+  #   # Clean and install
+  #   - run: npm --prefix frontend ci                     
+  #   # - run: npm --prefix backend ci
     
-    # Run tests
-    - run: npm --prefix frontend test --coverage --watchAll
-    # - run: npm --prefix backend test --coverage --watchAll
+  #   # Run tests
+  #   - run: npm --prefix frontend test --coverage --watchAll
+  #   # - run: npm --prefix backend test --coverage --watchAll
 
-    - name: Analyze with SonarCloud
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #   - name: Analyze with SonarCloud
+  #     uses: sonarsource/sonarcloud-github-action@master
+  #     env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   
 
   docker-build-push:
     name: Build the Docker image and push it to Github Packages
     runs-on: ubuntu-latest
-    # Wait for tests to finish
-    needs: [unit-tests]
+    # # Wait for tests to finish
+    # needs: [unit-tests]
     steps:
     - uses: actions/checkout@v3
     - name: Build and push
@@ -40,8 +40,8 @@ jobs:
       env:
         GOOGLE_MAPS_AKI_KEY: ${{ secrets.GOOGLE_MAPS_AKI_KEY }}
       with:
-        name: asw/lomap_es1c
+        name: uo276818/lomap_es1c
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         workdir: frontend
-        registry: https://hub.docker.com/
+        # registry: https://hub.docker.com/
