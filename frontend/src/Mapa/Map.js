@@ -237,7 +237,7 @@ function Map({
 				zoom={13}
 				center={position}
 				mapContainerClassName="map-conteiner"
-				data-testid="mapa"
+				alt="Mapa"
 				onClick={(e) => onMapClick(e)}
 				onLoad={handleLoad}
 				onDragEnd={handleCenter}
@@ -259,7 +259,6 @@ function Map({
 						key={marker.id}
 						position={{ lat: Number(marker.latitude), lng: Number(marker.longitude) }}
 						onClick={() => details(marker)}
-						//options={{icon: {url:(require("./marker.svg").default),scaledSize: {width: 36, height: 36},fillColor:"#34495e"}}}
 					/>
 				))}
 			</GoogleMap>

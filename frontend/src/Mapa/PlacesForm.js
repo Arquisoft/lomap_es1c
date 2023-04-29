@@ -145,7 +145,7 @@ export default function CreateModal({
 			}
 			await API_location_calls.API_addReview(response.id,response.author,review);
 		}
-		if(data.photo !== ""){
+		if(data.photo){
 			const reader = new FileReader();
 			reader.readAsDataURL(data.photo);
 
@@ -180,7 +180,7 @@ export default function CreateModal({
 					value={nombre}
 					onChange={handleNameChange}
 					disabled={loading}
-					placeholder="name"
+					placeholder="Nombre"
 				/>
 
 				<label htmlFor="puntuacion">{t("locations.form.score")}</label>

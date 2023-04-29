@@ -22,7 +22,6 @@ const setStateButtonMok = jest.fn();
 const setCanCickMok = jest.fn();
 
 const categoriasMok = ["Restaurante","Parque"]
-var blob = new File([new ArrayBuffer(1)], 'file.jpg');
 const data = {
 	id : "1",
 	name: "Prueba",
@@ -31,7 +30,7 @@ const data = {
 	category: "Restaurante",
 	review: 2,
 	comment: "Prueba Comentario",
-	photo: blob,
+	photo:"",
 	privacy: "",
 };
 
@@ -66,7 +65,7 @@ describe('BasicFuntionality', () => {
 
 		Modal.setAppElement('body');
 
-		const nameTextField = screen.getByPlaceholderText("name");
+		const nameTextField = screen.getByPlaceholderText("Nombre");
 		const rating = screen.getByPlaceholderText("rating");
 		const rating2 = screen.getByDisplayValue("2.5");
 		const category = screen.getByPlaceholderText("category");
@@ -137,7 +136,7 @@ describe('BasicFuntionality', () => {
 
 		Modal.setAppElement('body');
 
-		const nameTextField = screen.getByPlaceholderText("name");
+		const nameTextField = screen.getByPlaceholderText("Nombre");
 		const rating = screen.getByPlaceholderText("rating");
 		const category = screen.getByTestId("categorySelect");
 		const photo = screen.getByTestId("photo");
@@ -182,7 +181,7 @@ describe('BasicFuntionality', () => {
 
 		Modal.setAppElement('body');
 
-		const nameTextField = screen.getByPlaceholderText("name");
+		const nameTextField = screen.getByPlaceholderText("Nombre");
 		const rating = screen.getByPlaceholderText("rating");
 		const category = screen.getByTestId("categorySelect");
 		const photo = screen.getByTestId("photo");
