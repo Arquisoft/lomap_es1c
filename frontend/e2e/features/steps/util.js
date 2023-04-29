@@ -108,35 +108,6 @@ async function editar_lugar(page){
 }
 
 
-
-async function rellenar_datos_location(page){
-  //Nombre
-  let buton = await page.waitForXPath('/html/body/div[3]/div/div/form/div[1]/div/input');
-  await buton.type('prueba aceptacion');
-
-  //Estrellas
-  buton = await page.waitForXPath('/html/body/div[3]/div/div/form/span/span[4]/label[2]');
-  await buton.click();
-
-  //Categoria
-  buton = await page.waitForXPath('/html/body/div[3]/div/div/form/div[2]/div');
-  await buton.click();
-
-  buton = await page.waitForXPath('/html/body/div[5]/div[3]/ul/li[3]');
-  await buton.click();
-
-  //Comentario
-  buton = await page.waitForXPath('/html/body/div[3]/div/div/form/div[3]/div/textarea[1]');
-  await buton.type('comentario prueba aceptacion');
-
-  //Guardar
-  buton = await page.waitForXPath('/html/body/div[3]/div/div/div/button[1]');
-  await buton.type('comentario prueba aceptacion');
-
-  await new Promise(r => setTimeout(r, 6000));
-
-}
-
 async function borrar_location(page){
   let buton_sidebar = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[4]/button[2]');
   await buton_sidebar.click();
@@ -160,4 +131,4 @@ async function obtener_comentario(page){
 
 
 
-module.exports = {createPage, login, abrir_sidebar, abrir_lugares, pulsar_lugar, editar_lugar, obtener_nombre_lugar, buscar_location, obtener_comentario, ir_a_lugar, borrar_location, rellenar_datos_location};
+module.exports = {createPage, login, abrir_sidebar, abrir_lugares, pulsar_lugar, editar_lugar, obtener_nombre_lugar, buscar_location, obtener_comentario, ir_a_lugar, borrar_location};

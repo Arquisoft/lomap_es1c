@@ -31,7 +31,30 @@ When('Selecciono un punto del mapa', {timeout: 3*5000},async function () {
 });
 
 When('Relleno datos de la localizacion', {timeout: 10*5000 }, async function () {
-  await util.rellenar_datos_location(page);
+    //Nombre
+    let buton = await page.waitForXPath('/html/body/div[3]/div/div/form/div[1]/div/input');
+    await buton.type('prueba aceptacion');
+  
+    //Estrellas
+    buton = await page.waitForXPath('/html/body/div[3]/div/div/form/span/span[4]/label[2]');
+    await buton.click();
+  
+    //Categoria
+    buton = await page.waitForXPath('/html/body/div[3]/div/div/form/div[2]/div');
+    await buton.click();
+  
+    buton = await page.waitForXPath('/html/body/div[5]/div[3]/ul/li[3]');
+    await buton.click();
+  
+    //Comentario
+    buton = await page.waitForXPath('/html/body/div[3]/div/div/form/div[3]/div/textarea[1]');
+    await buton.type('comentario prueba aceptacion');
+  
+    //Guardar
+    buton = await page.waitForXPath('/html/body/div[3]/div/div/div/button[1]');
+    await buton.type('comentario prueba aceptacion');
+  
+    await new Promise(r => setTimeout(r, 6000));
 });
 
 
