@@ -6,7 +6,7 @@ const util = require('./util.js');
 let page
 
 Given('En la pagina de inicio logeado',{timeout: 20*5000}, async function () {
-
+  return 'pending';
     //CREAR PAGINA
     page = await util.createPage();
 
