@@ -4,13 +4,13 @@ const util = require('./util.js');
 
 
 let page
-
+let browser
 
 
 
 Given('que se ha hecho login',{timeout: 20*5000}, async function () {
     //CREAR PAGINA
-    page = await util.createPage();
+    [page, browser] = await util.createPage();
 
     //Hacer proceso de LOGIN
     await util.login(page, "solidpruebas2");
@@ -62,6 +62,7 @@ Then('la review se añade', {timeout: 4*5000}, async function () {
   await buton.click();
 
   await new Promise(r => setTimeout(r, 4000));
+  await browser.close();
 });
 
 

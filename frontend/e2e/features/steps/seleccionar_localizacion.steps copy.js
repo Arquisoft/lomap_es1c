@@ -4,10 +4,11 @@ const util = require('./util.js');
 
 
 let page
+let browser
 
 Given('Estoy logeado en la aplicacion', {timeout: 20*5000}, async function () {
     //CREAR PAGINA
-    page = await util.createPage();
+    [page, browser] = await util.createPage();
 
     //Hacer proceso de LOGIN
     await util.login(page, "solidpruebas2");
@@ -27,4 +28,5 @@ When('Presiono localizacion', {timeout: 3*5000}, async function () {
 Then('puedo ver la informacion de la localizacion', async function () {
   // Write code here that turns the phrase above into concrete actions    
   assert.equal(await util.obtener_comentario(page), "Muy Bonito");
+  await browser.close();
 });

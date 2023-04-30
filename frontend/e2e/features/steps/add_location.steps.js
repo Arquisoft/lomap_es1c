@@ -4,10 +4,10 @@ const util = require('./util.js');
 
 
 let page
-
+let browser
 Given('Estoy logeado dentro de la aplicacion', {timeout: 20*5000}, async function () {
     //CREAR PAGINA
-    page = await util.createPage();
+    [page, browser] = await util.createPage();
 
     //Hacer proceso de LOGIN
     await util.login(page, "solidpruebas2");
@@ -69,5 +69,7 @@ Then('Se añade el punto al mapa', {timeout: 10*5000}, async function () {
   //Eliminar la localizacion
   await util.pulsar_lugar(page);
   await util.borrar_location(page);
+  await new Promise(r => setTimeout(r, 4000));
+  await browser.close();
 
 });

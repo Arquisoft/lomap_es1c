@@ -4,10 +4,11 @@ const util = require('./util.js');
 
 
 let page
+let browser
 
 Given('En la pagina de inicio logeado',{timeout: 20*5000}, async function () {
     //CREAR PAGINA
-    page = await util.createPage();
+    [page, browser] = await util.createPage();
 
     //Hacer proceso de LOGIN
     await util.login(page, "solidpruebas2");
@@ -73,5 +74,5 @@ Then('ruta creada',{timeout: 2*5000}, async function () {
   nombre_ruta = await nombre_ruta.evaluate(node => node.textContent);
   assert.equal(nombre_ruta, 'aaruta1');
 
-
+  await browser.close();
 });

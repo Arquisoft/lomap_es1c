@@ -1,14 +1,15 @@
 const puppeteer = require('puppeteer');
 
+
 async function createPage(){
-    let browser = await puppeteer.launch(
-        // {
-        //   headless: false,
-        //   args: ['--start-maximized'] 
-        // }
-      );
+        let browser = await puppeteer.launch(
+          // {
+          //   headless: false,
+          //   args: ['--start-maximized'] 
+          // }
+        );
     let page = await browser.newPage();
-    return page;
+    return [page, browser];
   }
 
 

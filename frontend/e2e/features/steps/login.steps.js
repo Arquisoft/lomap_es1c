@@ -4,10 +4,11 @@ const util = require('./util.js');
 
 
 let page
+let browser
 
 Given('Estoy en la pagina de inicio', async function () {
     //CREAR PAGINA
-    page = await util.createPage();
+    [page, browser] = await util.createPage();
 
     // IR A LOCALHOST:3000
     await page.goto("http://localhost:3000");
@@ -43,7 +44,8 @@ When('presiono botones de login de inrupt', async function () {
 });
 
 
-Then('se me redirigira a la aplicacion', function () {
+Then('se me redirigira a la aplicacion', async function () {
   
     assert.equal(page.url().includes("http://localhost:3000/"), true);
+    await browser.close();
   });

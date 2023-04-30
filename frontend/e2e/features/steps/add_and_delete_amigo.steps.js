@@ -4,12 +4,12 @@ const util = require('./util.js');
 
 
 let page
-
+let browser
 
 
 Given('Estoy logeado dentro de la aplicacion con usuario 1', {timeout: 20*5000}, async function () {
     //CREAR PAGINA
-    page = await util.createPage();
+    [page, browser] = await util.createPage();
 
     //Hacer proceso de LOGIN
     await util.login(page, "solidpruebas3");
@@ -18,7 +18,7 @@ Given('Estoy logeado dentro de la aplicacion con usuario 1', {timeout: 20*5000},
 
 
 
-When('hago solicitud de amistad a usuario 2', {timeout: 2*5000}, async function () {
+When('hago solicitud de amistad a usuario 2', {timeout: 4*5000}, async function () {
     await util.abrir_sidebar(page);
     await util.abrir_amigos(page);
     let boton = await page.waitForXPath('/html/body/div[3]/div[3]/div/div/div[1]/button[2]');
@@ -34,21 +34,21 @@ When('hago solicitud de amistad a usuario 2', {timeout: 2*5000}, async function 
 
     boton = await page.waitForXPath('/html/body/div[3]/div[3]/div/button[2]');
     await boton.click();
-
-
+    await new Promise(r => setTimeout(r, 5000));
+    await browser.close();
 });
 
 
 
 When('Me logueo en la aplicacion con usuario 2', {timeout: 20*5000}, async function () {
-    page = await util.createPage();
+    [page, browser] = await util.createPage();
 
     //Hacer proceso de LOGIN
     await util.login(page, "solidpruebas4");
 });
 
 
-When('Acepto la solicitud del usuario 1', {timeout: 3*5000},async function () {
+When('Acepto la solicitud del usuario 1', {timeout: 5*5000},async function () {
     await util.abrir_sidebar(page);
     await util.abrir_amigos(page);
 
@@ -65,11 +65,13 @@ When('Acepto la solicitud del usuario 1', {timeout: 3*5000},async function () {
 
     boton = await page.waitForXPath('/html/body/div[3]/div[3]/div/button[2]');
     await boton.click();
+    await new Promise(r => setTimeout(r, 5000));
+    await browser.close();
 });
 
 
 Then('usuario 1 y usuario 2 son amigos', {timeout: 20*5000},async function () {
-    page = await util.createPage();
+    [page, browser] = await util.createPage();
 
     //Hacer proceso de LOGIN
     await util.login(page, "solidpruebas4");
@@ -86,7 +88,7 @@ Then('usuario 1 y usuario 2 son amigos', {timeout: 20*5000},async function () {
 
     let boton = await page.waitForXPath('/html/body/div[3]/div[3]/div/button[2]');
     await boton.click();
-
-
+    await new Promise(r => setTimeout(r, 3000));
+    await browser.close();
 
 });

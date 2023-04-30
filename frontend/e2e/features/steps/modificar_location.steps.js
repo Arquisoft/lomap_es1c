@@ -4,11 +4,12 @@ const util = require('./util.js');
 
 
 let page
+let browser
 let nombre_lugar
 
 Given('He iniciado sesion', {timeout: 20*5000}, async function () {
     //CREAR PAGINA
-    page = await util.createPage();
+    [page, browser] = await util.createPage();
 
     // IR A LOCALHOST:3000
     await util.login(page, "solidpruebas2");
@@ -39,4 +40,5 @@ Then('Se ha modificado la informacion', async function () {
   await util.abrir_lugares(page);
   await util.buscar_location(page, "Random");
   assert.notEqual(await util.obtener_nombre_lugar(page), nombre_lugar);
+  await browser.close();
 });
