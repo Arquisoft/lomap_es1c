@@ -6,6 +6,7 @@ import Request from "../../models/FriendRequest.js";
 
 import {getFile} from "@inrupt/solid-client";
 
+
 function parseLocation(locationJson) {
 	return new Location(
 		locationJson.name,
