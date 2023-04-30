@@ -12,6 +12,7 @@ Given('Estoy logeado en la aplicacion', {timeout: 20*5000}, async function () {
 
     //Hacer proceso de LOGIN
     await util.login(page);
+    await util.posicionarse_en_oviedo(page);
 });
 
 When('Presiono localizacion', {timeout: 3*5000}, async function () {

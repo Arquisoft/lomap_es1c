@@ -12,14 +12,17 @@ Given('Estoy logeado dentro de la aplicacion', {timeout: 20*5000}, async functio
 
     //Hacer proceso de LOGIN
     await util.login(page);
+    await util.posicionarse_en_oviedo(page);
 });
 
 When('Presiono boton de añadir marcador', {timeout: 2*5000}, async function () {
     let buton = await page.waitForXPath('/html/body/div[1]/div/div[1]/div/div[1]/button');
     await buton.hover();
+    await new Promise(r => setTimeout(r, 500));
 
     let butonMarcador = await page.waitForXPath('/html/body/div[1]/div/div[1]/div/div[1]/div/button[1]');
     await butonMarcador.hover();
+    await new Promise(r => setTimeout(r, 500));
     await butonMarcador.click();
     await new Promise(r => setTimeout(r, 1000));
 });

@@ -17,11 +17,14 @@ Given('En la pagina de inicio logeado',{timeout: 20*5000}, async function () {
 When('Presiono boton de añadir ruta', async function () {
   let buton = await page.waitForXPath('/html/body/div[1]/div/div[1]/div/div[1]/button');
   await buton.hover();
+  await new Promise(r => setTimeout(r, 500));
 
   let butonMarcador = await page.waitForXPath('/html/body/div[1]/div/div[1]/div/div[1]/div/button[1]');
   await butonMarcador.hover();
+  await new Promise(r => setTimeout(r, 500));
   butonMarcador = await page.waitForXPath('/html/body/div[1]/div/div[1]/div/div[1]/div/button[2]');
   await butonMarcador.hover();
+  await new Promise(r => setTimeout(r, 500));
   await butonMarcador.click();
   await new Promise(r => setTimeout(r, 1000));
 });

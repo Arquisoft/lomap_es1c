@@ -49,7 +49,12 @@ async function login(page){
     await page.keyboard.press('Enter');
 
 
-    // POSICIONARSE EN OVIEDO
+
+}
+
+
+async function posicionarse_en_oviedo(page){
+      // POSICIONARSE EN OVIEDO
     await abrir_sidebar(page);
     await abrir_lugares(page);
     await buscar_location(page, "San Francisco");
@@ -61,8 +66,9 @@ async function login(page){
     await page.mouse.click(500, 500);
 
     await new Promise(r => setTimeout(r, 2000));
-
 }
+
+
 
 async function ir_a_lugar(page){
   let buton_sidebar = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[1]/button');
@@ -131,4 +137,4 @@ async function obtener_comentario(page){
 
 
 
-module.exports = {createPage, login, abrir_sidebar, abrir_lugares, pulsar_lugar, editar_lugar, obtener_nombre_lugar, buscar_location, obtener_comentario, ir_a_lugar, borrar_location};
+module.exports = {createPage, login, abrir_sidebar, abrir_lugares, pulsar_lugar, editar_lugar, obtener_nombre_lugar, buscar_location, obtener_comentario, ir_a_lugar, borrar_location, posicionarse_en_oviedo};

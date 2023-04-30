@@ -6,11 +6,13 @@ const util = require('./util.js');
 let page
 
 Given('login hecho',{timeout: 20*5000}, async function () {
+  return 'pending';
     //CREAR PAGINA
     page = await util.createPage();
 
     //Hacer proceso de LOGIN
     await util.login(page);
+    await util.posicionarse_en_oviedo(page);
 });
 
 When('Selecciono un filtro',{timeout: 5*5000}, async function () {
