@@ -2,7 +2,7 @@ import Location from "../../models/locationModels/Location.js";
 import Rating from "../../models/locationModels/Review.js";
 import Photo from "../../models/locationModels/Photo.js";
 import Friend from "../../models/Friend.js";
-import Request from "../../models/Request.js";
+import Request from "../../models/FriendRequest.js";
 
 const { getFile } = require("@inrupt/solid-client");
 
