@@ -22,6 +22,7 @@ const setStateButtonMok = jest.fn();
 const setCanCickMok = jest.fn();
 
 const categoriasMok = ["Restaurante","Parque"]
+const f = new File(["hello"], "hello.png", { type: "image/png" });
 const data = {
 	id : "1",
 	name: "Prueba",
@@ -30,7 +31,7 @@ const data = {
 	category: "Restaurante",
 	review: 2,
 	comment: "Prueba Comentario",
-	photo:"",
+	photo: f,
 	privacy: "",
 };
 
@@ -86,29 +87,25 @@ describe('BasicFuntionality', () => {
 		expect(cancel).toBeInTheDocument();
 
 		fireEvent.change(nameTextField,{target: { value: "Test" }});
-
 		const changeNameTextField = screen.getByDisplayValue('Test')
-
 		expect(changeNameTextField).toBeInTheDocument();
 
 		fireEvent.click(rating2);
 
 		fireEvent.click(category);
-
 		fireEvent.change(category,{target: { value: "Changed Value" }});
 
+		const testImageFile = new File(["hello"], "hello.png", { type: "image/png" });
 		fireEvent.click(photo);
-
-		fireEvent.change(photo,{target: { value: "" }});
+		await fireEvent.change(photo, {
+            target: { files: [testImageFile] },
+          });
 
 		fireEvent.click(commentTextField);
-
 		fireEvent.change(commentTextField,{target: { value: "Test comment" }});
 
 		const changCommentTextField = screen.getByDisplayValue('Test')
-
 		expect(changCommentTextField).toBeInTheDocument();
-
 		fireEvent.click(save);
 	})
 

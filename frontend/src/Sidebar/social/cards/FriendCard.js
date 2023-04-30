@@ -51,6 +51,7 @@ export default function FriendCard(props) {
 		<div
 			onClick = {showFullAmigoInfo}
 			className="card"
+			data-testid="card"
 		>
 			<div className="card--line1">
 				{/* Nombre del amigo */}
@@ -61,7 +62,7 @@ export default function FriendCard(props) {
 					title={isVisible ? t("sidebar.friends.hideinmap") : t("sidebar.friends.showinmap")}
 					placement="bottom"
 				>
-					<IconButton onClick={handleButtonClick}>
+					<IconButton onClick={handleButtonClick} data-testid="visibility">
 						{isVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
 					</IconButton>
 				</Tooltip>

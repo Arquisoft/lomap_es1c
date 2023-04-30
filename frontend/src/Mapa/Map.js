@@ -232,7 +232,7 @@ function Map({
 				userPlaces={places}
 				API_route_calls={API_route_calls}
 			/>
-
+			
 			<GoogleMap
 				zoom={13}
 				center={position}
@@ -259,6 +259,7 @@ function Map({
 						key={marker.id}
 						position={{ lat: Number(marker.latitude), lng: Number(marker.longitude) }}
 						onClick={() => details(marker)}
+						placeholder="Punto"
 					/>
 				))}
 			</GoogleMap>
