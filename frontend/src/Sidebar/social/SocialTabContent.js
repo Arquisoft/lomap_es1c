@@ -41,7 +41,7 @@ export default function SocialTabContent(props) {
 		<div className="tabcontent">
 			{/* Botón atrás */}
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
-                <IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
+                <IconButton onClick={() => props.changeDrawerContent(props.returnTo)} data-testid="arrow"> 
                     <ArrowBackIcon />
                 </IconButton>
             </Tooltip>
@@ -51,13 +51,13 @@ export default function SocialTabContent(props) {
 
 			<div className="card--line1">
 				{/* Botón de solicitudes */}
-				<Button variant="contained" onClick={handleClickOnSolicitudes}>
+				<Button variant="contained" onClick={handleClickOnSolicitudes} data-testid="solicitudes">
 					{t("sidebar.friends.awaitingrequests")}
 				</Button>
 
 				{/* Botón para añadir solicitud */}
 				<Tooltip title={t("sidebar.friends.addfriend")}>
-					<IconButton onClick={handleClickOnAddFriend}>
+					<IconButton onClick={handleClickOnAddFriend}  data-testid="add">
 						<AddCircleOutlineIcon />
 					</IconButton>
 				</Tooltip>

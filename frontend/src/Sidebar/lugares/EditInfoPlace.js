@@ -70,7 +70,7 @@ export default function FullInfoPlace({
 		<>
 			{/* Botón para volver atrás */}
 			<IconButton onClick={returnFunction}>
-				<ArrowBackIcon />
+				<ArrowBackIcon data-testid="arrow"/>
 			</IconButton>
 			<br></br>
 
@@ -127,6 +127,7 @@ export default function FullInfoPlace({
 				loadingPosition="start"
 				startIcon={<SaveIcon />}
 				variant="contained"
+				data-testid="saveBtn"
 			>
 				<span>{t("sidebar.place.save")}</span>
 			</LoadingButton>

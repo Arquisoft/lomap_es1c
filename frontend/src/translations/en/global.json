@@ -67,7 +67,8 @@
         "mine": "Just Mine",
         "friends": "Just Friends",
         "chooseFriends": "Choose Friends",
-        "chooseCategoty": "Choose Category"
+        "chooseCategoty": "Choose Category",
+        "allCategories": "All Categories"
     },"locations":{
         "add": "Add Marker",
         "createRoute": "Create Route",

@@ -33,6 +33,7 @@ export default function DrawerSidebar(props) {
             sx = {{position: 'absolute', top: 16, left: 16}}
             size="extra"
             onClick={() => props.changeDrawerContent(null)}
+            data-testid="change"
         >
             <MenuIcon />
         </IconButton>

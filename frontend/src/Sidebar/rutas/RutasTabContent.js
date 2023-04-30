@@ -24,7 +24,7 @@ export default function RutasTabContent(props) {
     return (
         <div className="tabcontent">
             <Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
-                <IconButton onClick={() => props.changeDrawerContent(props.returnTo ? props.returnTo : null)}>
+                <IconButton onClick={() => props.changeDrawerContent(props.returnTo ? props.returnTo : null)} data-testid="arrow">
                     <ArrowBackIcon />
                 </IconButton>
 
@@ -39,7 +39,7 @@ export default function RutasTabContent(props) {
                 </h1>
 
                 <Tooltip title={t("locations.createRoute")}>
-                    <IconButton onClick={handleClickOnNewRoute}>
+                    <IconButton onClick={handleClickOnNewRoute} data-testid="creteRoute">
                         <AddCircleOutlineIcon />
                     </IconButton>
                 </Tooltip>

@@ -86,7 +86,7 @@ function Map({
 }) {
 	//Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
 
-	//DIferentes estados necesarios para el mapa.
+	//Diferentes estados necesarios para el mapa.
 	const [openInfo, setOpenInfo] = React.useState(false);
 	const [categortFiltered, setCategortFiltered] = useState({
 		activated: false,
@@ -232,11 +232,12 @@ function Map({
 				userPlaces={places}
 				API_route_calls={API_route_calls}
 			/>
-
+			
 			<GoogleMap
 				zoom={13}
 				center={position}
 				mapContainerClassName="map-conteiner"
+				alt="Mapa"
 				onClick={(e) => onMapClick(e)}
 				onLoad={handleLoad}
 				onDragEnd={handleCenter}
@@ -258,7 +259,7 @@ function Map({
 						key={marker.id}
 						position={{ lat: Number(marker.latitude), lng: Number(marker.longitude) }}
 						onClick={() => details(marker)}
-						//options={{icon: {url:(require("./marker.svg").default),scaledSize: {width: 36, height: 36},fillColor:"#34495e"}}}
+						placeholder="Punto"
 					/>
 				))}
 			</GoogleMap>

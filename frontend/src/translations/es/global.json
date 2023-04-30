@@ -67,7 +67,8 @@
         "mine": "Solo Mios",
         "friends": "Solo Amigos",
         "chooseFriends": "Elegir Amigos",
-        "chooseCategoty": "Elegir Categoria"
+        "chooseCategoty": "Elegir Categoria",
+        "allCategories": "Todas las Categorias"
     },"locations":{
         "add": "Añadir Marcador",
         "createRoute": "Crear Ruta",

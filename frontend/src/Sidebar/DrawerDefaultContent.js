@@ -19,6 +19,7 @@ export default function DrawerDefaultContent(props) {
             <div id="centered">
             <Button
                 variant="contained"
+                data-testid="places"
                 onClick={async() => {
                     const theWebId = await props.getwebId() 
                     props.changeDrawerContent(
@@ -41,7 +42,7 @@ export default function DrawerDefaultContent(props) {
 
             {/* Botón de social */}
             <div id="centered">
-                <Button variant="contained" onClick={async() => {
+                <Button variant="contained" data-testid="social" onClick={async() => {
                     const theWebId = await props.getwebId();
                     props.changeDrawerContent(
                         <SocialTabContent
@@ -65,7 +66,7 @@ export default function DrawerDefaultContent(props) {
 
             {/* Botón de rutas */}
             <div id="centered">
-                <Button variant="contained" onClick={async () => {
+                <Button variant="contained" data-testid="rutas" onClick={async () => {
                     const theWebId = await props.getwebId();
                     props.changeDrawerContent(
                         <RutasTabContent

@@ -131,7 +131,7 @@ export default function EditRouteInfo({
 			{/* Botón para volver */}
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
 				<IconButton
-					data-testid="back-button"
+					data-testid="arrow"
 					onClick={() => changeDrawerContent(returnTo ? returnTo : null)}
 					disabled={loading}
 				>
@@ -144,6 +144,7 @@ export default function EditRouteInfo({
 			<TextField
 				inputProps={{ "data-testid": "text-field-title" }}
 				label={t("sidebar.route.route-name")}
+				placeholder={t("sidebar.route.route-name")}
 				defaultValue={name}
 				onChange={handleNameChange}
 				disabled={loading}
@@ -160,6 +161,7 @@ export default function EditRouteInfo({
 			<TextField
 				inputProps={{ "data-testid": "text-field-description" }}
 				label={t("sidebar.route.route-description")}
+				placeholder={t("sidebar.route.route-description")}
 				defaultValue={description}
 				onChange={handleDescriptionChange}
 				disabled={loading}

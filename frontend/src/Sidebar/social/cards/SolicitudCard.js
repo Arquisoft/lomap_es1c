@@ -39,12 +39,12 @@ export default function SolicitudCard(props) {
 				</div>
 
 				<Tooltip title={t("sidebar.friends.accept")} placement="bottom">
-					<IconButton onClick={acceptRequest} disabled={loading}>
+					<IconButton onClick={acceptRequest} disabled={loading} data-testid="accept">
 						<CheckCircleOutlineIcon />
 					</IconButton>
 				</Tooltip>
 
-				<Tooltip title={t("sidebar.friends.reject")} placement="bottom">
+				<Tooltip title={t("sidebar.friends.reject")} placement="bottom" data-testid="reject">
 					<IconButton onClick={rejectRequest} disabled={loading}>
 						<CancelIcon />
 					</IconButton>
