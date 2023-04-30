@@ -37,5 +37,11 @@ jobs:
         node-version: 18
     
     - run: npm --prefix frontend ci
-    - run: npm --prefix frontend start
+    - run: npm --prefix frontend start &
+      background: true
+
+    - uses: oe/wait-on@v1
+      with:
+        resources: http://localhost:3000
+
     - run: npm --prefix frontend run test:e2e
