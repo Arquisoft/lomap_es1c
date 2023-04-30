@@ -2,17 +2,17 @@ const puppeteer = require('puppeteer');
 
 async function createPage(){
     let browser = await puppeteer.launch(
-        {
-          headless: false,
-          args: ['--start-maximized'] 
-        }
+        // {
+        //   headless: false,
+        //   args: ['--start-maximized'] 
+        // }
       );
     let page = await browser.newPage();
     return page;
   }
 
 
-async function login(page){
+async function login(page, usuario){
 
     // IR A LOCALHOST:3000
     await page.goto("http://localhost:3000");
@@ -22,7 +22,7 @@ async function login(page){
     await page.waitForNavigation();
 
     // ESCRIBIR DATOS DE INICIO DE SESION
-    await page.type('#signInFormUsername', 'solidpruebas2');
+    await page.type('#signInFormUsername', usuario);
     await page.type('#signInFormPassword', 'Solidpruebas1234');
 
     // PRIMER BOTON DE LOGIN

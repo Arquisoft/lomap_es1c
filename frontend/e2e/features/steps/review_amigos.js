@@ -9,12 +9,11 @@ let page
 
 
 Given('que se ha hecho login',{timeout: 20*5000}, async function () {
-  return 'pending';
     //CREAR PAGINA
     page = await util.createPage();
 
     //Hacer proceso de LOGIN
-    await util.login(page);
+    await util.login(page, "solidpruebas2");
 });
 
 

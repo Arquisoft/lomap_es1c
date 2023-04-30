@@ -6,12 +6,11 @@ const util = require('./util.js');
 let page
 
 Given('Estoy logeado dentro de la aplicacion', {timeout: 20*5000}, async function () {
-  return 'pending';
     //CREAR PAGINA
     page = await util.createPage();
 
     //Hacer proceso de LOGIN
-    await util.login(page);
+    await util.login(page, "solidpruebas2");
     await util.posicionarse_en_oviedo(page);
 });
 
@@ -61,7 +60,7 @@ When('Relleno datos de la localizacion', {timeout: 10*5000 }, async function () 
 });
 
 
-Then('Se añade el punto al mapa', {timeout: 3*5000}, async function () {
+Then('Se añade el punto al mapa', {timeout: 10*5000}, async function () {
   await util.abrir_sidebar(page);
   await util.abrir_lugares(page);
   await util.buscar_location(page, "prueba aceptacion");

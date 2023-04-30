@@ -6,7 +6,6 @@ const util = require('./util.js');
 let page
 
 Given('Estoy en la pagina de inicio', async function () {
-  return 'pending';
     //CREAR PAGINA
     page = await util.createPage();
 

@@ -7,12 +7,11 @@ let page
 let nombre_lugar
 
 Given('He iniciado sesion', {timeout: 20*5000}, async function () {
-    return 'pending';
     //CREAR PAGINA
     page = await util.createPage();
 
     // IR A LOCALHOST:3000
-    await util.login(page);
+    await util.login(page, "solidpruebas2");
 });
 
 When('abro el sidebar', async function () {
