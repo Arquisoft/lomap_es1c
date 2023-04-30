@@ -39,8 +39,8 @@ jobs:
     - run: npm --prefix frontend ci
     - run: npm --prefix frontend start &
 
-    - uses: oe/wait-on@v1
+    - uses: iFaxity/wait-on-action
       with:
-        resources: http://localhost:3000
+        resource: http://localhost:3000
 
     - run: npm --prefix frontend run test:e2e
