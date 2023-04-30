@@ -87,11 +87,26 @@ async function abrir_lugares(page){
   await new Promise(r => setTimeout(r, 500));
 }
 
+async function abrir_amigos(page){
+  let buton = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[2]/button');
+  await buton.click();
+  await new Promise(r => setTimeout(r, 500));
+}
+
+
 async function pulsar_lugar(page){
   let buton_lugar = await page.waitForXPath('/html/body/div[3]/div[3]/div/div/div[2]');
   await buton_lugar.click();
   await new Promise(r => setTimeout(r, 2000));
 }
+
+async function pulsar_amigo(page){
+  let buton = await page.waitForXPath('/html/body/div[3]/div[3]/div/div/div[2]');
+  await buton.click();
+  await new Promise(r => setTimeout(r, 2000));
+}
+
+
 
 async function editar_lugar(page){
   //CLICK EN EDITAR
@@ -136,5 +151,15 @@ async function obtener_comentario(page){
 }
 
 
+async function posicionarse_lugar_amigo(page){
+  await abrir_sidebar(page);
+  await abrir_amigos(page);
+  await pulsar_amigo(page);
+  let buton = await page.waitForXPath('/html/body/div[3]/div[3]/div/div');
+  await buton.click();
+  await new Promise(r => setTimeout(r, 3000));
+}
 
-module.exports = {createPage, login, abrir_sidebar, abrir_lugares, pulsar_lugar, editar_lugar, obtener_nombre_lugar, buscar_location, obtener_comentario, ir_a_lugar, borrar_location, posicionarse_en_oviedo};
+
+
+module.exports = {createPage, login, abrir_sidebar, abrir_lugares, pulsar_lugar, editar_lugar, obtener_nombre_lugar, buscar_location, obtener_comentario, ir_a_lugar, borrar_location, posicionarse_en_oviedo, abrir_amigos, pulsar_amigo, posicionarse_lugar_amigo};
