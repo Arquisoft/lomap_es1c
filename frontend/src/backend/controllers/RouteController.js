@@ -9,7 +9,7 @@ async function getAllRoutes(session) {
 		throw new Error("Problema al obtener las rutas");
 	}
 }
-
+/*
 async function getAllRoutesAllInfo(session) {
 	try {
 		const routes = await solid.getAllRoutesMinimalInfo(
@@ -21,7 +21,7 @@ async function getAllRoutesAllInfo(session) {
 		throw new Error("Problema al obtener las rutas");
 	}
 }
-
+*/
 async function getAllLocationsByRouteId(session, idRoute) {
 	try {
 		const route = await solid.getRouteById(
@@ -154,7 +154,7 @@ async function deleteLocationFromRoute(session, idRoute, idLocation) {
 		throw new Error("Problema borrando la localización de la ruta");
 	}
 }
-
+/*
 async function changeOrderOfLocationInRoute(
 	session,
 	idRoute,
@@ -185,16 +185,17 @@ async function changeOrderOfLocationInRoute(
 		throw new Error(err);
 	}
 }
+*/
 
 module.exports = {
 	getAllRoutes,
-	getAllRoutesAllInfo,
+
 	getRouteById,
 	addRoute,
 	updateRoute,
 	deleteRoute,
 	addLocationToRoute,
 	deleteLocationFromRoute,
-	changeOrderOfLocationInRoute,
+
 	getAllLocationsByRouteId,
 };
