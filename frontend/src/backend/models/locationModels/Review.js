@@ -19,4 +19,4 @@ class Review {
 		return `${currentDate}_${randomIdentifier}`;
 	}
 }
-module.exports = Review;
+export default Review;

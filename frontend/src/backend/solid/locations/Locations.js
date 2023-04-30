@@ -1,3 +1,7 @@
+import {parseLocation, parseContainer} from "../util/Parser.js";
+import {serializeLocation, serializeContenedor, deleteThing} from "../util/Serializer.js";
+import {getAllReviews, addReview} from "./Reviews.js";
+import {getAllPhotos, addPhoto} from "./Photos.js";
 const {
 	getSolidDataset,
 	getContainedResourceUrlAll,
@@ -7,36 +11,31 @@ const {
 	getPodUrlAll,
 } = require("@inrupt/solid-client");
 
-const parser = require("../util/Parser.js");
-const serializer = require("../util/Serializer.js");
-
-const Reviews = require("./Reviews.js");
-const Photos = require("./Photos.js");
 
 const { SCHEMA_INRUPT } = require("@inrupt/vocab-common-rdf");
 
 async function addLocation(Session, ubicacion, myBaseUrl) {
-	let jsonLDLocation = await serializer.serializeLocation(ubicacion);
-	await serializer.serializeContenedor(
+	let jsonLDLocation = await serializeLocation(ubicacion);
+	await serializeContenedor(
 		Session,
 		myBaseUrl + "LoMap/locations/locations.jsonld",
 		jsonLDLocation
 	);
 
 	//Añado a comentarios, reviews y fotos a sus respectivas carpetas
-	ubicacion.reviews.forEach((r) => Reviews.addReview(Session, r));
-	ubicacion.photos.forEach((p) => Photos.addPhoto(Session, p));
+	ubicacion.reviews.forEach((r) => addReview(Session, r));
+	ubicacion.photos.forEach((p) => addPhoto(Session, p));
 }
 
 async function obtenerLocalizaciones(Session, myBaseUrl) {
 	//Obtener url de todas las ubicaciones
 
-	let locationsJson = await parser.parseContainer(
+	let locationsJson = await parseContainer(
 		Session,
 		myBaseUrl + "LoMap/locations/locations.jsonld"
 	);
 	locationsJson.itemListElement = locationsJson.itemListElement.map((l) =>
-		parser.parseLocation(l)
+		parseLocation(l)
 	);
 
 	return locationsJson.itemListElement;
@@ -54,8 +53,8 @@ async function obtenerLocalizacion(
 		let location = locations.find((l) => l.id == idUbi);
 
 		if (returnAllReviews) {
-			location.reviews = Reviews.getAllReviews(Session, location.reviews);
-			location.photos = Photos.getAllPhotos(Session, location.photos);
+			location.reviews = getAllReviews(Session, location.reviews);
+			location.photos = getAllPhotos(Session, location.photos);
 		} else {
 			location.reviews = [];
 			location.photos = [];
@@ -71,14 +70,14 @@ async function obtenerLocalizacion(
 }
 
 async function deleteLocationById(Session, idLocation, myBaseUrl) {
-	await serializer.deleteThing(
+	await deleteThing(
 		Session,
 		myBaseUrl + "LoMap/locations/locations.jsonld",
 		idLocation
 	);
 }
 
-module.exports = {
+export {
 	obtenerLocalizacion,
 	obtenerLocalizaciones,
 	addLocation,

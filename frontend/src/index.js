@@ -11,6 +11,7 @@ import App from "./App";
 import { ThemeContextProvider } from "./contexts/ThemeContext";
 import "./index.css";
 import Login from "./login";
+import {checkStruct} from "./backend/controllers/PodController";
 
 // Internationalization
 import global_en from "./translations/en/global.json";
@@ -19,7 +20,6 @@ const availableLanguages = ["es", "en"];
 const preferredLanguage = navigator.language.toLowerCase().substring(0, 2);
 const defaultAlternativeLanguage = "es";
 
-const PodController = require("./backend/controllers/PodController");
 i18next.init({
 	interpolation: { escapeValue: false },
 	lng: availableLanguages.includes(preferredLanguage)
@@ -47,7 +47,7 @@ function MyComponent() {
 			}).then(async (info) => {
 				if (getDefaultSession().info.isLoggedIn) {
 					setIsStructBeingCreated(true)
-					await PodController.checkStruct(getDefaultSession());
+					await checkStruct(getDefaultSession());
 					setIsLoggedIn(true);
 					setIsStructBeingCreated(false)
 				}
@@ -59,7 +59,7 @@ function MyComponent() {
 		await handleIncomingRedirect().then(async (info) => {
 			if (getDefaultSession().info.isLoggedIn) {
 				setIsStructBeingCreated(true)
-				await PodController.checkStruct(getDefaultSession());
+				await checkStruct(getDefaultSession());
 				setIsLoggedIn(true);
 				setIsStructBeingCreated(false)
 				loggedInOnce = true;

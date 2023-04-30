@@ -1,30 +1,26 @@
-const solid = require("../solid/Solid.js");
-const Route = require("../models/Route");
+import {
+	getAllRoutes as getAllRoutes_,
+	getAllRoutesMinimalInfo,
+	getRouteById as getRouteById_,
+	addRoute as addRoute_,
+	deleteRouteById,
+	getLocationById,
+	saveRoute
+} from "../solid/Solid.js";
+import Route from "../models/Route";
 
 async function getAllRoutes(session) {
 	try {
-		const routes = await solid.getAllRoutes(session, session.info.webId);
+		const routes = await getAllRoutes_(session, session.info.webId);
 		return routes;
 	} catch (err) {
 		throw new Error(err);
 	}
 }
 
-async function getAllRoutesAllInfo(session) {
-	try {
-		const routes = await solid.getAllRoutesMinimalInfo(
-			session,
-			session.info.webId
-		);
-		return routes;
-	} catch (err) {
-		throw new Error("Problema al obtener las rutas");
-	}
-}
-
 async function getAllLocationsByRouteId(session, idRoute) {
 	try {
-		const route = await solid.getRouteById(
+		const route = await getRouteById_(
 			session,
 			idRoute,
 			session.info.webId
@@ -41,7 +37,7 @@ async function getAllLocationsByRouteId(session, idRoute) {
 
 async function getRouteById(session, id) {
 	try {
-		const route = await solid.getRouteById(session, id, session.info.webId);
+		const route = await getRouteById_(session, id, session.info.webId);
 		if (route != null) {
 			return route;
 		} else {
@@ -60,7 +56,7 @@ async function addRoute(session, route1) {
 			throw new Error("Faltan datos");
 		}
 		const route = new Route(name, description, session.info.webId);
-		await solid.addRoute(session, route, session.info.webId);
+		await addRoute_(session, route, session.info.webId);
 		return route;
 	} catch (err) {
 		throw new Error("");
@@ -75,13 +71,13 @@ async function updateRoute(session, id, route1) {
 		if (!name) {
 			throw new Error("Faltan datos");
 		}
-		const route = await solid.getRouteById(session, id, session.info.webId);
+		const route = await getRouteById_(session, id, session.info.webId);
 		if (route == null) {
 			throw new Error("No se han encontrado rutas con esa id");
 		}
 		route.name = name;
 		route.description = description;
-		await solid.addRoute(session, route, session.info.webId);
+		await addRoute_(session, route, session.info.webId);
 		return route;
 	} catch (err) {
 		throw new Error(err);
@@ -90,11 +86,11 @@ async function updateRoute(session, id, route1) {
 
 async function deleteRoute(session, id) {
 	try {
-		const route = await solid.getRouteById(session, id, session.info.webId);
+		const route = await getRouteById_(session, id, session.info.webId);
 		if (route == null) {
 			throw new Error("No se han encontrado rutas con esa id");
 		}
-		await solid.deleteRouteById(session, id, session.info.webId);
+		await deleteRouteById(session, id, session.info.webId);
 		return route;
 	} catch (err) {
 		throw new Error(err);
@@ -103,12 +99,12 @@ async function deleteRoute(session, id) {
 
 async function addLocationToRoute(session, idRoute, idLocation) {
 	try {
-		const route = await solid.getRouteById(
+		const route = await getRouteById_(
 			session,
 			idRoute,
 			session.info.webId
 		);
-		const location = await solid.getLocationById(
+		const location = await getLocationById(
 			session,
 			idLocation,
 			session.info.webId
@@ -120,7 +116,7 @@ async function addLocationToRoute(session, idRoute, idLocation) {
 			throw new Error("No se han encontrado localizaciones con esa id");
 		}
 		route.addLocation(location);
-		await solid.addRoute(session, route, session.info.webId);
+		await addRoute_(session, route, session.info.webId);
 
 		return route;
 	} catch (err) {
@@ -130,12 +126,12 @@ async function addLocationToRoute(session, idRoute, idLocation) {
 
 async function deleteLocationFromRoute(session, idRoute, idLocation) {
 	try {
-		const route = await solid.getRouteById(
+		const route = await getRouteById_(
 			session,
 			idRoute,
 			session.info.webId
 		);
-		const location = await solid.getLocationById(
+		const location = await getLocationById(
 			session,
 			idLocation,
 
@@ -149,53 +145,20 @@ async function deleteLocationFromRoute(session, idRoute, idLocation) {
 			throw new Error("No se han encontrado localizaciones con esa id");
 		}
 		route.deleteLocation(location.id);
-		await solid.addRoute(session, route, session.info.webId);
+		await addRoute_(session, route, session.info.webId);
 		return route;
 	} catch (err) {
 		throw new Error(err);
 	}
 }
 
-async function changeOrderOfLocationInRoute(
-	session,
-	idRoute,
-	idLocation,
-	index
-) {
-	try {
-		const route = await solid.getRouteById(
-			session,
-			idRoute,
-			session.info.webId
-		);
-		const location = await solid.getLocationById(
-			session,
-			idLocation,
-			session.info.webId
-		);
-		if (route == null) {
-			throw new Error("No se han encontrado rutas con esa id");
-		}
-		if (location == null) {
-			throw new Error("No se han encontrado localizaciones con esa id");
-		}
-		route.changeOrder(location, index);
-		await solid.saveRoute(session, route, session.info.webId);
-		return route;
-	} catch (err) {
-		throw new Error(err);
-	}
-}
-
-module.exports = {
+export {
 	getAllRoutes,
-	getAllRoutesAllInfo,
 	getRouteById,
 	addRoute,
 	updateRoute,
 	deleteRoute,
 	addLocationToRoute,
 	deleteLocationFromRoute,
-	changeOrderOfLocationInRoute,
 	getAllLocationsByRouteId,
 };

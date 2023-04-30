@@ -1,3 +1,5 @@
+import {parseContainer, parseRoute, } from "./util/ParserRoute.js";
+import {serializeRoute, serializeContenedor, deleteThing} from "./util/Serializer.js";
 const {
 	getSolidDataset,
 	getContainedResourceUrlAll,
@@ -6,18 +8,15 @@ const {
 	deleteFile,
 } = require("@inrupt/solid-client");
 
-const parser = require("./util/ParserRoute.js");
-const serializer = require("./util/Serializer.js");
-const locations = require("./locations/Locations.js");
 
 async function addRoute(Session, route, myBaseUrl) {
-	let routeJsonLd = await serializer.serializeRoute(route);
-	await serializer.serializeContenedor(Session, myBaseUrl + "LoMap/routes.jsonld", routeJsonLd);
+	let routeJsonLd = await serializeRoute(route);
+	await serializeContenedor(Session, myBaseUrl + "LoMap/routes.jsonld", routeJsonLd);
 }
 
 async function getAllRoutes(Session, myBaseUrl, returnAllLocations) {
-	let routesJson = await parser.parseContainer(Session, myBaseUrl + "LoMap/routes.jsonld");
-	routesJson.itemListElement = routesJson.itemListElement.map(r => parser.parseRoute(Session, myBaseUrl, r, returnAllLocations));
+	let routesJson = await parseContainer(Session, myBaseUrl + "LoMap/routes.jsonld");
+	routesJson.itemListElement = routesJson.itemListElement.map(r => parseRoute(Session, myBaseUrl, r, returnAllLocations));
 	for(let i=0;i<routesJson.itemListElement.length;i++){
 		routesJson.itemListElement[i] = await routesJson.itemListElement[i];
 	}
@@ -26,9 +25,9 @@ async function getAllRoutes(Session, myBaseUrl, returnAllLocations) {
 
 async function getRouteById(Session, idRoute, myBaseUrl, returnAllLocations) {
 	try {
-		let routesJson = await parser.parseContainer(Session, myBaseUrl + "LoMap/routes.jsonld");
+		let routesJson = await parseContainer(Session, myBaseUrl + "LoMap/routes.jsonld");
 		let ruta = routesJson.itemListElement.find(r => r.id == idRoute);
-		ruta = await parser.parseRoute(Session, myBaseUrl, ruta, returnAllLocations);
+		ruta = await parseRoute(Session, myBaseUrl, ruta, returnAllLocations);
 		return ruta;
 
 	} catch (err) {
@@ -37,10 +36,10 @@ async function getRouteById(Session, idRoute, myBaseUrl, returnAllLocations) {
 }
 
 async function deleteRouteById(Session, idRoute, myBaseUrl) {
-	await serializer.deleteThing(Session, myBaseUrl + "LoMap/routes.jsonld", idRoute);
+	await deleteThing(Session, myBaseUrl + "LoMap/routes.jsonld", idRoute);
 }
 
-module.exports = {
+export {
 	addRoute,
 	getAllRoutes,
 	getRouteById,

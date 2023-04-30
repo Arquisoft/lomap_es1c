@@ -1,4 +1,4 @@
-const Photo = require("../../../models/locationModels/Photo");
+import Photo from "../../../models/locationModels/Photo";
 
 describe("Photo", () => {
 	describe("constructor", () => {

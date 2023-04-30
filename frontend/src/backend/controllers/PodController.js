@@ -1,7 +1,7 @@
-const solid = require("../solid/Solid.js");
+import {createStruct} from "../solid/Solid.js";
 
 async function checkStruct(session) {
-	await solid.createStruct(session);
+	await createStruct(session);
 }
 
-exports.checkStruct = checkStruct;
+export {checkStruct};
