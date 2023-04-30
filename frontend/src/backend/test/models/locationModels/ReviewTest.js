@@ -1,4 +1,4 @@
-const Review = require("../../../models/locationModels/Review");
+import Review from "../../../models/locationModels/Review";
 
 describe("Review", () => {
 	it("should throw an error if rating is not an integer between 0 and 10", () => {

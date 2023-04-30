@@ -27,4 +27,4 @@ class Photo {
 	}
 }
 
-module.exports = Photo;
+export default Photo;

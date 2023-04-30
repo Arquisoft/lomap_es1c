@@ -1,3 +1,5 @@
+import {parseContainer, parsePhoto} from "../util/Parser.js";
+import {serializeContenedor, deleteThing, serializePhotoComplet} from "../util/Serializer.js";
 const {
 	overwriteFile,
 	getFile,
@@ -5,17 +7,13 @@ const {
 	getPodUrlAll,
 } = require("@inrupt/solid-client");
 
-const locations = require("./Locations.js");
-
-const parser = require("../util/Parser.js");
-const serializer = require("../util/Serializer.js");
 
 async function addPhoto(Session, foto) {
 	let myUrl = await getPodUrlAll(Session.info.webId, { fetch: Session.fetch });
 	myUrl = myUrl[0];
 
-	let photoJsonLD = await serializer.serializePhotoComplet(foto);
-	await serializer.serializeContenedor(
+	let photoJsonLD = await serializePhotoComplet(foto);
+	await serializeContenedor(
 		Session,
 		myUrl + "LoMap/locations/photos.jsonld",
 		photoJsonLD
@@ -37,11 +35,11 @@ async function getPhoto(Session, jsonPhoto) {
 		let myUrl = await getPodUrlAll(jsonPhoto.author, { fetch: Session.fetch });
 		myUrl = myUrl[0];
 
-		let photosJson = await parser.parseContainer(
+		let photosJson = await parseContainer(
 			Session,
 			myUrl + "LoMap/locations/photos.jsonld"
 		);
-		return parser.parsePhoto(
+		return parsePhoto(
 			photosJson.itemListElement.find((r) => r.id == jsonPhoto.id)
 		);
 	} catch (err) {
@@ -50,14 +48,14 @@ async function getPhoto(Session, jsonPhoto) {
 }
 
 async function deletePhotoById(Session, idFoto, myBaseUrl) {
-	await serializer.deleteThing(
+	await deleteThing(
 		Session,
 		myBaseUrl + "LoMap/locations/photos.jsonld",
 		idFoto
 	);
 }
 
-module.exports = {
+export {
 	addPhoto,
 	getAllPhotos,
 	deletePhotoById,

@@ -15,4 +15,4 @@ class FriendRequest {
 		return `${currentDate}`;
 	}
 }
-module.exports = FriendRequest;
+export default FriendRequest;

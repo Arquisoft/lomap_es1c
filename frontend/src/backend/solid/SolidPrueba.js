@@ -1,9 +1,9 @@
-const Route = require("../models/Route");
-const Location = require("../models/locationModels/Location");
-const Friend = require("../models/Friend");
-const Photo = require("../models/locationModels/Photo");
-const Comment = require("../models/locationModels/Comment");
-const review = require("../models/locationModels/Review");
+import Route from "../models/Route";
+import Location from "../models/locationModels/Location";
+import Friend from "../models/Friend";
+import Photo from "../models/locationModels/Photo";
+import Comment from "../models/locationModels/Comment";
+import review from "../models/locationModels/Review";
 
 const friends = [
 	new Friend(null, "https://example.com/alice"),
@@ -153,7 +153,7 @@ async function deleteLocationFromRouteById(routeName, locationId) {
 	});
 }
 
-module.exports = {
+export {
 	saveLocation,
 	getLocationById,
 	deleteLocationById,

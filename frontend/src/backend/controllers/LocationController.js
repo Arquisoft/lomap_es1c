@@ -1,12 +1,21 @@
-const Location = require("../models/locationModels/Location");
-const Photo = require("../models/locationModels/Photo");
-const Review = require("../models/locationModels/Review");
-const solid = require("../solid/Solid.js");
+import Location from "../models/locationModels/Location";
+import Photo from "../models/locationModels/Photo";
+import Review from "../models/locationModels/Review";
+import {
+	getLocationById,
+	saveLocation,
+	updateReview as updateReview_,
+	deleteReviewById,
+	getAllLocations as getAllLocations_,
+	deleteLocationById,
+	deletePhotoById,
+	getCategories as getCategories_
+} from "../solid/Solid.js";
 
 //CRUD
 async function getLocation(session, id) {
 	try {
-		const location1 = await solid.getLocationById(
+		const location1 = await getLocationById(
 			session,
 			id,
 			session.info.webId
@@ -24,7 +33,7 @@ async function getLocation(session, id) {
 
 async function getAllLocations(session) {
 	try {
-		const locations = await solid.getAllLocations(session, session.info.webId);
+		const locations = await getAllLocations_(session, session.info.webId);
 		return locations;
 	} catch (err) {
 		throw new Error(err);
@@ -48,7 +57,7 @@ async function createLocation(session, location) {
 			session.info.webId,
 			category
 		);
-		await solid.saveLocation(session, location, session.info.webId);
+		await saveLocation(session, location, session.info.webId);
 		return location;
 	} catch (err) {
 		throw new Error("error al crear la ruta");
@@ -64,12 +73,12 @@ async function updateLocation(session, id, location) {
 			throw new Error("Faltan datos");
 		}
 
-		let location = await solid.getLocationById(session, id, session.info.webId);
+		let location = await getLocationById(session, id, session.info.webId);
 
 		location.name = name || location.name;
 		location.category = category || location.category;
 
-		await solid.saveLocation(session, location, session.info.webId);
+		await saveLocation(session, location, session.info.webId);
 
 		return location;
 	} catch (err) {
@@ -79,13 +88,13 @@ async function updateLocation(session, id, location) {
 
 async function deleteLocation(session, id) {
 	try {
-		const location = await solid.getLocationById(
+		const location = await getLocationById(
 			session,
 			id,
 			session.info.webId
 		);
 		if (location != null) {
-			await solid.deleteLocationById(session, id, session.info.webId);
+			await deleteLocationById(session, id, session.info.webId);
 		} else {
 			throw new Error("Location not found");
 		}
@@ -103,10 +112,10 @@ async function addPhoto(session, id, photo, webIdAuthor) {
 		throw new Error("Faltan datos");
 	}
 	try {
-		let location = await solid.getLocationById(session, id, webIdAuthor);
+		let location = await getLocationById(session, id, webIdAuthor);
 		const photo = new Photo(session.info.webId, photoImage);
 		location.addPhoto(photo);
-		await solid.saveLocation(session, location, webIdAuthor);
+		await saveLocation(session, location, webIdAuthor);
 		return photo
 	} catch (err) {
 		throw new Error(err);
@@ -118,7 +127,7 @@ async function addPhoto(session, id, photo, webIdAuthor) {
 
 async function deletePhoto(session, idPhoto) {
 	try {
-		await solid.deletePhotoById(session, idPhoto, session.info.webId);
+		await deletePhotoById(session, idPhoto, session.info.webId);
 	} catch (err) {
 		throw new Error(err);
 	}
@@ -132,10 +141,10 @@ async function addReview(session, id, webIdAuthor, review) {
 		throw new Error("Faltan datos");
 	}
 	try {
-		let location = await solid.getLocationById(session, id, webIdAuthor);
+		let location = await getLocationById(session, id, webIdAuthor);
 		const review = new Review(rating, comment, session.info.webId);
 		location.addReview(review);
-		await solid.saveLocation(session, location, webIdAuthor);
+		await saveLocation(session, location, webIdAuthor);
 		return review;
 	} catch (err) {
 		throw new Error("Error en el add review");
@@ -147,7 +156,7 @@ async function updateReview(session, idReview, review1) {
 		const rating = review1.rating;
 		const comment = review1.comment;
 		let review = new Review(rating, comment, session.info.webId, idReview);
-		await solid.updateReview(session, review, session.info.webId);
+		await updateReview_(session, review, session.info.webId);
 		return review;
 	} catch (error) {
 		throw new Error("Error en el update review");
@@ -156,7 +165,7 @@ async function updateReview(session, idReview, review1) {
 
 async function deleteReview(session, idReview) {
 	try {
-		await solid.deleteReviewById(session, idReview, session.info.webId);
+		await deleteReviewById(session, idReview, session.info.webId);
 	} catch (err) {
 		throw new Error("Error en el deleteReview");
 	}
@@ -165,7 +174,7 @@ async function deleteReview(session, idReview) {
 //  Categories
 async function getCategories() {
 	try {
-		let categories = await solid.getCategories();
+		let categories = await getCategories_();
 		return categories;
 	} catch (err) {
 		throw new Error(err);
@@ -174,7 +183,7 @@ async function getCategories() {
 
 async function getLocationsByCategory(session, category) {
 	try {
-		let locations = await solid.getAllLocations(session, session.info.webId);
+		let locations = await getAllLocations_(session, session.info.webId);
 		locations = locations.filter((location) => location.category === category);
 		return locations;
 	} catch (err) {
@@ -182,7 +191,7 @@ async function getLocationsByCategory(session, category) {
 	}
 }
 
-module.exports = {
+export {
 	createLocation,
 	getAllLocations,
 	getLocation,

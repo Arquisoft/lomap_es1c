@@ -1,4 +1,4 @@
-const Comment = require("../../../models/locationModels/Comment");
+import Comment from "../../../models/locationModels/Comment";
 
 describe("Comment", () => {
 	test("creates a comment with author, text, timestamp, and id", () => {

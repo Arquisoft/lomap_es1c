@@ -1,3 +1,4 @@
+import {darPermisosPublicos, } from "./Friends.js";
 const {
 	getSolidDataset,
 	createContainerAt,
@@ -6,7 +7,6 @@ const {
 	deleteSolidDataset,
 } = require("@inrupt/solid-client");
 
-const friends = require("./Friends.js");
 
 async function construirEstructura(Session, myBaseUrl) {
 	try {
@@ -17,7 +17,7 @@ async function construirEstructura(Session, myBaseUrl) {
 				myBaseUrl + "public/",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
-			await friends.darPermisosPublicos(Session, myBaseUrl + "public/", {read: true, write: true,});
+			await darPermisosPublicos(Session, myBaseUrl + "public/", {read: true, write: true,});
 		}
 		try {
 			await getFile(myBaseUrl + "public/solicitudes.jsonld", {
@@ -30,7 +30,7 @@ async function construirEstructura(Session, myBaseUrl) {
 				file,
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
-			await friends.darPermisosPublicos(Session, myBaseUrl + "public/solicitudes.jsonld", {read: true, write: true,});
+			await darPermisosPublicos(Session, myBaseUrl + "public/solicitudes.jsonld", {read: true, write: true,});
 		}
 		try {
 			await getSolidDataset(myBaseUrl + "LoMap/", { fetch: Session.fetch });
@@ -39,7 +39,7 @@ async function construirEstructura(Session, myBaseUrl) {
 				myBaseUrl + "LoMap/",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
-			await friends.darPermisosPublicos(Session, myBaseUrl + "LoMap/", {read: true, write: true,});
+			await darPermisosPublicos(Session, myBaseUrl + "LoMap/", {read: true, write: true,});
 		}
 		try {
 			await getFile(myBaseUrl + "LoMap/routes.jsonld", {
@@ -146,6 +146,6 @@ async function estructuraJsonLD() {
 	return buffer;
 }
 
-module.exports = {
+export {
 	construirEstructura,
 };

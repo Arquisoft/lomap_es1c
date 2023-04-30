@@ -1,6 +1,6 @@
+import {parseContainer} from "../util/Parser.js";
 const { overwriteFile, getFile } = require("@inrupt/solid-client");
 
-const parser = require("../util/Parser.js");
 
 async function serializeLocation(location) {
 	let reviews = location.reviews.map((r) => serializeReview(r));
@@ -111,7 +111,7 @@ async function serializeSolicitud(solicitud) {
 }
 
 async function serializeContenedor(Session, url, jsonLDToAdd) {
-	let jsonContainer = await parser.parseContainer(Session, url);
+	let jsonContainer = await parseContainer(Session, url);
 	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
 		(j) => j.id != jsonLDToAdd.id
 	);
@@ -122,7 +122,7 @@ async function serializeContenedor(Session, url, jsonLDToAdd) {
 }
 
 async function deleteThing(Session, url, idThing) {
-	let jsonContainer = await parser.parseContainer(Session, url);
+	let jsonContainer = await parseContainer(Session, url);
 
 	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
 		(t) => t.id != idThing
@@ -145,7 +145,7 @@ async function saveJsonLD(Session, url, jsonContainer) {
 	});
 }
 
-module.exports = {
+export {
 	serializeLocation,
 	serializePhoto,
 	serializeRoute,
