@@ -30,4 +30,11 @@ describe("Friend", () => {
 			);
 		});
 	});
+	describe("updateName", () => {
+		it("should update the name property", () => {
+			const friend = new Friend("John", "https://example.com/john");
+			friend.updateName("Jane");
+			expect(friend.name).toBe("Jane");
+		});
+	});
 });
