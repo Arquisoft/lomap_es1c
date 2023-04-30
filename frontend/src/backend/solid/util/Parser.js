@@ -2,7 +2,7 @@ const Location = require("../../models/locationModels/Location.js");
 const Rating = require("../../models/locationModels/Review.js");
 const Photo = require("../../models/locationModels/Photo.js");
 const Friend = require("../../models/Friend.js");
-const Request = require("../../models/Request.js");
+const Request = require("../../models/FriendRequest.js");
 
 const { getFile } = require("@inrupt/solid-client");
 
