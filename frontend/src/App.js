@@ -1,87 +1,108 @@
-import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import { getDefaultSession } from "@inrupt/solid-client-authn-browser";
+import CircularProgress from "@mui/material/CircularProgress";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./App.css";
 import CreateMap from "./Mapa/Map";
 import CreateModal from "./Mapa/PlacesForm";
-import addPlace from "./Places/Places";
 import DrawerSidebar from "./Sidebar/Drawer";
 import "./Sidebar/Sidebar.css";
 import SettingsSpeedDial from "./buttons/SettingsSpeedDial";
 import { ThemeContext, Themes } from "./contexts/ThemeContext";
 
-var a = [];
+const LocationController = require("./backend/controllers/LocationController");
+const RoutesController = require("./backend/controllers/RouteController");
+const FriendsController = require("./backend/controllers/FriendController");
 
-export default function App({ logOutFunction }) {
-	//Todos los lugares de la aplicacion
-	const [places, setPlaces] = React.useState(a);
+export default function App({ logOutFunction, isLoggedIn }) {
+	// Los lugares del usuario
+	const [places, setPlaces] = React.useState([]);
+	// Los lugares de los amigos
+	const [friendPlaces, setFriendPlaces] = useState([]);
 
-	const [data, setData] = useState("");
-	const [i18n] = useTranslation("global");
+	const [t, i18n] = useTranslation("global"); // La t sí se usa y hace falta, no borrar
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
 	const [amigos, setAmigos] = useState([]);
+	const [loading, setLoading] = useState(0);
+	const [solicitudes, setSolicitudes] = useState([]);
 
-	function updateCategorias() {
-		axios
-			.get("http://localhost:8080/location/category", { withCredentials: true })
-			.then((response) => {
-				setCategorias(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+	const routesMemoization = useRef({});
+	const friendPlacesMemoization = useRef({});
+	const fullPlacesInfoMemoization = useRef({});
+
+	async function checkLoggedIn() {
+		let session = getDefaultSession();
+
+		if (!session.info.isLoggedIn) {
+			session.login();
+		}
+	}
+
+	async function updateCategorias() {
+		setLoading((current) => current + 1);
+		checkLoggedIn();
+		try {
+			const response = await LocationController.getCategories();
+			setCategorias(response);
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	async function updateAmigos() {
-		await axios
-			.get("http://localhost:8080/friend", { withCredentials: true })
-			.then((response) => {
-				setAmigos(response.data);
-				console.log(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		setLoading((current) => current + 1);
+		var friends;
+		try {
+			friends = await FriendsController.getAllFriends(getDefaultSession());
+			setAmigos(friends);
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	async function updateRutas() {
-		const url = "http://localhost:8080/route";
-		return await axios
-			.get(url, { withCredentials: true })
-			.then((response) => setRutas(response.data))
-			.catch((error) => console.log(error));
+		setLoading((current) => current + 1);
+		checkLoggedIn();
+		try {
+			const response = await RoutesController.getAllRoutes(getDefaultSession());
+			setRutas(response);
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
+	}
+
+	async function updateLocations() {
+		setLoading((current) => current + 1);
+		checkLoggedIn();
+		try {
+			const response = await LocationController.getAllLocations(
+				getDefaultSession()
+			);
+			setPlaces(response);
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
+	}
+
+	async function updateSolicitudes() {
+		setLoading((current) => current + 1);
+		try {
+			const response = await API_getAllRequests();
+			setSolicitudes(response);
+		} catch (error) {
+			alert(error);
+		}
+		setLoading((current) => current - 1);
 	}
 
 	useEffect(() => {
-		async function getData() {
-			await axios
-				.get("http://localhost:8080/location", { withCredentials: true })
-				.then((response) => {
-					if (response.data.length !== data.length) {
-						setData(response.data);
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}
-		getData();
-		for (let i = 0; i < data.length; i++) {
-			if (!places.some((value) => value.id === data[i].id)) {
-				addPlace(
-					(a[i] = {
-						id: data[i].id,
-						lat: data[i].latitude,
-						lng: data[i].longitude,
-						name: data[i].name,
-						categoria: data[i].category,
-					})
-				);
-			}
-		}
-		setPlaces(a);
-	}, [setData, data, places]);
+		updateLocations();
+	}, []);
 
 	useEffect(() => {
 		updateCategorias();
@@ -95,59 +116,131 @@ export default function App({ logOutFunction }) {
 		updateAmigos();
 	}, []);
 
-	async function API_getRouteByID(routeID) {
-		const url = "http://localhost:8080/route/" + routeID;
-		const response = await axios.get(url, { withCredentials: true });
-		return response;
+	useEffect(() => {
+		updateSolicitudes();
+	}, []);
+
+	async function getRouteByID(routeID) {
+		checkLoggedIn();
+
+		const routeFromMemoization = routesMemoization[routeID];
+		if (routeFromMemoization) {
+			return routeFromMemoization;
+		}
+
+		try {
+			const response = await RoutesController.getAllLocationsByRouteId(
+				getDefaultSession(),
+				routeID
+			);
+			routesMemoization[routeID] = response;
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_addRoute(routeName, routeDescription) {
-		const url = "http://localhost:8080/route";
+	async function API_addRoute(routeName, routeDescription) {
 		const data = {
 			name: routeName,
 			description: routeDescription,
 		};
-		return axios.post(url, data, { withCredentials: true }).then(updateRutas);
+		try {
+			const response = await RoutesController.addRoute(
+				getDefaultSession(),
+				data
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_deleteRoute(routeID) {
-		const url = "http://localhost:8080/route/" + routeID;
-		return axios.delete(url, { withCredentials: true }).then(updateRutas);
+	async function API_deleteRoute(routeID) {
+		try {
+			const response = await RoutesController.deleteRoute(
+				getDefaultSession(),
+				routeID
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_updateRouteInfo(routeID, newRouteName, newRouteDescription) {
-		const url = "http://localhost:8080/route/" + routeID;
+	async function API_updateRouteInfo(
+		routeID,
+		newRouteName,
+		newRouteDescription
+	) {
 		const data = {
 			name: newRouteName,
 			description: newRouteDescription,
 		};
-		return axios.put(url, data, { withCredentials: true }).then(updateRutas);
+		try {
+			const response = await RoutesController.updateRoute(
+				getDefaultSession(),
+				routeID,
+				data
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_addLocationToRoute(routeID, locationID) {
-		const url =
-			"http://localhost:8080/route/" + routeID + "/location/" + locationID;
-		return axios.get(url, { withCredentials: true }).then(updateRutas);
+	async function API_addLocationToRoute(routeID, locationID) {
+		try {
+			const response = await RoutesController.addLocationToRoute(
+				getDefaultSession(),
+				routeID,
+				locationID
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_deleteLocationFromRoute(routeID, locationID) {
-		const url =
-			"http://localhost:8080/route/" + routeID + "/location/" + locationID;
-		return axios.delete(url, { withCredentials: true }).then(updateRutas);
+	async function API_deleteLocationFromRoute(routeID, locationID) {
+		try {
+			const response = await RoutesController.deleteLocationFromRoute(
+				getDefaultSession(),
+				routeID,
+				locationID
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_changeOrderOfLocationInRoute(routeID, locationID, newPosition) {
-		const url =
-			"http://localhost:8080/route/" + routeID + "/location/" + locationID;
-		const data = {
-			index: newPosition,
-		};
-		return axios.post(url, data, { withCredentials: true }).then(updateRutas);
+	async function API_changeOrderOfLocationInRoute(
+		routeID,
+		locationID,
+		newPosition
+	) {
+		try {
+			const response = await RoutesController.changeOrderOfLocationInRoute(
+				getDefaultSession(),
+				routeID,
+				locationID,
+				newPosition
+			);
+			updateRutas();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
 	const API_route_calls = {
-		// "API_getAllRoutes": API_getAllRoutes,
-		API_getRouteByID: API_getRouteByID,
+		getRouteByID: getRouteByID,
 		API_addRoute: API_addRoute,
 		API_updateRouteInfo: API_updateRouteInfo,
 		API_deleteRoute: API_deleteRoute,
@@ -156,47 +249,288 @@ export default function App({ logOutFunction }) {
 		API_changeOrderOfLocationInRoute: API_changeOrderOfLocationInRoute,
 	};
 
-	function API_deleteLocation(locationID) {
-		const url = "http://localhost:8080/location/" + locationID;
-		return axios.delete(url, { withCredentials: true });
-		// TODO actualizar lugares
+	async function API_createLocation(location) {
+		try {
+			const response = await LocationController.createLocation(
+				getDefaultSession(),
+				location
+			);
+			updateLocations();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	function API_updateLocation(placeID, newName, newCategory, newPrivacy) {
-		const url = "http://localhost:8080/location/" + placeID;
-		const data = {
-			name: newName,
-			category: newCategory,
-			privacy: newPrivacy,
-		};
-		return axios.put(url, data, { withCredentials: true });
-		//TODO actualizar lugares
+	async function API_deleteLocation(locationID) {
+		// Delete from memoization
+		fullPlacesInfoMemoization[locationID] = null
+
+		try {
+			const response = await LocationController.deleteLocation(
+				getDefaultSession(),
+				locationID
+			);
+			updateLocations();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	async function API_addFriend(friendName, friendWebId) {
-		const url = "http://localhost:8080/friend";
-		const data = {
-			name: friendName,
-			webId: friendWebId,
-		};
-		await axios.post(url, data, { withCredentials: true });
-		updateAmigos();
+	async function API_updateLocation(placeID, location) {
+		// Delete from memoization
+		fullPlacesInfoMemoization[placeID] = null
+
+		try {
+			const response = await LocationController.updateLocation(
+				getDefaultSession(),
+				placeID,
+				location
+			);
+			updateLocations();
+			return response;
+		} catch (error) {
+			alert(error);
+		}
 	}
 
-	async function API_deleteFriend(friendID) {
-		const url = "http://localhost:8080/friend/" + friendID;
-		const response = await axios.delete(url, { withCredentials: true });
-		updateAmigos();
+	async function API_addReview(locationID, webidAuthorLocation, review) {
+		try {
+			const response = await LocationController.addReview(
+				getDefaultSession(),
+				locationID,
+				webidAuthorLocation,
+				review
+			)
+			fullPlacesInfoMemoization[locationID] = null
+			return response
+		} catch (error) {
+			alert(error)
+		}
+	}
+
+	async function API_removeReview(locationId, reviewID) {
+		try {
+			const response = await LocationController.deleteReview(
+				getDefaultSession(),
+				reviewID
+			)
+			fullPlacesInfoMemoization[locationId] = null
+			return response
+		} catch (error) {
+			alert(error)
+		}
+	}
+
+	async function API_updateReview(reviewID, theNewReview, locationID) {
+		try {
+			const response = await LocationController.updateReview(
+				getDefaultSession(),
+				reviewID,
+				theNewReview
+			)
+			fullPlacesInfoMemoization[locationID] = null
+			return response
+		} catch (error) {
+			alert(error)
+		}
+	}
+
+	function getwebId() {
+		return getDefaultSession().info.webId;
+	}
+
+	async function API_addPhoto(placeID, webIdAuthor, photo) {
+		try {
+			const response = await LocationController.addPhoto(
+				getDefaultSession(),
+				placeID,
+				{imageJPG: photo},
+				webIdAuthor
+			)
+			fullPlacesInfoMemoization[placeID] = null
+			return response
+		} catch (error) {
+			alert (error)
+		}
+	}
+	async function API_removePhoto(placeId, idPhoto) {
+		try {
+			const response = await LocationController.deletePhoto(
+				getDefaultSession(),
+				idPhoto
+				);
+			fullPlacesInfoMemoization[placeId] = null
+			return response
+		} catch (error) {
+			alert(error)
+		}
+	}
+
+	async function API_getPlaceById(placeID) {
+		checkLoggedIn();
+
+		const infoFromMemoization = fullPlacesInfoMemoization[placeID];
+		if (infoFromMemoization) {
+			return infoFromMemoization;
+		}
+
+		try {
+			const response = await LocationController.getLocation(
+				getDefaultSession(),
+				placeID
+			);
+			if (response) {
+				fullPlacesInfoMemoization[placeID] = response;
+			}
+			return response;
+		} catch (error) {
+			alert(error);
+		}
+	}
+
+	async function getAnyPlaceById(webId,placeId){
+		const creatorWebId = getwebId();
+		if(webId === creatorWebId){
+			return await API_getPlaceById(placeId);
+		}else{
+			return await API_friend_calls.getPlaceOfFriendById(webId,placeId)
+		}
 	}
 
 	const API_location_calls = {
+		API_createLocation: API_createLocation,
 		API_deleteLocation: API_deleteLocation,
 		API_updateLocation: API_updateLocation,
+		API_addReview: API_addReview,
+		API_removeReview: API_removeReview,
+		API_updateReview: API_updateReview,
+		API_addPhoto: API_addPhoto,
+		API_removePhoto: API_removePhoto,
+		API_getPlaceById:getAnyPlaceById
 	};
+
+	async function API_generateNewFriendRequest(receiverwebId, newFriendName) {
+		const friend = {
+			name: newFriendName,
+			webId: receiverwebId,
+		};
+		try {
+			const response = await FriendsController.sendFriendRequest(
+				getDefaultSession(),
+				friend
+			);
+			return response;
+		} catch (error) {
+			alert(error);
+		}
+	}
+
+	async function API_getAllRequests() {
+		try {
+			const res = await FriendsController.getAllRequests(getDefaultSession());
+			return res;
+		} catch (error) {
+			alert(error);
+		}
+	}
+
+	async function API_acceptIncomingFriendRequest(webIdToAccept, nameForTheNewFriend) {
+		try {
+			const res = await FriendsController.acceptRequest(
+				getDefaultSession(),
+				webIdToAccept,
+				nameForTheNewFriend
+			);
+			setSolicitudes(current => current.filter(s => s.sender!==webIdToAccept))
+			return res;
+		} catch (error) {
+			alert(error);
+		}
+	}
+
+	async function API_rejectIncomingFriendRequest(webIdToReject) {
+		try {
+			const res = await FriendsController.rejectRequest(
+				getDefaultSession(),
+				webIdToReject
+			);
+			setSolicitudes(current => current.filter(s => s.sender!==webIdToReject))
+			return res;
+		} catch (error) {
+			alert(error);
+		}
+	}
+
+	async function API_removeFriend(friendwebId) {
+		try {
+			const res = await FriendsController.deleteFriend(
+				getDefaultSession(),
+				friendwebId
+			);
+			updateAmigos();
+			return res;
+		} catch (error) {
+			alert(error);
+		}
+	}
+
+	async function API_getAllFriends() {
+		try {
+			const res = await FriendsController.getAllFriends(getDefaultSession());
+			return res;
+		} catch (error) {
+			alert(error);
+		}
+	}
+
+	async function getPlacesOfFriend(friendwebId) {
+		checkLoggedIn();
+
+		const placesFromMemoization = friendPlacesMemoization[friendwebId];
+		if (placesFromMemoization) {
+			return placesFromMemoization;
+		}
+
+		try {
+			const response = await FriendsController.getFriendLocations(
+				getDefaultSession(),
+				friendwebId
+			);
+			friendPlacesMemoization[friendwebId] = response;
+			return response;
+		} catch (error) {
+			alert(error);
+		}
+	}
+
+	async function getPlaceOfFriendById(friendwebId, placeId) {
+		checkLoggedIn();
+		try{
+			const response = await FriendsController.getFriendLocationById(
+				getDefaultSession(),
+				friendwebId,
+				placeId
+			);
+			return response;
+		}	catch(error){
+			alert(error);
+		}
+	}
+
 	const API_friend_calls = {
-		API_addFriend: API_addFriend,
-		API_deleteFriend: API_deleteFriend,
+		API_generateNewFriendRequest: API_generateNewFriendRequest,
+		API_getAllRequests: API_getAllRequests,
+		API_acceptIncomingFriendRequest: API_acceptIncomingFriendRequest,
+		API_rejectIncomingFriendRequest: API_rejectIncomingFriendRequest,
+		API_removeFriend: API_removeFriend,
+		API_getAllFriends: API_getAllFriends,
+		getPlacesOfFriend: getPlacesOfFriend,
+		getPlaceOfFriendById: getPlaceOfFriendById,
 	};
+
+
 
 	//Estados de la aplicacion
 	//Latitud y longitud del marcador actual que tu pongas en el mapa.
@@ -241,32 +575,36 @@ export default function App({ logOutFunction }) {
 		setDrawerContent(newContent);
 	}
 
-	// // TODO: borrar si ya lo hizo Damian
-	function centerMapToCoordinates(newLatitude, newLongitude) {
-		//   // TODO: comprobar por qué
-		//   console.log("Center no funciona")
-		//   setLatitude(newLatitude)
-		//   setLongitude(newLongitude)
-	}
-
 	//Constante de el centro de el mapa cuando se carga, si la geolocalización no falla deberia ser la unicación del usuario.
 	const [position, setPosition] = useState({
 		lat: 0,
 		lng: 0,
 	});
 
-	return (
+	return Boolean(loading) ? (
+		<CircularProgress
+			size={45}
+			style={{
+				position: "absolute",
+				top: "50%",
+				left: "50%",
+				transform: "translate(-50%, -50%)",
+			}}
+		/>
+	) : (
 		<div id={currentTheme}>
 			<CreateModal
 				isOpen={modalIsOpen}
 				latMark={latitude}
 				lngMark={longitude}
 				places={places}
-				setPlaces={setPlaces}
+				updateLocations={updateLocations}
 				setIsOpen={setIsOpen}
 				setMarkers={setMarkers}
 				setStateButton={setDisabledB}
 				setCanCick={setCanCick}
+				API_location_calls={API_location_calls}
+				categorias={categorias}
 			/>
 
 			<CreateMap
@@ -287,12 +625,15 @@ export default function App({ logOutFunction }) {
 				categorias={categorias}
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
+				getwebId={getwebId}
+				friendPlaces={friendPlaces}
 			/>
 
 			<SettingsSpeedDial
 				changeLanguage={toggleLanguage}
 				toggleTheme={toggleTheme}
 				logOutFunction={logOutFunction}
+				isLoggedIn={isLoggedIn}
 			/>
 
 			<DrawerSidebar
@@ -304,12 +645,15 @@ export default function App({ logOutFunction }) {
 				changeDrawerContent={changeDrawerContent}
 				categorias={categorias}
 				rutas={rutas}
-				centerMapToCoordinates={centerMapToCoordinates}
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
 				setPosition={setPosition}
 				amigos={amigos}
 				API_friend_calls={API_friend_calls}
+				solicitudes={solicitudes}
+				setFriendsPlaces={setFriendPlaces}
+				friendsPlaces={friendPlaces}
+				getwebId={getwebId}
 			/>
 		</div>
 	);

@@ -1,20 +1,30 @@
 import {  Fab, Menu, MenuItem } from "@mui/material";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {useTranslation} from "react-i18next"
 
-export default function FilterButtons({setCategortFiltered}) {
+export default function FilterButtons({setCategortFiltered, categorias,setFriendsFilter,setOnlyMineFilter}) {
     const [t] = useTranslation("global");
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    var [categorias,setCategorias] = useState([]);
 
     const resetFilters = () => {
         setCategortFiltered({
             activated: false,
             category: ""
         })
+        setFriendsFilter(false);
+        setOnlyMineFilter(false);
     }
+
+    const handleClickOnlyMine =(event) => {
+        setOnlyMineFilter(true);
+        setFriendsFilter(false);
+    };
+
+    const handleClickFriends =(event) => {
+        setFriendsFilter(true);
+        setOnlyMineFilter(false);
+    };
 
     const handleClick =(event) => {
         setAnchorEl(event.currentTarget);
@@ -40,32 +50,11 @@ export default function FilterButtons({setCategortFiltered}) {
         })
     };
 
-
-    useEffect( () => {
-        if(categorias.length === 0){
-            getData();
-        }
-    });
-
-    async function getData() {
-        await axios
-            .get("http://localhost:8080/location/category", {
-                withCredentials: true,
-            })
-            .then((response) => {
-                setCategorias(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-	}
-
-
     return(
         <div className="filtros">
             <Fab size="medium" variant="extended" onClick={resetFilters}>{t("filters.all")}</Fab>
-            <Fab size="medium" variant="extended">{t("filters.mine")}</Fab>
-            <Fab size="medium" variant="extended">{t("filters.friends")}</Fab>
+            <Fab size="medium" variant="extended" onClick={handleClickOnlyMine}>{t("filters.mine")}</Fab>
+            <Fab size="medium" variant="extended" onClick={handleClickFriends}>{t("filters.friends")}</Fab>
             <Fab size="medium" variant="extended" id="categoryDisplay" onClick={handleClick}>{t("filters.chooseCategoty")}</Fab>
 
             <Menu

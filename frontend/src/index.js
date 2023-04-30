@@ -1,21 +1,25 @@
-import axios from "axios";
+import {
+	getDefaultSession,
+	handleIncomingRedirect,
+	login,
+} from "@inrupt/solid-client-authn-browser";
 import i18next from "i18next";
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import App from "./App";
 import { ThemeContextProvider } from "./contexts/ThemeContext";
 import "./index.css";
 import Login from "./login";
-import reportWebVitals from "./reportWebVitals";
+
+// Internationalization
 import global_en from "./translations/en/global.json";
 import global_es from "./translations/es/global.json";
-
 const availableLanguages = ["es", "en"];
 const preferredLanguage = navigator.language.toLowerCase().substring(0, 2);
 const defaultAlternativeLanguage = "es";
 
+const PodController = require("./backend/controllers/PodController");
 i18next.init({
 	interpolation: { escapeValue: false },
 	lng: availableLanguages.includes(preferredLanguage)
@@ -33,58 +37,63 @@ i18next.init({
 
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const loggedInOnce = useRef(false);
+	const [isStructBeingCreated, setIsStructBeingCreated] = useState(false);
 
 	useEffect(() => {
-		isLogged();
-	});
-
-	async function isLogged() {
-		try {
-			const response = await axios.get("http://localhost:8080/isLoggedIn", {
-				withCredentials: true,
-			});
-			if (response.status === 200) {
-				if (isLoggedIn === false) {
+		if (loggedInOnce) {
+			handleIncomingRedirect({
+				restorePreviousSession: true,
+			}).then(async (info) => {
+				if (getDefaultSession().info.isLoggedIn) {
+					setIsStructBeingCreated(true)
+					await PodController.checkStruct(getDefaultSession());
 					setIsLoggedIn(true);
+					setIsStructBeingCreated(false)
 				}
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	}
-
-	async function logOutAPI() {
-		try {
-			const response = await axios.get("http://localhost:8080/logout", {
-				withCredentials: true,
 			});
-			if (response.status === 200) {
-				if (isLoggedIn === true) {
-					setIsLoggedIn(false);
-				}
+		}
+	}, []);
+
+	async function loginWeb(providerURL, setIsStrucBeingCreated) {
+		await handleIncomingRedirect().then(async (info) => {
+			if (getDefaultSession().info.isLoggedIn) {
+				setIsStructBeingCreated(true)
+				await PodController.checkStruct(getDefaultSession());
+				setIsLoggedIn(true);
+				setIsStructBeingCreated(false)
+				loggedInOnce = true;
 			}
-		} catch (error) {
-			console.log(error);
+		});
+
+		let provider = providerURL ? providerURL : "https://login.inrupt.com";
+		if (!getDefaultSession().info.isLoggedIn) {
+			await login({
+				oidcIssuer: provider,
+				redirectUrl: window.location.href,
+				clientName: "My application",
+			});
 		}
 	}
 
-	function loginWeb() {
-		window.location.href = "http://localhost:8080/login";
-	}
-
-	function logOut() {
-		logOutAPI();
+	async function logOut() {
+		await getDefaultSession().logout();
+		setIsLoggedIn(false);
 	}
 
 	return (
 		<>
-			{isLoggedIn ? (
-				<I18nextProvider i18n={i18next}>
-					<ThemeContextProvider children={<App logOutFunction={logOut} />} />
-				</I18nextProvider>
-			) : (
-				<Login logInFunction={loginWeb} />
-			)}
+			<I18nextProvider i18n={i18next}>
+				<ThemeContextProvider
+					children={
+						isLoggedIn
+							?
+						(<App logOutFunction={logOut} isLoggedIn={isLoggedIn} />)
+							:
+						(<Login logInFunction={loginWeb} isLoggedIn={isLoggedIn} isStructBeingCreated={isStructBeingCreated} />)
+					}
+				/>
+			</I18nextProvider>
 		</>
 	);
 }
@@ -95,8 +104,3 @@ root.render(
 		<MyComponent />
 	</React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

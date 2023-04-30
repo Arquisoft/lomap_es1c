@@ -1,6 +1,7 @@
+import SaveIcon from "@mui/icons-material/Save";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Button, MenuItem, Rating, Select, TextField } from "@mui/material";
-import axios from "axios";
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import "./muiComps.css";
@@ -9,35 +10,16 @@ export default function CreateModal({
 	isOpen,
 	latMark,
 	lngMark,
-	setPlaces,
+	updateLocations,
 	setIsOpen,
 	setMarkers,
 	setStateButton,
 	setCanCick,
+	API_location_calls,
+	categorias,
 }) {
 	const [t] = useTranslation("global");
-	const [categorias, setCategorias] = React.useState([]);
-
-	function getData() {
-		axios
-			.get("http://localhost:8080/location/category", {
-				withCredentials: true,
-			})
-			.then((response) => {
-				setCategorias(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	}
-
-	useEffect(() => {
-		if (categorias.length === 0) {
-			getData();
-		}
-	});
-
-	const nivelesPrivacidad = ["Publico", "Solo Amigos"];
+	const [loading, setLoading] = React.useState(false);
 
 	Modal.setAppElement(document.getElementsByClassName("map-conteiner")[0]);
 	//Constantes para abrir y cerrar el modal.
@@ -74,9 +56,8 @@ export default function CreateModal({
 
 	//Constantes para los campos del form
 	const [nombre, setNombre] = React.useState("");
-	const [valoracion, setValoracion] = React.useState(0);
-	const [categoria, setCategoria] = React.useState("Sin categoria");
-	const [privacidad, setPrivacidad] = React.useState("Publico");
+	const [valoracion, setValoracion] = React.useState(-1);
+	const [categoria, setCategoria] = React.useState("");
 	const [fotos, setFotos] = React.useState("");
 	const [comentario, setComentario] = React.useState("");
 
@@ -90,10 +71,6 @@ export default function CreateModal({
 
 	function handleCategoryChange(e) {
 		setCategoria(e.target.value);
-	}
-
-	function handlePrivacyChange(e) {
-		setPrivacidad(e.target.value);
 	}
 
 	function handleFotoChange(e) {
@@ -115,33 +92,30 @@ export default function CreateModal({
 
 	//Comprueba que todos los campos esten correctos, añade el punto a la lista de puntos,restea los valores por defecto del formulario
 	//Y recarga los puntos del mapa para que se vean los nuevos.
-	function addPlaceModal() {
+	async function addPlaceModal() {
 		setMarkers([]);
 		if (nombre.trim().length <= 0) {
 			alert("El nombre no puede estar vacio");
-		} else if (valoracion.trim().length <= 0) {
-			alert("La puntuación tiene que ser mayor de 0 y menor de 5");
 		} else {
 			setStateButton(true);
-			addPlaceApi(
+			await addPlaceApi(
 				nombre,
 				latitudeMark,
 				longitudeMark,
 				categoria,
 				valoracion * 2,
 				comentario,
-				fotos,
-				privacidad
+				fotos
 			);
 			setNombre("");
 			setValoracion("");
 			setIsOpen(false);
 			setCanCick(false);
-			setPlaces([]);
+			updateLocations();
 		}
 	}
 
-	function addPlaceApi(
+	async function addPlaceApi(
 		nombreP,
 		latitudeMarkP,
 		longitudeMarkP,
@@ -151,7 +125,7 @@ export default function CreateModal({
 		photoP,
 		privacyP
 	) {
-		const url = "http://localhost:8080/location/";
+		setLoading(true);
 		const data = {
 			name: nombreP,
 			latitude: latitudeMarkP,
@@ -163,10 +137,19 @@ export default function CreateModal({
 			privacy: privacyP,
 		};
 
-		const config = {
-			withCredentials: true,
-		};
-		axios.post(url, data, config);
+		const response = await API_location_calls.API_createLocation(data);
+		if(data.comment.trim().length > 0 || data.review >= 0){
+			const review = {
+				rating : data.review,
+				comment : data.comment.trim()
+			}
+			await API_location_calls.API_addReview(response.id,response.author,review);
+		}
+		if(data.photo.trim().length > 0){
+			await API_location_calls.API_addPhoto(response.id,response.author,data.photo);
+		}
+		setLoading(false);
+		return response;
 	}
 
 	return (
@@ -190,6 +173,7 @@ export default function CreateModal({
 					name="nombre"
 					value={nombre}
 					onChange={handleNameChange}
+					disabled={loading}
 				/>
 
 				<label htmlFor="puntuacion">{t("locations.form.score")}</label>
@@ -200,34 +184,25 @@ export default function CreateModal({
 					name="simple-controlled"
 					value={Number(valoracion)}
 					onChange={handleValChange}
+					disabled={loading}
 				/>
 
 				<label htmlFor="categoria">{t("locations.form.category")}</label>
 				<Select
 					id="categoria"
 					className="categoria"
-					defaultValue="sin categoria"
+					defaultValue=""
 					name="categoria"
 					onChange={handleCategoryChange}
+					disabled={loading}
 				>
-					<MenuItem value={"sin categoria"} defaultValue={true}>Sin Categoria</MenuItem>
+					<MenuItem value={""} defaultValue={true}>
+						<em>Sin Categoria</em>
+					</MenuItem>
 					{categorias.map((categoria) => (
-						<MenuItem value={categoria}>{categoria}</MenuItem>
-					))}
-				</Select>
-
-				<label htmlFor="nivelPrivacidad">{t("locations.form.privacy")}</label>
-
-				<Select
-					id="nivelPrivacidad"
-					className="privacidad"
-					defaultValue="privado"
-					name="nivelPrivacidad"
-					onChange={handlePrivacyChange}
-				>
-					<MenuItem value={"privado"} defaultValue={"privado"}>Privado</MenuItem>
-					{nivelesPrivacidad.map((nivel) => (
-						<MenuItem value={nivel.toLowerCase()}>{nivel}</MenuItem>
+						<MenuItem key={categoria} value={categoria} disabled={loading}>
+							{categoria}
+						</MenuItem>
 					))}
 				</Select>
 
@@ -238,6 +213,7 @@ export default function CreateModal({
 					id="fotos"
 					placeholder="Escoja las imagenes"
 					onChange={handleFotoChange}
+					disabled={loading}
 				/>
 
 				<label htmlFor="comentarios">{t("locations.form.comment")}</label>
@@ -249,13 +225,21 @@ export default function CreateModal({
 					className="comentario"
 					multiline
 					rows={8}
+					disabled={loading}
 				/>
 			</form>
 			<div className="submitFormLugares">
-				<Button className="btn" onClick={addPlaceModal}>
+				<LoadingButton
+					className="btn"
+					onClick={addPlaceModal}
+					disabled={loading}
+					loading={loading}
+					loadingPosition="start"
+					startIcon={<SaveIcon />}
+				>
 					{t("locations.form.add")}
-				</Button>
-				<Button className="btnCancel" onClick={closeModal}>
+				</LoadingButton>
+				<Button className="btnCancel" onClick={closeModal} disabled={loading}>
 					{t("locations.form.cancel")}
 				</Button>
 			</div>

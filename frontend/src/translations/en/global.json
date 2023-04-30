@@ -4,10 +4,13 @@
         "toggle-theme-text": "Change theme"
     },
     "sidebar": {
+        "back-arrow-text": "Go back",
+        "edit-button": "Edit",
+        "delete-button": "Remove",
         "log-out": "Log out",
         "tab-buttons": {
-            "start": "Start",
-            "friends": "Friends",
+            "start": "Places",
+            "friends": "Social",
             "routes": "Routes",
             "discover": "Discover"
         },
@@ -25,7 +28,39 @@
         },"place":{
             "edit":"Edit",
             "locate":"Locate",
-            "delete":"Delete"
+            "delete":"Delete",
+            "name":"Name",
+            "category": "Category",
+            "author": "Author",
+            "reviews": "Reviews",
+            "add-review": "Add new review",
+            "save": "Save",
+            "cancel": "Cancel",
+            "photos": "Photos",
+            "addImage": "Add image",
+            "namecannotbeempty": "Name field cannot be left blank"
+        }, "route": {
+            "route-name": "Route name",
+            "route-description": "Route description",
+            "places-in-route": "Locations in the route: ",
+            "add-location-button": "Add location to this route",
+            "remove-location-button": "Delete this location from the route",
+            "save-route-button": "Save",
+            "namecannotbeempty": "El nombre no puede estar vacío"
+        }, "friends": {
+            "awaitingrequests": "Awaiting requests",
+            "addfriend": "Add new friend",
+            "showinmap": "Display in the map",
+            "hideinmap": "Hide from the map",
+            "accept": "Accept",
+            "reject": "Reject",
+            "sendrequest": "Send friend request",
+            "namecannotbeempty": "Name cannot be left blank",
+            "webidcannotbeempty": "Webid cannot be left blank",
+            "friend": {
+                "friend-places": "Friend places",
+                "delete-friend": "Delete friend"
+            }
         }
     },"filters":{
         "all": "All",
@@ -48,5 +83,9 @@
             "add": "Add",
             "cancel": "Cancel"
         }
+    },"login":{
+        "lomap_description": "LoMap allows you to create a custom map of the places that matter to you.",
+        "login-button": "Log in",
+        "provider_url": "URL of your provider"
     }
 }

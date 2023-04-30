@@ -7,7 +7,7 @@ import {
 } from "@react-google-maps/api";
 import Geolocation from "@react-native-community/geolocation";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import FullInfoPlace from "../Sidebar/cards/FullInfoPlace";
+import FullInfoPlace from "../Sidebar/lugares/FullInfoPlace.js";
 import { ThemeContext, Themes } from "../contexts/ThemeContext";
 import OpenIconSpeedDial from "./bottonMarkers";
 import FilterButtons from "./filterButtons";
@@ -29,6 +29,8 @@ export default function CreateMap({
 	categorias,
 	API_route_calls,
 	API_location_calls,
+	getwebId,
+	friendPlaces
 }) {
 	const { isLoaded } = useLoadScript({
 		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -54,6 +56,8 @@ export default function CreateMap({
 				categorias={categorias}
 				API_route_calls={API_route_calls}
 				API_location_calls={API_location_calls}
+				getwebId={getwebId}
+				friendPlaces = {friendPlaces}
 			/>
 		</div>
 	);
@@ -77,32 +81,55 @@ function Map({
 	setPosition,
 	API_route_calls,
 	API_location_calls,
+	getwebId,
+	friendPlaces
 }) {
 	//Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
 
-  //DIferentes estados necesarios para el mapa.
-  const [openInfo, setOpenInfo] = React.useState(false);
+	//DIferentes estados necesarios para el mapa.
+	const [openInfo, setOpenInfo] = React.useState(false);
 	const [categortFiltered, setCategortFiltered] = useState({
 		activated: false,
 		category: "",
 	});
+	const [friendsFilter, setFriendsFilter] = useState(false);
+	const [onlyMineFilter, setOnlyMineFilter] = useState(false);
 
 	function Filter() {
-		var temp = places;
+		var temp = places.concat(friendPlaces);
+		var actualUser;
+		var aux = [];
+
 		if (categortFiltered.activated) {
-			temp = [];
-			for (let i = 0; i < places.length; i++) {
-				if (
-					places.some(
-						() =>
-							places[i].categoria.toLowerCase() ===
-							categortFiltered.category.toLowerCase()
-					)
-				) {
-					temp[temp.length] = places[i];
+			aux = [];
+			for (let i = 0; i < temp.length; i++) {
+				if (temp[i].category.toLowerCase() ===categortFiltered.category.toLowerCase()) {
+					aux[aux.length] = temp[i];
 				}
 			}
+			temp = aux;
 		}
+
+		if(friendsFilter){
+			aux = [];
+			actualUser = getwebId();
+			for (let i = 0; i < temp.length; i++) {
+				if (temp[i].author.toLowerCase() !== actualUser.toLowerCase()) {
+					aux[aux.length] = temp[i];
+				}
+			}
+			temp = aux;
+		}else if(onlyMineFilter){
+			aux = [];
+			actualUser = getwebId();
+			for (let i = 0; i < temp.length; i++) {
+				if (temp[i].author.toLowerCase() === actualUser.toLowerCase()) {
+					aux[aux.length] = temp[i];
+				}
+			}
+			temp = aux;
+		}
+		
 		return temp;
 	}
 
@@ -165,15 +192,20 @@ function Map({
 		);
 	}, [currentTheme]);
 
-	function details(marker) {
+	async function details(marker) {
+		var userWebId = getwebId();
+		var allPlaces = places.concat(friendPlaces);
+		const place = allPlaces.find(place => place.id === marker.id)
+		var placeFull = await API_location_calls.API_getPlaceById(place.author,marker.id)
 		changeDrawerContent(
 			<FullInfoPlace
-				place={places.find((place) => place.id === marker.id)}
+				place={placeFull}
 				returnFunction={restoreDefautlDrawerContent}
 				changeDrawerContent={changeDrawerContent}
 				categorias={categorias}
 				setPosition={setPosition}
 				API_location_calls={API_location_calls}
+				loggedInUserwebId={userWebId}
 			/>
 		);
 	}
@@ -224,7 +256,7 @@ function Map({
 				{Filter().map((marker) => (
 					<MarkerF
 						key={marker.id}
-						position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
+						position={{ lat: Number(marker.latitude), lng: Number(marker.longitude) }}
 						onClick={() => details(marker)}
 						//options={{icon: {url:(require("./marker.svg").default),scaledSize: {width: 36, height: 36},fillColor:"#34495e"}}}
 					/>
@@ -232,7 +264,12 @@ function Map({
 			</GoogleMap>
 
 
-			<FilterButtons setCategortFiltered={setCategortFiltered} />
+			<FilterButtons
+				setCategortFiltered={setCategortFiltered}
+				categorias={categorias}
+				setFriendsFilter = {setFriendsFilter}
+				setOnlyMineFilter = {setOnlyMineFilter}
+			/>
 		</div>
 	);
 }
