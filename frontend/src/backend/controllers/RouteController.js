@@ -6,7 +6,7 @@ async function getAllRoutes(session) {
 		const routes = await solid.getAllRoutes(session, session.info.webId);
 		return routes;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Problema al obtener las rutas");
 	}
 }
 
@@ -35,7 +35,7 @@ async function getAllLocationsByRouteId(session, idRoute) {
 			throw new Error("No se han encontrado rutas con esa id");
 		}
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Problema al obtener la ruta");
 	}
 }
 
@@ -48,7 +48,7 @@ async function getRouteById(session, id) {
 			throw new Error("No se han encontrado rutas con esa id");
 		}
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Problema al obtener la ruta");
 	}
 }
 
@@ -63,7 +63,7 @@ async function addRoute(session, route1) {
 		await solid.addRoute(session, route, session.info.webId);
 		return route;
 	} catch (err) {
-		throw new Error("");
+		throw new Error("Problema al crear la ruta");
 	}
 }
 
@@ -71,7 +71,6 @@ async function updateRoute(session, id, route1) {
 	try {
 		const name = route1.name;
 		const description = route1.description;
-
 		if (!name) {
 			throw new Error("Faltan datos");
 		}
@@ -84,7 +83,7 @@ async function updateRoute(session, id, route1) {
 		await solid.addRoute(session, route, session.info.webId);
 		return route;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Problema al actualizar la ruta");
 	}
 }
 
@@ -97,7 +96,7 @@ async function deleteRoute(session, id) {
 		await solid.deleteRouteById(session, id, session.info.webId);
 		return route;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Problema al eliminar la ruta");
 	}
 }
 
@@ -124,7 +123,7 @@ async function addLocationToRoute(session, idRoute, idLocation) {
 
 		return route;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Problema añadiendo la localización a la ruta");
 	}
 }
 
@@ -152,7 +151,7 @@ async function deleteLocationFromRoute(session, idRoute, idLocation) {
 		await solid.addRoute(session, route, session.info.webId);
 		return route;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Problema borrando la localización de la ruta");
 	}
 }
 

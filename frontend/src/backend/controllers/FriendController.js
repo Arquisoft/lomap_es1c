@@ -21,7 +21,7 @@ async function deleteFriend(session, idFriend) {
 		throw new Error("Ha ocurrido un error al eliminar el amigo");
 	}
 }
-
+/*
 async function getAllLocationsFromFriends(session) {
 	try {
 		const locations = await solid.getAllLocationsFromFriends(session);
@@ -30,7 +30,7 @@ async function getAllLocationsFromFriends(session) {
 		throw new Error("Ha ocurrido un error al obtener las localizaciones");
 	}
 }
-
+*/
 async function getFriendLocations(session, webIdAmigo) {
 	try {
 		const locations = await solid.getAllLocations(session, webIdAmigo);
@@ -97,7 +97,6 @@ async function rejectRequest(session, webId) {
 module.exports = {
 	getAllFriends,
 	deleteFriend,
-	getAllLocationsFromFriends,
 	getFriendLocations,
 	sendFriendRequest,
 	getAllRequests,
