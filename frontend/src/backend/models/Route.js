@@ -43,4 +43,4 @@ class Route {
 		return `${currentDate}_${randomIdentifier}`;
 	}
 }
-module.exports = Route;
+export default Route;

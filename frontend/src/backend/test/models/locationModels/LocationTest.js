@@ -1,4 +1,4 @@
-const Location = require("../../../models/locationModels/Location");
+import Location from "../../../models/locationModels/Location";
 
 describe("Location class", () => {
 	let location;

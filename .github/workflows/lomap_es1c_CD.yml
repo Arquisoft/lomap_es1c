@@ -1,6 +1,6 @@
 name: custom Continuous deployment for LOMAP ES1c
 
-on: [push]
+on: [release]
 
 jobs:
   unit-tests:

@@ -18,4 +18,4 @@ class Friend {
 	}
 }
 
-module.exports = Friend;
+export default Friend;
