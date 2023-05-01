@@ -13,21 +13,21 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const solictudMok={
+const solictudMock={
     id:"1",
     sender:"FriendName"
 }
 
-const API_friend_callsMok = {
+const API_friend_callsMock = {
 	API_removeFriend: jest.fn(),
 };
 
-const API_location_callsMok = {
+const API_location_callsMock = {
 	API_createLocation: jest.fn(),
 	API_updateLocation: jest.fn(),
 };
 
-const placeMok = {
+const placeMock = {
     id : "1",
     author: "friend",
 	name: "Prueba",
@@ -40,14 +40,14 @@ const placeMok = {
 	privacy: "",
 }
 
-const friendMok={
+const friendMock={
     webId:"friend",
     name:"FriendName"
 }
 
-const changeDrawerContentMok =  jest.fn();
-const setPositionMok =  jest.fn();
-const friendsPlacesMok =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
+const setPositionMock =  jest.fn();
+const friendsPlacesMock =  jest.fn();
 
 describe('BasicLogin',() => {
 	it("Renders coorectly",() => {
@@ -55,16 +55,17 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <SocialTabContent
-                        amigos = {[friendMok]}
-						API_friend_calls={API_friend_callsMok}
-                        changeDrawerContent= {changeDrawerContentMok}
-                        solicitudes={[solictudMok]}
+                        amigos = {[friendMock]}
+						API_friend_calls={API_friend_callsMock}
+                        changeDrawerContent= {changeDrawerContentMock}
+                        solicitudes={[solictudMock]}
                         returnTo={null}
-                        API_location_calls = {API_location_callsMok}
-                        setPosition = {setPositionMok}
-                        setFriendsPlaces = {friendsPlacesMok}
-                        friendsPlaces = {[placeMok]}
+                        API_location_calls = {API_location_callsMock}
+                        setPosition = {setPositionMock}
+                        setFriendsPlaces = {friendsPlacesMock}
+                        friendsPlaces = {[placeMock]}
                         loggedInUserwebId = {"Main"}
+                        visibleFriends = {[]}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>

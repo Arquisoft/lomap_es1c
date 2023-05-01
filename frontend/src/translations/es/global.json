@@ -46,7 +46,7 @@
             "add-location-button": "Añade un lugar a esta ruta",
             "remove-location-button": "Elimina este lugar de esta ruta",
             "save-route-button": "Guardar",
-            "namecannotbeempty": "Name cannot be left blank"
+            "namecannotbeempty": "El nombre no puede estar vacío"
         }, "friends": {
             "awaitingrequests": "Solicitudes pendientes",
             "addfriend": "Añadir nuevo amigo",

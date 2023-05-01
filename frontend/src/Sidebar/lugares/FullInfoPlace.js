@@ -293,7 +293,6 @@ export default function FullInfoPlace(props) {
 					readOnly
 				/>
 				<p>{comment}</p>
-			</div>
 			
 
 			<Button
@@ -301,7 +300,7 @@ export default function FullInfoPlace(props) {
 				onClick={createNewReview}
 				disabled={deleteLoading || addImageLoading || commentLoading}
 				data-testid="createReview"
-			> 
+				> 
 				{t("sidebar.place.edit")}
 			</Button>
 
@@ -311,9 +310,10 @@ export default function FullInfoPlace(props) {
 				disabled={deleteLoading || addImageLoading || commentLoading}
 				loading={commentLoading}
 				data-testid="deleteReview"
-			> 
+				> 
 				{t("sidebar.place.delete")}
 			</LoadingButton>
+			</div>
 			</>
 
 			// No existe, botón de crear
@@ -331,7 +331,7 @@ export default function FullInfoPlace(props) {
 			{/* Reviews de otros */}
 			{place?.reviews?.filter(r => r.author!==loggedInUserwebId).map(
 				r =>
-				<div className="card">
+				<div className="card" key={"review_other_"+r.author}>
 					Author: {r.author}
 					< br/>
 					{

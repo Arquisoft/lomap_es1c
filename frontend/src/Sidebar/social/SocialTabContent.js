@@ -68,7 +68,7 @@ export default function SocialTabContent(props) {
 			{/* Friend cards */}
 			{props.amigos.map((friend) => (
 				<FriendCard
-					key={"friend_card_" + friend.webid}
+					key={"friend_card_" + friend.webId}
 					API_friend_calls={props.API_friend_calls}
 					friend={friend}
 					changeDrawerContent={props.changeDrawerContent}
@@ -78,9 +78,11 @@ export default function SocialTabContent(props) {
 					setFriendsPlaces={props.setFriendsPlaces}
 					friendsPlaces={props.friendsPlaces}
 					loggedInUserwebId = {props.loggedInUserwebId}
+					addFriendMarkersToMap = {props.addFriendMarkersToMap}
+					removeFriendMarkersToMap = {props.removeFriendMarkersToMap}
+					visibleFriends = {props.visibleFriends}
 				/>
 			))}
-
 			
 		</div>
 	);

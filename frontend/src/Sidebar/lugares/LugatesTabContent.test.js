@@ -13,7 +13,7 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const placeMok = [{
+const placeMock = [{
     id : "1",
     author: "PruebaAuthor",
 	name: "Prueba",
@@ -26,13 +26,13 @@ const placeMok = [{
 	privacy: "",
 }]
 
-const categoriasMok = ["Restaurante","Parque"]
-const API_location_callsMok = {
+const categoriasMock = ["Restaurante","Parque"]
+const API_location_callsMock = {
 	API_createLocation: jest.fn(),
 	API_updateLocation: jest.fn(),
 };
-const changeDrawerContentMok =  jest.fn();
-const setPositionMok =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
+const setPositionMock =  jest.fn();
 
 describe('BasicLogin',() => {
 	it("Renders coorectly",() => {
@@ -40,11 +40,11 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <InicioTabContent
-						userPlaces = {placeMok}
-                        changeDrawerContent = {changeDrawerContentMok}
-                        setPosition={setPositionMok}
-                        categorias = {categoriasMok}
-                        API_location_calls = {API_location_callsMok}
+						userPlaces = {placeMock}
+                        changeDrawerContent = {changeDrawerContentMock}
+                        setPosition={setPositionMock}
+                        categorias = {categoriasMock}
+                        API_location_calls = {API_location_callsMock}
                         loggedInUserwebId = {"PruebaAuthor"}
                     />
                 </ThemeContext.Provider>
