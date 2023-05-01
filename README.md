@@ -45,7 +45,7 @@ We use different technologies for the develop of the application. For the front 
 </p>
 
 ## Local Installation
-We download the file (https://raw.githubusercontent.com/Arquisoft/lomap_es1c/master/frontend/docker-compose.yml)[docker-compose.yml]. Next, we open a command-line interface, we place ourselves in the directory where the file we have downloaded is and then we execute two commands: docker-compose pull and docker-compose up. The first command downloads the image of the docker and the second executes all the necessary commands to start the container.
+We download the file [docker-compose.yml](https://raw.githubusercontent.com/Arquisoft/lomap_es1c/master/frontend/docker-compose.yml). Next, we open a command-line interface, we place ourselves in the directory where the file we have downloaded is and then we execute two commands: docker-compose pull and docker-compose up. The first command downloads the image of the docker and the second executes all the necessary commands to start the container.
 
 ## Documentation 
 If you want to know more of the application you can view the full documentation here: https://arquisoft.github.io/lomap_es1c/.
