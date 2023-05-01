@@ -259,7 +259,6 @@ function Map({
 						key={marker.id}
 						position={{ lat: Number(marker.latitude), lng: Number(marker.longitude) }}
 						onClick={() => details(marker)}
-						placeholder="Punto"
 					/>
 				))}
 			</GoogleMap>
