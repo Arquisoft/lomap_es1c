@@ -72,6 +72,7 @@
     },"locations":{
         "add": "Añadir Marcador",
         "createRoute": "Crear Ruta",
+        "canAdd":"Haga click en el mapa para añadir un punto",
         "form":{
             "title":"Añade un Punto al Mapa",
             "name":"Nombre",
