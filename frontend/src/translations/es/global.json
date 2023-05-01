@@ -109,5 +109,8 @@
         "transportCenter": "Centro de transporte",
         "entertainment": "Entretenimiento",
         "other": "Otros"
+    }, "misc": {
+        "me": "Yo",
+        "author": "Autor"
     }
 }
