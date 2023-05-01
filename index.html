@@ -496,9 +496,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-concepts">8. Cross-cutting Concepts</a>
 <ul class="sectlevel2">
 <li><a href="#_domain_model">8.1. Domain model</a></li>
-<li><a href="#_security">8.2. Security</a></li>
-<li><a href="#_user_interface">8.3. User Interface</a></li>
-<li><a href="#_internationalization">8.4. Internationalization</a></li>
+<li><a href="#_main_architecture">8.2. Main architecture</a></li>
+<li><a href="#_privacy">8.3. Privacy</a></li>
+<li><a href="#_user_interface">8.4. User Interface</a></li>
+<li><a href="#_internationalization">8.5. Internationalization</a></li>
 </ul>
 </li>
 <li><a href="#section-design-decisions">9. Design Decisions</a></li>
@@ -801,15 +802,15 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>SOLID</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Used to store the personalized maps and information in personal pods that the user provides. Also to decentralize the personal data of the users.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to store the personalized maps and information in personal pods that the user provides. Also, to decentralize the personal data of the users.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Map Genericity</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The implementation of the maps must be generic, the main implementation is for an specific place but you can used the application where you want.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The implementation of the maps must be generic, the main implementation is for an specific place, but you can use the application where you want.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Version Control</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We will use a public repository in Github with different branches. The master branch is where the final application will be. In the develop branch we will have an usable application but not a finish version. All the other branches are use to individual work.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We will use a public repository in GitHub with different branches. The master branch is where the final application will be. In the develop branch we will have an usable application but not a finish version. All the other branches are used to individual work.</p></td>
 </tr>
 </tbody>
 </table>
@@ -834,7 +835,7 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Size of the team</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The team is made out of four people, we all have other projects and assignments so some times it could be difficult to meet or have a lot of time for the project.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team is made out of four people, we all have other projects and assignments so sometimes it could be difficult to meet or have a lot of time for the project.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Experience</em></p></td>
@@ -859,7 +860,7 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Language</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The language of the entire documentation will be in english.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The language of the entire documentation will be in English.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Documentation</em></p></td>
@@ -1072,10 +1073,10 @@ Refer to details in the following sections.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>SOLID: Solid is perfect for the development of this application, since it allows users to maintain the users privacy by storing information in their personal pods.</p>
+<p>SOLID: Solid is perfect for the development of this application, since it allows users to maintain the user&#8217;s privacy by storing information in their personal pods</p>
 </li>
 <li>
-<p>React.js: We chose react for its simplicity, ease of learning, and reliability (as it is a widely used library in the industry, it is highly error-tested).</p>
+<p>React.js: We chose React for its simplicity, ease of learning, and reliability (as it is a widely used library in the industry, it is highly error-tested).</p>
 </li>
 </ul>
 </div>
@@ -1088,7 +1089,7 @@ Refer to details in the following sections.</p>
 <p>Editor: For the development of the project we decided that we are going to use Visual Studio Code, due to the ease and familiarity we have with the IDE, as well as all the extension that facilitates the development.</p>
 </li>
 <li>
-<p>GitHub: All project progress and development is stored in a public GitHub repository. The main feature is that we all work with the same code and we can easily share the changes we make.</p>
+<p>GitHub: All project progress and development is stored in a public GitHub repository. The main feature is that we all work with the same code, and we can easily share the changes we make.</p>
 </li>
 </ul>
 </div>
@@ -1101,16 +1102,16 @@ Refer to details in the following sections.</p>
 <p>Privacy and Security: To guarantee the privacy and security of the data that we store or that the user wants to share, we will use SOLID technology known as PODs, which stores data and allows the user to decide what information they want to share.</p>
 </li>
 <li>
-<p>Usability: We focus on making an interface that is user friendly, fluid, simple and intuitive. We use some icons that are common to make some familiarity and help understanding of the application.</p>
+<p>Usability: We focus on making an interface that is user-friendly, fluid, simple and intuitive. We use some icons that are common to make some familiarity and help to understand of the application.</p>
 </li>
 <li>
 <p>Efficiency: Although we use PODs and that can make the app slower because we need to rely on an external technology, we try to use some stored data to make the app run faster and smoother.</p>
 </li>
 <li>
-<p>Interoperability and Scalability: We will try to make clean code that is easy to understand and modify for future updates</p>
+<p>Interoperability and Scalability: We will try to make clean code that is easy to understand and modify for future updates.</p>
 </li>
 <li>
-<p>Testability: Different tets have been make to ensure that the project is running as we intended, some important test types are unit tests and usability tests.</p>
+<p>Testability: Different test have been make to ensure that the project is running as we intended, some important test types are unit tests and usability tests.</p>
 </li>
 </ul>
 </div>
@@ -1593,7 +1594,7 @@ when your infrastructure is more complex.</p>
 <dl>
 <dt class="hdlist1">Motivation</dt>
 <dd>
-<p>During the development of the application it runs on each person&#8217;s machine. However, the final product, its been executed on a server hosted with Netlify.</p>
+<p>During the development of the application it runs on each person’s machine. However, the final product, it&#8217;s been executed on a server hosted with Netlify.</p>
 </dd>
 <dt class="hdlist1">Quality and/or Performance Features</dt>
 <dd>
@@ -1620,11 +1621,11 @@ when your infrastructure is more complex.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GoogleMaps</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">API that provide us the map where the user is going to operate the application and manage all the data.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API that provides us the map where the user is going to operate the application and manage all the data.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SOLID POD</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Personal and private data storage that each user has. All the private data that the user needs for the application or the data that the user generates its going to be stored here.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Personal and private data storage that each user has. All the private data that the user needs for the application or the data that the user generates it&#8217;s going to be stored here.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Device</p></td>
@@ -1739,24 +1740,30 @@ on this list.</p>
 <h3 id="_domain_model">8.1. Domain model</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Domain%20model.png" alt="Domain model" width="379" height="520">
+<img src="./images/Domain%20model.png" alt="Domain model" width="476" height="486">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_security">8.2. Security</h3>
+<h3 id="_main_architecture">8.2. Main architecture</h3>
+<div class="paragraph">
+<p>The main architecture of the application is an MVC.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_privacy">8.3. Privacy</h3>
 <div class="paragraph">
 <p>One of the main goals of the entire application is the privacy of the users. For this we use SOLID technology called PODs, which stores data and the user decides the privacy of the data. Users can enter the app by login with their POD provider.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_user_interface">8.3. User Interface</h3>
+<h3 id="_user_interface">8.4. User Interface</h3>
 <div class="paragraph">
-<p>We use the React library in combination with JavaScript fot thr front-part of the application. The user interface should be simple to use, have a clean appearance and be easy to navigate.</p>
+<p>We use the React library in combination with JavaScript for the front-part of the application. The user interface should be simple to use, have a clean appearance and be easy to navigate.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_internationalization">8.4. Internationalization</h3>
+<h3 id="_internationalization">8.5. Internationalization</h3>
 <div class="paragraph">
 <p>The application is developed to be used by many people who can use different languages, because of this the whole app can switch the language between Spanish and English.</p>
 </div>
@@ -1822,11 +1829,11 @@ here in this central section or whether you better document it locally
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">React</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A useful library widely used in large companies with lots of facilities and examples. It is an easy library to learn and also makes user interface development easy. It also has high compatibility with SOLID technologies.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">It is the first time we use this technology, it is easy to learn to use it but it is difficult to master it. In addition, official documentation is missing.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It is the first time we use this technology, it is easy to learn to use it, but it is difficult to master it. In addition, official documentation is missing.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JavaScript</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We have previous experience with this technology and it allows us a lot of freedom in development in combination with React</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We have previous experience with this technology, and it allows us a lot of freedom in development in combination with React</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The freedom it provides can also be a major drawback, as it can cause weird errors with type handling. Also, it can cause some problems when reading new code developed by other members of the group.</p></td>
 </tr>
 <tr>
@@ -1965,14 +1972,14 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <td class="tableblock halign-left valign-top"><p class="tableblock">The application must ensure that new users know in little time how to use the basic functionality.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A user adds information in an other app that follows the same data structure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user adds information in another app that follows the same data structure</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Interoperability</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">LoMap has to be able to use the information stored by other applications as long as the data structure is the same.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">New functionality is needed</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Scalability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be developed always thinking that this is not the final product and we can always add new functionality.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be developed always thinking that this is not the final product, and we can always add new functionality.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Some functionality of the application is not running correctly</p></td>
@@ -2030,12 +2037,12 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SOLID knowledge and usage</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The project uses the SOLID technology, called PODs, to store the data that the user uses in the application, this a new technology that we need to understand and use. Also we are very susceptible to changes in the SOLID technology that can cause bugs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The project uses the SOLID technology, called PODs, to store the data that the user uses in the application, this is a new technology that we need to understand and use. Also, we are very susceptible to changes in the SOLID technology that can cause bugs</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Read the documentation and see examples of the usage of SOLID. Trust that SOLID works properly and we have the methods to control those errors and notify  them.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usage of new technologies</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">As well as SOLID is something new for us we also are using other technologies that we never used before</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">As well as SOLID is something new for us, we also are using other technologies that we never used before</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">This can be mitigated with some experience that we will gain when developing the application, reading all the available documentation that we will need and seeing examples</p></td>
 </tr>
 </tbody>
