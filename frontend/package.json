@@ -67,7 +67,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "./hola",
   "devDependencies": {
     "@cucumber/cucumber": "^9.1.0",
     "jest-cucumber": "^3.0.1",
