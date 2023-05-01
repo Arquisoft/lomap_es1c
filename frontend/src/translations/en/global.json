@@ -109,5 +109,8 @@
         "transportCenter": "Transport Center",
         "entertainment": "Entertainment",
         "other": "Other"
+    }, "misc": {
+        "me": "Me",
+        "author": "Author"
     }
 }
