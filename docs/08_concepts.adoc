@@ -80,10 +80,22 @@ object Review{
 
 object Photos{
     id: String
-    name: String
     url: String
     timestamp: Int
     author: String 
+}
+
+object Friend{
+    id: String
+    name: String
+    webId: String
+}
+
+object FriendRequest{
+    id: String
+    sender: String
+    receiver: String
+    timestamp: Int
 }
 
 Routes *--> Location
