@@ -17,7 +17,8 @@ Given('Estoy en la pagina de inicio', async function () {
 
 When('presiono el boton de login', {timeout: 2*5000} , async function () {
     // IR AL LOGIN DE INRUPT
-    await page.click('.btnProvider1');
+    let botonLogin = await page.waitForXPath('/html/body/div/div/div[2]/div/div/div/button');
+    await botonLogin.click();
     await page.waitForNavigation();
 });
 
@@ -25,8 +26,10 @@ When('presiono el boton de login', {timeout: 2*5000} , async function () {
 When('Relleno la informacion de sesion', async function () {
 
     // ESCRIBIR DATOS DE INICIO DE SESION
-    await page.type('#signInFormUsername', 'solidpruebas2');
-    await page.type('#signInFormPassword', 'Solidpruebas1234');
+    let botonUsername = await page.waitForXPath('/html/body/div[1]/div/div[1]/div[2]/div[2]/div[3]/div/div/form/div[1]/input');
+    await botonUsername.type('solidpruebas2');
+    botonUsername = await page.waitForXPath('/html/body/div[1]/div/div[1]/div[2]/div[2]/div[3]/div/div/form/div[2]/input');
+    await botonUsername.type('Solidpruebas1234');
   });
 
 

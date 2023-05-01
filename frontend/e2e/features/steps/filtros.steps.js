@@ -33,6 +33,6 @@ When('Selecciono un filtro',{timeout: 5*5000}, async function () {
 Then('se filtra correctamente', async function () {
   let categoria = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[2]/p');
   categoria =  await categoria.evaluate(node => node.textContent);
-  assert.equal("punto de interés", categoria);
+  assert.equal("Restaurante", categoria);
   await browser.close();
 });

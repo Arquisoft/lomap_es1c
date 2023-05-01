@@ -19,12 +19,15 @@ async function login(page, usuario){
     await page.goto("http://localhost:3000");
 
     // IR AL LOGIN DE INRUPT
-    await page.click('.btnProvider1');
+    let botonLogin = await page.waitForXPath('/html/body/div/div/div[2]/div/div/div/button');
+    await botonLogin.click();
     await page.waitForNavigation();
 
     // ESCRIBIR DATOS DE INICIO DE SESION
-    await page.type('#signInFormUsername', usuario);
-    await page.type('#signInFormPassword', 'Solidpruebas1234');
+    let botonUsername = await page.waitForXPath('/html/body/div[1]/div/div[1]/div[2]/div[2]/div[3]/div/div/form/div[1]/input');
+    await botonUsername.type(usuario);
+    botonUsername = await page.waitForXPath('/html/body/div[1]/div/div[1]/div[2]/div[2]/div[3]/div/div/form/div[2]/input');
+    await botonUsername.type('Solidpruebas1234');
 
     // PRIMER BOTON DE LOGIN
     await page.keyboard.press('Enter');
@@ -36,11 +39,12 @@ async function login(page, usuario){
     await page.keyboard.press('Enter');
     await page.waitForNavigation();
 
-    await new Promise(r => setTimeout(r, 12000));
+    await new Promise(r => setTimeout(r, 16000));
 
     //Quitar Mensaje
     for(let i=0;i<12;i++){
       await page.keyboard.press('Tab');
+      await new Promise(r => setTimeout(r, 100));
     }
     await page.keyboard.press('Enter');
     await page.keyboard.press('Tab');

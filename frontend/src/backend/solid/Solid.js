@@ -23,7 +23,8 @@ import {
 	addPhoto,
 	deletePhotoById as deletePhotoById_,
 } from "./locations/Photos.js";
-import { addReview } from "./locations/Reviews.js";
+import { addReview,
+deleteReviewById as deleteReviewById_ } from "./locations/Reviews.js";
 const { getPodUrlAll } = require("@inrupt/solid-client");
 
 //ESTRUCTURA
@@ -122,7 +123,7 @@ async function deleteReviewById(Session, idRating, friendwebId) {
 	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	await deleteReviewById(Session, idRating, myBaseUrl);
+	await deleteReviewById_(Session, idRating, myBaseUrl);
 }
 
 //FOTOS

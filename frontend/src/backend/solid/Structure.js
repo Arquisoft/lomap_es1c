@@ -1,4 +1,4 @@
-import {darPermisosPublicos, } from "./Friends.js";
+import {darPermisosPublicos} from "./Friends.js";
 const {
 	getSolidDataset,
 	createContainerAt,
@@ -18,7 +18,7 @@ async function construirEstructura(Session, myBaseUrl) {
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
 			try{
-				await friends.darPermisosPublicos(Session, myBaseUrl + "public/", {read: true, write: true,});
+				await darPermisosPublicos(Session, myBaseUrl + "public/", {read: true, write: true,});
 			}catch(err){}
 		}
 		try {
@@ -34,7 +34,7 @@ async function construirEstructura(Session, myBaseUrl) {
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
 			try{
-				await friends.darPermisosPublicos(Session, myBaseUrl + "public/solicitudes.jsonld", {read: true, write: true,});
+				await darPermisosPublicos(Session, myBaseUrl + "public/solicitudes.jsonld", {read: true, write: true,});
 			}catch(err){}
 		}
 		try {

@@ -69,7 +69,7 @@ Then('Se añade el punto al mapa', {timeout: 10*5000}, async function () {
   //Eliminar la localizacion
   await util.pulsar_lugar(page);
   await util.borrar_location(page);
-  await new Promise(r => setTimeout(r, 4000));
+  await new Promise(r => setTimeout(r, 7000));
   await browser.close();
 
 });

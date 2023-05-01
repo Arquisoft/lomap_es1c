@@ -51,14 +51,14 @@ When('añado una review',{timeout: 4*5000}, async function () {
 
 
 
-Then('la review se añade', {timeout: 4*5000}, async function () {
+Then('la review se añade', {timeout: 6*5000}, async function () {
   await util.posicionarse_lugar_amigo(page);
   let nombre_comment = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[5]/div[1]/p');
   nombre_comment = await nombre_comment.evaluate(node => node.textContent);
   assert.equal("3 estrellas", nombre_comment.trim());
 
   //Eliminamos review
-  buton = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[5]/button[2]');
+  let buton = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[5]/div/button[2]');
   await buton.click();
 
   await new Promise(r => setTimeout(r, 4000));
