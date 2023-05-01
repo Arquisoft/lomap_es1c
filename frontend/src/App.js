@@ -507,12 +507,19 @@ export default function App({ logOutFunction, isLoggedIn }) {
 
 	async function getPlaceOfFriendById(friendwebId, placeId) {
 		checkLoggedIn();
+
+		const placeFromMemoization = fullPlacesInfoMemoization[placeId];
+		if (placeFromMemoization) {
+			return placeFromMemoization
+		}
+
 		try{
 			const response = await FriendsController.getFriendLocationById(
 				getDefaultSession(),
 				friendwebId,
 				placeId
 			);
+			fullPlacesInfoMemoization[placeId] = response
 			return response;
 		}	catch(error){
 			alert(error);
