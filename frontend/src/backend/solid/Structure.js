@@ -1,4 +1,4 @@
-import {darPermisosPublicos, } from "./Friends.js";
+import {darPermisosPublicos} from "./Friends.js";
 const {
 	getSolidDataset,
 	createContainerAt,
@@ -17,20 +17,25 @@ async function construirEstructura(Session, myBaseUrl) {
 				myBaseUrl + "public/",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
-			await darPermisosPublicos(Session, myBaseUrl + "public/", {read: true, write: true,});
+			try{
+				await darPermisosPublicos(Session, myBaseUrl + "public/", {read: true, write: true,});
+			}catch(err){}
 		}
 		try {
 			await getFile(myBaseUrl + "public/solicitudes.jsonld", {
 				fetch: Session.fetch,
 			});
 		} catch (e) {
+			console.log("Construir solicitudes 1")
 			let file = await estructuraJsonLD();
 			await overwriteFile(
 				myBaseUrl + "public/solicitudes.jsonld",
 				file,
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
-			await darPermisosPublicos(Session, myBaseUrl + "public/solicitudes.jsonld", {read: true, write: true,});
+			try{
+				await darPermisosPublicos(Session, myBaseUrl + "public/solicitudes.jsonld", {read: true, write: true,});
+			}catch(err){}
 		}
 		try {
 			await getSolidDataset(myBaseUrl + "LoMap/", { fetch: Session.fetch });
@@ -39,7 +44,6 @@ async function construirEstructura(Session, myBaseUrl) {
 				myBaseUrl + "LoMap/",
 				{ fetch: Session.fetch } // fetch from authenticated Session
 			);
-			await darPermisosPublicos(Session, myBaseUrl + "LoMap/", {read: true, write: true,});
 		}
 		try {
 			await getFile(myBaseUrl + "LoMap/routes.jsonld", {
