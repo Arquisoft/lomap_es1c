@@ -21,8 +21,8 @@ List of risks and/or technical debts, probably including suggested measures to m
 |===
 | Risk | Description | Measure 
 | Big Project and Time | Being a large project compared to the projects we have done so far, the magnitude and the time we have are two of the things that we need to have in mind. | Being aware of the time, deadlines and also, have a good atmosphere in the team, solve the problems we encounter and  support each other during the development.
-| SOLID knowledge and usage | The project uses the SOLID technology, called PODs, to store the data that the user uses in the application, this a new technology that we need to understand and use. Also we are very susceptible to changes in the SOLID technology that can cause bugs | Read the documentation and see examples of the usage of SOLID. Trust that SOLID works properly and we have the methods to control those errors and notify  them. 
-| Usage of new technologies | As well as SOLID is something new for us we also are using other technologies that we never used before | This can be mitigated with some experience that we will gain when developing the application, reading all the available documentation that we will need and seeing examples
+| SOLID knowledge and usage | The project uses the SOLID technology, called PODs, to store the data that the user uses in the application, this is a new technology that we need to understand and use. Also, we are very susceptible to changes in the SOLID technology that can cause bugs | Read the documentation and see examples of the usage of SOLID. Trust that SOLID works properly and we have the methods to control those errors and notify  them. 
+| Usage of new technologies | As well as SOLID is something new for us, we also are using other technologies that we never used before | This can be mitigated with some experience that we will gain when developing the application, reading all the available documentation that we will need and seeing examples
 |===
 
 

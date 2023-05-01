@@ -47,7 +47,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --coverage",
     "eject": "react-scripts eject",
-    "test:e2e": "cucumber-js e2e"
+    "test:e2e": "start-server-and-test start 3000 \"cucumber-js e2e \" "
   },
   "eslintConfig": {
     "extends": [
@@ -67,7 +67,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "./hola",
   "devDependencies": {
     "@cucumber/cucumber": "^9.1.0",
     "jest-cucumber": "^3.0.1",

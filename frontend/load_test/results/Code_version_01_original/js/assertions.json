@@ -1,0 +1,10 @@
+{
+  "simulation": "OnlySeeV1",
+  "simulationId": "onlyseev1-20230501085929629",
+  "start": 1682931575619,
+  "description": "Log in (original version)",
+  "scenarios": ["OnlySeeV1"],
+  "assertions": [
+
+  ]
+}

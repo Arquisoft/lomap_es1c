@@ -33,7 +33,7 @@ When('Relleno la informacion de sesion', async function () {
   });
 
 
-When('presiono botones de login de inrupt', async function () {
+When('presiono botones de login de inrupt',{timeout: 3*5000} , async function () {
 
   // PRIMER BOTON DE LOGIN
   await page.keyboard.press('Enter');
