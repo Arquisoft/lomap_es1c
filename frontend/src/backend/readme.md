@@ -1,22 +1,20 @@
-# Diseño de la restAPI y de el backend.
-
-## Conceptos básicos
-El backend consiste de una RestAPI, cuyas llamadas están definidas en la carpeta routes.
-Desde cada llamada se llama a un método de los controladores, que dependiendo de la naturaleza de la llamada se comunicará con el POD del usuario en sesión para leer o escribir datos.
-## Métodos de los controladores
-
-### Auth
-    - login
-    - logout
-    - isLoggedIn
-### Friend
+# Conceptos básicos
+La carpeta backend consta de los modelos, los controladores a los que se accede a través del frontal y de la carpeta "solid", que hace a su vez de servicio, recuperando
+o añadiendo los modelos, tratando con ellos por medio de parsers o serializers, y realizando así toda la comunicación con los PODs.
+## Controladores
+### Friend 
+    El friendController es el encargado de añadir, borrar y devolver tanto los amigos, como las solicitudes de amistad.
     - getAllFriends
     - addFriend
     - deleteFriend
-    - getAllLocationsFromFriends
     - getFriendLocations
-    - getAllLocationsByCategory
+    - getFriendLocationById
+    - sendFriendRequest
+    - getAllRequests
+    - acceptRequest
+    - rejectRequest
 ### Route
+    El routeController es el encargado de trabajar con las rutas, contiene los métodos CRUD para las rutas, y los métodos para trabajar con las localizaciones de esas rutas.
     - getAllRoutes
     - getRouteById
     - addRoute
@@ -24,29 +22,28 @@ Desde cada llamada se llama a un método de los controladores, que dependiendo d
     - deleteRoute
     - addLocationToRoute
     - deleteLocationFromRoute
-    - changeOrderOfLocationInRoute
 ### Locations
-    - getLocations
-    - getLocationById
+    El locationController contiene los metodos CRUD para las localizaciones, y los métodos para trabajar con las reviews y las fotos que se guardan en esa localización.
+    - getAllLocations
+    - getLocation
     - createLocation (saveLocation)
     - deleteLocation
     - updateLocation
-    - getCategories
-    - getLocationsByCategory
     - addReview
     - deleteReview
-    - addComment
-    - deleteComment
     - addPhoto
     - deletePhoto
-
+    - getCategories
+### Route
+    - createStruct
 ## Modelos
 
-Routes->
+Route->
     id: String
     name: String
     description: String
     author: String 
+    locations: List (Location)
 
 Location->
     id: String
@@ -54,25 +51,31 @@ Location->
     latitude: Float
     longitude: Float
     category: String
-    privacy: String
     author: String
     timestamp: Int
+    photos: List (Photo)
+    reviews: List (Review)
 
 Review->
     id: String
     rating: Int
+    comment: String
     author: String
-
 
 Photo->
     id: String
     name: String
-    url: String
+    imageJpg: String (the data field)
     timestamp: Int
     author: String 
 
-Comment->
+Friend ->
+    name: String
+    webId: String
     id: String
-    text: String
+
+FriendRequest ->
+    sender: String
+    receiver: String
+    id: String 
     timestamp: Int
-    author: String 

@@ -8,10 +8,10 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import App from "./App";
+import { checkStruct } from "./backend/controllers/PodController";
 import { ThemeContextProvider } from "./contexts/ThemeContext";
 import "./index.css";
 import Login from "./login";
-import {checkStruct} from "./backend/controllers/PodController";
 
 // Internationalization
 import global_en from "./translations/en/global.json";
@@ -46,10 +46,10 @@ function MyComponent() {
 				restorePreviousSession: true,
 			}).then(async (info) => {
 				if (getDefaultSession().info.isLoggedIn) {
-					setIsStructBeingCreated(true)
+					setIsStructBeingCreated(true);
 					await checkStruct(getDefaultSession());
 					setIsLoggedIn(true);
-					setIsStructBeingCreated(false)
+					setIsStructBeingCreated(false);
 				}
 			});
 		}
@@ -58,21 +58,24 @@ function MyComponent() {
 	async function loginWeb(providerURL) {
 		await handleIncomingRedirect().then(async (info) => {
 			if (getDefaultSession().info.isLoggedIn) {
-				setIsStructBeingCreated(true)
+				setIsStructBeingCreated(true);
 				await checkStruct(getDefaultSession());
 				setIsLoggedIn(true);
-				setIsStructBeingCreated(false)
+				setIsStructBeingCreated(false);
 				loggedInOnce = true;
 			}
 		});
-
-		let provider = providerURL ? providerURL : "https://login.inrupt.com";
-		if (!getDefaultSession().info.isLoggedIn) {
-			await login({
-				oidcIssuer: provider,
-				redirectUrl: window.location.href,
-				clientName: "My application",
-			});
+		try {
+			let provider = providerURL ? providerURL : "https://login.inrupt.com";
+			if (!getDefaultSession().info.isLoggedIn) {
+				await login({
+					oidcIssuer: provider,
+					redirectUrl: window.location.href,
+					clientName: "My application",
+				});
+			}
+		} catch (error) {
+			alert("El proovedor no es válido");
 		}
 	}
 
@@ -86,11 +89,15 @@ function MyComponent() {
 			<I18nextProvider i18n={i18next}>
 				<ThemeContextProvider
 					children={
-						isLoggedIn
-							?
-						(<App logOutFunction={logOut} isLoggedIn={isLoggedIn} />)
-							:
-						(<Login logInFunction={loginWeb} isLoggedIn={isLoggedIn} isStructBeingCreated={isStructBeingCreated} />)
+						isLoggedIn ? (
+							<App logOutFunction={logOut} isLoggedIn={isLoggedIn} />
+						) : (
+							<Login
+								logInFunction={loginWeb}
+								isLoggedIn={isLoggedIn}
+								isStructBeingCreated={isStructBeingCreated}
+							/>
+						)
 					}
 				/>
 			</I18nextProvider>
