@@ -14,7 +14,7 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const logInFunctionMok = jest.fn()
+const logInFunctionMock = jest.fn()
 const toggleLanguage = jest.fn()
 
 describe('BasicLogin',() => {
@@ -23,7 +23,7 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <Login
-                        logInFunction={logInFunctionMok}
+                        logInFunction={logInFunctionMock}
 						isLoggedIn={false}
 						toggleLanguage={toggleLanguage}
 						
@@ -54,12 +54,12 @@ describe('BasicLogin',() => {
 
 		expect(lastNameInput).toBeInTheDocument();
 
-		expect(logInFunctionMok).toHaveBeenCalledTimes(0);
+		expect(logInFunctionMock).toHaveBeenCalledTimes(0);
         expect(toggleLanguage).toHaveBeenCalledTimes(0);
 
 		fireEvent.click(btnLogin);
 
-		expect(logInFunctionMok).toHaveBeenCalledTimes(1);
+		expect(logInFunctionMock).toHaveBeenCalledTimes(1);
         expect(toggleLanguage).toHaveBeenCalledTimes(0);
 
 		lastNameInput.value = 'Test';
@@ -72,7 +72,7 @@ describe('BasicLogin',() => {
 
 		fireEvent.change(lastNameInputChange,{target: { value: "Changed Value" }});
 
-		expect(logInFunctionMok).toHaveBeenCalledTimes(2);
+		expect(logInFunctionMock).toHaveBeenCalledTimes(2);
         expect(toggleLanguage).toHaveBeenCalledTimes(0);
 
 		const speedDialButton = screen.getByTestId("speed-dial-button");
@@ -98,7 +98,7 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <Login
-                        logInFunction={logInFunctionMok}
+                        logInFunction={logInFunctionMock}
 						isLoggedIn={false}
 						toggleLanguage={toggleLanguage}
 						isStructBeingCreated={true}

@@ -113,7 +113,7 @@ async function serializeSolicitud(solicitud) {
 async function serializeContenedor(Session, url, jsonLDToAdd) {
 	let jsonContainer = await parseContainer(Session, url);
 	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
-		(j) => j.id != jsonLDToAdd.id
+		(j) => j.id !== jsonLDToAdd.id
 	);
 
 	jsonContainer.itemListElement.push(jsonLDToAdd);
@@ -125,7 +125,7 @@ async function deleteThing(Session, url, idThing) {
 	let jsonContainer = await parseContainer(Session, url);
 
 	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
-		(t) => t.id != idThing
+		(t) => t.id !== idThing
 	);
 
 	await saveJsonLD(Session, url, jsonContainer);

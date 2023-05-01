@@ -13,16 +13,16 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const solictudMok={
+const solictudMock={
     id:"1",
     sender:"FriendName"
 }
 
-const API_friend_callsMok = {
+const API_friend_callsMock = {
 	API_removeFriend: jest.fn(),
 };
 
-const changeDrawerContentMok =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
 
 describe('BasicLogin',() => {
 	it("Renders coorectly",() => {
@@ -30,10 +30,10 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <SolicitudesContent
-                        API_friend_calls={API_friend_callsMok}
-                        solicitudes={[solictudMok]}
+                        API_friend_calls={API_friend_callsMock}
+                        solicitudes={[solictudMock]}
                         returnTo={null}
-                        changeDrawerContent={changeDrawerContentMok}
+                        changeDrawerContent={changeDrawerContentMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>

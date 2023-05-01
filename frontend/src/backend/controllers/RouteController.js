@@ -23,7 +23,7 @@ async function getAllLocationsByRouteId(session, idRoute) {
 			idRoute,
 			session.info.webId
 		);
-		if (route != null) {
+		if (route !== null) {
 			return route.locations;
 		} else {
 			throw new Error("No se han encontrado rutas con esa id");
@@ -36,7 +36,7 @@ async function getAllLocationsByRouteId(session, idRoute) {
 async function getRouteById(session, id) {
 	try {
 		const route = await getRouteById_(session, id, session.info.webId);
-		if (route != null) {
+		if (route !== null) {
 			return route;
 		} else {
 			throw new Error("No se han encontrado rutas con esa id");
@@ -69,7 +69,7 @@ async function updateRoute(session, id, route1) {
 			throw new Error("Faltan datos");
 		}
 		const route = await getRouteById_(session, id, session.info.webId);
-		if (route == null) {
+		if (route === null) {
 			throw new Error("No se han encontrado rutas con esa id");
 		}
 		route.name = name;
@@ -84,7 +84,7 @@ async function updateRoute(session, id, route1) {
 async function deleteRoute(session, id) {
 	try {
 		const route = await getRouteById_(session, id, session.info.webId);
-		if (route == null) {
+		if (route === null) {
 			throw new Error("No se han encontrado rutas con esa id");
 		}
 		await deleteRouteById(session, id, session.info.webId);
@@ -106,10 +106,10 @@ async function addLocationToRoute(session, idRoute, idLocation) {
 			idLocation,
 			session.info.webId
 		);
-		if (route == null) {
+		if (route === null) {
 			throw new Error("No se han encontrado rutas con esa id");
 		}
-		if (location == null) {
+		if (location === null) {
 			throw new Error("No se han encontrado localizaciones con esa id");
 		}
 		route.addLocation(location);
@@ -134,11 +134,11 @@ async function deleteLocationFromRoute(session, idRoute, idLocation) {
 
 			session.info.webId
 		);
-		if (route == null) {
+		if (route === null) {
 			throw new Error("No se han encontrado rutas con esa id");
 		}
 
-		if (location == null) {
+		if (location === null) {
 			throw new Error("No se han encontrado localizaciones con esa id");
 		}
 		route.deleteLocation(location.id);

@@ -50,7 +50,7 @@ async function obtenerLocalizacion(
 	try {
 		let locations = await obtenerLocalizaciones(Session, myBaseUrl);
 
-		let location = locations.find((l) => l.id == idUbi);
+		let location = locations.find((l) => l.id === idUbi);
 
 		if (returnAllReviews) {
 			location.reviews = getAllReviews(Session, location.reviews);

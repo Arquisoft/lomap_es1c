@@ -13,7 +13,7 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const placeMok = {
+const placeMock = {
     id : "1",
     author: "PruebaAuthor",
 	name: "Pruebaasdasdasdasdasdasdasdasdasdasdasd",
@@ -25,13 +25,13 @@ const placeMok = {
 	photo:"",
 	privacy: "",
 }
-const categoriasMok = ["Restaurante","Parque"]
-const API_location_callsMok = {
+const categoriasMock = ["Restaurante","Parque"]
+const API_location_callsMock = {
 	API_getPlaceById: jest.fn(),
 };
-const changeDrawerContentMok =  jest.fn();
-const setPositionMok =  jest.fn();
-const setDisableComponentsMok =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
+const setPositionMock =  jest.fn();
+const setDisableComponentsMock =  jest.fn();
 
 describe('BasicLogin',() => {
 	it("Renders coorectly",() => {
@@ -39,12 +39,12 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <LugarCard
-						key={placeMok.id}
-						place = {placeMok}
-						changeDrawerContent={changeDrawerContentMok}
-						categorias = {categoriasMok}
-						setPosition={setPositionMok}
-						API_location_calls = {API_location_callsMok}
+						key={placeMock.id}
+						place = {placeMock}
+						changeDrawerContent={changeDrawerContentMock}
+						categorias = {categoriasMock}
+						setPosition={setPositionMock}
+						API_location_calls = {API_location_callsMock}
 						returnTo = {null}
 						loggedInUserwebId = {"PruebaAuthor"}
 						disableComponents = {null}
@@ -64,16 +64,16 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <LugarCard
-						key={placeMok.id}
-						place = {placeMok}
-						changeDrawerContent={changeDrawerContentMok}
-						categorias = {categoriasMok}
-						setPosition={setPositionMok}
-						API_location_calls = {API_location_callsMok}
+						key={placeMock.id}
+						place = {placeMock}
+						changeDrawerContent={changeDrawerContentMock}
+						categorias = {categoriasMock}
+						setPosition={setPositionMock}
+						API_location_calls = {API_location_callsMock}
 						returnTo = {null}
 						loggedInUserwebId = {"PruebaAuthor"}
 						disableComponents = {null}
-						setDisableComponents = {setDisableComponentsMok}
+						setDisableComponents = {setDisableComponentsMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>

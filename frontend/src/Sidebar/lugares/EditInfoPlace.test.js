@@ -6,6 +6,8 @@ import { I18nextProvider } from "react-i18next";
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { Themes } from "../../contexts/ThemeContext";
 import FullInfoPlace from "./EditInfoPlace";
+import { act } from "react-dom/test-utils";
+import userEvent from "@testing-library/user-event";
 
 i18next.init({
 	interpolation: { escapeValue: false },
@@ -13,36 +15,36 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const placeMok = {
+const placeMock = {
     id : "1",
     author: "PruebaAuthor",
 	name: "Prueba",
 	latitude: 0,
 	longitude: 0,
-	category: "Prueba",
+	category: "CategoriaPrueba",
 	review: 2,
 	comment: "Prueba Comentario",
 	photo:"",
 	privacy: "",
 }
-const categoriasMok = ["Restaurante","Parque"]
-const API_location_callsMok = {
+const categoriasMock = ["Restaurante","CategoriaPrueba"]
+const API_location_callsMock = {
 	API_createLocation: jest.fn(),
 	API_updateLocation: jest.fn(),
 };
-const changeDrawerContentMok =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
 
 describe('BasicLogin',() => {
-	it("Renders coorectly",() => {
+	it("Renders coorectly when updating",() => {
 		render(
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <FullInfoPlace
-						place={placeMok}
-                        categorias={categoriasMok}
-                        API_location_calls={API_location_callsMok}
+						place={placeMock}
+                        categorias={categoriasMock}
+                        API_location_calls={API_location_callsMock}
                         returnTo={null}
-                        changeDrawerContent={changeDrawerContentMok}
+                        changeDrawerContent={changeDrawerContentMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>
@@ -55,6 +57,8 @@ describe('BasicLogin',() => {
         fireEvent.change(nameInput,{target: { value: "Changed Value" }});
         const nameInputChange = screen.getByDisplayValue('Changed Value')
         expect(nameInputChange).toBeInTheDocument();
+
+        act(() => userEvent.click(screen.getByTestId("select-category")))
 
         const saveBtn = screen.getByTestId('saveBtn')
         expect(saveBtn).toBeInTheDocument();

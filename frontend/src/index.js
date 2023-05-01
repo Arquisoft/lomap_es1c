@@ -55,7 +55,7 @@ function MyComponent() {
 		}
 	}, []);
 
-	async function loginWeb(providerURL, setIsStrucBeingCreated) {
+	async function loginWeb(providerURL) {
 		await handleIncomingRedirect().then(async (info) => {
 			if (getDefaultSession().info.isLoggedIn) {
 				setIsStructBeingCreated(true)
