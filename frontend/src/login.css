@@ -6,7 +6,7 @@
 .caja{
     /* background-color: #1e2124; */
     width: 500px;
-    height: 600px;
+    height: 100px;
     border-radius: 25px;
     grid-column-start: 2;
     grid-row: 2;
@@ -20,11 +20,10 @@
 .login{
     grid-row: 1;
     display: grid;
-    grid-template-rows: 15% auto auto;
+    grid-template-rows: 60% auto auto;
     grid-template-columns: auto;
     
 }
-
 
 .url{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -41,7 +40,7 @@
 .login .btnLogin{
     grid-row: 2;
     grid-column-start: 2;
-    height: 65%;
+    height: 100%;
     width: 90%;
     top: 25%;
     color: white;
@@ -52,7 +51,7 @@
 .formName{
     grid-column-start: 2;
     display: grid;
-    grid-template-rows: 30% auto 25%;
+    grid-template-rows: 150% auto 25%;
     
 }
 
@@ -91,7 +90,7 @@
     width: 60%;
     max-width: 600px;
     height: auto;
-    top: 45%;
+    top: 105%;
     left: 26%;
     grid-row-start: 0;
 }
@@ -108,6 +107,7 @@
         grid-column-start: 1;
         grid-row-start: 2;
         color: black;
+        top: 350%;
         left: 14%;
         right: 45%;
         font-size: 25px;
@@ -132,7 +132,7 @@
         position: relative;
         grid-column-start: 1;
         grid-row-start: 3;
-        top: 0%;
+        top: 40%;
         left: 2%;
         right: 45%;
         font-size: 25px;
@@ -145,16 +145,17 @@
     }
 
     .login{
-        grid-template-rows: 15% auto auto;
+        grid-template-rows: 60% auto auto;
         grid-template-columns: 50%;
     }
 
     .caja{
         /* background-color: #1e2124; */
         position: relative;
+        top: 100%;
         left: 5%;
         width: 300px;
-        height: 400px;
+        height: 100px;
         border-radius: 25px;
         grid-column-start: 1;
         grid-row-start: 1;

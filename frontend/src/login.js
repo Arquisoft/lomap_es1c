@@ -8,7 +8,7 @@ import { ThemeContext } from "./contexts/ThemeContext";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Login({ logInFunction, isLoggedIn, toggleLanguage, isStructBeingCreated }) {
-	const [text, setText] = useState("");
+	const [text, setText] = useState("https://login.inrupt.com/");
 	const [t, i18n] = useTranslation("global");
 
 	function toggleLanguage() {
