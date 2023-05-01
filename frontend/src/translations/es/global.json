@@ -88,5 +88,24 @@
         "lomap_description": "LoMap te permite crear un mapa personalizado de los lugares que te interesan.",
         "login-button": "Iniciar sesión",
         "provider_url": "URL de su provider"
+    },"categories":{
+        "bar":"Bar",
+        "restaurant": "Restaurante",
+        "shop": "Tienda",
+        "supermarket": "Supermercado",
+        "hotel": "Hotel",
+        "cinema": "Cine",
+        "academicInstitution": "Institución Académica",
+        "publicInstitution": "Institución pública",
+        "sportsClub": "Club de deportes",
+        "museum": "Museo",
+        "park": "Parque",
+        "landscape": "Paisaje",
+        "monument": "Monumento",
+        "hospital": "Hospital",
+        "policeStation": "Estación de policía",
+        "transportCenter": "Centro de transporte",
+        "entertainment": "Entretenimiento",
+        "other": "Otros"
     }
 }
