@@ -199,19 +199,16 @@ export default function CreateModal({
 				<Select
 					id="categoria"
 					className="categoria"
-					defaultValue=""
+					defaultValue="other"
 					name="categoria"
 					onChange={handleCategoryChange}
 					disabled={loading}
 					placeholder="category"
 					data-testid="categorySelect"
 				>
-					<MenuItem value={""} defaultValue={true} data-testid="sinCategoria">
-						<em>Sin Categoria</em>
-					</MenuItem>
 					{categorias.map((categoria) => (
 						<MenuItem key={categoria} value={categoria} disabled={loading} data-testid={"category"+categorias.indexOf(categoria)}>
-							{categoria}
+							{t("categories."+categoria)}
 						</MenuItem>
 					))}
 				</Select>

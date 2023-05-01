@@ -77,14 +77,10 @@ export default function FilterButtons({setCategortFiltered, categorias,setFriend
                 data-testid="todas">
                     {t("filters.allCategories")}
                 </MenuItem>
-                <MenuItem key={"sin categoria"} onClick={() => {handleClose("sin categoria"); setCategorySelected(1)}} 
-                    selected={categorySelected === 1} data-testid="sinCategoria">
-                        Sin Categoria
-                </MenuItem>
                 {categorias.map((option) => (
                     <MenuItem key={option} onClick={() => {handleClose(option); setCategorySelected(categorias.indexOf(option)+2)}} 
                         selected={categorySelected === categorias.indexOf(option)+2} data-testid={"category"+categorias.indexOf(option)}>
-                        {option}
+                        {t("categories."+option)}
                     </MenuItem>
                 ))}
             </Menu>

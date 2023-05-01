@@ -43,3 +43,6 @@ We use different technologies for the develop of the application. For the front 
 <img alt="Logo de React" src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
 <img alt="Logo de Solid" src="./frontend/public/solidLogo.png" height="100">
 </p>
+
+## Documentation 
+If you want to know more of the application you can view the full documentation here: https://arquisoft.github.io/lomap_es1c/.

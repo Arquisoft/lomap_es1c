@@ -65,13 +65,11 @@ describe('BasicFuntionality',() => {
 
     const menu = screen.getByTestId("menu");
     const allCategory = screen.getByTestId("todas");
-    const sinCategory = screen.getByTestId("sinCategoria");
     const firstCategory = screen.getByTestId("category0");
     const secondCategory = screen.getByTestId("category1");
 
     expect(menu).toBeInTheDocument();
     expect(allCategory).toBeInTheDocument();
-    expect(sinCategory).toBeInTheDocument();
     expect(firstCategory).toBeInTheDocument();
     expect(secondCategory).toBeInTheDocument();
 
@@ -81,21 +79,15 @@ describe('BasicFuntionality',() => {
     expect(setFriendsFilterMock).toHaveBeenCalledTimes(3);
     expect(setOnlyMineFilterMock).toHaveBeenCalledTimes(3);
 
-    fireEvent.click(sinCategory);
+    fireEvent.click(firstCategory);
 
     expect(setCategoriasFiltereMock).toHaveBeenCalledTimes(3);
     expect(setFriendsFilterMock).toHaveBeenCalledTimes(3);
     expect(setOnlyMineFilterMock).toHaveBeenCalledTimes(3);
 
-    fireEvent.click(firstCategory);
-
-    expect(setCategoriasFiltereMock).toHaveBeenCalledTimes(4);
-    expect(setFriendsFilterMock).toHaveBeenCalledTimes(3);
-    expect(setOnlyMineFilterMock).toHaveBeenCalledTimes(3);
-
     fireEvent.click(secondCategory);
 
-    expect(setCategoriasFiltereMock).toHaveBeenCalledTimes(5);
+    expect(setCategoriasFiltereMock).toHaveBeenCalledTimes(4);
     expect(setFriendsFilterMock).toHaveBeenCalledTimes(3);
     expect(setOnlyMineFilterMock).toHaveBeenCalledTimes(3);
 
