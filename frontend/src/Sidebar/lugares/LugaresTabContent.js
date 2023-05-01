@@ -45,6 +45,7 @@ export default function InicioTabContent(props) {
                     loggedInUserwebId = {props.loggedInUserwebId}
                     disableComponents = {disableComponents}
                     setDisableComponents = {setDisableComponents}
+                    getFriendName = {props.getFriendName}
                 />)
             }
         </div>

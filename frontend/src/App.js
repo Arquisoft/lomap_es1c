@@ -29,6 +29,10 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	const [loading, setLoading] = useState(0);
 	const [solicitudes, setSolicitudes] = useState([]);
 
+	function getFriendName(webId) {
+		return amigos.find(a => a.webId === webId).name;
+	}
+
 	async function addFriendMarkersToMap(friendwebId) {
 		setVisibleFriends(current => [...current, friendwebId])
 
@@ -679,6 +683,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				addFriendMarkersToMap = {addFriendMarkersToMap}
 				removeFriendMarkersToMap = {removeFriendMarkersToMap}
 				visibleFriends = {visibleFriends}
+				getFriendName = {getFriendName}
 			/>
 		</div>
 	);

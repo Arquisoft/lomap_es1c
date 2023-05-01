@@ -57,6 +57,7 @@
             "sendrequest": "Send friend request",
             "namecannotbeempty": "Name cannot be left blank",
             "webidcannotbeempty": "Webid cannot be left blank",
+            "name": "Name",
             "friend": {
                 "friend-places": "Friend places",
                 "delete-friend": "Delete friend"
@@ -89,5 +90,24 @@
         "lomap_description": "LoMap allows you to create a custom map of the places that matter to you.",
         "login-button": "Log in",
         "provider_url": "URL of your provider"
+    },"categories":{
+        "bar":"Bar",
+        "restaurant": "Restaurant",
+        "shop": "Shop",
+        "supermarket": "Supermarket",
+        "hotel": "Hotel",
+        "cinema": "Cinema",
+        "academicInstitution": "Academic Institution",
+        "publicInstitution": "Public Institution",
+        "sportsClub": "Sports Club",
+        "museum": "Museum",
+        "park": "Park",
+        "landscape": "Landscape",
+        "monument": "Monument",
+        "hospital": "Hospital",
+        "policeStation": "Police Station",
+        "transportCenter": "Transport Center",
+        "entertainment": "Entertainment",
+        "other": "Other"
     }
 }

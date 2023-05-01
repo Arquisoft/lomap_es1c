@@ -195,7 +195,7 @@ export default function FullInfoPlace(props) {
 			{/* Categoría del lugar */}
 			<div className="card--line1">
 				<h3>{t("sidebar.place.category")}:</h3>
-				<p>{place.category}</p>
+				<p>{t("categories."+place.category)}</p>
 			</div>
 
 			{/* Autor */}
@@ -332,7 +332,9 @@ export default function FullInfoPlace(props) {
 			{place?.reviews?.filter(r => r.author!==loggedInUserwebId).map(
 				r =>
 				<div className="card" key={"review_other_"+r.author}>
-					Author: {r.author}
+					{/* TODO: internacionalizar */}
+					Author: { props.getFriendName ? props.getFriendName(r.author) : r.author }
+					
 					< br/>
 					{
 						r.rating  &&  r.rating>0
@@ -362,6 +364,8 @@ export default function FullInfoPlace(props) {
 			<h3>{t("sidebar.place.photos")}:</h3>
 			{photosURLs.map((photo) => (
 				<div key={"photo_div" + photosURLs.indexOf(photo)}>
+					<p></p>
+					{/* TODO : nombre del amigo */}
 					<img
 						src={photo.imageJPG}
 						width="250"

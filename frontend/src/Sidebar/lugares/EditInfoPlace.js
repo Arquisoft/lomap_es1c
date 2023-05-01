@@ -43,7 +43,7 @@ export default function FullInfoPlace({
 		changeDrawerContent(null);
 	}
 
-	const categoriesToList = ["", ...categorias];
+	const categoriesToList = [...categorias];
 	if (!categoriesToList.includes(place.category)) {
 		categoriesToList.push(place.category);
 	}
@@ -91,12 +91,11 @@ export default function FullInfoPlace({
 			>
 				{categoriesToList.map((categoria) => (
 					<MenuItem
-						key={categoria.toLowerCase()}
-						sx={{ height: "35px" }}
-						value={categoria.toLowerCase()}
+						key={categoria}
+						value={categoria}
 						data-testid = {"option-category-"+categoria.toLowerCase()}
 					>
-						{categoria === "" ? <em>Sin categoria</em> : categoria}
+						{t("categories."+categoria)}
 					</MenuItem>
 				))}
 			</Select>
