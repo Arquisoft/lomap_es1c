@@ -67,7 +67,6 @@ object Location{
     latitude: Float
     longitude: Float
     category: String
-    privacy: String
     author: String
     timestamp: Int
 }
@@ -75,7 +74,8 @@ object Location{
 object Review{
     id: String
     rating: Int
-    author: String  
+    comment: String
+    author: String
 }
 
 object Photos{
@@ -86,20 +86,15 @@ object Photos{
     author: String 
 }
 
-object Comment{
-    id: String
-    text: String
-    timestamp: Int
-    author: String 
-}
-
 Routes *--> Location
 Location *--> Review
-Location *--> Comment
 Location *--> Photos
 ----
 
-=== Security
+=== Main architecture
+The main architecture of the application is an MVC. 
+
+=== Privacy
 One of the main goals of the entire application is the privacy of the users. For this we use SOLID technology called PODs, which stores data and the user decides the privacy of the data. Users can enter the app by login with their POD provider.
 
 === User Interface
