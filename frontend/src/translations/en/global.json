@@ -57,6 +57,7 @@
             "sendrequest": "Send friend request",
             "namecannotbeempty": "Name cannot be left blank",
             "webidcannotbeempty": "Webid cannot be left blank",
+            "name": "Name",
             "friend": {
                 "friend-places": "Friend places",
                 "delete-friend": "Delete friend"

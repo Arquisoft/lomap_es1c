@@ -57,6 +57,7 @@
             "sendrequest": "Enviar solicitud",
             "namecannotbeempty": "El nombre no puede estar vacío",
             "webidcannotbeempty": "El webid no puede estar vacío",
+            "name": "Nombre",
             "friend": {
                 "friend-places": "Lugares del amigo",
                 "delete-friend": "Eliminar como amigo"

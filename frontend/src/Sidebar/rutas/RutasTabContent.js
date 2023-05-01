@@ -58,6 +58,7 @@ export default function RutasTabContent(props) {
                     categorias = {props.categorias}
                     loggedInUserwebId = {props.loggedInUserwebId}
                     returnTo = {<RutasTabContent {...props} />}
+                    getFriendName = {props.getFriendName}
                 />
             )}
         </div>

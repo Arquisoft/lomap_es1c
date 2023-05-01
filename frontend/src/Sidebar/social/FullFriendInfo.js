@@ -37,7 +37,7 @@ export default function FullFriendInfo(props) {
 			<h1>{amigo.name}</h1>
 
 			{/* WebID del amigo */}
-			<p>({amigo.webId})</p>
+			<p>{amigo.webId}</p>
 
 			<hr></hr>
 
@@ -52,6 +52,7 @@ export default function FullFriendInfo(props) {
 					API_location_calls={API_location_calls}
 					returnTo = {<FullFriendInfo {...props} />}
 					loggedInUserwebId = {props.loggedInUserwebId}
+					getFriendName = {props.getFriendName}
 				/>
 			))}
 

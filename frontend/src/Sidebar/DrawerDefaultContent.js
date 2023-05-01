@@ -30,6 +30,7 @@ export default function DrawerDefaultContent(props) {
                             categorias = {props.categorias}
                             API_location_calls = {props.API_location_calls}
                             loggedInUserwebId = {theWebId}
+                            getFriendName = {props.getFriendName}
                         />
                     )
                 }}
@@ -58,6 +59,7 @@ export default function DrawerDefaultContent(props) {
                             addFriendMarkersToMap = {props.addFriendMarkersToMap}
                             removeFriendMarkersToMap = {props.removeFriendMarkersToMap}
                             visibleFriends = {props.visibleFriends}
+                            getFriendName = {props.getFriendName}
                         />
                     )
                 }}>
@@ -81,6 +83,7 @@ export default function DrawerDefaultContent(props) {
                             setPosition = {props.setPosition}
                             categorias = {props.categorias}
                             loggedInUserwebId = {theWebId}
+                            getFriendName = {props.getFriendName}
                         />
                     )
                 }}>

@@ -56,10 +56,9 @@ export default function AddFriendContent(props) {
 			<br></br>
 
 			{/* Nombre */}
-			{/* TODO: internacionalizar */}
 			<TextField
-				label="Nombre"
-				placeholder="Nombre"
+				label= {t("sidebar.friends.name")}
+				placeholder= {t("sidebar.friends.name")}
 				onChange={handleNameChange}
 				required
 				margin="normal"
