@@ -479,11 +479,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a>
 <ul class="sectlevel2">
-<li><a href="#_user_login_and_logout">6.1. User Login and Logout</a></li>
-<li><a href="#_return_all_location_of_the_map">6.2. Return all location of the map</a></li>
-<li><a href="#_add_location_to_the_map">6.3. Add location to the map</a></li>
-<li><a href="#_delete_location_of_the_map">6.4. Delete location of the map</a></li>
-<li><a href="#_modify_location_of_the_map">6.5. Modify location of the map</a></li>
+<li><a href="#_user_login_and_logout">6.1. User Login and Logout.</a></li>
+<li><a href="#_return_all_location_of_the_map">6.2. Return all location of the map.</a></li>
+<li><a href="#_add_location_to_the_map">6.3. Add location to the map.</a></li>
+<li><a href="#_delete_location_of_the_map">6.4. Delete location of the map.</a></li>
+<li><a href="#_modify_location_of_the_map">6.5. Modify location of the map.</a></li>
+<li><a href="#_send_friend_request">6.6. Send friend request.</a></li>
+<li><a href="#_accept_a_friend_request">6.7. Accept a friend request.</a></li>
 </ul>
 </li>
 <li><a href="#section-deployment-view">7. Deployment View</a>
@@ -616,7 +618,7 @@ If requirements documents exist this overview should refer to these documents.</
 <p>Users can add review scores, comments, pictures, etc. about the added places.</p>
 </li>
 <li>
-<p>Users will be able to manage which of their information is accessible and to whom.</p>
+<p>Users will be able to manage which of their information is available.</p>
 </li>
 <li>
 <p>Users information about a place will be stored in that user&#8217;s pod.</p>
@@ -662,20 +664,16 @@ If you as an architect do not know how the quality of your work will be judged â
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Interoperability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">This application has to be able to use data stored from other maps applications.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Each user has to be able to decide which information he wants to share.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Each user has to be able to decide if he wants to share information.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Descentralization</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decentralization</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">As much information as possible should be stored in user&#8217;s pods.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Application must be usable by any user, wheter that is a technical or non technical user.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Application must be usable by any user, whether that is a technical or non technical user.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1079,9 +1077,6 @@ Refer to details in the following sections.</p>
 <li>
 <p>React.js: We chose react for its simplicity, ease of learning, and reliability (as it is a widely used library in the industry, it is highly error-tested).</p>
 </li>
-<li>
-<p>Node.js: Node allows you to manage multiple connections at the same time, thanks to the fact that it is an asynchronous runtime environment. Besides, it allows a very fast execution of JavaScript.</p>
-</li>
 </ul>
 </div>
 </div>
@@ -1109,7 +1104,7 @@ Refer to details in the following sections.</p>
 <p>Usability: We focus on making an interface that is user friendly, fluid, simple and intuitive. We use some icons that are common to make some familiarity and help understanding of the application.</p>
 </li>
 <li>
-<p>Efficiency: Although we use PODs and that can make the app slower because we need to rely on an external technology, we try to use some stored data and an API to make the app run faster and smoother.</p>
+<p>Efficiency: Although we use PODs and that can make the app slower because we need to rely on an external technology, we try to use some stored data to make the app run faster and smoother.</p>
 </li>
 <li>
 <p>Interoperability and Scalability: We will try to make clean code that is easy to understand and modify for future updates</p>
@@ -1223,10 +1218,8 @@ In the best case you will get away with examples or simple signatures.</p>
 </div>
 </div>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/level1.png" alt="level1" width="421" height="137">
-</div>
+<div class="paragraph">
+<p><span class="image"><img src="./images/05_blockView_overall.png" alt="Overall view"></span></p>
 </div>
 <div class="dlist">
 <dl>
@@ -1266,10 +1259,8 @@ In the best case you will get away with examples or simple signatures.</p>
 </div>
 <div class="sect2">
 <h3 id="_level_2">5.2. Level 2</h3>
-<div class="imageblock">
-<div class="content">
-<img src="./images/level2.png" alt="level2" width="498" height="252">
-</div>
+<div class="paragraph">
+<p><span class="image"><img src="./images/05_blockView_level2.png" alt="Level2 view"></span></p>
 </div>
 <div class="dlist">
 <dl>
@@ -1293,7 +1284,7 @@ In the best case you will get away with examples or simple signatures.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RESTAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Backend</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The place where the data is managed.</p></td>
 </tr>
 <tr>
@@ -1309,16 +1300,14 @@ In the best case you will get away with examples or simple signatures.</p>
 </div>
 <div class="sect2">
 <h3 id="_level_3">5.3. Level 3</h3>
-<div class="imageblock">
-<div class="content">
-<img src="./images/level3.png" alt="level3" width="1335" height="733">
-</div>
+<div class="paragraph">
+<p><span class="image"><img src="./images/05_blockView_level3.png" alt="Level3 view"></span></p>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Motivation</dt>
 <dd>
-<p>To study in more detail how the WebApp works, that is the part that user interacts with, and also the REST API, the manager of the data.</p>
+<p>To study in more detail how the WebApp works, that is the part that user interacts with, and also the Backend, the manager of the data.</p>
 </dd>
 <dt class="hdlist1">Contained Building Blocks</dt>
 </dl>
@@ -1342,6 +1331,30 @@ In the best case you will get away with examples or simple signatures.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Map</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Main page where the map is display and the user can interact with.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sidebar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Part of the main page where the data is shown.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Settings</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">You can change between different settings.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FriendsController</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Management of the friends data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LocationController</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Management of the places data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PodController</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Management of the pod data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RouteController</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Management of the routes data.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1411,10 +1424,10 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 <div class="sect2">
-<h3 id="_user_login_and_logout">6.1. User Login and Logout</h3>
+<h3 id="_user_login_and_logout">6.1. User Login and Logout.</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Sequence%20diagram%20login.png" alt="Sequence diagram login" width="526" height="651">
+<img src="./images/Sequence%20diagram%20login.png" alt="Sequence diagram login" width="434" height="517">
 </div>
 </div>
 <div class="paragraph">
@@ -1422,10 +1435,10 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 <div class="sect2">
-<h3 id="_return_all_location_of_the_map">6.2. Return all location of the map</h3>
+<h3 id="_return_all_location_of_the_map">6.2. Return all location of the map.</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Sequence%20diagram%20return%20all%20location.png" alt="Sequence diagram return all location" width="852" height="365">
+<img src="./images/Sequence%20diagram%20return%20all%20location.png" alt="Sequence diagram return all location" width="548" height="305">
 </div>
 </div>
 <div class="paragraph">
@@ -1433,10 +1446,10 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 <div class="sect2">
-<h3 id="_add_location_to_the_map">6.3. Add location to the map</h3>
+<h3 id="_add_location_to_the_map">6.3. Add location to the map.</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Sequence%20diagram%20add.png" alt="Sequence diagram add" width="810" height="426">
+<img src="./images/Sequence%20diagram%20add.png" alt="Sequence diagram add" width="653" height="365">
 </div>
 </div>
 <div class="paragraph">
@@ -1444,10 +1457,10 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 <div class="sect2">
-<h3 id="_delete_location_of_the_map">6.4. Delete location of the map</h3>
+<h3 id="_delete_location_of_the_map">6.4. Delete location of the map.</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Sequence%20diagram%20delete.png" alt="Sequence diagram delete" width="867" height="426">
+<img src="./images/Sequence%20diagram%20delete.png" alt="Sequence diagram delete" width="710" height="365">
 </div>
 </div>
 <div class="paragraph">
@@ -1455,14 +1468,36 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 <div class="sect2">
-<h3 id="_modify_location_of_the_map">6.5. Modify location of the map</h3>
+<h3 id="_modify_location_of_the_map">6.5. Modify location of the map.</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Sequence%20diagram%20modify.png" alt="Sequence diagram modify" width="896" height="487">
+<img src="./images/Sequence%20diagram%20modify.png" alt="Sequence diagram modify" width="719" height="426">
 </div>
 </div>
 <div class="paragraph">
 <p>A user modifies an existing point</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_send_friend_request">6.6. Send friend request.</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Sequence%20diagram%20send%20friend.png" alt="Sequence diagram send friend" width="569" height="305">
+</div>
+</div>
+<div class="paragraph">
+<p>A user sends a friend request.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_accept_a_friend_request">6.7. Accept a friend request.</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Sequence%20diagram%20accept%20a%20friend.png" alt="Sequence diagram accept a friend" width="328" height="305">
+</div>
+</div>
+<div class="paragraph">
+<p>A user accepts a friend request.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1551,18 +1586,18 @@ when your infrastructure is more complex.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Infrastructure.png" alt="Infrastructure" width="487" height="612">
+<img src="./images/Infrastructure.png" alt="Infrastructure" width="611" height="241">
 </div>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Motivation</dt>
 <dd>
-<p>To test the app, it runs on each person&#8217;s machine. However, when the development of the application progresses, it will be executed on a server that has a DockerCompose with the Dockers that contains the WebApp, which is where the user interacts, and another with the REST API, which is the part that manages the data.</p>
+<p>During the development of the application it runs on each person&#8217;s machine. However, the final product, its been executed on a server hosted with Netlify.</p>
 </dd>
 <dt class="hdlist1">Quality and/or Performance Features</dt>
 <dd>
-<p>Our application depends on many different APIs, some of them are to show the map and to manage the PODs. We cannot control these APIs, so the availability and efficiency of the application may be affected. Also, these quality features could be affected by the server where the Dockers are running.</p>
+<p>Our application depends on many different APIs, some of them are to show the map and to manage the PODs. We cannot control these APIs, so the availability and efficiency of the application may be affected. Also, these quality features could be affected by the server.</p>
 </dd>
 <dt class="hdlist1">Mapping of Building Blocks to Infrastructure</dt>
 </dl>
@@ -1580,20 +1615,8 @@ when your infrastructure is more complex.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DockerWeb</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Container that englobe all the WebApp part of the application, the user interface that the user interacts with.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DockerAPI</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Container that englobe all the REST API part of the application, the part that manages the data.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DockerCompose</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Container that englobe all the application for an easier deployment.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Server</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Server that is in charge of the web access of the application.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Netlify</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is in charge of the web access of the application</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GoogleMaps</p></td>
@@ -1802,11 +1825,6 @@ here in this central section or whether you better document it locally
 <td class="tableblock halign-left valign-top"><p class="tableblock">It is the first time we use this technology, it is easy to learn to use it but it is difficult to master it. In addition, official documentation is missing.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NodeJS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">It allows users and the server to communicate in an easy way. In addition, we can handle errors and management of data with errors to notify the client</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Although we have some experience with this technology, it&#8217;s mostly new, so we need to know how to use it. Also, it is very difficult to debug and it is a young technology that can cause some unexpected problems.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JavaScript</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">We have previous experience with this technology and it allows us a lot of freedom in development in combination with React</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The freedom it provides can also be a major drawback, as it can cause weird errors with type handling. Also, it can cause some problems when reading new code developed by other members of the group.</p></td>
@@ -1937,19 +1955,19 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <td class="tableblock halign-left valign-top"><p class="tableblock">The data that the user storages or uses in the application must be protected and only modifiable by the user o others that the user authorized.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A user adds information that is private and only want to be seen by the user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user adds information that is not public and will only be available to the users he has granted permissions to access</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The user only provides to other and to the application only the information they want.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The user provides to others and to the application only the information the owner wants.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A new user enters the application for the first time</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application must ensure that new users know in few time how to use the basic functionality.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must ensure that new users know in little time how to use the basic functionality.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A user adds information in an other app that uses the same data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user adds information in an other app that follows the same data structure</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Interoperability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LoMap has to be able to use the information stored in other application as long as the data structure is the same.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LoMap has to be able to use the information stored by other applications as long as the data structure is the same.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">New functionality is needed</p></td>
@@ -1959,7 +1977,7 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Some functionality of the application is not running correctly</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Testability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tests will run to prevent functionality to not work as intended, even if new functionality is added.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tests will run to prevent functionality from not working as intended, even if new functionality is added.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2105,10 +2123,6 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">React.js</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">React is an open source Javascript library designed to create user interfaces to make it easy to develop single page applications.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node.js</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node.js is an open source, cross-platform runtime environment for the server layer based on the JavaScript programming language, asynchronous.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">API(Application Program Interface)</p></td>
