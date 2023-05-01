@@ -76,7 +76,7 @@ async function posicionarse_en_oviedo(page){
 
 
 async function ir_a_lugar(page){
-  let buton_sidebar = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[1]/button');
+  let buton_sidebar = await page.waitForXPath('/html/body/div[3]/div[3]/div/button[2]');
   await buton_sidebar.click();
 }
 
@@ -115,7 +115,7 @@ async function pulsar_amigo(page){
 
 async function editar_lugar(page){
   //CLICK EN EDITAR
-  let buton = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[4]/button[1]');
+  let buton = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[3]/button[1]');
   await buton.click();
   await new Promise(r => setTimeout(r, 500));
 
@@ -135,7 +135,7 @@ async function editar_lugar(page){
 
 
 async function borrar_location(page){
-  let buton_sidebar = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[4]/button[2]');
+  let buton_sidebar = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[3]/button[2]');
   await buton_sidebar.click();
   await new Promise(r => setTimeout(r, 3000));
 }
@@ -151,7 +151,7 @@ async function buscar_location(page, nombre){
 }
 
 async function obtener_comentario(page){
-  let buton_lugar = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[5]/div/p');
+  let buton_lugar = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[4]/div/p[2]');
   return await buton_lugar.evaluate(node => node.textContent);
 }
 
