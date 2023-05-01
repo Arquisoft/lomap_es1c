@@ -232,6 +232,7 @@ export default function CreateModal({
 					name="fotos"
 					id="fotos"
 					placeholder="Escoja las imagenes"
+					accept="image/*"
 					onChange={handleFotoChange}
 					disabled={loading}
 					data-testid="photo"
