@@ -11,7 +11,7 @@ export default function SolicitudesContent(props) {
 		<>
 			{/* Return button */}
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
-				<IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
+				<IconButton onClick={() => props.changeDrawerContent(props.returnTo)} data-testid="arrow">
 					<ArrowBackIcon />
 				</IconButton>
 			</Tooltip>

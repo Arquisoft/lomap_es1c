@@ -41,7 +41,7 @@ export default function SocialTabContent(props) {
 		<div className="tabcontent">
 			{/* Botón atrás */}
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
-                <IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
+                <IconButton onClick={() => props.changeDrawerContent(props.returnTo)} data-testid="arrow"> 
                     <ArrowBackIcon />
                 </IconButton>
             </Tooltip>
@@ -51,13 +51,13 @@ export default function SocialTabContent(props) {
 
 			<div className="card--line1">
 				{/* Botón de solicitudes */}
-				<Button variant="contained" onClick={handleClickOnSolicitudes}>
+				<Button variant="contained" onClick={handleClickOnSolicitudes} data-testid="solicitudes">
 					{t("sidebar.friends.awaitingrequests")}
 				</Button>
 
 				{/* Botón para añadir solicitud */}
 				<Tooltip title={t("sidebar.friends.addfriend")}>
-					<IconButton onClick={handleClickOnAddFriend}>
+					<IconButton onClick={handleClickOnAddFriend}  data-testid="add">
 						<AddCircleOutlineIcon />
 					</IconButton>
 				</Tooltip>
@@ -68,7 +68,7 @@ export default function SocialTabContent(props) {
 			{/* Friend cards */}
 			{props.amigos.map((friend) => (
 				<FriendCard
-					key={"friend_card_" + friend.webid}
+					key={"friend_card_" + friend.webId}
 					API_friend_calls={props.API_friend_calls}
 					friend={friend}
 					changeDrawerContent={props.changeDrawerContent}
@@ -78,9 +78,12 @@ export default function SocialTabContent(props) {
 					setFriendsPlaces={props.setFriendsPlaces}
 					friendsPlaces={props.friendsPlaces}
 					loggedInUserwebId = {props.loggedInUserwebId}
+					addFriendMarkersToMap = {props.addFriendMarkersToMap}
+					removeFriendMarkersToMap = {props.removeFriendMarkersToMap}
+					visibleFriends = {props.visibleFriends}
+					getFriendName = {props.getFriendName}
 				/>
 			))}
-
 			
 		</div>
 	);

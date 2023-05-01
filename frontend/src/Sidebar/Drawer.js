@@ -4,7 +4,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { ThemeContext } from '../contexts/ThemeContext.js';
 import DrawerDefaultContent from './DrawerDefaultContent';
 
-
 export default function DrawerSidebar(props) {
     const {currentTheme} = useContext(ThemeContext);
 
@@ -24,6 +23,10 @@ export default function DrawerSidebar(props) {
           setFriendsPlaces = {props.setFriendsPlaces}
           friendsPlaces = {props.friendsPlaces}
           getwebId = {props.getwebId}
+          addFriendMarkersToMap = {props.addFriendMarkersToMap}
+          removeFriendMarkersToMap = {props.removeFriendMarkersToMap}
+          visibleFriends = {props.visibleFriends}
+          getFriendName = {props.getFriendName}
         />
       )
 
@@ -33,6 +36,7 @@ export default function DrawerSidebar(props) {
             sx = {{position: 'absolute', top: 16, left: 16}}
             size="extra"
             onClick={() => props.changeDrawerContent(null)}
+            data-testid="change"
         >
             <MenuIcon />
         </IconButton>

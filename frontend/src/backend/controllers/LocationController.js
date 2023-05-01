@@ -1,33 +1,42 @@
-const Location = require("../models/locationModels/Location");
-const Photo = require("../models/locationModels/Photo");
-const Review = require("../models/locationModels/Review");
-const solid = require("../solid/Solid.js");
+import Location from "../models/locationModels/Location";
+import Photo from "../models/locationModels/Photo";
+import Review from "../models/locationModels/Review";
+import {
+	getLocationById,
+	saveLocation,
+	updateReview as updateReview_,
+	deleteReviewById,
+	getAllLocations as getAllLocations_,
+	deleteLocationById,
+	deletePhotoById,
+	getCategories as getCategories_
+} from "../solid/Solid.js";
 
 //CRUD
 async function getLocation(session, id) {
 	try {
-		const location1 = await solid.getLocationById(
+		const location1 = await getLocationById(
 			session,
 			id,
 			session.info.webId
 		);
 
-		if (location1 != null) {
+		if (location1 !== null) {
 			return location1;
 		} else {
 			return null;
 		}
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Error al obtener la localizacion");
 	}
 }
 
 async function getAllLocations(session) {
 	try {
-		const locations = await solid.getAllLocations(session, session.info.webId);
+		const locations = await getAllLocations_(session, session.info.webId);
 		return locations;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Error al obtener las localizaciones");
 	}
 }
 
@@ -48,10 +57,10 @@ async function createLocation(session, location) {
 			session.info.webId,
 			category
 		);
-		await solid.saveLocation(session, location, session.info.webId);
+		await saveLocation(session, location, session.info.webId);
 		return location;
 	} catch (err) {
-		throw new Error("error al crear la ruta");
+		throw new Error("Error al crear la ruta");
 	}
 }
 
@@ -64,34 +73,34 @@ async function updateLocation(session, id, location) {
 			throw new Error("Faltan datos");
 		}
 
-		let location = await solid.getLocationById(session, id, session.info.webId);
+		let location = await getLocationById(session, id, session.info.webId);
 
 		location.name = name || location.name;
 		location.category = category || location.category;
 
-		await solid.saveLocation(session, location, session.info.webId);
+		await saveLocation(session, location, session.info.webId);
 
 		return location;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Error al actualizar la localizacion");
 	}
 }
 
 async function deleteLocation(session, id) {
 	try {
-		const location = await solid.getLocationById(
+		const location = await getLocationById(
 			session,
 			id,
 			session.info.webId
 		);
-		if (location != null) {
-			await solid.deleteLocationById(session, id, session.info.webId);
+		if (location !== null) {
+			await deleteLocationById(session, id, session.info.webId);
 		} else {
 			throw new Error("Location not found");
 		}
 		return location;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Error al eliminar la localizacion");
 	}
 }
 
@@ -99,28 +108,26 @@ async function deleteLocation(session, id) {
 async function addPhoto(session, id, photo, webIdAuthor) {
 	const photoImage = photo.imageJPG;
 
-	if (!photo) {
-		throw new Error("Faltan datos");
-	}
 	try {
-		let location = await solid.getLocationById(session, id, webIdAuthor);
+		if (!photoImage) {
+			throw new Error("Faltan datos");
+		}
+		let location = await getLocationById(session, id, webIdAuthor);
 		const photo = new Photo(session.info.webId, photoImage);
 		location.addPhoto(photo);
-		await solid.saveLocation(session, location, webIdAuthor);
-		return photo
+		await saveLocation(session, location, webIdAuthor);
+		return photo;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Error añadiendo foto");
 	}
-
-
-
 }
 
 async function deletePhoto(session, idPhoto) {
 	try {
-		await solid.deletePhotoById(session, idPhoto, session.info.webId);
+		await deletePhotoById(session, idPhoto, session.info.webId);
+		return true;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Error eliminando la foto");
 	}
 }
 
@@ -128,17 +135,17 @@ async function addReview(session, id, webIdAuthor, review) {
 	const rating = review.rating;
 	const comment = review.comment;
 
-	if (!rating) {
-		throw new Error("Faltan datos");
-	}
 	try {
-		let location = await solid.getLocationById(session, id, webIdAuthor);
+		if (!rating) {
+			throw new Error("Faltan datos");
+		}
+		let location = await getLocationById(session, id, webIdAuthor);
 		const review = new Review(rating, comment, session.info.webId);
 		location.addReview(review);
-		await solid.saveLocation(session, location, webIdAuthor);
+		await saveLocation(session, location, webIdAuthor);
 		return review;
 	} catch (err) {
-		throw new Error("Error en el add review");
+		throw new Error("Error añadiendo la review");
 	}
 }
 
@@ -147,52 +154,52 @@ async function updateReview(session, idReview, review1) {
 		const rating = review1.rating;
 		const comment = review1.comment;
 		let review = new Review(rating, comment, session.info.webId, idReview);
-		await solid.updateReview(session, review, session.info.webId);
+		await updateReview_(session, review, session.info.webId);
 		return review;
 	} catch (error) {
-		throw new Error("Error en el update review");
+		throw new Error("Error actualizando la review");
 	}
 }
 
 async function deleteReview(session, idReview) {
 	try {
-		await solid.deleteReviewById(session, idReview, session.info.webId);
+		await deleteReviewById(session, idReview, session.info.webId);
+		return true;
 	} catch (err) {
-		throw new Error("Error en el deleteReview");
+		throw new Error("Error eliminando la review");
 	}
 }
 
 //  Categories
 async function getCategories() {
 	try {
-		let categories = await solid.getCategories();
+		let categories = await getCategories_();
 		return categories;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Error al obtener las categorias");
 	}
 }
-
+/*
 async function getLocationsByCategory(session, category) {
 	try {
-		let locations = await solid.getAllLocations(session, session.info.webId);
+		let locations = await getAllLocations_(session, session.info.webId);
 		locations = locations.filter((location) => location.category === category);
 		return locations;
 	} catch (err) {
-		throw new Error(err);
+		throw new Error("Error al obtener las localizaciones por categoria");
 	}
 }
-
-module.exports = {
+*/
+export  {
 	createLocation,
 	getAllLocations,
 	getLocation,
 	getCategories,
 	deleteLocation,
 	updateLocation,
-	getLocationsByCategory,
 	addReview,
 	addPhoto,
 	deletePhoto,
 	deleteReview,
-	updateReview
+	updateReview,
 };

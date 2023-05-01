@@ -4,8 +4,8 @@ import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
-import { t } from "i18next";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useTranslation } from "react-i18next";
 
 export default function AddFriendContent(props) {
 	const { API_friend_calls, returnTo, changeDrawerContent } = props
@@ -16,6 +16,8 @@ export default function AddFriendContent(props) {
 	const [isWebIdErrored, setIsWebIdErrored] = useState(webId.length<=0)
 
 	const [loading, setLoading] = useState(false)
+
+	const [t] = useTranslation("global");
 
 	async function addFriend() {
 		setLoading(true);
@@ -47,7 +49,7 @@ export default function AddFriendContent(props) {
 	return (
 		<>
 			{/* Botón de atrás */}
-			<IconButton onClick={returnFunction} disabled={loading}>
+			<IconButton onClick={returnFunction} disabled={loading} data-testid="arrow">
 				<ArrowBackIcon />
 			</IconButton>
 
@@ -55,14 +57,15 @@ export default function AddFriendContent(props) {
 
 			{/* Nombre */}
 			<TextField
-				label="Nombre"
+				label= {t("sidebar.friends.name")}
+				placeholder= {t("sidebar.friends.name")}
 				onChange={handleNameChange}
 				required
 				margin="normal"
 				error={isNameErrored}
 				helperText = {isNameErrored ? t("sidebar.friends.namecannotbeempty") : ""}
 				disabled={loading}
-				defaultValue={name}
+				inputProps={{"data-testid":"nameTextField"}}
 			/>
 
 			<br></br>
@@ -70,6 +73,7 @@ export default function AddFriendContent(props) {
 			{/* WebID */}
 			<TextField
 				label="webId"
+				placeholder="WebId"
 				onChange={handleWebIdChange}
 				required
 				margin="normal"
@@ -88,6 +92,7 @@ export default function AddFriendContent(props) {
 				startIcon={props.solicitud ?<PersonAddIcon />:<SendIcon />}
 				variant="contained"
 				disabled = {isNameErrored  ||  isWebIdErrored}
+				data-testid="addFriend"
 			>
 				{props.solicitud ? t("sidebar.friends.addfriend") : t("sidebar.friends.sendrequest")}
 			</LoadingButton>

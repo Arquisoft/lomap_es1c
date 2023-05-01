@@ -107,7 +107,7 @@
         position: relative;
         grid-column-start: 1;
         grid-row-start: 2;
-
+        color: black;
         left: 14%;
         right: 45%;
         font-size: 25px;

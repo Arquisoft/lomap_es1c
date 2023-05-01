@@ -11,6 +11,8 @@ LoMap is an application developed for a school project that let's you create you
    - You can add your own markers to the map with some customization such as the name or the category.
    - The markers are shown in the map and can be filtered with some options.
    - You can add photos, comments and rating to all of your locations.
+   - You can add friends, and see their locations. You can also comment and rate those locations, and upload photos refering them.
+   - You can create routes and add locations to those routes.
 
 ## Automatic Code Analysis
 To ensure that the code is running as we expect and also that the quality of it is above our standards we use some pages that analyses our code
@@ -26,19 +28,21 @@ automatically.
 The group is composed of four members that are the following
 
 ### Group members:
-|Developers | Emails |
-|---------|------|
+| Developers               | Emails             |
+| ------------------------ | ------------------ |
 | David González Fernández | uo276818@uniovi.es |
-| Miguel Suárez Artime | uo271497@uniovi.es |
+| Miguel Suárez Artime     | uo271497@uniovi.es |
 | Damián Fernández Álvarez | uo283970@uniovi.es |
-| Rubén Caño Domínguez  | uo284647@uniovi.es |
+| Rubén Caño Domínguez     | uo284647@uniovi.es |
 
 ## Technologies 
 
-We use different technologies for the develop of the application. For the front part of the application we use **React** with **JavaScript**, for the backend we have an API developed in **NodeJS** and for the storage of the data we use **SOLID PODs**.
+We use different technologies for the develop of the application. For the front part of the application we use **React** with **JavaScript**, the backend part is a combination of controllers and services that comunicate with PODs, all written in **Javascript**.
 
 <p float="left">
 <img alt="Logo de React" src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
-<img alt="Logo de NodeJs" src="https://miro.medium.com/max/365/1*Jr3NFSKTfQWRUyjblBSKeg.png" height="100">
 <img alt="Logo de Solid" src="./frontend/public/solidLogo.png" height="100">
 </p>
+
+## Documentation 
+If you want to know more of the application you can view the full documentation here: https://arquisoft.github.io/lomap_es1c/.

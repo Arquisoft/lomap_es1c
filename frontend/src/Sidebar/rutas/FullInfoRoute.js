@@ -36,9 +36,9 @@ export default function FullRouteInfo(props) {
 		<>
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
 				<IconButton
-					onClick={props.changeDrawerContent(props.returnTo ? props.returnTo : null)}
+					onClick={() => props.changeDrawerContent(props.returnTo ? props.returnTo : null)}
 					disabled={loading}
-					data-testid="return-button"
+					data-testid="arrow"
 				>
 					<ArrowBackIcon />
 				</IconButton>
@@ -61,6 +61,7 @@ export default function FullRouteInfo(props) {
 					returnTo = {<FullRouteInfo {...props} />}
 					userPlaces = {userPlaces}
 					loggedInUserwebId = {props.loggedInUserwebId}
+					getFriendName = {props.getFriendName}
 				/>
 			))}
 

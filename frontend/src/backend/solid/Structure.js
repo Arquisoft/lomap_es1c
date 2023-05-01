@@ -1,3 +1,4 @@
+import {darPermisosPublicos, } from "./Friends.js";
 const {
 	getSolidDataset,
 	createContainerAt,
@@ -6,7 +7,6 @@ const {
 	deleteSolidDataset,
 } = require("@inrupt/solid-client");
 
-const friends = require("./Friends.js");
 
 async function construirEstructura(Session, myBaseUrl) {
 	try {
@@ -150,6 +150,6 @@ async function estructuraJsonLD() {
 	return buffer;
 }
 
-module.exports = {
+export {
 	construirEstructura,
 };

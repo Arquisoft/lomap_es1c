@@ -19,6 +19,7 @@ export default function RutaCard(props) {
 				categorias = {props.categorias}
 				loggedInUserwebId = {props.loggedInUserwebId}
 				returnTo = {props.returnTo}
+				getFriendName = {props.getFriendName}
 			/>
 		);
 	}

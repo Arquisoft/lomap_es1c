@@ -1,10 +1,11 @@
-const Location = require("../../models/locationModels/Location.js");
-const Rating = require("../../models/locationModels/Review.js");
-const Photo = require("../../models/locationModels/Photo.js");
-const Friend = require("../../models/Friend.js");
-const Request = require("../../models/Request.js");
+import Location from "../../models/locationModels/Location.js";
+import Rating from "../../models/locationModels/Review.js";
+import Photo from "../../models/locationModels/Photo.js";
+import Friend from "../../models/Friend.js";
+import Request from "../../models/FriendRequest.js";
 
-const { getFile } = require("@inrupt/solid-client");
+import {getFile} from "@inrupt/solid-client";
+
 
 function parseLocation(locationJson) {
 	return new Location(
@@ -59,7 +60,7 @@ async function parseContainer(Session, url) {
 	return JSON.parse(await file.text());
 }
 
-module.exports = {
+export {
 	parseLocation,
 	parsePhoto,
 	parseReview,

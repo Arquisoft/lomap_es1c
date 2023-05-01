@@ -37,16 +37,14 @@ export default function Login({ logInFunction, isLoggedIn, toggleLanguage, isStr
 			changeLanguage = {toggleLanguage}
 		/>
 
-		<Box className="mainDiv" component="div">
-			{/* <div className="logoYParrafo"> */}
-				<img src="/logoLoMap.png" className="logo" alt="Logo de LoMap"></img>
-				<p className="descripción">
+		<div className="mainDiv" component="div" data-testId="mainDiv">
+				<img src="/logoLoMap.png" className="logo" alt="Logo de LoMap" data-testId="logo" />
+				<p className="descripción"  data-testId="presentación">
 					{t("login.lomap_description")}
 				</p>
-			{/* </div> */}
-			<div className="formName">
-				<Box className="caja" component="div">
-					<div className="login">
+			<div className="formName"  data-testId="formName">
+				<div className="caja" data-testId="caja">
+					<div className="login" data-testId="inicioSesion">
 						<TextField
 							className="url"
 							label={t("login.provider_url")}
@@ -55,15 +53,13 @@ export default function Login({ logInFunction, isLoggedIn, toggleLanguage, isStr
 							type="text"
 							onChange={(e) => setText(e.target.value)}
 						/>
-					</div>
-					<div className="providers">
-						<Button className="btnProvider1" variant="outlined" onClick={() => {logInFunction(text)}}>
+						<Button className="btnLogin" variant="outlined" onClick={() => {logInFunction(text)}}  data-testId="btnLogin">
 							{t("login.login-button")}
 						</Button>
 					</div>
-				</Box>
+				</div>
 			</div>
-		</Box>
+		</div>
 		</div>)
 		}
 		</>

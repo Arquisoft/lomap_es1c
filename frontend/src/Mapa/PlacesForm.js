@@ -6,6 +6,18 @@ import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import "./muiComps.css";
 
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
 export default function CreateModal({
 	isOpen,
 	latMark,
@@ -74,7 +86,7 @@ export default function CreateModal({
 	}
 
 	function handleFotoChange(e) {
-		setFotos(e.target.value);
+		setFotos(e.target.files[0]);
 	}
 
 	function handleCommentChange(e) {
@@ -145,8 +157,14 @@ export default function CreateModal({
 			}
 			await API_location_calls.API_addReview(response.id,response.author,review);
 		}
-		if(data.photo.trim().length > 0){
-			await API_location_calls.API_addPhoto(response.id,response.author,data.photo);
+		if(data.photo){
+			const reader = new FileReader();
+			reader.readAsDataURL(data.photo);
+
+		
+			reader.onloadend = async () => {
+				await API_location_calls.API_addPhoto(response.id,response.author,reader.result);
+			}
 		}
 		setLoading(false);
 		return response;
@@ -174,6 +192,7 @@ export default function CreateModal({
 					value={nombre}
 					onChange={handleNameChange}
 					disabled={loading}
+					placeholder="Nombre"
 				/>
 
 				<label htmlFor="puntuacion">{t("locations.form.score")}</label>
@@ -185,23 +204,24 @@ export default function CreateModal({
 					value={Number(valoracion)}
 					onChange={handleValChange}
 					disabled={loading}
+					placeholder="rating"
 				/>
 
 				<label htmlFor="categoria">{t("locations.form.category")}</label>
 				<Select
 					id="categoria"
 					className="categoria"
-					defaultValue=""
+					defaultValue="other"
 					name="categoria"
 					onChange={handleCategoryChange}
 					disabled={loading}
+					placeholder="category"
+					MenuProps={MenuProps}
+					data-testid="categorySelect"
 				>
-					<MenuItem value={""} defaultValue={true}>
-						<em>Sin Categoria</em>
-					</MenuItem>
 					{categorias.map((categoria) => (
-						<MenuItem key={categoria} value={categoria} disabled={loading}>
-							{categoria}
+						<MenuItem key={categoria} value={categoria} disabled={loading} data-testid={"category"+categorias.indexOf(categoria)}>
+							{t("categories."+categoria)}
 						</MenuItem>
 					))}
 				</Select>
@@ -214,6 +234,7 @@ export default function CreateModal({
 					placeholder="Escoja las imagenes"
 					onChange={handleFotoChange}
 					disabled={loading}
+					data-testid="photo"
 				/>
 
 				<label htmlFor="comentarios">{t("locations.form.comment")}</label>
@@ -228,7 +249,7 @@ export default function CreateModal({
 					disabled={loading}
 				/>
 			</form>
-			<div className="submitFormLugares">
+			<div className="submitFormLugares" data-testId="botones">
 				<LoadingButton
 					className="btn"
 					onClick={addPlaceModal}
@@ -236,10 +257,11 @@ export default function CreateModal({
 					loading={loading}
 					loadingPosition="start"
 					startIcon={<SaveIcon />}
+					data-testId="save"
 				>
 					{t("locations.form.add")}
 				</LoadingButton>
-				<Button className="btnCancel" onClick={closeModal} disabled={loading}>
+				<Button className="btnCancel" onClick={closeModal} disabled={loading} data-testId="cancel">
 					{t("locations.form.cancel")}
 				</Button>
 			</div>

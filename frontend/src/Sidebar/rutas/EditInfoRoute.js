@@ -24,12 +24,12 @@ export default function EditRouteInfo({
 	API_route_calls,
 }) {
 	const [loading, setLoading] = useState(false);
-	const [name, setName] = useState(route == null ? "" : route.name);
+	const [name, setName] = useState(route === null ? "" : route.name);
 	const [description, setDescription] = useState(
-		route == null ? "" : route.description
+		route === null ? "" : route.description
 	);
 	const [locations, setLocations] = useState(
-		route == null ? [] : route.locations
+		route === null ? [] : route.locations
 	);
 	const [isNameErrored, setIsNameErrored] = useState(name.length<=0)
 	const [t] = useTranslation("global");
@@ -49,9 +49,9 @@ export default function EditRouteInfo({
 
 	async function save() {
 		let modification;
-		if (name.trim().length > 0 && description.trim().length > 0) {
+		if (!isNameErrored) {
 			setLoading(true);
-			if (route == null) {
+			if (route === null) {
 				const addedRoute = await API_route_calls.API_addRoute(
 					name,
 					description
@@ -131,7 +131,7 @@ export default function EditRouteInfo({
 			{/* Botón para volver */}
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
 				<IconButton
-					data-testid="back-button"
+					data-testid="arrow"
 					onClick={() => changeDrawerContent(returnTo ? returnTo : null)}
 					disabled={loading}
 				>
@@ -144,6 +144,7 @@ export default function EditRouteInfo({
 			<TextField
 				inputProps={{ "data-testid": "text-field-title" }}
 				label={t("sidebar.route.route-name")}
+				placeholder={t("sidebar.route.route-name")}
 				defaultValue={name}
 				onChange={handleNameChange}
 				disabled={loading}
@@ -160,6 +161,7 @@ export default function EditRouteInfo({
 			<TextField
 				inputProps={{ "data-testid": "text-field-description" }}
 				label={t("sidebar.route.route-description")}
+				placeholder={t("sidebar.route.route-description")}
 				defaultValue={description}
 				onChange={handleDescriptionChange}
 				disabled={loading}

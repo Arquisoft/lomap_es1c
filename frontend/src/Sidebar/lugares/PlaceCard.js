@@ -18,6 +18,7 @@ export default function LugarCard(props) {
 				categorias={props.categorias}
 				API_location_calls={props.API_location_calls}
 				loggedInUserwebId = {props.loggedInUserwebId}
+				getFriendName = {props.getFriendName}
 			/>
 			);
 		if (props.setDisableComponents)
@@ -27,7 +28,7 @@ export default function LugarCard(props) {
 	const maxTextLength = 15;
 
 	return (
-		<div className="card" onClick={showFullInfo} disabled={props.disableComponents}>
+		<div className="card" onClick={showFullInfo} disabled={props.disableComponents} data-testid="place">
 			<div className="card--line1">
 				<h3>
 					{place.name.substring(0, maxTextLength)}{" "}

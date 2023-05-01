@@ -76,4 +76,5 @@ class Location {
 		return `${currentDate}`;
 	}
 }
-module.exports = Location;
+
+export default Location;

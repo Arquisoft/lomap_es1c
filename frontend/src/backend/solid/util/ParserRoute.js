@@ -1,5 +1,5 @@
-const Localizaciones = require("../locations/Locations.js");
-const Route = require("../../models/Route.js");
+import Route from "../../models/Route.js";
+import {obtenerLocalizaciones} from "../locations/Locations.js";
 
 const {
 	getFile
@@ -8,8 +8,8 @@ const {
 async function parseRoute(Session, myBaseUrl, routeJson, returnAllLocations) {
 	let locations = [];
 	if(returnAllLocations){
-		locations = await Localizaciones.obtenerLocalizaciones(Session, myBaseUrl);
-		locations = locations.filter(l1 => routeJson.locations.filter(l2 => l2 == l1.id).length > 0);
+		locations = await obtenerLocalizaciones(Session, myBaseUrl);
+		locations = locations.filter(l1 => routeJson.locations.filter(l2 => l2 === l1.id).length > 0);
 	}
 
 	return new Route(
@@ -27,7 +27,7 @@ async function parseContainer(Session, url){
 	return JSON.parse(await file.text());
 }
 
-module.exports = {
+export {
 	parseRoute,
 	parseContainer
 };

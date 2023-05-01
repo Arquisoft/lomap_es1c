@@ -1,13 +1,12 @@
+import {parseContainer, parseSolicitud, parseFriend} from "./util/Parser.js";
+import {serializeSolicitud, serializeContenedor, saveJsonLD, serializeFriend, deleteThing} from "./util/Serializer.js";
+import Friend from "../models/Friend.js";
+
 const {
 	getFile,
 	universalAccess,
 	getPodUrlAll,
 } = require("@inrupt/solid-client");
-
-const parser = require("./util/Parser.js");
-const serializer = require("./util/Serializer.js");
-
-const Friend = require("../models/Friend.js");
 
 async function mandarSolicitud(Session, myBaseUrl, solicitud, nameFriend) {
 	let friendUrl = await getPodUrlAll(solicitud.receiver, {
@@ -15,9 +14,9 @@ async function mandarSolicitud(Session, myBaseUrl, solicitud, nameFriend) {
 	});
 	friendUrl = friendUrl[0];
 
-	let jsonSolicitud = await serializer.serializeSolicitud(solicitud);
+	let jsonSolicitud = await serializeSolicitud(solicitud);
 
-	await serializer.serializeContenedor(
+	await serializeContenedor(
 		Session,
 		friendUrl + "public/solicitudes.jsonld",
 		jsonSolicitud
@@ -39,16 +38,16 @@ async function aceptarSolicitud(Session, myBaseUrl, friend) {
 }
 
 async function denegarSolicitud(Session, myBaseUrl, friendwebId) {
-	let jsonContainer = await parser.parseContainer(
+	let jsonContainer = await parseContainer(
 		Session,
 		myBaseUrl + "public/solicitudes.jsonld"
 	);
 
 	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
-		(t) => t.sender != friendwebId
+		(t) => t.sender !== friendwebId
 	);
 
-	await serializer.saveJsonLD(
+	await saveJsonLD(
 		Session,
 		myBaseUrl + "public/solicitudes.jsonld",
 		jsonContainer
@@ -92,19 +91,19 @@ async function addFriend(Session, myBaseUrl, friend) {
 		read: true,
 	});
 
-	let jsonLDFriend = await serializer.serializeFriend(friend);
+	let jsonLDFriend = await serializeFriend(friend);
 
 
-	let jsonContainer = await parser.parseContainer(Session, myBaseUrl + "LoMap/friends.jsonld");
+	let jsonContainer = await parseContainer(Session, myBaseUrl + "LoMap/friends.jsonld");
 
 
 	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
-		(t) => t.webId != friend.webId
+		(t) => t.webId !== friend.webId
 	);
 
 	jsonContainer.itemListElement.push(jsonLDFriend);
 
-	await serializer.saveJsonLD(
+	await saveJsonLD(
 		Session,
 		myBaseUrl + "LoMap/friends.jsonld",
 		jsonContainer
@@ -112,19 +111,19 @@ async function addFriend(Session, myBaseUrl, friend) {
 }
 
 async function getAllSolicitudes(Session, myBaseUrl) {
-	let solicitudesJson = await parser.parseContainer(
+	let solicitudesJson = await parseContainer(
 		Session,
 		myBaseUrl + "public/solicitudes.jsonld"
 	);
 
 	solicitudesJson.itemListElement = solicitudesJson.itemListElement.map((l) =>
-		parser.parseSolicitud(l)
+		parseSolicitud(l)
 	);
 	return solicitudesJson.itemListElement;
 }
 
 async function getAllFriends(Session, myBaseUrl) {
-	let friendsJson = await parser.parseContainer(
+	let friendsJson = await parseContainer(
 		Session,
 		myBaseUrl + "LoMap/friends.jsonld"
 	);
@@ -135,21 +134,21 @@ async function getAllFriends(Session, myBaseUrl) {
 		friends[i] = await friends[i];
 	}
 
-	return friends.filter((f) => f != null).map((f) => parser.parseFriend(f));
+	return friends.filter((f) => f !== null).map((f) => parseFriend(f));
 }
 
 async function getFriendById(Session, idFriend, myBaseUrl) {
 	let friends = (
-		await parser.parseContainer(Session, myBaseUrl + "LoMap/friends.jsonld")
+		await parseContainer(Session, myBaseUrl + "LoMap/friends.jsonld")
 	).itemListElement;
-	return parser.parseFriend(friends.find((f) => f.webid === idFriend));
+	return parseFriend(friends.find((f) => f.webId === idFriend));
 }
 
 async function deleteFriendById(Session, idFriend, myBaseUrl) {
 	let friend = await getFriendById(Session, idFriend, myBaseUrl);
 	idFriend = friend.id;
 
-	await serializer.deleteThing(
+	await deleteThing(
 		Session,
 		myBaseUrl + "LoMap/friends.jsonld",
 		idFriend
@@ -230,7 +229,7 @@ async function darPermisosPublicos(Session, carpetaUrl, permisos) {
 	});
 }
 
-module.exports = {
+export {
 	addFriend,
 	getAllFriends,
 	deleteFriendById,

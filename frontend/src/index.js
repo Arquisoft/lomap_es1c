@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import App from "./App";
+import { checkStruct } from "./backend/controllers/PodController";
 import { ThemeContextProvider } from "./contexts/ThemeContext";
 import "./index.css";
 import Login from "./login";
@@ -19,7 +20,6 @@ const availableLanguages = ["es", "en"];
 const preferredLanguage = navigator.language.toLowerCase().substring(0, 2);
 const defaultAlternativeLanguage = "es";
 
-const PodController = require("./backend/controllers/PodController");
 i18next.init({
 	interpolation: { escapeValue: false },
 	lng: availableLanguages.includes(preferredLanguage)
@@ -37,7 +37,7 @@ i18next.init({
 
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const loggedInOnce = useRef(false);
+	var loggedInOnce = useRef(false);
 	const [isStructBeingCreated, setIsStructBeingCreated] = useState(false);
 
 	useEffect(() => {
@@ -46,33 +46,36 @@ function MyComponent() {
 				restorePreviousSession: true,
 			}).then(async (info) => {
 				if (getDefaultSession().info.isLoggedIn) {
-					setIsStructBeingCreated(true)
-					await PodController.checkStruct(getDefaultSession());
+					setIsStructBeingCreated(true);
+					await checkStruct(getDefaultSession());
 					setIsLoggedIn(true);
-					setIsStructBeingCreated(false)
+					setIsStructBeingCreated(false);
 				}
 			});
 		}
 	}, []);
 
-	async function loginWeb(providerURL, setIsStrucBeingCreated) {
+	async function loginWeb(providerURL) {
 		await handleIncomingRedirect().then(async (info) => {
 			if (getDefaultSession().info.isLoggedIn) {
-				setIsStructBeingCreated(true)
-				await PodController.checkStruct(getDefaultSession());
+				setIsStructBeingCreated(true);
+				await checkStruct(getDefaultSession());
 				setIsLoggedIn(true);
-				setIsStructBeingCreated(false)
+				setIsStructBeingCreated(false);
 				loggedInOnce = true;
 			}
 		});
-
-		let provider = providerURL ? providerURL : "https://login.inrupt.com";
-		if (!getDefaultSession().info.isLoggedIn) {
-			await login({
-				oidcIssuer: provider,
-				redirectUrl: window.location.href,
-				clientName: "My application",
-			});
+		try {
+			let provider = providerURL ? providerURL : "https://login.inrupt.com";
+			if (!getDefaultSession().info.isLoggedIn) {
+				await login({
+					oidcIssuer: provider,
+					redirectUrl: window.location.href,
+					clientName: "My application",
+				});
+			}
+		} catch (error) {
+			alert("El proovedor no es válido");
 		}
 	}
 
@@ -86,11 +89,15 @@ function MyComponent() {
 			<I18nextProvider i18n={i18next}>
 				<ThemeContextProvider
 					children={
-						isLoggedIn
-							?
-						(<App logOutFunction={logOut} isLoggedIn={isLoggedIn} />)
-							:
-						(<Login logInFunction={loginWeb} isLoggedIn={isLoggedIn} isStructBeingCreated={isStructBeingCreated} />)
+						isLoggedIn ? (
+							<App logOutFunction={logOut} isLoggedIn={isLoggedIn} />
+						) : (
+							<Login
+								logInFunction={loginWeb}
+								isLoggedIn={isLoggedIn}
+								isStructBeingCreated={isStructBeingCreated}
+							/>
+						)
 					}
 				/>
 			</I18nextProvider>
