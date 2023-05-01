@@ -13,7 +13,7 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const placeRevMok1 = {
+const placeRevMock1 = {
     id : "1",
     author: "PruebaAuthor",
 	name: "Prueba",
@@ -29,7 +29,7 @@ const placeRevMok1 = {
 	privacy: "",
 }
 
-const placeRevMok2 = {
+const placeRevMock2 = {
     id : "1",
     author: "PruebaAuthor",
 	name: "Prueba",
@@ -45,7 +45,7 @@ const placeRevMok2 = {
 	privacy: "",
 }
 
-const placeMok = {
+const placeMock = {
     id : "1",
     author: "PruebaAuthor",
 	name: "Prueba",
@@ -61,7 +61,7 @@ const placeMok = {
 	privacy: "",
 }
 
-const placeFriendMok = {
+const placeFriendMock = {
     id : "1",
     author: "PruebaAuthor2",
 	name: "Prueba",
@@ -77,8 +77,8 @@ const placeFriendMok = {
 	privacy: "",
 }
 
-const categoriasMok = ["Restaurante","Parque"]
-const API_location_callsMok = {
+const categoriasMock = ["Restaurante","Parque"]
+const API_location_callsMock = {
 	API_createLocation: jest.fn(),
     API_updateLocation: jest.fn(),
     API_deleteLocation: jest.fn(),
@@ -88,8 +88,8 @@ const API_location_callsMok = {
     API_addPhoto: jest.fn(),
     API_removePhoto: jest.fn()
 };
-const changeDrawerContentMok =  jest.fn();
-const setPositionMok =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
+const setPositionMock =  jest.fn();
 
 describe('BasicLogin',() => {
 	it("Renders coorectly",() => {
@@ -97,11 +97,11 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <FullInfoPlace
-						place = {placeMok}
-                        setPosition = {setPositionMok}
-                        changeDrawerContent = {changeDrawerContentMok}
-                        categorias = {categoriasMok}
-                        API_location_calls = {API_location_callsMok}
+						place = {placeMock}
+                        setPosition = {setPositionMock}
+                        changeDrawerContent = {changeDrawerContentMock}
+                        categorias = {categoriasMock}
+                        API_location_calls = {API_location_callsMock}
                         loggedInUserwebId = {"PruebaAuthor"}
                     />
                 </ThemeContext.Provider>
@@ -168,11 +168,11 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <FullInfoPlace
-						place = {placeMok}
-                        setPosition = {setPositionMok}
-                        changeDrawerContent = {changeDrawerContentMok}
-                        categorias = {categoriasMok}
-                        API_location_calls = {API_location_callsMok}
+						place = {placeMock}
+                        setPosition = {setPositionMock}
+                        changeDrawerContent = {changeDrawerContentMock}
+                        categorias = {categoriasMock}
+                        API_location_calls = {API_location_callsMock}
                         loggedInUserwebId = {"PruebaAuthor"}
                     />
                 </ThemeContext.Provider>
@@ -198,11 +198,11 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <FullInfoPlace
-						place = {placeRevMok1}
-                        setPosition = {setPositionMok}
-                        changeDrawerContent = {changeDrawerContentMok}
-                        categorias = {categoriasMok}
-                        API_location_calls = {API_location_callsMok}
+						place = {placeRevMock1}
+                        setPosition = {setPositionMock}
+                        changeDrawerContent = {changeDrawerContentMock}
+                        categorias = {categoriasMock}
+                        API_location_calls = {API_location_callsMock}
                         loggedInUserwebId = {"PruebaAuthor"}
                     />
                 </ThemeContext.Provider>
@@ -228,11 +228,11 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <FullInfoPlace
-						place = {placeRevMok1}
-                        setPosition = {setPositionMok}
-                        changeDrawerContent = {changeDrawerContentMok}
-                        categorias = {categoriasMok}
-                        API_location_calls = {API_location_callsMok}
+						place = {placeRevMock1}
+                        setPosition = {setPositionMock}
+                        changeDrawerContent = {changeDrawerContentMock}
+                        categorias = {categoriasMock}
+                        API_location_calls = {API_location_callsMock}
                         loggedInUserwebId = {"PruebaAuthor"}
                     />
                 </ThemeContext.Provider>
@@ -266,11 +266,11 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <FullInfoPlace
-						place = {placeRevMok2}
-                        setPosition = {setPositionMok}
-                        changeDrawerContent = {changeDrawerContentMok}
-                        categorias = {categoriasMok}
-                        API_location_calls = {API_location_callsMok}
+						place = {placeRevMock2}
+                        setPosition = {setPositionMock}
+                        changeDrawerContent = {changeDrawerContentMock}
+                        categorias = {categoriasMock}
+                        API_location_calls = {API_location_callsMock}
                         loggedInUserwebId = {"PruebaAuthor"}
                     />
                 </ThemeContext.Provider>
@@ -304,11 +304,11 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <FullInfoPlace
-						place = {placeFriendMok}
-                        setPosition = {setPositionMok}
-                        changeDrawerContent = {changeDrawerContentMok}
-                        categorias = {categoriasMok}
-                        API_location_calls = {API_location_callsMok}
+						place = {placeFriendMock}
+                        setPosition = {setPositionMock}
+                        changeDrawerContent = {changeDrawerContentMock}
+                        categorias = {categoriasMock}
+                        API_location_calls = {API_location_callsMock}
                         loggedInUserwebId = {"PruebaAuthor"}
                     />
                 </ThemeContext.Provider>

@@ -15,11 +15,9 @@ jobs:
     
     # Clean and install
     - run: npm --prefix frontend ci                     
-    # - run: npm --prefix backend ci
     
     # Run tests
     - run: npm --prefix frontend test --coverage --watchAll
-    # - run: npm --prefix backend test --coverage --watchAll
 
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
@@ -48,22 +46,3 @@ jobs:
         workdir: frontend
         tags: "latest"
         # No registry because pushing to hub.docker.com
-  
-  deploy:
-    name: Deploy over SSH
-    runs-on: ubuntu-latest
-    needs: [unit-tests, docker-build-push]
-    steps:
-    - name: Deploy over SSH
-      uses: fifsky/ssh-action@master
-      with:
-        host: ${{ secrets.DEPLOY_HOST }}
-        user: ${{ secrets.DEPLOY_USER }}
-        key: ${{ secrets.DEPLOY_KEY }}
-        # TODO: mover YAML a master y coger el fichero de master
-        command: |
-          wget https://raw.githubusercontent.com/Arquisoft/lomap_es1c/DavidDockerize/frontend/docker-compose-deploy.yaml -O docker-compose.yml
-          docker-compose stop
-          docker-compose rm -f
-          docker-compose pull   
-          docker-compose up -d

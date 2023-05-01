@@ -1,16 +1,29 @@
-import {construirEstructura} from "./Structure.js";
-import {addLocation, obtenerLocalizaciones, obtenerLocalizacion, deleteLocationById as deleteLocationById_} from "./locations/Locations.js";
-import {addReview, } from "./locations/Reviews.js";
-import {addPhoto, deletePhotoById as deletePhotoById_} from "./locations/Photos.js";
-import {addRoute as addRoute_, getAllRoutes as getAllRoutes_, getRouteById as getRouteById_, deleteRouteById as deleteRouteById_} from "./Routes.js";
 import {
-	aceptarSolicitud as aceptarSolicitud_, 
-	denegarSolicitud as denegarSolicitud_, 
-	mandarSolicitud as mandarSolicitud_, 
-	getAllSolicitudes as getAllSolicitudes_, 
+	aceptarSolicitud as aceptarSolicitud_,
+	deleteFriendById as deleteFriendById_,
+	denegarSolicitud as denegarSolicitud_,
 	getAllFriends as getAllFriends_,
-	deleteFriendById as deleteFriendById_
+	getAllSolicitudes as getAllSolicitudes_,
+	mandarSolicitud as mandarSolicitud_,
 } from "./Friends.js";
+import {
+	addRoute as addRoute_,
+	deleteRouteById as deleteRouteById_,
+	getAllRoutes as getAllRoutes_,
+	getRouteById as getRouteById_,
+} from "./Routes.js";
+import { construirEstructura } from "./Structure.js";
+import {
+	addLocation,
+	deleteLocationById as deleteLocationById_,
+	obtenerLocalizacion,
+	obtenerLocalizaciones,
+} from "./locations/Locations.js";
+import {
+	addPhoto,
+	deletePhotoById as deletePhotoById_,
+} from "./locations/Photos.js";
+import { addReview } from "./locations/Reviews.js";
 const { getPodUrlAll } = require("@inrupt/solid-client");
 
 //ESTRUCTURA
@@ -55,12 +68,7 @@ async function getLocationById(Session, idUbi, friendwebId) {
 	let myBaseUrl = await getPodUrlAll(friendwebId, { fetch: Session.fetch });
 	myBaseUrl = myBaseUrl[0];
 
-	const result = await obtenerLocalizacion(
-		Session,
-		idUbi,
-		myBaseUrl,
-		true
-	);
+	const result = await obtenerLocalizacion(Session, idUbi, myBaseUrl, true);
 
 	return result;
 }
@@ -76,11 +84,24 @@ async function deleteLocationById(Session, idLocation, friendwebId) {
 
 async function getCategories() {
 	const categories = [
-		"Restaurante",
-		"Punto de Interés",
-		"Tienda",
-		"Parque",
-		"Ocio",
+		"other",
+		"bar",
+		"restaurant",
+		"shop",
+		"supermarket",
+		"hotel",
+		"cinema",
+		"academicInstitution",
+		"publicInstitution",
+		"sportsClub",
+		"museum",
+		"park",
+		"landscape",
+		"monument",
+		"hospital",
+		"policeStation",
+		"transportCenter",
+		"entertainment",
 	];
 	return categories;
 }
@@ -91,8 +112,7 @@ async function getCategories() {
 //Review
 //Review
 
-
-async function updateReview(Session, review, friendwebId){
+async function updateReview(Session, review, friendwebId) {
 	await addReview(Session, review);
 }
 
@@ -119,7 +139,7 @@ async function deletePhotoById(Session, idFoto, friendwebId) {
 	await deletePhotoById_(Session, idFoto, myBaseUrl);
 }
 
-async function updatePhoto(Session, photo, friendwebId){
+async function updatePhoto(Session, photo, friendwebId) {
 	await addPhoto(Session, photo);
 }
 
@@ -233,5 +253,5 @@ export {
 	mandarSolicitud,
 	getAllSolicitudes,
 	updateReview,
-	updatePhoto
+	updatePhoto,
 };

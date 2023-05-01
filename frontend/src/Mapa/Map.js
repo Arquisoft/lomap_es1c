@@ -12,6 +12,7 @@ import { ThemeContext, Themes } from "../contexts/ThemeContext";
 import OpenIconSpeedDial from "./bottonMarkers";
 import FilterButtons from "./filterButtons";
 import { darkMapStyle, lightMapStyle } from "./themes/MapThemes";
+import { useTranslation } from "react-i18next";
 
 export default function CreateMap({
 	open,
@@ -33,7 +34,7 @@ export default function CreateMap({
 	friendPlaces
 }) {
 	const { isLoaded } = useLoadScript({
-		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+		googleMapsApiKey: (process.env.REACT_APP_GOOGLE_MAPS_AKI_KEY ? process.env.REACT_APP_GOOGLE_MAPS_AKI_KEY : process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY),
 	});
 
 	if (!isLoaded) return <div>Loading...</div>;
@@ -84,6 +85,9 @@ function Map({
 	getwebId,
 	friendPlaces
 }) {
+
+
+	const [t, i18n] = useTranslation("global"); // La t sí se usa y hace falta, no borrar
 	//Obtención de la localización del usuario segun entre para centrar el mapa en su ubicación.
 
 	//Diferentes estados necesarios para el mapa.
@@ -220,7 +224,7 @@ function Map({
 			>
 				<Alert severity="info">
 					<AlertTitle>Info</AlertTitle>
-					Haga click en el mapa para añadir un punto
+					{t("locations.canAdd")}
 				</Alert>
 			</Snackbar>
 

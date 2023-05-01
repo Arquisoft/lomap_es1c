@@ -9,7 +9,7 @@ async function parseRoute(Session, myBaseUrl, routeJson, returnAllLocations) {
 	let locations = [];
 	if(returnAllLocations){
 		locations = await obtenerLocalizaciones(Session, myBaseUrl);
-		locations = locations.filter(l1 => routeJson.locations.filter(l2 => l2 == l1.id).length > 0);
+		locations = locations.filter(l1 => routeJson.locations.filter(l2 => l2 === l1.id).length > 0);
 	}
 
 	return new Route(

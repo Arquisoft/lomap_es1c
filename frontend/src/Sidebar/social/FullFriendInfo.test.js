@@ -13,7 +13,7 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const placeMok = {
+const placeMock = {
     id : "1",
     author: "friend",
 	name: "Prueba",
@@ -26,21 +26,21 @@ const placeMok = {
 	privacy: "",
 }
 
-const friendMok={
+const friendMock={
     webId:"friend",
     name:"FriendName"
 }
 
-const API_location_callsMok = {
+const API_location_callsMock = {
 	API_createLocation: jest.fn(),
 	API_updateLocation: jest.fn(),
 };
-const API_friend_callsMok = {
+const API_friend_callsMock = {
 	API_removeFriend: jest.fn(),
 };
 
-const changeDrawerContentMok =  jest.fn();
-const setPositionMok =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
+const setPositionMock =  jest.fn();
 
 describe('BasicLogin',() => {
 	it("Renders coorectly",() => {
@@ -48,13 +48,13 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <FullFriendInfo
-						amigo={friendMok}
-                        places={[placeMok]}
-                        setPosition={setPositionMok}
-                        changeDrawerContent={changeDrawerContentMok}
+						amigo={friendMock}
+                        places={[placeMock]}
+                        setPosition={setPositionMock}
+                        changeDrawerContent={changeDrawerContentMock}
                         returnTo={null}
-                        API_friend_calls={API_friend_callsMok}
-                        API_location_calls={API_location_callsMok}
+                        API_friend_calls={API_friend_callsMock}
+                        API_location_calls={API_location_callsMock}
                         loggedInUserwebId = {"Main"}
                     />
                 </ThemeContext.Provider>

@@ -27,7 +27,7 @@ async function getAllPhotos(Session, jsonPhotos) {
 	for (let i = 0; i < jsonPhotos.length; i++) {
 		jsonPhotos[i] = await jsonPhotos[i];
 	}
-	return jsonPhotos.filter((f) => f != null);
+	return jsonPhotos.filter((f) => f !== null);
 }
 
 async function getPhoto(Session, jsonPhoto) {
@@ -40,7 +40,7 @@ async function getPhoto(Session, jsonPhoto) {
 			myUrl + "LoMap/locations/photos.jsonld"
 		);
 		return parsePhoto(
-			photosJson.itemListElement.find((r) => r.id == jsonPhoto.id)
+			photosJson.itemListElement.find((r) => r.id === jsonPhoto.id)
 		);
 	} catch (err) {
 		return null;

@@ -61,6 +61,7 @@ export default function FullRouteInfo(props) {
 					returnTo = {<FullRouteInfo {...props} />}
 					userPlaces = {userPlaces}
 					loggedInUserwebId = {props.loggedInUserwebId}
+					getFriendName = {props.getFriendName}
 				/>
 			))}
 

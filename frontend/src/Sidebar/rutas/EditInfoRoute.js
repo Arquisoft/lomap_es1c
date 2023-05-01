@@ -24,12 +24,12 @@ export default function EditRouteInfo({
 	API_route_calls,
 }) {
 	const [loading, setLoading] = useState(false);
-	const [name, setName] = useState(route == null ? "" : route.name);
+	const [name, setName] = useState(route === null ? "" : route.name);
 	const [description, setDescription] = useState(
-		route == null ? "" : route.description
+		route === null ? "" : route.description
 	);
 	const [locations, setLocations] = useState(
-		route == null ? [] : route.locations
+		route === null ? [] : route.locations
 	);
 	const [isNameErrored, setIsNameErrored] = useState(name.length<=0)
 	const [t] = useTranslation("global");
@@ -49,9 +49,9 @@ export default function EditRouteInfo({
 
 	async function save() {
 		let modification;
-		if (name.trim().length > 0 && description.trim().length > 0) {
+		if (!isNameErrored) {
 			setLoading(true);
-			if (route == null) {
+			if (route === null) {
 				const addedRoute = await API_route_calls.API_addRoute(
 					name,
 					description

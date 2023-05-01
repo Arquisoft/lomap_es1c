@@ -29,7 +29,7 @@ async function getAllReviews(Session, jsonReviews) {
 	for (let i = 0; i < jsonReviews.length; i++) {
 		jsonReviews[i] = await jsonReviews[i];
 	}
-	return jsonReviews.filter((r) => r != null);
+	return jsonReviews.filter((r) => r !== null);
 }
 
 async function getReview(Session, jsonReview) {
@@ -42,7 +42,7 @@ async function getReview(Session, jsonReview) {
 			myUrl + "LoMap/locations/reviews.jsonld"
 		);
 		return parseReview(
-			reviewsJson.itemListElement.find((r) => r.id == jsonReview.id)
+			reviewsJson.itemListElement.find((r) => r.id === jsonReview.id)
 		);
 	} catch (err) {
 		return null;

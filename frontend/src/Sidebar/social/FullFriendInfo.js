@@ -11,7 +11,6 @@ export default function FullFriendInfo(props) {
 		places,
 		setPosition,
 		changeDrawerContent,
-		returnTo,
 		API_location_calls,
 		API_friend_calls} = props
 	const [loading, setLoading] = useState(false);
@@ -20,7 +19,7 @@ export default function FullFriendInfo(props) {
 	async function deleteFriend() {
 		setLoading(true);
 
-		await API_friend_calls.API_removeFriend(amigo.webid);
+		await API_friend_calls.API_removeFriend(amigo.webId);
 
 		setLoading(false);
 		changeDrawerContent(null);
@@ -38,7 +37,7 @@ export default function FullFriendInfo(props) {
 			<h1>{amigo.name}</h1>
 
 			{/* WebID del amigo */}
-			<p>({amigo.webId})</p>
+			<p>{amigo.webId}</p>
 
 			<hr></hr>
 
@@ -53,6 +52,7 @@ export default function FullFriendInfo(props) {
 					API_location_calls={API_location_calls}
 					returnTo = {<FullFriendInfo {...props} />}
 					loggedInUserwebId = {props.loggedInUserwebId}
+					getFriendName = {props.getFriendName}
 				/>
 			))}
 

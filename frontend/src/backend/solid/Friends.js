@@ -44,7 +44,7 @@ async function denegarSolicitud(Session, myBaseUrl, friendwebId) {
 	);
 
 	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
-		(t) => t.sender != friendwebId
+		(t) => t.sender !== friendwebId
 	);
 
 	await saveJsonLD(
@@ -98,7 +98,7 @@ async function addFriend(Session, myBaseUrl, friend) {
 
 
 	jsonContainer.itemListElement = jsonContainer.itemListElement.filter(
-		(t) => t.webId != friend.webId
+		(t) => t.webId !== friend.webId
 	);
 
 	jsonContainer.itemListElement.push(jsonLDFriend);
@@ -134,14 +134,14 @@ async function getAllFriends(Session, myBaseUrl) {
 		friends[i] = await friends[i];
 	}
 
-	return friends.filter((f) => f != null).map((f) => parseFriend(f));
+	return friends.filter((f) => f !== null).map((f) => parseFriend(f));
 }
 
 async function getFriendById(Session, idFriend, myBaseUrl) {
 	let friends = (
 		await parseContainer(Session, myBaseUrl + "LoMap/friends.jsonld")
 	).itemListElement;
-	return parseFriend(friends.find((f) => f.webid === idFriend));
+	return parseFriend(friends.find((f) => f.webId === idFriend));
 }
 
 async function deleteFriendById(Session, idFriend, myBaseUrl) {
