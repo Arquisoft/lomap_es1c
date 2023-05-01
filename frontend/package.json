@@ -47,7 +47,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --coverage",
     "eject": "react-scripts eject",
-    "test:e2e": "cucumber-js e2e"
+    "test:e2e": "start-server-and-test start 3000 \"cucumber-js e2e \" "
   },
   "eslintConfig": {
     "extends": [
