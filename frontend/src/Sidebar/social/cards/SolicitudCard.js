@@ -3,10 +3,11 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { IconButton, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import AddFriendContent from "../AddFriendContent";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 export default function SolicitudCard(props) {
 	const [loading, setLoading] = useState(false);
+	const [t, i18n] = useTranslation("global")
 
 	async function acceptRequest() {
 		props.changeDrawerContent(

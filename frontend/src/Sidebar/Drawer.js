@@ -4,7 +4,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { ThemeContext } from '../contexts/ThemeContext.js';
 import DrawerDefaultContent from './DrawerDefaultContent';
 
-
 export default function DrawerSidebar(props) {
     const {currentTheme} = useContext(ThemeContext);
 

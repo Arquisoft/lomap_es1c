@@ -1,11 +1,9 @@
 import {
 	getAllRoutes as getAllRoutes_,
-	getAllRoutesMinimalInfo,
 	getRouteById as getRouteById_,
 	addRoute as addRoute_,
 	deleteRouteById,
 	getLocationById,
-	saveRoute
 } from "../solid/Solid.js";
 import Route from "../models/Route";
 
@@ -17,19 +15,7 @@ async function getAllRoutes(session) {
 		throw new Error("Problema al obtener las rutas");
 	}
 }
-/*
-async function getAllRoutesAllInfo(session) {
-	try {
-		const routes = await solid.getAllRoutesMinimalInfo(
-			session,
-			session.info.webId
-		);
-		return routes;
-	} catch (err) {
-		throw new Error("Problema al obtener las rutas");
-	}
-}
-*/
+
 async function getAllLocationsByRouteId(session, idRoute) {
 	try {
 		const route = await getRouteById_(
@@ -162,38 +148,6 @@ async function deleteLocationFromRoute(session, idRoute, idLocation) {
 		throw new Error("Problema borrando la localización de la ruta");
 	}
 }
-/*
-async function changeOrderOfLocationInRoute(
-	session,
-	idRoute,
-	idLocation,
-	index
-) {
-	try {
-		const route = await solid.getRouteById(
-			session,
-			idRoute,
-			session.info.webId
-		);
-		const location = await solid.getLocationById(
-			session,
-			idLocation,
-			session.info.webId
-		);
-		if (route == null) {
-			throw new Error("No se han encontrado rutas con esa id");
-		}
-		if (location == null) {
-			throw new Error("No se han encontrado localizaciones con esa id");
-		}
-		route.changeOrder(location, index);
-		await solid.saveRoute(session, route, session.info.webId);
-		return route;
-	} catch (err) {
-		throw new Error(err);
-	}
-}
-*/
 
 export {
 	getAllRoutes,
