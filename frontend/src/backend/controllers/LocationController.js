@@ -162,6 +162,7 @@ async function updateReview(session, idReview, review1) {
 }
 
 async function deleteReview(session, idReview) {
+	console.log(session);
 	try {
 		await deleteReviewById(session, idReview, session.info.webId);
 		return true;

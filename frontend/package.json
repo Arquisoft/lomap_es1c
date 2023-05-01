@@ -38,6 +38,7 @@
     "react-modal": "^3.16.1",
     "react-scripts": "^5.0.1",
     "reactjs-popup": "^2.0.5",
+    "start-server-and-test": "^2.0.0",
     "swiper": "^9.2.3",
     "web-vitals": "^2.1.4"
   },
@@ -45,7 +46,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:e2e": "cucumber-js e2e"
   },
   "eslintConfig": {
     "extends": [
@@ -64,5 +66,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "homepage": "./hola",
+  "devDependencies": {
+    "@cucumber/cucumber": "^9.1.0",
+    "jest-cucumber": "^3.0.1",
+    "jest-puppeteer": "^8.0.6",
+    "puppeteer": "^19.11.1"
   }
 }
