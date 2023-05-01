@@ -55,6 +55,9 @@ export default function DrawerDefaultContent(props) {
                             setFriendsPlaces = {props.setFriendsPlaces}
                             friendsPlaces = {props.friendsPlaces}
                             loggedInUserwebId = {theWebId}
+                            addFriendMarkersToMap = {props.addFriendMarkersToMap}
+                            removeFriendMarkersToMap = {props.removeFriendMarkersToMap}
+                            visibleFriends = {props.visibleFriends}
                         />
                     )
                 }}>

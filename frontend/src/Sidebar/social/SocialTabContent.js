@@ -78,9 +78,11 @@ export default function SocialTabContent(props) {
 					setFriendsPlaces={props.setFriendsPlaces}
 					friendsPlaces={props.friendsPlaces}
 					loggedInUserwebId = {props.loggedInUserwebId}
+					addFriendMarkersToMap = {props.addFriendMarkersToMap}
+					removeFriendMarkersToMap = {props.removeFriendMarkersToMap}
+					visibleFriends = {props.visibleFriends}
 				/>
 			))}
-
 			
 		</div>
 	);

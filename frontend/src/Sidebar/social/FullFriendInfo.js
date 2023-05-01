@@ -11,7 +11,6 @@ export default function FullFriendInfo(props) {
 		places,
 		setPosition,
 		changeDrawerContent,
-		returnTo,
 		API_location_calls,
 		API_friend_calls} = props
 	const [loading, setLoading] = useState(false);
@@ -20,7 +19,7 @@ export default function FullFriendInfo(props) {
 	async function deleteFriend() {
 		setLoading(true);
 
-		await API_friend_calls.API_removeFriend(amigo.webid);
+		await API_friend_calls.API_removeFriend(amigo.webId);
 
 		setLoading(false);
 		changeDrawerContent(null);

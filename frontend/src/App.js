@@ -20,12 +20,28 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	// Los lugares de los amigos
 	const [friendPlaces, setFriendPlaces] = useState([]);
 
+	const [visibleFriends, setVisibleFriends] = useState([])
+
 	const [t, i18n] = useTranslation("global"); // La t sí se usa y hace falta, no borrar
 	const [categorias, setCategorias] = useState([]);
 	const [rutas, setRutas] = useState([]);
 	const [amigos, setAmigos] = useState([]);
 	const [loading, setLoading] = useState(0);
 	const [solicitudes, setSolicitudes] = useState([]);
+
+	async function addFriendMarkersToMap(friendwebId) {
+		console.log("ADD")
+		setVisibleFriends(current => [...current, friendwebId])
+
+		const placesToAdd = await API_friend_calls.getPlacesOfFriend(friendwebId);
+		setFriendPlaces(current => current.concat(placesToAdd))
+	}
+
+	function removeFriendMarkersToMap(friendwebId) {
+		console.log("REMOVE")
+		setVisibleFriends(current => current.filter(friend => friend !== friendwebId))
+		setFriendPlaces(current => current.filter(place => place.author !== friendwebId))
+	}
 
 	const routesMemoization = useRef({});
 	const friendPlacesMemoization = useRef({});
@@ -465,11 +481,14 @@ export default function App({ logOutFunction, isLoggedIn }) {
 
 	async function API_removeFriend(friendwebId) {
 		try {
+			console.log(friendwebId)
+			console.log("Pasa al controller")
 			const res = await FriendsController.deleteFriend(
 				getDefaultSession(),
 				friendwebId
 			);
 			updateAmigos();
+			removeFriendMarkersToMap(friendwebId)
 			return res;
 		} catch (error) {
 			alert(error);
@@ -661,6 +680,9 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				setFriendsPlaces={setFriendPlaces}
 				friendsPlaces={friendPlaces}
 				getwebId={getwebId}
+				addFriendMarkersToMap = {addFriendMarkersToMap}
+				removeFriendMarkersToMap = {removeFriendMarkersToMap}
+				visibleFriends = {visibleFriends}
 			/>
 		</div>
 	);

@@ -24,6 +24,9 @@ export default function DrawerSidebar(props) {
           setFriendsPlaces = {props.setFriendsPlaces}
           friendsPlaces = {props.friendsPlaces}
           getwebId = {props.getwebId}
+          addFriendMarkersToMap = {props.addFriendMarkersToMap}
+          removeFriendMarkersToMap = {props.removeFriendMarkersToMap}
+          visibleFriends = {props.visibleFriends}
         />
       )
 

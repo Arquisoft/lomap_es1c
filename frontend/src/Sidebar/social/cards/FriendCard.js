@@ -6,8 +6,9 @@ import FullFriendInfo from "../FullFriendInfo";
 import { useTranslation } from "react-i18next";
 
 export default function FriendCard(props) {
-	const [isVisible, setIsVisible] = useState(false);
+	const [isVisible, setIsVisible] = useState(props.visibleFriends.includes(props.friend.webId));
 	const [t, i18n] = useTranslation("global")
+	const [loading, setLoading] = useState(false)
 
 	function handleButtonClick(event) {
 		event.stopPropagation()
@@ -15,17 +16,14 @@ export default function FriendCard(props) {
 	}
 
 	async function toggleVisibility() {
+		setLoading(true)
 		if (!isVisible) {
-			var friendPlaces = await props.API_friend_calls.getPlacesOfFriend(
-				props.friend.webId
-			);
-			props.setFriendsPlaces((current) => current.concat(friendPlaces));
+			await props.addFriendMarkersToMap(props.friend.webId);
 		} else {
-			props.setFriendsPlaces((current) =>
-				current.filter((place) => place.author !== props.friend.webId)
-			);
+			await props.removeFriendMarkersToMap(props.friend.webId);
 		}
 		setIsVisible((current) => !current);
+		setLoading(false)
 	}
 
 	async function showFullAmigoInfo() {
@@ -43,6 +41,7 @@ export default function FriendCard(props) {
 				API_friend_calls={props.API_friend_calls}
 				API_location_calls={props.API_location_calls}
 				loggedInUserwebId = {props.loggedInUserwebId}
+				removeFriendMarkersToMap = {props.removeFriendMarkersToMap}
 			/>
 		);
 	}
@@ -62,8 +61,8 @@ export default function FriendCard(props) {
 					title={isVisible ? t("sidebar.friends.hideinmap") : t("sidebar.friends.showinmap")}
 					placement="bottom"
 				>
-					<IconButton onClick={handleButtonClick} data-testid="visibility">
-						{isVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+					<IconButton onClick={handleButtonClick} data-testid="visibility" disabled={loading}>
+						{isVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
 					</IconButton>
 				</Tooltip>
 			</div>
