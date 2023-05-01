@@ -6,6 +6,18 @@ import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import "./muiComps.css";
 
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
 export default function CreateModal({
 	isOpen,
 	latMark,
@@ -204,6 +216,7 @@ export default function CreateModal({
 					onChange={handleCategoryChange}
 					disabled={loading}
 					placeholder="category"
+					MenuProps={MenuProps}
 					data-testid="categorySelect"
 				>
 					{categorias.map((categoria) => (
