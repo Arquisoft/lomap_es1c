@@ -27,21 +27,21 @@ Refer to details in the following sections.
 
 For the development of the application we have decided to use JavaScript as the main language in contrast to TypeScript. This decision is based on the ease of JavaScript and also on the experience we have with it. Although TypeScript is similar to JavaScript, we decided it's better to stick with something we now know how to use and not try to understand another new technology. In addition to JavaScript we are going to use other technologies:
 
-* SOLID: Solid is perfect for the development of this application, since it allows users to maintain the users privacy by storing information in their personal pods.
-* React.js: We chose react for its simplicity, ease of learning, and reliability (as it is a widely used library in the industry, it is highly error-tested).
+* SOLID: Solid is perfect for the development of this application, since it allows users to maintain the user's privacy by storing information in their personal pods
+* React.js: We chose React for its simplicity, ease of learning, and reliability (as it is a widely used library in the industry, it is highly error-tested).
 
 === Top-Level Decomposition
 
 * Editor: For the development of the project we decided that we are going to use Visual Studio Code, due to the ease and familiarity we have with the IDE, as well as all the extension that facilitates the development.
-* GitHub: All project progress and development is stored in a public GitHub repository. The main feature is that we all work with the same code and we can easily share the changes we make.
+* GitHub: All project progress and development is stored in a public GitHub repository. The main feature is that we all work with the same code, and we can easily share the changes we make.
 
 === Decisions to achieve quality goals
 
 * Privacy and Security: To guarantee the privacy and security of the data that we store or that the user wants to share, we will use SOLID technology known as PODs, which stores data and allows the user to decide what information they want to share.
-* Usability: We focus on making an interface that is user friendly, fluid, simple and intuitive. We use some icons that are common to make some familiarity and help understanding of the application.
+* Usability: We focus on making an interface that is user-friendly, fluid, simple and intuitive. We use some icons that are common to make some familiarity and help to understand of the application.
 * Efficiency: Although we use PODs and that can make the app slower because we need to rely on an external technology, we try to use some stored data to make the app run faster and smoother.
-* Interoperability and Scalability: We will try to make clean code that is easy to understand and modify for future updates
-* Testability: Different tets have been make to ensure that the project is running as we intended, some important test types are unit tests and usability tests.
+* Interoperability and Scalability: We will try to make clean code that is easy to understand and modify for future updates.
+* Testability: Different test have been make to ensure that the project is running as we intended, some important test types are unit tests and usability tests.
 
 === Organizational decisions
 * Meetings: We have a meeting planned every week where we discuss what we are going to do during the week, the problems we encountered and the solutions to those or past problems. All of this can be seen on our wiki page on GitHub. Even if those are the planned meetings, we also had other meetings on Discord when some of us needed help with something or had to discuss some decisions.
