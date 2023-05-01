@@ -30,101 +30,109 @@ There are many notations for describing scenarios, e.g.
 
 ****
 
-=== User Login and Logout
+=== User Login and Logout.
 
 [plantuml,"Sequence diagram login",png]
 ----
 actor User
 Participant LoMap
-participant ra as "RESTAPI"
 database pod as "Pod's provider"
 User --> LoMap : Start
 LoMap  --> User : Shows login view
 User --> LoMap : Select the provider and login
-LoMap  --> ra: Calls login
-ra --> pod: Login in provider
+LoMap  --> pod: Login in provider
 pod --> User: Ask for credentials
 User --> pod: Give credentials
-pod --> ra: Return and create session
-ra --> LoMap: Redirect
+pod --> LoMap: Return and create session
 LoMap --> User: Shows map view
 User--> LoMap: Clicks logout
-LoMap --> ra: Calls logout
-ra --> ra: Delete sesion from storage
-ra --> pod: Calls sesion logout
+LoMap --> pod: Calls session logout
 LoMap --> User: Shows login view
 ----
 A new user or a returning user enters the application.
 
-=== Return all location of the map
+=== Return all location of the map.
 [plantuml,"Sequence diagram return all location",png]
 ----
 actor User
 Participant LoMap
-participant ra as "RESTAPI"
 database pod as "Pod's provider"
 User --> LoMap: Login in the application
-LoMap --> ra: Request the all the locations of the user
-ra --> pod: Asks for all the locations stored in the users pod
-pod --> ra: Return all the locations
-ra --> LoMap: Gives all the locations
+LoMap --> pod: Request the all the locations of the user
+pod --> LoMap: Return all the locations
 LoMap --> User: Shows all the locations in the map
 ----
 A user logs into the application and the first thing the application do is load all the locations.
 
-=== Add location to the map
+=== Add location to the map.
 [plantuml,"Sequence diagram add",png]
 ----
 actor User
 Participant LoMap
-participant ra as "RESTAPI"
 database pod as "Pod's provider"
 User --> LoMap: Clicks the option to add a location and clicks the map
 LoMap --> User: Shows the form to add the location
 User --> LoMap: Returns location data
-LoMap --> ra: Save the location
-ra --> pod: Stores the location in the users pod
-pod --> ra: Gives the locations with the one added
-ra --> LoMap: Return all the locations
+LoMap --> pod: Stores the location in the users pod
+pod --> LoMap: Gives the locations with the one added
 LoMap --> User: Shows all the locations of the user
 ----
 A user adds a new point 
 
-=== Delete location of the map
+=== Delete location of the map.
 [plantuml,"Sequence diagram delete",png]
 ----
 actor User
 Participant LoMap
-participant ra as "RESTAPI"
 database pod as "Pod's provider"
-User --> LoMap: Select the location that whant to be deleted
+User --> LoMap: Select the location that want to be deleted
 LoMap --> User: Shows the full information of the place with the option to delete
 User --> LoMap: Select the delete option
-LoMap --> ra: Remove the location
-ra --> pod: Delete the location
-pod --> ra: Gives the locations with the one deleted
-ra --> LoMap: Return all the locations 
-LoMap --> User: Shows all the locations of the user withot the one deleted
+LoMap --> pod: Delete the location
+pod --> LoMap: Gives the locations with the one deleted
+LoMap --> User: Shows all the locations of the user without the one deleted
 
 ----
 A user deletes an existing point 
 
-=== Modify location of the map
+=== Modify location of the map.
 [plantuml,"Sequence diagram modify",png]
 ----
 actor User
 Participant LoMap
-participant ra as "RESTAPI"
 database pod as "Pod's provider"
-User --> LoMap: Select the location that whant to be modify
+User --> LoMap: Select the location that want to be modify
 LoMap --> User: Shows the full information of the place with the option to modify
 User --> LoMap: Select the modify option
-LoMap --> User: Shows the filds that can be modify
-User --> LoMap: Modifies tha fields
-LoMap --> ra: Modifies the location fields
-ra --> pod: Modifies the location
-pod --> ra: Gives the locations with the one modified
-ra --> LoMap: Return all the locations 
+LoMap --> User: Shows the fields that can be modify
+User --> LoMap: Modifies the fields
+LoMap --> pod: Modifies the location
+pod --> LoMap: Gives the locations with the one modified
 LoMap --> User: Shows all the locations of the user with the one modified
 ----
 A user modifies an existing point 
+
+=== Send friend request.
+[plantuml,"Sequence diagram send friend",png]
+----
+actor User
+Participant LoMap
+database pod as "Friend Pod's provider"
+User --> LoMap: Clicks on send friend Request
+LoMap --> User: Shows the form to add a friend
+User --> LoMap: Sends the credentials
+LoMap --> pod: Creates a friend request on the friends POD
+----
+A user sends a friend request.
+
+=== Accept a friend request.
+[plantuml,"Sequence diagram accept a friend",png]
+----
+actor User
+Participant LoMap
+User --> LoMap: Clicks on show friend Request
+LoMap --> User: Shows the list of request to accept or deny
+User --> LoMap: Accepts the friend request
+LoMap --> User: Returns the friend in the social tab
+----
+A user accepts a friend request.

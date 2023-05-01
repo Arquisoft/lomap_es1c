@@ -22,9 +22,9 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 [options="header",cols="1,2"]
 |===
 |Constraint|Motivation
-| _SOLID_ | Used to store the personalized maps and information in personal pods that the user provides. Also to decentralize the personal data of the users.
-| _Map Genericity_ | The implementation of the maps must be generic, the main implementation is for an specific place but you can used the application where you want.
-| _Version Control_ | We will use a public repository in Github with different branches. The master branch is where the final application will be. In the develop branch we will have an usable application but not a finish version. All the other branches are use to individual work.
+| _SOLID_ | Used to store the personalized maps and information in personal pods that the user provides. Also, to decentralize the personal data of the users.
+| _Map Genericity_ | The implementation of the maps must be generic, the main implementation is for an specific place, but you can use the application where you want.
+| _Version Control_ | We will use a public repository in GitHub with different branches. The master branch is where the final application will be. In the develop branch we will have an usable application but not a finish version. All the other branches are used to individual work.
 |===
 
 === Organizational Constraints
@@ -33,7 +33,7 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 |===
 |Constraint|Motivation
 | _Time_ | We have some deadlines that we have to stick to. The final project must be complete before the end of April.
-| _Size of the team_ | The team is made out of four people, we all have other projects and assignments so some times it could be difficult to meet or have a lot of time for the project.
+| _Size of the team_ | The team is made out of four people, we all have other projects and assignments so sometimes it could be difficult to meet or have a lot of time for the project.
 | _Experience_ | None of us has any experience in any of the technology we are going to use.
 |===
 
@@ -42,6 +42,6 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 [options="header",cols="1,2"]
 |===
 |Constraint|Motivation
-| _Language_ | The language of the entire documentation will be in english.
+| _Language_ | The language of the entire documentation will be in English.
 | _Documentation_ | The documentation is going to follow the Arc32 structure.
 |===
