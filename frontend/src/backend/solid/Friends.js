@@ -141,11 +141,12 @@ async function getFriendById(Session, idFriend, myBaseUrl) {
 	let friends = (
 		await parseContainer(Session, myBaseUrl + "LoMap/friends.jsonld")
 	).itemListElement;
-	return parseFriend(friends.find((f) => f.webid === idFriend));
+	return parseFriend(friends.find((f) => f.webId === idFriend));
 }
 
 async function deleteFriendById(Session, idFriend, myBaseUrl) {
 	let friend = await getFriendById(Session, idFriend, myBaseUrl);
+	console.log(friend)
 	idFriend = friend.id;
 
 	await deleteThing(

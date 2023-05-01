@@ -22,8 +22,9 @@ export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerConten
 
     changeDrawerContent(
       <EditRouteInfo
-        returnFunction = {restoreDefautlDrawerContent}
         route = {null}
+        changeDrawerContent = {changeDrawerContent}
+        returnTo = {null}
         userPlaces = {userPlaces}
         API_route_calls = {API_route_calls}
       />
@@ -31,15 +32,15 @@ export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerConten
   }
 
   const actions = [
-    { icon: <RoomIcon onClick={activateClick} />, name: "add" },
-    { icon: <RouteIcon onClick={createRoute}/>, name: "createRoute" },
+    { icon: <RoomIcon onClick={activateClick} data-testid="newPoint"/>, name: "add" },
+    { icon: <RouteIcon onClick={createRoute} data-testid="newRoute"/>, name: "createRoute" },
   ];
 
   return (
     <SpeedDial 
     ariaLabel="SpeedDial openIcon example"
     sx={{ position: 'absolute', bottom: 120, right: 10 }}
-    icon={<SpeedDialIcon />}
+    icon={<SpeedDialIcon data-testid="mainButton"/>}
     >
        {actions.map((action) => (
         <SpeedDialAction

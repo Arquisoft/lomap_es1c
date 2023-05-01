@@ -37,7 +37,7 @@ i18next.init({
 
 function MyComponent() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const loggedInOnce = useRef(false);
+	var loggedInOnce = useRef(false);
 	const [isStructBeingCreated, setIsStructBeingCreated] = useState(false);
 
 	useEffect(() => {

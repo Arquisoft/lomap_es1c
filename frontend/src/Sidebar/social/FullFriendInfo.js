@@ -1,5 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
+import LoadingButton from "@mui/lab/LoadingButton";
 import React, { useState } from "react";
 import PlaceCard from "../lugares/PlaceCard";
 import { useTranslation } from "react-i18next";
@@ -11,7 +11,6 @@ export default function FullFriendInfo(props) {
 		places,
 		setPosition,
 		changeDrawerContent,
-		returnTo,
 		API_location_calls,
 		API_friend_calls} = props
 	const [loading, setLoading] = useState(false);
@@ -20,7 +19,7 @@ export default function FullFriendInfo(props) {
 	async function deleteFriend() {
 		setLoading(true);
 
-		await API_friend_calls.API_removeFriend(amigo.webid);
+		await API_friend_calls.API_removeFriend(amigo.webId);
 
 		setLoading(false);
 		changeDrawerContent(null);
@@ -29,7 +28,7 @@ export default function FullFriendInfo(props) {
 	return (
 		<>
 			<Tooltip title={t("sidebar.back-arrow-text")} placement="bottom">
-                <IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
+                <IconButton onClick={() => props.changeDrawerContent(props.returnTo)} data-testid="arrow">
                     <ArrowBackIcon />
                 </IconButton>
             </Tooltip>
@@ -64,6 +63,7 @@ export default function FullFriendInfo(props) {
 				loadingPosition="start"
 				startIcon={<DeleteIcon />}
 				variant="contained"
+				data-testid="deleteFriend"
 			>
 				{t("sidebar.friends.friend.delete-friend")}
 			</LoadingButton>

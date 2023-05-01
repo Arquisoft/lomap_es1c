@@ -15,7 +15,7 @@ export default function InicioTabContent(props) {
         <div className="tabcontent">
             <Tooltip title={t("sidebar.back-arrow-text")} placement="bottom" disabled = {disableComponents}>
                 <IconButton onClick={() => props.changeDrawerContent(props.returnTo)}>
-                    <ArrowBackIcon />
+                    <ArrowBackIcon data-testid="arrow"/>
                 </IconButton>
             </Tooltip>
 

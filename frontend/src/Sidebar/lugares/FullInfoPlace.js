@@ -75,7 +75,8 @@ export default function FullInfoPlace(props) {
 				.filter(r => r.author!==loggedInUserwebId)
 				.concat({...theReview})
 		}
-		setCommentLoading(false)
+		setCommentLoading(false);
+		setReview(null);
 	}
 
 	function cancelReview() {
@@ -172,7 +173,7 @@ export default function FullInfoPlace(props) {
 		<>
 			{/* Botón de retorno */}
 			<IconButton onClick={() => {changeDrawerContent(props.returnTo ? props.returnTo : null)}}>
-				<ArrowBackIcon />
+				<ArrowBackIcon data-testid="arrow"/>
 			</IconButton>
 
 			<div className="card--line1">
@@ -185,6 +186,7 @@ export default function FullInfoPlace(props) {
 					disabled={deleteLoading || addImageLoading || commentLoading}
 					startIcon={<TravelExploreIcon />}
 					variant="contained"
+					data-testid="center"
 				>
 					{t("sidebar.place.locate")}
 				</Button>
@@ -212,6 +214,7 @@ export default function FullInfoPlace(props) {
 					disabled={deleteLoading || addImageLoading || commentLoading}
 					startIcon={<EditIcon />}
 					variant="contained"
+					data-testid="edit"
 				>
 					{t("sidebar.place.edit")}
 				</Button>
@@ -226,6 +229,7 @@ export default function FullInfoPlace(props) {
 					loadingPosition="start"
 					startIcon={<DeleteIcon />}
 					variant="contained"
+					data-testid="deletePlace"
 				>
 					{t("sidebar.place.delete")}
 				</LoadingButton>
@@ -251,6 +255,7 @@ export default function FullInfoPlace(props) {
 						label="Comentario"
 						defaultValue = {comment}
 						onChange={handleCommentChange}
+						placeholder="Comentario"
 					/>
 				<div className="card--line1">
 					<Button
@@ -258,6 +263,7 @@ export default function FullInfoPlace(props) {
 						onClick={saveReview}
 						disabled={deleteLoading || addImageLoading || commentLoading}
 						margin="normal"
+						data-testid="saveReview"
 					> 
 						{t("sidebar.place.save")}
 					</Button>
@@ -267,6 +273,7 @@ export default function FullInfoPlace(props) {
 						onClick={cancelReview}
 						disabled={deleteLoading || addImageLoading || commentLoading}
 						margin="normal"
+						data-testid="cancelReview"
 					> 
 						{t("sidebar.place.cancel")}
 					</Button>
@@ -286,14 +293,14 @@ export default function FullInfoPlace(props) {
 					readOnly
 				/>
 				<p>{comment}</p>
-			</div>
 			
 
 			<Button
 				variant="contained"
 				onClick={createNewReview}
 				disabled={deleteLoading || addImageLoading || commentLoading}
-			> 
+				data-testid="createReview"
+				> 
 				{t("sidebar.place.edit")}
 			</Button>
 
@@ -302,9 +309,11 @@ export default function FullInfoPlace(props) {
 				onClick={deleteReview}
 				disabled={deleteLoading || addImageLoading || commentLoading}
 				loading={commentLoading}
-			> 
+				data-testid="deleteReview"
+				> 
 				{t("sidebar.place.delete")}
 			</LoadingButton>
+			</div>
 			</>
 
 			// No existe, botón de crear
@@ -313,15 +322,16 @@ export default function FullInfoPlace(props) {
 				variant="contained"
 				onClick={createNewReview}
 				disabled={deleteLoading || addImageLoading || commentLoading}
+				data-testid="createNewReview"
 			> 
 				{t("sidebar.place.add-review")}
 			</Button>)
 			}
 
 			{/* Reviews de otros */}
-			{place?.reviews.filter(r => r.author!==loggedInUserwebId).map(
+			{place?.reviews?.filter(r => r.author!==loggedInUserwebId).map(
 				r =>
-				<div className="card">
+				<div className="card" key={"review_other_"+r.author}>
 					Author: {r.author}
 					< br/>
 					{
@@ -356,6 +366,7 @@ export default function FullInfoPlace(props) {
 						src={photo.imageJPG}
 						width="250"
 						height="100"
+						alt="Foto"
 						key={"photo_url_" + photosURLs.indexOf(photo)}
 					/>
 					{
@@ -364,6 +375,7 @@ export default function FullInfoPlace(props) {
 					<IconButton
 						onClick={() => deleteImage(photo)}
 						key={"delete_photo_button" + photosURLs.indexOf(photo)}
+						data-testid="deletePhoto"
 					>
 						<DeleteIcon />
 					</IconButton>
@@ -379,9 +391,10 @@ export default function FullInfoPlace(props) {
 					accept="image/*"
 					onChange={addImage}
 					style={{ display: "none" }}
+					data-testid="file"
 				/>
 				<label htmlFor="photos">
-					<Button variant="contained" component="span">
+					<Button variant="contained" component="span" data-testid="addPhoto">
 						{t("sidebar.place.addImage")}
 					</Button>
 				</label>
