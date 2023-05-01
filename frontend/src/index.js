@@ -66,10 +66,9 @@ function MyComponent() {
 			}
 		});
 		try {
-			let provider = providerURL ? providerURL : "https://login.inrupt.com";
 			if (!getDefaultSession().info.isLoggedIn) {
 				await login({
-					oidcIssuer: provider,
+					oidcIssuer: providerURL,
 					redirectUrl: window.location.href,
 					clientName: "My application",
 				});
