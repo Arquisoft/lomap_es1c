@@ -68,9 +68,9 @@ Tabular or free form text.
 |===
 |Scenario | Quality Requirements | Quality Scenarios 
 | A user tries to modify other users data | Security | The data that the user storages or uses in the application must be protected and only modifiable by the user o others that the user authorized. 
-| A user adds information that is private and only want to be seen by the user | Privacy | The user only provides to other and to the application only the information they want.
-| A new user enters the application for the first time | Usability | The application must ensure that new users know in few time how to use the basic functionality.
-| A user adds information in an other app that uses the same data | Interoperability  | LoMap has to be able to use the information stored in other application as long as the data structure is the same. 
-| New functionality is needed | Scalability | The application must be developed always thinking that this is not the final product and we can always add new functionality.
-| Some functionality of the application is not running correctly | Testability | Tests will run to prevent functionality to not work as intended, even if new functionality is added.
+| A user adds information that is not public and will only be available to the users he has granted permissions to access| Privacy | The user provides to others and to the application only the information the owner wants.
+| A new user enters the application for the first time | Usability | The application must ensure that new users know in little time how to use the basic functionality.
+| A user adds information in another app that follows the same data structure| Interoperability  | LoMap has to be able to use the information stored by other applications as long as the data structure is the same. 
+| New functionality is needed | Scalability | The application must be developed always thinking that this is not the final product, and we can always add new functionality.
+| Some functionality of the application is not running correctly | Testability | Tests will run to prevent functionality from not working as intended, even if new functionality is added.
 |===

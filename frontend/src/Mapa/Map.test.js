@@ -13,17 +13,17 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const openMok = jest.fn();
-const setLatitudeMok = jest.fn();
-const setLongitudeMok = jest.fn();
-const setMarkersMok = jest.fn();
-const canCickMok = jest.fn();
-const changeDrawerContentMok = jest.fn();
-const restoreDefautlDrawerContentMok = jest.fn();
-const setPositionMok = jest.fn();
-const getwebIdMok = jest.fn().mockReturnValue("PruebaAuthor");
-const API_route_callsMok = jest.fn();
-const API_location_callsMok = {
+const openMock = jest.fn();
+const setLatitudeMock = jest.fn();
+const setLongitudeMock = jest.fn();
+const setMarkersMock = jest.fn();
+const canCickMock = jest.fn();
+const changeDrawerContentMock = jest.fn();
+const restoreDefautlDrawerContentMock = jest.fn();
+const setPositionMock = jest.fn();
+const getwebIdMock = jest.fn().mockReturnValue("PruebaAuthor");
+const API_route_callsMock = jest.fn();
+const API_location_callsMock = {
     API_getPlaceById:jest.fn()
 };
 
@@ -35,7 +35,7 @@ jest.mock("@react-google-maps/api", () => ({
     GoogleMap: () => <div></div>
 }));
 
-const placeMineMok = {
+const placeMineMock = {
 	id : "1",
     author: "PruebaAuthor",
 	name: "Prueba",
@@ -48,9 +48,9 @@ const placeMineMok = {
 	privacy: "",
 };
 
-const places = [placeMineMok]
+const places = [placeMineMock]
 
-const placeFrienMok = {
+const placeFrienMock = {
 	id : "1",
     author: "PruebaAmigo",
 	name: "Prueba",
@@ -62,9 +62,9 @@ const placeFrienMok = {
 	photo:"",
 	privacy: "",
 };
-const friendPlaces = [placeFrienMok]
+const friendPlaces = [placeFrienMock]
 
-const categoriasMok = ["Restaurante","Parque"]
+const categoriasMock = ["Restaurante","Parque"]
 
 
 
@@ -74,30 +74,30 @@ describe('BasicFuntionality', () => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <CreateMap 
-							open={openMok}
-                            setLatitude={setLatitudeMok}
-                            setLongitude={setLongitudeMok}
+							open={openMock}
+                            setLatitude={setLatitudeMock}
+                            setLongitude={setLongitudeMock}
                             markers = {[]}
-                            setMarkers={setMarkersMok}
+                            setMarkers={setMarkersMock}
                             places= {places}
                             canCick = {true}
-                            setCanCick={canCickMok}
-                            changeDrawerContent={changeDrawerContentMok}
-                            restoreDefautlDrawerContent={restoreDefautlDrawerContentMok}
+                            setCanCick={canCickMock}
+                            changeDrawerContent={changeDrawerContentMock}
+                            restoreDefautlDrawerContent={restoreDefautlDrawerContentMock}
                             position = {0}
-                            setPosition={setPositionMok}
-                            categorias ={categoriasMok}
-                            API_route_calls={API_route_callsMok}
-                            API_location_calls={API_location_callsMok}
-                            getwebId={getwebIdMok}
+                            setPosition={setPositionMock}
+                            categorias ={categoriasMock}
+                            API_route_calls={API_route_callsMock}
+                            API_location_calls={API_location_callsMock}
+                            getwebId={getwebIdMock}
                             friendPlaces = {friendPlaces}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>
 		)
 
-        API_location_callsMok.API_getPlaceById = jest.fn().mockReturnValueOnce(placeMineMok);
-        getwebIdMok.mockReturnValue("PruebaAuthor");
+        API_location_callsMock.API_getPlaceById = jest.fn().mockReturnValueOnce(placeMineMock);
+        getwebIdMock.mockReturnValue("PruebaAuthor");
 
         const resetFilters = screen.getByTestId("resetFilters");
         const handleClickOnlyMine = screen.getByTestId("handleClickOnlyMine");
@@ -145,30 +145,30 @@ describe('BasicFuntionality', () => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <CreateMap 
-							open={openMok}
-                            setLatitude={setLatitudeMok}
-                            setLongitude={setLongitudeMok}
+							open={openMock}
+                            setLatitude={setLatitudeMock}
+                            setLongitude={setLongitudeMock}
                             markers = {[]}
-                            setMarkers={setMarkersMok}
+                            setMarkers={setMarkersMock}
                             places= {places}
                             canCick = {true}
-                            setCanCick={canCickMok}
-                            changeDrawerContent={changeDrawerContentMok}
-                            restoreDefautlDrawerContent={restoreDefautlDrawerContentMok}
+                            setCanCick={canCickMock}
+                            changeDrawerContent={changeDrawerContentMock}
+                            restoreDefautlDrawerContent={restoreDefautlDrawerContentMock}
                             position = {0}
-                            setPosition={setPositionMok}
-                            categorias ={categoriasMok}
-                            API_route_calls={API_route_callsMok}
-                            API_location_calls={API_location_callsMok}
-                            getwebId={getwebIdMok}
+                            setPosition={setPositionMock}
+                            categorias ={categoriasMock}
+                            API_route_calls={API_route_callsMock}
+                            API_location_calls={API_location_callsMock}
+                            getwebId={getwebIdMock}
                             friendPlaces = {friendPlaces}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>
 		)
 
-        API_location_callsMok.API_getPlaceById = jest.fn().mockReturnValueOnce(placeMineMok);
-        getwebIdMok.mockReturnValue("PruebaAuthor");
+        API_location_callsMock.API_getPlaceById = jest.fn().mockReturnValueOnce(placeMineMock);
+        getwebIdMock.mockReturnValue("PruebaAuthor");
         
         const mainButton = screen.getByTestId("mainButton");
         const newPoint = screen.getByTestId("newPoint");

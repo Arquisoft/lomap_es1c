@@ -57,15 +57,15 @@ export default function AddFriendContent(props) {
 
 			{/* Nombre */}
 			<TextField
-				label="Nombre"
-				placeholder="Nombre"
+				label= {t("sidebar.friends.name")}
+				placeholder= {t("sidebar.friends.name")}
 				onChange={handleNameChange}
 				required
 				margin="normal"
 				error={isNameErrored}
 				helperText = {isNameErrored ? t("sidebar.friends.namecannotbeempty") : ""}
 				disabled={loading}
-				defaultValue={name}
+				inputProps={{"data-testid":"nameTextField"}}
 			/>
 
 			<br></br>

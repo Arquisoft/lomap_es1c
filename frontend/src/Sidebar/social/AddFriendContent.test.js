@@ -14,13 +14,13 @@ i18next.init({
 });
 
 
-const API_friend_callsMok = {
+const API_friend_callsMock = {
 	API_acceptIncomingFriendRequest: jest.fn(),
 	API_generateNewFriendRequest: jest.fn(),
 };
-const changeDrawerContentMok =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
 
-const solictudMok={
+const solictudMock={
     id:"1",
     sender:"FriendName",
     name:"FriendName"
@@ -32,9 +32,9 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <AddFriendContent
-						API_friend_calls={API_friend_callsMok}
+						API_friend_calls={API_friend_callsMock}
                         returnTo={null}
-                        changeDrawerContent={changeDrawerContentMok}
+                        changeDrawerContent={changeDrawerContentMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>
@@ -70,17 +70,19 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <AddFriendContent
-						API_friend_calls={API_friend_callsMok}
+						API_friend_calls={API_friend_callsMock}
                         returnTo={null}
-                        changeDrawerContent={changeDrawerContentMok}
-                        solicitud={solictudMok}
+                        changeDrawerContent={changeDrawerContentMock}
+                        solicitud={solictudMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>
 		)
 
         const addFriend = screen.getByTestId('addFriend')
+        const nameTextField = screen.getByTestId("nameTextField")
         expect(addFriend).toBeInTheDocument();
+        fireEvent.change(nameTextField, {target: {value: "Name"}})
         fireEvent.click(addFriend);
 
 	});

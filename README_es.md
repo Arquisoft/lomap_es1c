@@ -14,31 +14,22 @@ Este proyecto es un ejemplo básico de un sitio web utilizando **React** con **T
 
 ## Guía de inicio rápido
 
-<mark>Si tienes instalados node.js y npm, asegúrate de actualizarlos antes de intentar construir las imagenes</mark>
+<mark>Si tienes instalado npm, asegúrate de actualizarlo antes de intentar construir las imagenes</mark>
 
-Si quieres ejecutar el proyecto necesitarás [git](https://git-scm.com/downloads), [Node.js and npm](https://www.npmjs.com/get-npm) y [Docker](https://docs.docker.com/get-docker/). Asegúrate de tenerlos instalados en tu equipo. Descarga el proyecto con `git clone https://github.com/arquisoft/lomap_es1c`. La manera más rápida de ejecutar todo es con Docker.
+Si quieres ejecutar el proyecto necesitarás [git](https://git-scm.com/downloads), [npm](https://www.npmjs.com/get-npm) y [Docker](https://docs.docker.com/get-docker/). Asegúrate de tenerlos instalados en tu equipo. Descarga el proyecto con `git clone https://github.com/arquisoft/lomap_es1c`. La manera más rápida de ejecutar todo es con Docker.
 
 ```bash
 docker-compose up --build
 ```
-Este comando creará dos imágenes de docker si no existen en tu equipo (la webapp y la restapi) y lanzará un contenedor de mongoDB. Además lanzará contenedores de Prometheus y Grafana para monitorizar el servicio web. Deberías ser capaz de acceder a todo desde aquí:
+Este comando una imagen de docker si no existen en tu equipo. Además lanzará contenedores de Prometheus y Grafana para monitorizar el servicio web. Deberías ser capaz de acceder a todo desde aquí:
 
  - [Webapp - http://localhost:3000](http://localhost:3000)
- - [Ejemplo llamada a RestApi - http://localhost:5000/api/users/list](http://localhost:5000/api/users/list)
- - [Métricas RestApi - http://localhost:5000/metrics](http://localhost:5000/metrics)
  - [Servidor Prometheus - http://localhost:9090](http://localhost:9090)
  - [Servidor Grafana http://localhost:9091](http://localhost:9091)
  
-Si quieres ejecutar el proyecto sin Docker primero compila y ejecuta la restapi:
-
+Si quieres ejecutar el proyecto sin Docker tienes que descargar las dependencias y luego ejecutar el proyecto.
 ```shell
-cd restapi
-npm install
-npm start
-```
-a continuación la webapp:
-```shell
-cd webapp
+cd frontend
 npm install
 npm start
 ```
@@ -48,5 +39,6 @@ Deberías ser capaz de acceder a la aplicación en [http://localhost:3000](http:
 ## Mas información
 Encontrarás más información sobre el repositorio en los otros archivos README:
 - Documentación: https://github.com/arquisoft/lomap_es1c/tree/master/docs
-- Webapp: https://github.com/arquisoft/lomap_es1c/tree/master/webapp
-- Restapi: https://github.com/arquisoft/lomap_es1c/tree/master/restapi
+- Frontal: https://github.com/arquisoft/lomap_es1c/tree/master/frontend
+- Backend: https://github.com/arquisoft/lomap_es1c/tree/master/frontend/src/backend
+

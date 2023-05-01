@@ -14,14 +14,14 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-var isOpenMok = jest.fn();
-const updateLocationsMok = jest.fn();
-const setIsOpenMok = jest.fn();
-const setMarkersMok = jest.fn();
-const setStateButtonMok = jest.fn();
-const setCanCickMok = jest.fn();
+var isOpenMock = jest.fn();
+const updateLocationsMock = jest.fn();
+const setIsOpenMock = jest.fn();
+const setMarkersMock = jest.fn();
+const setStateButtonMock = jest.fn();
+const setCanCickMock = jest.fn();
 
-const categoriasMok = ["Restaurante","Parque"]
+const categoriasMock = ["Restaurante","Parque"]
 const f = new File(["hello"], "hello.png", { type: "image/png" });
 const data = {
 	id : "1",
@@ -47,16 +47,16 @@ describe('BasicFuntionality', () => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <CreateModal 
-							isOpen={isOpenMok}
+							isOpen={isOpenMock}
 							latMark={0}
 							lngMark={0}
-							updateLocations={updateLocationsMok}
-							setIsOpen={setIsOpenMok}
-							setMarkers={setMarkersMok}
-							setStateButton={setStateButtonMok}
-							setCanCick={setCanCickMok}
+							updateLocations={updateLocationsMock}
+							setIsOpen={setIsOpenMock}
+							setMarkers={setMarkersMock}
+							setStateButton={setStateButtonMock}
+							setCanCick={setCanCickMock}
 							API_location_calls={API_location_calls}
-                      		categorias={categoriasMok}
+                      		categorias={categoriasMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>
@@ -117,13 +117,13 @@ describe('BasicFuntionality', () => {
 							isOpen={true}
 							latMark={0}
 							lngMark={0}
-							updateLocations={updateLocationsMok}
-							setIsOpen={setIsOpenMok}
-							setMarkers={setMarkersMok}
-							setStateButton={setStateButtonMok}
-							setCanCick={setCanCickMok}
+							updateLocations={updateLocationsMock}
+							setIsOpen={setIsOpenMock}
+							setMarkers={setMarkersMock}
+							setStateButton={setStateButtonMock}
+							setCanCick={setCanCickMock}
 							API_location_calls={API_location_calls}
-								categorias={categoriasMok}
+								categorias={categoriasMock}
 					/>
 				</ThemeContext.Provider>
 			</I18nextProvider>
@@ -162,13 +162,13 @@ describe('BasicFuntionality', () => {
 							isOpen={true}
 							latMark={0}
 							lngMark={0}
-							updateLocations={updateLocationsMok}
-							setIsOpen={setIsOpenMok}
-							setMarkers={setMarkersMok}
-							setStateButton={setStateButtonMok}
-							setCanCick={setCanCickMok}
+							updateLocations={updateLocationsMock}
+							setIsOpen={setIsOpenMock}
+							setMarkers={setMarkersMock}
+							setStateButton={setStateButtonMock}
+							setCanCick={setCanCickMock}
 							API_location_calls={API_location_calls}
-							  categorias={categoriasMok}
+							  categorias={categoriasMock}
 					/>
 				</ThemeContext.Provider>
 			</I18nextProvider>

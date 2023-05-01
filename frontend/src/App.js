@@ -29,8 +29,11 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	const [loading, setLoading] = useState(0);
 	const [solicitudes, setSolicitudes] = useState([]);
 
+	function getFriendName(webId) {
+		return amigos.find(a => a.webId === webId).name;
+	}
+
 	async function addFriendMarkersToMap(friendwebId) {
-		console.log("ADD")
 		setVisibleFriends(current => [...current, friendwebId])
 
 		const placesToAdd = await API_friend_calls.getPlacesOfFriend(friendwebId);
@@ -38,7 +41,6 @@ export default function App({ logOutFunction, isLoggedIn }) {
 	}
 
 	function removeFriendMarkersToMap(friendwebId) {
-		console.log("REMOVE")
 		setVisibleFriends(current => current.filter(friend => friend !== friendwebId))
 		setFriendPlaces(current => current.filter(place => place.author !== friendwebId))
 	}
@@ -481,8 +483,6 @@ export default function App({ logOutFunction, isLoggedIn }) {
 
 	async function API_removeFriend(friendwebId) {
 		try {
-			console.log(friendwebId)
-			console.log("Pasa al controller")
 			const res = await FriendsController.deleteFriend(
 				getDefaultSession(),
 				friendwebId
@@ -683,6 +683,7 @@ export default function App({ logOutFunction, isLoggedIn }) {
 				addFriendMarkersToMap = {addFriendMarkersToMap}
 				removeFriendMarkersToMap = {removeFriendMarkersToMap}
 				visibleFriends = {visibleFriends}
+				getFriendName = {getFriendName}
 			/>
 		</div>
 	);

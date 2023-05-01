@@ -29,7 +29,6 @@ Potentially more columns in case you need translations.
 | Solid        | Solid is a project that aims to radically change the way Web applications work today, resulting in true data ownership as well as improved privacy.
 | POD | Personal data storage that is not kept in the application, is on cloud and the user decides what information the application uses.
 | React.js     | React is an open source Javascript library designed to create user interfaces to make it easy to develop single page applications.
-| Node.js	| Node.js is an open source, cross-platform runtime environment for the server layer based on the JavaScript programming language, asynchronous.
 | API(Application Program Interface) | External service that provides some functionalities that makes our development easier.
 | IDE | Software application that provides facilities for software development.
 |===

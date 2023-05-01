@@ -13,7 +13,7 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const placeMok = {
+const placeMock = {
     id : "1",
     author: "PruebaAuthor",
 	name: "Prueba",
@@ -26,16 +26,16 @@ const placeMok = {
 	privacy: "",
 }
 
-const solictudMok={
+const solictudMock={
     id:"1",
     sender:"FriendName"
 }
 
-const API_friend_callsMok = {
+const API_friend_callsMock = {
 	API_rejectIncomingFriendRequest: jest.fn(),
 };
 
-const changeDrawerContentMok =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
 
 describe('BasicLogin',() => {
 	it("Renders coorectly",() => {
@@ -43,11 +43,11 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <SolicitudCard
-						key={"solicitud_card" + solictudMok.id}
-                        API_friend_calls={API_friend_callsMok}
-                        solicitud={solictudMok}
+						key={"solicitud_card" + solictudMock.id}
+                        API_friend_calls={API_friend_callsMock}
+                        solicitud={solictudMock}
                         returnTo={null}
-                        changeDrawerContent = {changeDrawerContentMok}
+                        changeDrawerContent = {changeDrawerContentMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>

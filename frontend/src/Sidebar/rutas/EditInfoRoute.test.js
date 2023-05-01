@@ -13,7 +13,7 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const placeRouteMok = [{
+const placeRouteMock = [{
     id : "2",
     author: "PruebaAuthor",
 	name: "Prueba",
@@ -26,7 +26,7 @@ const placeRouteMok = [{
 	privacy: "",
 }]
 
-const placeMok = [{
+const placeMock = [{
     id : "1",
     author: "PruebaAuthor",
 	name: "Prueba",
@@ -39,20 +39,20 @@ const placeMok = [{
 	privacy: "",
 }]
 
-const routeMok = {
+const routeMock = {
     id : "1",
     name: "Prueba",
     description: "Descripcion Prueba",
-    locations: placeRouteMok
+    locations: placeRouteMock
 }
 
-const API_routes_callsMok = {
+const API_routes_callsMock = {
 	API_addRoute: jest.fn(),
 	API_updateRouteInfo: jest.fn(),
     API_addLocationToRoute: jest.fn(),
 	API_deleteLocationFromRoute: jest.fn(),
 };
-const changeDrawerContentMok =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
 
 describe('BasicLogin',() => {
 	it("Renders coorectly",() => {
@@ -60,11 +60,11 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <EditRouteInfo
-						route={routeMok}
-                        changeDrawerContent={changeDrawerContentMok}
+						route={routeMock}
+                        changeDrawerContent={changeDrawerContentMock}
                         returnTo={null}
-                        userPlaces={placeMok}
-                        API_route_calls={API_routes_callsMok}
+                        userPlaces={placeMock}
+                        API_route_calls={API_routes_callsMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>
@@ -104,16 +104,16 @@ describe('BasicLogin',() => {
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <EditRouteInfo
 						route={null}
-                        changeDrawerContent={changeDrawerContentMok}
+                        changeDrawerContent={changeDrawerContentMock}
                         returnTo={null}
-                        userPlaces={placeMok}
-                        API_route_calls={API_routes_callsMok}
+                        userPlaces={placeMock}
+                        API_route_calls={API_routes_callsMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>
 		)
 
-        API_routes_callsMok.API_addRoute = jest.fn().mockReturnValueOnce(routeMok);
+        API_routes_callsMock.API_addRoute = jest.fn().mockReturnValueOnce(routeMock);
 
         const descriptionInput = screen.getByPlaceholderText('Descripción de la ruta')
         expect(descriptionInput).toBeInTheDocument();

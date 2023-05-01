@@ -26,7 +26,7 @@ async function getAllRoutes(Session, myBaseUrl, returnAllLocations) {
 async function getRouteById(Session, idRoute, myBaseUrl, returnAllLocations) {
 	try {
 		let routesJson = await parseContainer(Session, myBaseUrl + "LoMap/routes.jsonld");
-		let ruta = routesJson.itemListElement.find(r => r.id == idRoute);
+		let ruta = routesJson.itemListElement.find(r => r.id === idRoute);
 		ruta = await parseRoute(Session, myBaseUrl, ruta, returnAllLocations);
 		return ruta;
 

@@ -1,21 +1,17 @@
 import { Button, TextField } from "@mui/material";
-import { Box } from "@mui/system";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import "./login.css";
 import SettingsSpeedDial from "./buttons/SettingsSpeedDial";
 import { useTranslation } from "react-i18next";
-import { ThemeContext } from "./contexts/ThemeContext";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Login({ logInFunction, isLoggedIn, toggleLanguage, isStructBeingCreated }) {
-	const [text, setText] = useState("");
+	const [text, setText] = useState("https://login.inrupt.com/");
 	const [t, i18n] = useTranslation("global");
 
 	function toggleLanguage() {
 		i18n.changeLanguage(i18n.language === "es" ? "en" : "es");
 	}
-
-	const { currentTheme } = useContext(ThemeContext);
 
 	return (
 		<>
@@ -31,11 +27,11 @@ export default function Login({ logInFunction, isLoggedIn, toggleLanguage, isStr
 			}}
 		/>)
 			:
-		(<div id={currentTheme}>
-		<SettingsSpeedDial
-			isLoggedIn = {isLoggedIn}
-			changeLanguage = {toggleLanguage}
-		/>
+		(<div id="light">
+				<SettingsSpeedDial
+					isLoggedIn = {isLoggedIn}
+					changeLanguage = {toggleLanguage}
+				/>
 
 		<div className="mainDiv" component="div" data-testId="mainDiv">
 				<img src="/logoLoMap.png" className="logo" alt="Logo de LoMap" data-testId="logo" />

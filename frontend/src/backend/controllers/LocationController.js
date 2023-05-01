@@ -21,7 +21,7 @@ async function getLocation(session, id) {
 			session.info.webId
 		);
 
-		if (location1 != null) {
+		if (location1 !== null) {
 			return location1;
 		} else {
 			return null;
@@ -93,7 +93,7 @@ async function deleteLocation(session, id) {
 			id,
 			session.info.webId
 		);
-		if (location != null) {
+		if (location !== null) {
 			await deleteLocationById(session, id, session.info.webId);
 		} else {
 			throw new Error("Location not found");
@@ -162,6 +162,7 @@ async function updateReview(session, idReview, review1) {
 }
 
 async function deleteReview(session, idReview) {
+	console.log(session);
 	try {
 		await deleteReviewById(session, idReview, session.info.webId);
 		return true;

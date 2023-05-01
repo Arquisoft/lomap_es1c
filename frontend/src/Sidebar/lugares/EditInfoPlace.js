@@ -15,15 +15,10 @@ export default function FullInfoPlace({
 	returnTo,
 	changeDrawerContent,
 }) {
-	const isUserPlace = true;
-
 	const [loading, setLoading] = useState(false);
-	const [name, setName] = useState(place === null ? "" : place.name);
+	const [name, setName] = useState(place.name);
+	const [category, setCategory] = useState(place.category);
 	const [isNameTextFieldErrored, setIsNameTextFieldErrored] = useState(false);
-
-	const [category, setCategory] = useState(
-		place === null ? "" : place.category
-	);
 
 	const [t] = useTranslation("global");
 
@@ -34,17 +29,13 @@ export default function FullInfoPlace({
 	async function save() {
 		setLoading(true);
 
-		if (place === null) {
-			await API_location_calls.API_createLocation();
-		} else {
-			if (isUserPlace) {
-				if (name !== place.name || category !== place.category) {
-					const location = {
-						name: name,
-						category: category,
-					};
-					await API_location_calls.API_updateLocation(place.id, location);
-				}
+		if (place !== null) {
+			if (name !== place.name || category !== place.category) {
+				const location = {
+					name: name,
+					category: category,
+				};
+				await API_location_calls.API_updateLocation(place.id, location);
 			}
 		}
 
@@ -52,7 +43,7 @@ export default function FullInfoPlace({
 		changeDrawerContent(null);
 	}
 
-	const categoriesToList = ["", ...categorias];
+	const categoriesToList = [...categorias];
 	if (!categoriesToList.includes(place.category)) {
 		categoriesToList.push(place.category);
 	}
@@ -75,46 +66,40 @@ export default function FullInfoPlace({
 			<br></br>
 
 			{/* Nombre */}
-			{isUserPlace ? (
-				<TextField
-					disabled={loading}
-					required
-					error={isNameTextFieldErrored}
-					label={t("sidebar.place.name")}
-					defaultValue={name}
-					onChange={handleNameChange}
-					helperText={
-						isNameTextFieldErrored ? t("sidebar.place.namecannotbeempty") : ""
-					}
-					margin="normal"
-				/>
-			) : (
-				<h1>{name}</h1>
-			)}
+			<TextField
+				disabled={loading}
+				required
+				error={isNameTextFieldErrored}
+				label={t("sidebar.place.name")}
+				defaultValue={name}
+				onChange={handleNameChange}
+				helperText={
+					isNameTextFieldErrored ? t("sidebar.place.namecannotbeempty") : ""
+				}
+				margin="normal"
+			/>
 
 			<br></br>
 
 			{/* Categoria */}
-			{isUserPlace ? (
-				<Select
-					disabled={loading}
-					defaultValue={place.category.toLowerCase()}
-					label={t("sidebar.place.category")}
-					onChange={handleCategoryChange}
-				>
-					{categoriesToList.map((categoria) => (
-						<MenuItem
-							key={categoria.toLowerCase()}
-							sx={{ height: "35px" }}
-							value={categoria.toLowerCase()}
-						>
-							{categoria === "" ? <em>Sin categoria</em> : categoria}
-						</MenuItem>
-					))}
-				</Select>
-			) : (
-				<p>{place.category}</p>
-			)}
+			<Select
+				disabled={loading}
+				defaultValue={place.category.toLowerCase()}
+				label={t("sidebar.place.category")}
+				onChange={handleCategoryChange}
+				data-testid = "select-category"
+			>
+				{categoriesToList.map((categoria) => (
+					<MenuItem
+						key={categoria}
+						value={categoria}
+						data-testid = {"option-category-"+categoria.toLowerCase()}
+					>
+						{t("categories."+categoria)}
+					</MenuItem>
+				))}
+			</Select>
+			
 			<br></br>
 
 			<hr></hr>

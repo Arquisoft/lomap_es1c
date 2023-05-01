@@ -13,7 +13,7 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const placeMok = {
+const placeMock = {
     id : "1",
     author: "PruebaAuthor",
 	name: "Prueba",
@@ -26,23 +26,23 @@ const placeMok = {
 	privacy: "",
 }
 
-const routeMok = {
+const routeMock = {
     id : "1",
     name: "Prueba",
     description: "Descripcion Prueba",
-    locations: [placeMok]
+    locations: [placeMock]
 }
-const categoriasMok = ["Restaurante","Parque"]
-const API_location_callsMok = {
+const categoriasMock = ["Restaurante","Parque"]
+const API_location_callsMock = {
 	API_createLocation: jest.fn(),
 	API_updateLocation: jest.fn(),
 };
 
-const API_routes_callsMok = {
+const API_routes_callsMock = {
 	getRouteByID: jest.fn(),
 };
-const changeDrawerContentMok =  jest.fn();
-const setPositionMok =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
+const setPositionMock =  jest.fn();
 
 describe('BasicLogin',() => {
 	it("Renders coorectly",() => {
@@ -50,13 +50,13 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <RutasTabContent
-						userPlaces = {[placeMok]}
-                        changeDrawerContent = {changeDrawerContentMok}
-                        rutas = {[routeMok]}
-                        API_route_calls = {API_routes_callsMok}
-                        API_location_calls = {API_location_callsMok}
-                        setPosition = {setPositionMok}
-                        categorias = {categoriasMok}
+						userPlaces = {[placeMock]}
+                        changeDrawerContent = {changeDrawerContentMock}
+                        rutas = {[routeMock]}
+                        API_route_calls = {API_routes_callsMock}
+                        API_location_calls = {API_location_callsMock}
+                        setPosition = {setPositionMock}
+                        categorias = {categoriasMock}
                         loggedInUserwebId = {"PruebaAuthor"}
                     />
                 </ThemeContext.Provider>
@@ -78,13 +78,13 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <RutasTabContent
-						userPlaces = {[placeMok]}
-                        changeDrawerContent = {changeDrawerContentMok}
-                        rutas = {[routeMok]}
-                        API_route_calls = {API_routes_callsMok}
-                        API_location_calls = {API_location_callsMok}
-                        setPosition = {setPositionMok}
-                        categorias = {categoriasMok}
+						userPlaces = {[placeMock]}
+                        changeDrawerContent = {changeDrawerContentMock}
+                        rutas = {[routeMock]}
+                        API_route_calls = {API_routes_callsMock}
+                        API_location_calls = {API_location_callsMock}
+                        setPosition = {setPositionMock}
+                        categorias = {categoriasMock}
                         loggedInUserwebId = {"PruebaAuthor"}
                         returnTo={<RutasTabContent />}
                     />

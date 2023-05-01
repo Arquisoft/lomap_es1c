@@ -13,10 +13,10 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const setCategoriasFiltereMok = jest.fn();
-const setFriendsFilterMok = jest.fn();
-const setOnlyMineFilterMok = jest.fn();
-const categoriasMok = ["Restaurante","Parque"]
+const setCategoriasFiltereMock = jest.fn();
+const setFriendsFilterMock = jest.fn();
+const setOnlyMineFilterMock = jest.fn();
+const categoriasMock = ["Restaurante","Parque"]
 
 describe('BasicFuntionality',() => {
 	it("Renders coorectly",() => {
@@ -24,10 +24,10 @@ describe('BasicFuntionality',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <FilterButtons 
-                      setCategortFiltered={setCategoriasFiltereMok}
-                      categorias = {categoriasMok}
-                      setFriendsFilter={setFriendsFilterMok}
-                      setOnlyMineFilter={setOnlyMineFilterMok}
+                      setCategortFiltered={setCategoriasFiltereMock}
+                      categorias = {categoriasMock}
+                      setFriendsFilter={setFriendsFilterMock}
+                      setOnlyMineFilter={setOnlyMineFilterMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>
@@ -45,59 +45,51 @@ describe('BasicFuntionality',() => {
 
     fireEvent.click(resetFilters);
 
-    expect(setCategoriasFiltereMok).toHaveBeenCalledTimes(1);
-    expect(setFriendsFilterMok).toHaveBeenCalledTimes(1);
-    expect(setOnlyMineFilterMok).toHaveBeenCalledTimes(1);
+    expect(setCategoriasFiltereMock).toHaveBeenCalledTimes(1);
+    expect(setFriendsFilterMock).toHaveBeenCalledTimes(1);
+    expect(setOnlyMineFilterMock).toHaveBeenCalledTimes(1);
 
     fireEvent.click(handleClickOnlyMine);
 
-    expect(setCategoriasFiltereMok).toHaveBeenCalledTimes(1);
-    expect(setFriendsFilterMok).toHaveBeenCalledTimes(2);
-    expect(setOnlyMineFilterMok).toHaveBeenCalledTimes(2);
+    expect(setCategoriasFiltereMock).toHaveBeenCalledTimes(1);
+    expect(setFriendsFilterMock).toHaveBeenCalledTimes(2);
+    expect(setOnlyMineFilterMock).toHaveBeenCalledTimes(2);
 
     fireEvent.click(handleClickFriends);
 
-    expect(setCategoriasFiltereMok).toHaveBeenCalledTimes(1);
-    expect(setFriendsFilterMok).toHaveBeenCalledTimes(3);
-    expect(setOnlyMineFilterMok).toHaveBeenCalledTimes(3);
+    expect(setCategoriasFiltereMock).toHaveBeenCalledTimes(1);
+    expect(setFriendsFilterMock).toHaveBeenCalledTimes(3);
+    expect(setOnlyMineFilterMock).toHaveBeenCalledTimes(3);
 
     fireEvent.click(categoryDisplay);
 
     const menu = screen.getByTestId("menu");
     const allCategory = screen.getByTestId("todas");
-    const sinCategory = screen.getByTestId("sinCategoria");
     const firstCategory = screen.getByTestId("category0");
     const secondCategory = screen.getByTestId("category1");
 
     expect(menu).toBeInTheDocument();
     expect(allCategory).toBeInTheDocument();
-    expect(sinCategory).toBeInTheDocument();
     expect(firstCategory).toBeInTheDocument();
     expect(secondCategory).toBeInTheDocument();
 
     fireEvent.click(allCategory);
 
-    expect(setCategoriasFiltereMok).toHaveBeenCalledTimes(2);
-    expect(setFriendsFilterMok).toHaveBeenCalledTimes(3);
-    expect(setOnlyMineFilterMok).toHaveBeenCalledTimes(3);
-
-    fireEvent.click(sinCategory);
-
-    expect(setCategoriasFiltereMok).toHaveBeenCalledTimes(3);
-    expect(setFriendsFilterMok).toHaveBeenCalledTimes(3);
-    expect(setOnlyMineFilterMok).toHaveBeenCalledTimes(3);
+    expect(setCategoriasFiltereMock).toHaveBeenCalledTimes(2);
+    expect(setFriendsFilterMock).toHaveBeenCalledTimes(3);
+    expect(setOnlyMineFilterMock).toHaveBeenCalledTimes(3);
 
     fireEvent.click(firstCategory);
 
-    expect(setCategoriasFiltereMok).toHaveBeenCalledTimes(4);
-    expect(setFriendsFilterMok).toHaveBeenCalledTimes(3);
-    expect(setOnlyMineFilterMok).toHaveBeenCalledTimes(3);
+    expect(setCategoriasFiltereMock).toHaveBeenCalledTimes(3);
+    expect(setFriendsFilterMock).toHaveBeenCalledTimes(3);
+    expect(setOnlyMineFilterMock).toHaveBeenCalledTimes(3);
 
     fireEvent.click(secondCategory);
 
-    expect(setCategoriasFiltereMok).toHaveBeenCalledTimes(5);
-    expect(setFriendsFilterMok).toHaveBeenCalledTimes(3);
-    expect(setOnlyMineFilterMok).toHaveBeenCalledTimes(3);
+    expect(setCategoriasFiltereMock).toHaveBeenCalledTimes(4);
+    expect(setFriendsFilterMock).toHaveBeenCalledTimes(3);
+    expect(setOnlyMineFilterMock).toHaveBeenCalledTimes(3);
 
   })
 

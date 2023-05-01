@@ -42,6 +42,7 @@ export default function FriendCard(props) {
 				API_location_calls={props.API_location_calls}
 				loggedInUserwebId = {props.loggedInUserwebId}
 				removeFriendMarkersToMap = {props.removeFriendMarkersToMap}
+				getFriendName = {props.getFriendName}
 			/>
 		);
 	}

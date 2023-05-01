@@ -13,7 +13,7 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const placeMok = {
+const placeMock = {
     id : "1",
     author: "PruebaAuthor",
 	name: "Prueba",
@@ -25,44 +25,44 @@ const placeMok = {
 	photo:"",
 	privacy: "",
 }
-const routeMok = {
+const routeMock = {
     id : "1",
     name: "Prueba",
     description: "Descripcion Prueba",
-    locations: placeMok
+    locations: placeMock
 }
 
-const friendMok={
+const friendMock={
     webId:"friend",
     name:"FriendName"
 }
 
-const solictudMok={
+const solictudMock={
     id:"1",
     sender:"FriendName"
 }
 
-const categoriasMok = ["Restaurante","Parque"]
+const categoriasMock = ["Restaurante","Parque"]
 
-const API_location_callsMok = {
+const API_location_callsMock = {
 	API_createLocation: jest.fn(),
 	API_updateLocation: jest.fn(),
 };
-const API_friend_callsMok = {
+const API_friend_callsMock = {
 	API_createLocation: jest.fn(),
 	API_updateLocation: jest.fn(),
 };
-const API_route_callsMok = {
+const API_route_callsMock = {
 	API_createLocation: jest.fn(),
 	API_updateLocation: jest.fn(),
 };
 
-const setIsDrawerOpenMok =  jest.fn();
-const restoreDefautlDrawerContentMok =  jest.fn();
-const changeDrawerContentMok =  jest.fn();
-const setPositionMok =  jest.fn();
-const setFriendPlacesMok =  jest.fn();
-const getwebIdMok =  jest.fn();
+const setIsDrawerOpenMock =  jest.fn();
+const restoreDefautlDrawerContentMock =  jest.fn();
+const changeDrawerContentMock =  jest.fn();
+const setPositionMock =  jest.fn();
+const setFriendPlacesMock =  jest.fn();
+const getwebIdMock =  jest.fn();
 
 describe('BasicLogin',() => {
 	it("Renders coorectly",() => {
@@ -70,20 +70,20 @@ describe('BasicLogin',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <DrawerDefaultContent
-						userPlaces={[placeMok]}
-                        restoreDefautlDrawerContent={restoreDefautlDrawerContentMok}
-                        changeDrawerContent={changeDrawerContentMok}
-                        categorias={categoriasMok}
-                        rutas={[routeMok]}
-                        API_route_calls={API_route_callsMok}
-                        API_location_calls={API_location_callsMok}
-                        setPosition={setPositionMok}
-                        amigos={[friendMok]}
-                        API_friend_calls={API_friend_callsMok}
-                        solicitudes={[solictudMok]}
-                        setFriendsPlaces={setFriendPlacesMok}
-                        friendsPlaces={[placeMok]}
-                        getwebId={getwebIdMok}
+						userPlaces={[placeMock]}
+                        restoreDefautlDrawerContent={restoreDefautlDrawerContentMock}
+                        changeDrawerContent={changeDrawerContentMock}
+                        categorias={categoriasMock}
+                        rutas={[routeMock]}
+                        API_route_calls={API_route_callsMock}
+                        API_location_calls={API_location_callsMock}
+                        setPosition={setPositionMock}
+                        amigos={[friendMock]}
+                        API_friend_calls={API_friend_callsMock}
+                        solicitudes={[solictudMock]}
+                        setFriendsPlaces={setFriendPlacesMock}
+                        friendsPlaces={[placeMock]}
+                        getwebId={getwebIdMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>

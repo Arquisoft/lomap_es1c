@@ -4,10 +4,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Button, IconButton, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import EditInfoPlace from "./EditInfoPlace.js";
 import Rating from '@mui/material/Rating';
+import { getTextColor, ThemeContext } from "../../contexts/ThemeContext";
 
 
 export default function FullInfoPlace(props) {
@@ -26,6 +27,7 @@ export default function FullInfoPlace(props) {
 	const [deleteLoading, setDeleteLoading] = useState(false);
 	const [addImageLoading, setAddImageLoading] = useState(false);
 	const [commentLoading, setCommentLoading] = useState(false);
+	const {currentTheme} = useContext(ThemeContext);
 
 	const [rating, setRating] = useState(
 		place?.reviews?.find(r => r.author===loggedInUserwebId) ? place?.reviews?.find(r => r.author===loggedInUserwebId)?.rating : null
@@ -176,12 +178,11 @@ export default function FullInfoPlace(props) {
 				<ArrowBackIcon data-testid="arrow"/>
 			</IconButton>
 
-			<div className="card--line1">
-				{/* Nombre del lugar */}
-				<h1>{place.name}</h1>
+			{/* Nombre del lugar */}
+			<h1>{place.name}</h1>
 
-				{/* Botón de localizar */}
-				<Button
+			{/* Botón de localizar */}
+			<Button
 					onClick={centerMapToPlace}
 					disabled={deleteLoading || addImageLoading || commentLoading}
 					startIcon={<TravelExploreIcon />}
@@ -190,18 +191,17 @@ export default function FullInfoPlace(props) {
 				>
 					{t("sidebar.place.locate")}
 				</Button>
-			</div>
 
 			{/* Categoría del lugar */}
 			<div className="card--line1">
 				<h3>{t("sidebar.place.category")}:</h3>
-				<p>{place.category}</p>
+				<p>{t("categories."+place.category)}</p>
 			</div>
 
 			{/* Autor */}
 			<div className="card--line1">
 				<h3>{t("sidebar.place.author")}:</h3>
-				{props.place.author}
+				<p>{isUserPlace ? t("misc.me") : (props.getFriendName ? props.getFriendName(props.place.author) : props.place.author)}</p>
 			</div>
 
 			<br></br>
@@ -236,7 +236,7 @@ export default function FullInfoPlace(props) {
 			)}
 			</div>
 
-			<br></br><hr></hr>
+			<hr></hr>
 
 			<div>
 			{/* Reviews */}
@@ -256,6 +256,7 @@ export default function FullInfoPlace(props) {
 						defaultValue = {comment}
 						onChange={handleCommentChange}
 						placeholder="Comentario"
+						InputProps={{ style: {color: getTextColor(currentTheme)}, }}
 					/>
 				<div className="card--line1">
 					<Button
@@ -286,6 +287,7 @@ export default function FullInfoPlace(props) {
 			// Existe, se pinta
 			<>
 			<div className="card">
+				<p>{t("misc.author")}: {t("misc.me")}</p>
 				<Rating
 					defaultValue={rating/2}
 					precision={0.5}
@@ -332,7 +334,8 @@ export default function FullInfoPlace(props) {
 			{place?.reviews?.filter(r => r.author!==loggedInUserwebId).map(
 				r =>
 				<div className="card" key={"review_other_"+r.author}>
-					Author: {r.author}
+					<p> {t("misc.author")} { props.getFriendName ? props.getFriendName(r.author) : r.author } </p>
+					
 					< br/>
 					{
 						r.rating  &&  r.rating>0
@@ -362,6 +365,8 @@ export default function FullInfoPlace(props) {
 			<h3>{t("sidebar.place.photos")}:</h3>
 			{photosURLs.map((photo) => (
 				<div key={"photo_div" + photosURLs.indexOf(photo)}>
+					<p></p>
+					<p>{t("misc.author")}  { props.getFriendName ? props.getFriendName(photo.author) : photo.author }</p>
 					<img
 						src={photo.imageJPG}
 						width="250"

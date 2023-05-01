@@ -13,9 +13,9 @@ i18next.init({
 	resources: {es: { global: global_es}},
 });
 
-const changeDrawerContentMok = jest.fn();
-const canClickMok = jest.fn();
-const openInfoMok = jest.fn();
+const changeDrawerContentMock = jest.fn();
+const canClickMock = jest.fn();
+const openInfoMock = jest.fn();
 
 describe('BasicFuntionality',() => {
 	it("Renders coorectly",() => {
@@ -23,9 +23,9 @@ describe('BasicFuntionality',() => {
 			<I18nextProvider i18n={i18next}>
                 <ThemeContext.Provider value={{ currentTheme: Themes.LIGHT }}>
                     <OpenIconSpeedDial 
-                      canClick={canClickMok}
-                      openInfo={openInfoMok}
-                      changeDrawerContent={changeDrawerContentMok}
+                      canClick={canClickMock}
+                      openInfo={openInfoMock}
+                      changeDrawerContent={changeDrawerContentMock}
                     />
                 </ThemeContext.Provider>
             </I18nextProvider>
