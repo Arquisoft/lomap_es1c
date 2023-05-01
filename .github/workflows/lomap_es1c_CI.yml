@@ -14,7 +14,7 @@ jobs:
         node-version: 18
     
     # Clean and install
-    - run: npm --prefix frontend ci                     
+    - run: npm --prefix frontend ci
     
     # Run tests
     - run: npm --prefix frontend test --coverage --watchAll
@@ -24,8 +24,10 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   test_e2e:
     runs-on: ubuntu-latest
+    needs: [unit-tests]
     steps:
     - uses: actions/checkout@v3
       with:

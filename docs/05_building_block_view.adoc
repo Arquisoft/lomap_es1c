@@ -56,15 +56,7 @@ Since there are so many ways to specify interfaces why do not provide a specific
 In the best case you will get away with examples or simple signatures.
 
 ****
-[plantuml, "level1", png]
-----
-Actor User
-Component LoMap
-Database pod as "Pod"
-User -right-> LoMap: Interacts With 
-LoMap -right-> pod: Store/Get Data
-User -right-> pod: Owns
-----
+image:05_blockView_overall.png["Overall view"]
 
 Motivation::
 LoMap is an application that has a system where users can add custom places to the map. All the private data the application needs its stored in his personal POD.
@@ -80,22 +72,7 @@ Contained Building Blocks::
 
 === Level 2
 
-[plantuml, "level2", png]
-----
-Actor User
-Component mp as "Map Provider"
-Component LoMap{
-  Component wb as "WebApp"
-  Component ra as "RESTAPI"
-}
-Database pod as "Pod"
-User --> pod: Owns
-User -down-> wb: Interacts With 
-wb -right-> ra: Consumes
-ra -right-> pod: Store/Get Data
-wb -up-> mp: API service
-
-----
+image:05_blockView_level2.png["Level2 view"]
 
 Motivation::
 We need to know how the LoMap service is built internally. As we see in the diagram we show the difference between the part of the application where the user interacts, and the part of the application that manages the data.  
@@ -104,46 +81,17 @@ Contained Building Blocks::
 [options="header"] 
 |===
 | Name | Description
-| RESTAPI | The place where the data is managed.
+| Backend | The place where the data is managed.
 | WebApp | User interface of the system that the user uses to interact with the application. 
 | Map Provider | API that provide as the map interface for the main application.
 |===
 
 === Level 3
 
-[plantuml, "level3", png]
-----
-Actor User
-Component mp as "Map Provider"
-Component LoMap{
-  Component ra as "RESTAPI"{
-    Component sc as "Session Controller"
-    Component ac as "Authentication Controller"
-    Component fc as "Friend Controller"
-    Component lc as "Location Controller"
-    Component rc as "Routes Controller"
-  }
-  Component wb as "WebApp"{
-    Component Login
-    Component Logout
-    Component Map
-    Component AddPlace
-    Component DeletePlace
-    Component EditPlace
-    Component FriendsLocation
-    Component AddRoutes
-  }
-}
-Database pod as "Pod"
-User --> pod: Owns 
-User -down-> wb: Interacts With 
-wb -right-> ra: Consumes
-ra -up-> pod: Store/Get Data
-wb -right-> mp: API service
-----
+image:05_blockView_level3.png["Level3 view"]
 
 Motivation::
- To study in more detail how the WebApp works, that is the part that user interacts with, and also the REST API, the manager of the data.    
+To study in more detail how the WebApp works, that is the part that user interacts with, and also the Backend, the manager of the data.    
 
 Contained Building Blocks::
 [options="header"] 
@@ -151,4 +99,10 @@ Contained Building Blocks::
 | Name | Description
 | Login | Page of the application where you can login.
 | Map | Main page where the map is display and the user can interact with.
+| Sidebar | Part of the main page where the data is shown.
+| Settings | You can change between different settings.
+| FriendsController | Management of the friends data.
+| LocationController |  Management of the places data. 
+| PodController |  Management of the pod data.
+| RouteController |  Management of the routes data. 
 |===

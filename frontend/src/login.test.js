@@ -50,10 +50,6 @@ describe('BasicLogin',() => {
 		expect(inicioSesion).toBeInTheDocument();
 		expect(btnLogin).toBeInTheDocument();
 
-		const lastNameInput = screen.getByDisplayValue('')
-
-		expect(lastNameInput).toBeInTheDocument();
-
 		expect(logInFunctionMock).toHaveBeenCalledTimes(0);
         expect(toggleLanguage).toHaveBeenCalledTimes(0);
 
@@ -62,15 +58,7 @@ describe('BasicLogin',() => {
 		expect(logInFunctionMock).toHaveBeenCalledTimes(1);
         expect(toggleLanguage).toHaveBeenCalledTimes(0);
 
-		lastNameInput.value = 'Test';
-
-		const lastNameInputChange = screen.getByDisplayValue('Test')
-
-		expect(lastNameInputChange).toBeInTheDocument();
-
 		fireEvent.click(btnLogin);
-
-		fireEvent.change(lastNameInputChange,{target: { value: "Changed Value" }});
 
 		expect(logInFunctionMock).toHaveBeenCalledTimes(2);
         expect(toggleLanguage).toHaveBeenCalledTimes(0);

@@ -67,7 +67,6 @@ object Location{
     latitude: Float
     longitude: Float
     category: String
-    privacy: String
     author: String
     timestamp: Int
 }
@@ -75,35 +74,43 @@ object Location{
 object Review{
     id: String
     rating: Int
-    author: String  
+    comment: String
+    author: String
 }
 
 object Photos{
     id: String
-    name: String
     url: String
     timestamp: Int
     author: String 
 }
 
-object Comment{
+object Friend{
     id: String
-    text: String
+    name: String
+    webId: String
+}
+
+object FriendRequest{
+    id: String
+    sender: String
+    receiver: String
     timestamp: Int
-    author: String 
 }
 
 Routes *--> Location
 Location *--> Review
-Location *--> Comment
 Location *--> Photos
 ----
 
-=== Security
+=== Main architecture
+The main architecture of the application is an MVC. 
+
+=== Privacy
 One of the main goals of the entire application is the privacy of the users. For this we use SOLID technology called PODs, which stores data and the user decides the privacy of the data. Users can enter the app by login with their POD provider.
 
 === User Interface
-We use the React library in combination with JavaScript fot thr front-part of the application. The user interface should be simple to use, have a clean appearance and be easy to navigate. 
+We use the React library in combination with JavaScript for the front-part of the application. The user interface should be simple to use, have a clean appearance and be easy to navigate.
 
 === Internationalization 
 The application is developed to be used by many people who can use different languages, because of this the whole app can switch the language between Spanish and English.

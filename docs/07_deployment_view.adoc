@@ -52,47 +52,36 @@ For multiple environments or alternative deployments please copy that section of
 Actor User
 
 node Device {
-    node WebBrowser {
-        component WebAppImage
-    }
+    component WebBrowser 
 }
 
-node Server{
-    node DockerCompose{
-        node DockerWeb{
-            component WebApp
-        } 
-        node DockerAPI{
-            component RESTAPI
-        }
-    }
+node Netlify{
+    component WebApp
+    component Controllers
 }
 
 node sl as "SOLID POD"
 node GoogleMaps
 
-User -r-> WebAppImage 
-RESTAPI -d-> sl : User data management
-WebAppImage -d-> GoogleMaps: Supply the main map
-WebApp -d-> WebAppImage 
+User -r-> Device 
+WebBrowser -r-> Netlify
+WebApp -d-> GoogleMaps 
+Controllers -d-> sl
 ----
 
 Motivation::
 
-To test the app, it runs on each person's machine. However, when the development of the application progresses, it will be executed on a server that has a DockerCompose with the Dockers that contains the WebApp, which is where the user interacts, and another with the REST API, which is the part that manages the data. 
+During the development of the application it runs on each person’s machine. However, the final product, it's been executed on a server hosted with Netlify.
 
 Quality and/or Performance Features::
-Our application depends on many different APIs, some of them are to show the map and to manage the PODs. We cannot control these APIs, so the availability and efficiency of the application may be affected. Also, these quality features could be affected by the server where the Dockers are running.
+Our application depends on many different APIs, some of them are to show the map and to manage the PODs. We cannot control these APIs, so the availability and efficiency of the application may be affected. Also, these quality features could be affected by the server.
 
 Mapping of Building Blocks to Infrastructure::
 [options="header"] 
 |===
 | Block Name | Description
-| DockerWeb | Container that englobe all the WebApp part of the application, the user interface that the user interacts with.
-| DockerAPI | Container that englobe all the REST API part of the application, the part that manages the data.
-| DockerCompose | Container that englobe all the application for an easier deployment.
-| Server | Server that is in charge of the web access of the application.
-| GoogleMaps | API that provide us the map where the user is going to operate the application and manage all the data.
-| SOLID POD | Personal and private data storage that each user has. All the private data that the user needs for the application or the data that the user generates its going to be stored here. 
+| Netlify | Is in charge of the web access of the application
+| GoogleMaps | API that provides us the map where the user is going to operate the application and manage all the data.
+| SOLID POD | Personal and private data storage that each user has. All the private data that the user needs for the application or the data that the user generates it's going to be stored here. 
 | Device | Device that the user is going to use. Should need internet connection. 
 |===
