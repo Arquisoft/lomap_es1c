@@ -22,8 +22,9 @@ export default function OpenIconSpeedDial({canClick,openInfo, changeDrawerConten
 
     changeDrawerContent(
       <EditRouteInfo
-        returnFunction = {restoreDefautlDrawerContent}
         route = {null}
+        changeDrawerContent = {changeDrawerContent}
+        returnTo = {null}
         userPlaces = {userPlaces}
         API_route_calls = {API_route_calls}
       />

@@ -49,7 +49,7 @@ export default function EditRouteInfo({
 
 	async function save() {
 		let modification;
-		if (name.trim().length > 0 && description.trim().length > 0) {
+		if (!isNameErrored) {
 			setLoading(true);
 			if (route == null) {
 				const addedRoute = await API_route_calls.API_addRoute(
