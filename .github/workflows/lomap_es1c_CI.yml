@@ -38,10 +38,4 @@ jobs:
     
     - run: npm --prefix frontend ci
     - run: CI=false  &&  npm --prefix frontend run build
-    - run: npm --prefix webapp run test:e2e
-
-    # - uses: iFaxity/wait-on-action
-    #   with:
-    #     resource: http://localhost:3000
-
-    # - run: npm --prefix frontend run test:e2e
+    - run: npm --prefix frontend run test:e2e
