@@ -84,6 +84,7 @@ async function deleteLocationById(Session, idLocation, friendwebId) {
 
 async function getCategories() {
 	const categories = [
+		"other",
 		"bar",
 		"restaurant",
 		"shop",
@@ -101,7 +102,6 @@ async function getCategories() {
 		"policeStation",
 		"transportCenter",
 		"entertainment",
-		"other",
 	];
 	return categories;
 }
