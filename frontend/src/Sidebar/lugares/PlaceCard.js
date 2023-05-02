@@ -1,7 +1,9 @@
 import React from "react";
 import FullInfoPlace from "./FullInfoPlace";
+import { useTranslation } from "react-i18next";
 
 export default function LugarCard(props) {
+	const [t] = useTranslation("global");
 	const place = props.place;
 
 	async function showFullInfo() {
@@ -34,7 +36,7 @@ export default function LugarCard(props) {
 					{place.name.substring(0, maxTextLength)}{" "}
 					{place.name.length > maxTextLength && " ..."}
 				</h3>
-				{place.category && <p>{place.category}</p>}
+				{place.category && <p>{t("categories."+place.category)}</p>}
 			</div>
 		</div>
 	);
