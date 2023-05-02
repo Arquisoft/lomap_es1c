@@ -69,7 +69,7 @@ export default function CreateModal({
 	//Constantes para los campos del form
 	const [nombre, setNombre] = React.useState("");
 	const [valoracion, setValoracion] = React.useState(-1);
-	const [categoria, setCategoria] = React.useState("");
+	const [categoria, setCategoria] = React.useState("other");
 	const [fotos, setFotos] = React.useState("");
 	const [comentario, setComentario] = React.useState("");
 
