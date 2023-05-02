@@ -7,7 +7,7 @@ let page
 let browser
 
 
-Given('Estoy logeado dentro de la aplicacion con usuario 1', {timeout: 20*5000}, async function () {
+Given('Estoy logeado dentro de la aplicacion con usuario 1', {timeout: 10*5000}, async function () {
     //CREAR PAGINA
     [page, browser] = await util.createPage();
 

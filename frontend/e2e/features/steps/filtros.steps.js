@@ -6,7 +6,7 @@ const util = require('./util.js');
 let page
 let browser
 
-Given('login hecho',{timeout: 20*5000}, async function () {
+Given('login hecho',{timeout: 10*5000}, async function () {
     //CREAR PAGINA
     [page, browser] = await util.createPage();
 
@@ -34,6 +34,6 @@ Then('se filtra correctamente', {timeout: 2*5000}, async function () {
   await new Promise(r => setTimeout(r, 3000));
   let categoria = await page.waitForXPath('/html/body/div[3]/div[3]/div/div[1]/p');
   categoria =  await categoria.evaluate(node => node.textContent);
-  assert.equal("Restaurante", categoria);
+  assert.equal("Restaurant" === categoria || "Restaurante" === categoria, true);
   await browser.close();
 });

@@ -8,7 +8,7 @@ let browser
 
 
 
-Given('que se ha hecho login',{timeout: 20*5000}, async function () {
+Given('que se ha hecho login',{timeout: 10*5000}, async function () {
     //CREAR PAGINA
     [page, browser] = await util.createPage();
 

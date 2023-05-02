@@ -7,7 +7,7 @@ let page
 let browser
 let nombre_lugar
 
-Given('He iniciado sesion', {timeout: 20*5000}, async function () {
+Given('He iniciado sesion', {timeout: 10*5000}, async function () {
     //CREAR PAGINA
     [page, browser] = await util.createPage();
 
